@@ -39,7 +39,7 @@ inline unsigned int ATOI(char* value)
 // 
 
 // constants for the precompiler
-#define db_INVENTORY_MAX 50    /* Lyra::INVENTORY_MAX */
+#define db_INVENTORY_MAX 99    /* Lyra::INVENTORY_MAX */
 #define db_MAX_ROOMITEMS 64    /* Lyra::MAX_ROOMITEMS */
 
 // some log macros (from LmThread.h)
