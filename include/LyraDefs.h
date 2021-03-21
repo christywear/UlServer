@@ -81,7 +81,7 @@ struct Lyra {
     PLAYERNAME_MAX = 16,    // maximum player name length (multiple of 4)
     PASSWORD_MAX = 12,      // maximum password length (multiple of 4)
     EMAIL_MAX = 40,         // maximum email address length (multiple of 4)
-    INVENTORY_MAX = 50,     // maximum number of items in inventory
+    INVENTORY_MAX = 99,     // maximum number of items in inventory
     MAX_XP = 1000000000,    // maximum XP for a player (1 billion)
 
     KNIGHT_XP_POOL = 30000, // amount of XP in knight's XP pool
