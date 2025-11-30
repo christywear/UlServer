@@ -1,0 +1,123 @@
+// GMsg_ItemDrop.cpp  -*- C++ -*-
+// $Id: GMsg_ItemDrop.cpp,v 1.7 1997-07-29 19:32:10-07 jason Exp $
+// Copyright 1996-1997 Lyra LLC, All rights reserved.
+//
+// message implementation
+
+#ifdef __GNUC__
+#pragma implementation "GMsg_ItemDrop.h"
+#endif
+
+#ifdef WIN32
+#define STRICT
+#include "unix.h"
+#include <winsock2.h>
+#else /* !WIN32 */
+#include <sys/types.h>
+#include <netinet/in.h> //??
+#endif /* WIN32 */
+#include <stdio.h>
+#include <string.h>
+
+#include "../../../include/Protocol/GMsg/GMsg_ItemDrop.h"
+#include "../../../include/Core/LyraDefs.h"
+#include "../../../include/Protocol/GMsg/GMsg.h"
+#include "../../../include/Game/LmItemHdr.h"
+
+////
+// constructor
+////
+
+GMsg_ItemDrop::GMsg_ItemDrop()
+  : LmMesg(GMsg::ITEMDROP, sizeof(data_t), sizeof(data_t), &data_)
+{
+  // initialize default message data values
+  Init(DROP_UNKNOWN, LmItemHdr::DEFAULT_INSTANCE);
+}
+
+////
+// destructor
+////
+
+GMsg_ItemDrop::~GMsg_ItemDrop()
+{
+  // empty
+}
+
+////
+// Init
+////
+
+void GMsg_ItemDrop::Init(int status, const LmItemHdr& itemhdr)
+{
+  SetStatus(status);
+  SetItemHeader(itemhdr);
+}
+
+////
+// hton
+////
+
+void GMsg_ItemDrop::hton()
+{
+  HTONL(data_.status);
+  data_.itemhdr.ConvertToNetwork();
+}
+
+////
+// ntoh
+////
+
+void GMsg_ItemDrop::ntoh()
+{
+  NTOHL(data_.status);
+  data_.itemhdr.ConvertToHost();
+}
+
+////
+// Dump: print to FILE stream
+////
+
+#ifdef USE_DEBUG
+void GMsg_ItemDrop::Dump(FILE* f, int indent) const
+{
+  INDENT(indent, f);
+ _ftprintf(f, _T("<GMsg_ItemDrop[%p,%d]: "), this, sizeof(GMsg_ItemDrop));
+  if (ByteOrder() == ByteOrder::HOST) {
+   _ftprintf(f, _T("status=%c>\n"), Status());
+    ItemHeader().Dump(f, indent + 1);
+  }
+  else {
+   _ftprintf(f, _T("(network order)>\n"));
+  }
+  // print out base class
+  LmMesg::Dump(f, indent + 1);
+}
+#endif /* USE_DEBUG */
+
+#ifndef USE_DEBUG
+void GMsg_ItemDrop::Dump(FILE*, int) const
+{
+    // empty
+}
+#endif /* !USE_DEBUG */
+
+int GMsg_ItemDrop::Status() const
+{
+    return data_.status;
+}
+
+const LmItemHdr& GMsg_ItemDrop::ItemHeader() const
+{
+    return data_.itemhdr;
+}
+
+void GMsg_ItemDrop::SetStatus(int status)
+{
+    data_.status = status;
+}
+
+void GMsg_ItemDrop::SetItemHeader(const LmItemHdr& itemhdr)
+{
+    data_.itemhdr = itemhdr;
+}

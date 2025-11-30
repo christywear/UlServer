@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{2d998841-fa52-414e-b974-1b08ac6c94d0}</ProjectGuid>
+    <RootNamespace>Underlightserver</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\include\core\LmAssert.h" />
+    <ClInclude Include="..\..\..\..\include\core\LmFuncTimer.h" />
+    <ClInclude Include="..\..\..\..\include\core\LmLocker.h" />
+    <ClInclude Include="..\..\..\..\include\core\LmNew.h" />
+    <ClInclude Include="..\..\..\..\include\core\LmRand.h" />
+    <ClInclude Include="..\..\..\..\include\core\LmSignalThread.h" />
+    <ClInclude Include="..\..\..\..\include\core\LmThread.h" />
+    <ClInclude Include="..\..\..\..\include\core\LmThreadMQ.h" />
+    <ClInclude Include="..\..\..\..\include\core\LmThreadPool.h" />
+    <ClInclude Include="..\..\..\..\include\core\LmTimer.h" />
+    <ClInclude Include="..\..\..\..\include\core\LmUtil.h" />
+    <ClInclude Include="..\..\..\..\include\core\LnMD5.h" />
+    <ClInclude Include="..\..\..\..\include\core\LyraDefs.h" />
+    <ClInclude Include="..\..\..\..\include\core\md5.h" />
+    <ClInclude Include="..\..\..\..\include\core\md5global.h" />
+    <ClInclude Include="..\..\..\..\include\core\PTh.h" />
+    <ClInclude Include="..\..\..\..\include\core\PThAttr.h" />
+    <ClInclude Include="..\..\..\..\include\core\PThCond.h" />
+    <ClInclude Include="..\..\..\..\include\core\PThMutex.h" />
+    <ClInclude Include="..\..\..\..\include\core\SharedConstants.h" />
+    <ClInclude Include="..\..\..\..\include\core\tchar.h" />
+    <ClInclude Include="..\..\..\..\include\core\unix.h" />
+    <ClInclude Include="..\..\..\..\include\db\Gdbm.h" />
+    <ClInclude Include="..\..\..\..\include\db\LmBillingDBC.h" />
+    <ClInclude Include="..\..\..\..\include\db\LmDatabase.h" />
+    <ClInclude Include="..\..\..\..\include\db\LmDatabaseKey.h" />
+    <ClInclude Include="..\..\..\..\include\db\LmGlobalDB.h" />
+    <ClInclude Include="..\..\..\..\include\db\LmGuildDBC.h" />
+    <ClInclude Include="..\..\..\..\include\db\LmItemDBC.h" />
+    <ClInclude Include="..\..\..\..\include\db\LmItemGenDB.h" />
+    <ClInclude Include="..\..\..\..\include\db\LmLevelDBC.h" />
+    <ClInclude Include="..\..\..\..\include\db\LmPlayerDB.h" />
+    <ClInclude Include="..\..\..\..\include\db\LmPlayerDBC.h" />
+    <ClInclude Include="..\..\..\..\include\db\LmPlayerDBF.h" />
+    <ClInclude Include="..\..\..\..\include\db\LmRoomDB.h" />
+    <ClInclude Include="..\..\..\..\include\db\LmServerDBC.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmArts.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmAvatar.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmDebug.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmGame.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmGoalInfo.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmIdSet.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmInventory.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmItem.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmItemDefs.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmItemGen.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmItemGenNames.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmItemGenTables.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmItemHdr.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmItemNames.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmLog.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmLogFile.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmLogNull.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmLogSyslog.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmParty.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmPlayerNameMap.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmPosition.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmRoomItem.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmRoomItemList.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmStats.h" />
+    <ClInclude Include="..\..\..\..\include\game\LmXPTable.h" />
+    <ClInclude Include="..\..\..\..\include\platform\win\ftp_addin\Commands.h" />
+    <ClInclude Include="..\..\..\..\include\platform\win\ftp_addin\DSAddIn.h" />
+    <ClInclude Include="..\..\..\..\include\platform\win\ftp_addin\FTPAddIn.h" />
+    <ClInclude Include="..\..\..\..\include\platform\win\ftp_addin\FTPAddInTypes.h" />
+    <ClInclude Include="..\..\..\..\include\platform\win\ftp_addin\Resource.h" />
+    <ClInclude Include="..\..\..\..\include\platform\win\ftp_addin\StdAfx.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_AgentLogin.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_All.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_ChangeAvatar.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_ChangeStat.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_CreateItem.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_DestroyItem.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_DestroyRoomItem.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_Error.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GetGoalHdrs.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GetItem.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GetItemDescription.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GetLevelPlayers.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GetPlayerName.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GetReportHdrs.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GiveItem.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GiveItemAck.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_Goal.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GotoLevel.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GrantPPoint.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_ItemDescription.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_ItemDrop.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_ItemPickup.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_LevelPlayers.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_LocateAvatar.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_LocateAvatarAck.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_LocateMaresAck.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_LocateNewliesAck.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_Login.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_LoginAck.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_Logout.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_Ping.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_PostGoal.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_PostReport.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_PPointAck.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_PreLogin.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_PreLoginAck.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_PutItem.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_RcvGoalbookHdr.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_RcvGoalDetails.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_RcvGoalHdr.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_RcvGoalText.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_RcvPlayerName.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_RcvReportGoals.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_RcvReportHdr.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_RcvReportText.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_SenseDreamersAck.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_ServerDown.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_SetAvatarDescription.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_ShowItem.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_SummonAvatar.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_SummonAvatarAck.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_TakeItem.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_TakeItemAck.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_UpdateItem.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_UpdateStats.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_UsePPoint.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_ViewItem.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmBit32.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmConnection.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmConnectionList.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmConnectionSet.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmConnectionSetImp.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmDispatch.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmMesg.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmMesgBuf.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmMesgBufPool.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmMesgBufPoolImp.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmMesgHdr.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmMessage.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmMessageReader.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmNetworkInput.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmNetworkOutput.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmPeerUpdate.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmSockAddr.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmSockAddrInet.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmSocket.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmSockType.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LmSrvMesgBuf.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\LyraMessage.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RmRemotePlayer.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_All.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_ChangeAvatar.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_CupSummons.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_EnterRoom.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_Error.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_GetAvatarDescription.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_GetRoomDescription.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_GotoRoom.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_ItemDrop.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_ItemHdrDrop.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_ItemPickup.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_JoinedParty.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_LeaveRoom.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_LoginAck.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_Logout.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_NewlyAwakened.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_Party.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_PartyInfo.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_PeerUpdate.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_Ping.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_PlayerMsg.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_PlayerUpdate.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_RcvAvatarDescription.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_RoomDescription.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_RoomLoginAck.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_Speech.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_Update.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_All.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_ConnStatus.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_DBQuery.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_DBQueryAck.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_DestroyRoomItem.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_DS_Action.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_DumpState.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_Error.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_GetItem.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_GetLevelPlayers.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_GetServerStatus.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_GiveItem.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_GiveItemAck.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_GS_Action.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_GS_Login.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_GS_Logout.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_ItemDrop.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_ItemPickup.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_LevelLogin.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_LocateAvatar.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_Login.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_Logout.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_LS_Action.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_LS_Login.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_PartyLeader.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_Ping.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_PlayerStatus.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_Proxy.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_PutItem.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_RecvMesg.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_ResetPort.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_RotateLogs.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_SendMesg.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_ServerStatus.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_SetAvatarDescription.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_ShowItem.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_TakeItemAck.h" />
+    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_UniverseBroadcast.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\GsForwardThread.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\GsGameThread.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\GsInputDispatch.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\GsLevelSet.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\GsMacros.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\GsMain.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\GsMessageReader.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\GsNetworkInput.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\GsNetworkOutput.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\GsOutputDispatch.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\GsPlayer.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\GsPlayerList.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\GsPlayerSet.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\GsPlayerThread.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\GsPlayerThreadSet.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\GsPositionThread.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\GsSignalThread.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\GsUtil.h" />
+    <ClInclude Include="..\..\..\..\include\server\gamed\resource.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsCodexText.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsComputeGroups.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsInputDispatch.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsItemGen.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsLevelSerials.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsLevelState.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsLevelThread.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsMacros.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsMain.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsMessageReader.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsNetworkInput.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsNetworkOutput.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsOutputDispatch.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsPlayer.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsPlayerList.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsPlayerSet.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsPositionThread.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsRoomState.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsRoomThread.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsSignalThread.h" />
+    <ClInclude Include="..\..\..\..\include\server\leveld\LsUtil.h" />
+    <ClInclude Include="..\..\..\..\include\server\masterd\MsMain.h" />
+    <ClInclude Include="..\..\..\..\include\server\masterd\MsServerInfo.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\core\LmAssert.cpp" />
+    <ClCompile Include="..\..\..\core\LmFuncTimer.cpp" />
+    <ClCompile Include="..\..\..\core\LmLocker.cpp" />
+    <ClCompile Include="..\..\..\core\LmNew.cpp" />
+    <ClCompile Include="..\..\..\core\LmRand.cpp" />
+    <ClCompile Include="..\..\..\core\LmSignalThread.cpp" />
+    <ClCompile Include="..\..\..\core\LmThread.cpp" />
+    <ClCompile Include="..\..\..\core\LmThreadMQ.cpp" />
+    <ClCompile Include="..\..\..\core\LmThreadPool.cpp" />
+    <ClCompile Include="..\..\..\core\LmTimer.cpp" />
+    <ClCompile Include="..\..\..\core\LmUtil.cpp" />
+    <ClCompile Include="..\..\..\core\LnMD5.cpp" />
+    <ClCompile Include="..\..\..\core\md5.cpp" />
+    <ClCompile Include="..\..\..\core\PTh.cpp" />
+    <ClCompile Include="..\..\..\core\PThAttr.cpp" />
+    <ClCompile Include="..\..\..\core\PThCond.cpp" />
+    <ClCompile Include="..\..\..\core\PThMutex.cpp" />
+    <ClCompile Include="..\..\..\db\Gdbm.cpp" />
+    <ClCompile Include="..\..\..\db\LmBillingDBC.cpp" />
+    <ClCompile Include="..\..\..\db\LmDatabase.cpp" />
+    <ClCompile Include="..\..\..\db\LmDatabaseKey.cpp" />
+    <ClCompile Include="..\..\..\db\LmGlobalDB.cpp" />
+    <ClCompile Include="..\..\..\db\LmGuildDBC.cpp" />
+    <ClCompile Include="..\..\..\db\LmItemDBC.cpp" />
+    <ClCompile Include="..\..\..\db\LmItemGenDB.cpp" />
+    <ClCompile Include="..\..\..\db\LmLevelDBC.cpp" />
+    <ClCompile Include="..\..\..\db\LmPlayerDB.cpp" />
+    <ClCompile Include="..\..\..\db\LmPlayerDBC.cpp" />
+    <ClCompile Include="..\..\..\db\LmPlayerDBF.cpp" />
+    <ClCompile Include="..\..\..\db\LmRoomDB.cpp" />
+    <ClCompile Include="..\..\..\db\LmServerDBC.cpp" />
+    <ClCompile Include="..\..\..\game\LmArts.cpp" />
+    <ClCompile Include="..\..\..\game\LmAvatar.cpp" />
+    <ClCompile Include="..\..\..\game\LmGoalInfo.cpp" />
+    <ClCompile Include="..\..\..\game\LmIdSet.cpp" />
+    <ClCompile Include="..\..\..\game\LmInventory.cpp" />
+    <ClCompile Include="..\..\..\game\LmItem.cpp" />
+    <ClCompile Include="..\..\..\game\LmItemDefs.cpp" />
+    <ClCompile Include="..\..\..\game\LmItemGen.cpp" />
+    <ClCompile Include="..\..\..\game\LmItemGenColors.cpp" />
+    <ClCompile Include="..\..\..\game\LmItemHdr.cpp" />
+    <ClCompile Include="..\..\..\game\LmLog.cpp" />
+    <ClCompile Include="..\..\..\game\LmLogFile.cpp" />
+    <ClCompile Include="..\..\..\game\LmLogSyslog.cpp" />
+    <ClCompile Include="..\..\..\game\LmParty.cpp" />
+    <ClCompile Include="..\..\..\game\LmPlayerNameMap.cpp" />
+    <ClCompile Include="..\..\..\game\LmPosition.cpp" />
+    <ClCompile Include="..\..\..\game\LmRoomItem.cpp" />
+    <ClCompile Include="..\..\..\game\LmStats.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_AgentLogin.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_ChangeAvatar.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_ChangeStat.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_CreateItem.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_DestroyItem.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_DestroyRoomItem.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_Error.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GetGoalHdrs.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GetItem.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GetItemDescription.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GetLevelPlayers.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GetPlayerName.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GetReportHdrs.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GiveItem.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GiveItemAck.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_Goal.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GotoLevel.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GrantPPoint.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_ItemDescription.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_ItemDrop.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_ItemPickup.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_LevelPlayers.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_LocateAvatar.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_LocateAvatarAck.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_LocateMaresAck.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_LocateNewliesAck.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_Login.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_LoginAck.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_Logout.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_Ping.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_PostGoal.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_PostReport.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_PPointAck.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_PreLogin.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_PreLoginAck.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_PutItem.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_RcvGoalbookHdr.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_RcvGoalDetails.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_RcvGoalHdr.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_RcvGoalText.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_RcvPlayerName.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_RcvReportGoals.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_RcvReportHdr.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_RcvReportText.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_SenseDreamersAck.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_ServerDown.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_SetAvatarDescription.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_ShowItem.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_SummonAvatar.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_SummonAvatarAck.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_TakeItem.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_TakeItemAck.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_UpdateItem.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_UpdateStats.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_UsePPoint.cpp" />
+    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_ViewItem.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmBit32.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmConnection.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmConnectionSet.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmConnectionSetImp.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmDispatch.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmMesg.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmMesgBuf.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmMesgBufPool.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmMesgBufPoolImp.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmMesgHdr.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmMessageReader.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmNetworkInput.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmNetworkOutput.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmPeerUpdate.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmSockAddr.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmSockAddrInet.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmSocket.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmSockType.cpp" />
+    <ClCompile Include="..\..\..\protocol\LmSrvMesgBuf.cpp" />
+    <ClCompile Include="..\..\..\protocol\LyraMessage.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RmRemotePlayer.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_ChangeAvatar.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_CupSummons.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_EnterRoom.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_Error.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_GetAvatarDescription.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_GetRoomDescription.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_GotoRoom.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_ItemDrop.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_ItemHdrDrop.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_ItemPickup.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_JoinedParty.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_LeaveRoom.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_LoginAck.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_Logout.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_NewlyAwakened.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_Party.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_PartyInfo.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_Ping.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_PlayerMsg.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_PlayerUpdate.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_RcvAvatarDescription.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_RoomDescription.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_RoomLoginAck.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_Speech.cpp" />
+    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_Update.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_ConnStatus.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_DBQuery.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_DBQueryAck.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_DestroyRoomItem.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_DS_Action.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_DumpState.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_Error.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_GetItem.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_GetLevelPlayers.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_GetServerStatus.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_GiveItem.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_GiveItemAck.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_GS_Action.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_GS_Login.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_GS_Logout.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_ItemDrop.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_ItemPickup.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_LevelLogin.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_LocateAvatar.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_Login.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_Logout.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_LS_Action.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_LS_Login.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_PartyLeader.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_Ping.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_PlayerStatus.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_Proxy.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_PutItem.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_RecvMesg.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_ResetPort.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_RotateLogs.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_SendMesg.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_ServerStatus.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_SetAvatarDescription.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_ShowItem.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_TakeItemAck.cpp" />
+    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_UniverseBroadcast.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsForwardThread.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsGameThread.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsInputDispatch.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsLevelSet.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsMain.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsMessageReader.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsNetworkInput.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsNetworkOutput.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsOutputDispatch.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsPlayer.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsPlayer1.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsPlayer2.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsPlayer3.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsPlayer4.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsPlayerSet.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsPlayerThread.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsPlayerThread1.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsPlayerThread2.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsPlayerThread3.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsPlayerThread4.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsPlayerThreadSet.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsPositionThread.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsSignalThread.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\GsUtil.cpp" />
+    <ClCompile Include="..\..\..\server\gamed\Main_Gamed .cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsCodexText.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsComputeGroups.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsInputDispatch.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsItemGen.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsLevelSerials.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsLevelState.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsLevelThread.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsMain.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsMessageReader.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsNetworkInput.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsNetworkOutput.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsOutputDispatch.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsPlayer.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsPlayerSet.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsPositionThread.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsRoomState.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsRoomThread.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsRoomThread1.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsRoomThread2.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsRoomThread3.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsSignalThread.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\LsUtil.cpp" />
+    <ClCompile Include="..\..\..\server\leveld\Main_leveld.cpp" />
+    <ClCompile Include="..\..\..\server\masterd\Main_Masterd.cpp" />
+    <ClCompile Include="..\..\..\server\masterd\MsMain.cpp" />
+    <ClCompile Include="..\..\..\server\masterd\MsServerInfo.cpp" />
+    <ClCompile Include="..\..\..\tools\check_level.cpp" />
+    <ClCompile Include="..\..\..\tools\check_serverdb.cpp" />
+    <ClCompile Include="..\..\..\tools\dump_item.cpp" />
+    <ClCompile Include="..\..\..\tools\dump_item2.cpp" />
+    <ClCompile Include="..\..\..\tools\dump_state.cpp" />
+    <ClCompile Include="..\..\..\tools\fix_ghost.cpp" />
+    <ClCompile Include="..\..\..\tools\gdbm_clean.cpp" />
+    <ClCompile Include="..\..\..\tools\gen_item.cpp" />
+    <ClCompile Include="..\..\..\tools\get_hostid.cpp" />
+    <ClCompile Include="..\..\..\tools\get_server_status.cpp" />
+    <ClCompile Include="..\..\..\tools\get_server_status2.cpp" />
+    <ClCompile Include="..\..\..\tools\ping_servers.cpp" />
+    <ClCompile Include="..\..\..\tools\print_xp.cpp" />
+    <ClCompile Include="..\..\..\tools\rotate_logs.cpp" />
+    <ClCompile Include="..\..\..\tools\save_player.cpp" />
+    <ClCompile Include="..\ftp_addin\Commands.cpp" />
+    <ClCompile Include="..\ftp_addin\DSAddIn.cpp" />
+    <ClCompile Include="..\ftp_addin\FTPAddIn.cpp" />
+    <ClCompile Include="..\ftp_addin\StdAfx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\.gitattributes" />
+    <None Include="..\..\..\..\.gitignore" />
+    <None Include="..\..\..\..\LICENSE" />
+    <None Include="..\..\..\..\README.md" />
+    <None Include="..\ftp_addin\FTPAddIn.def" />
+    <None Include="..\ftp_addin\res\FTPAddIn.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="..\ftp_addin\FTPAddIn.odl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\ftp_addin\FTPAddIn.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
