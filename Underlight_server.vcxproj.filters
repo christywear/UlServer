@@ -97,9 +97,6 @@
     <Filter Include="Source Files\Platform\Windows\FTP_Addin">
       <UniqueIdentifier>{3bc42c8b-16b6-4dee-b99a-6db4500b0ac9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Platform\Windows\Underlight_Server_Proj_files">
-      <UniqueIdentifier>{775e0142-f1a3-493d-a54a-8d500aed2fd9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Platform\Windows\Win_Stubs">
       <UniqueIdentifier>{b6487c6f-ba0a-4e91-ba24-3895db945a23}</UniqueIdentifier>
     </Filter>
@@ -132,1574 +129,1574 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\include\core\LmAssert.h">
+    <ClInclude Include="include\core\LmAssert.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\LmFuncTimer.h">
+    <ClInclude Include="include\core\LmFuncTimer.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\LmLocker.h">
+    <ClInclude Include="include\core\LmLocker.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\LmNew.h">
+    <ClInclude Include="include\core\LmNew.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\LmRand.h">
+    <ClInclude Include="include\core\LmRand.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\LmSignalThread.h">
+    <ClInclude Include="include\core\LmSignalThread.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\LmThread.h">
+    <ClInclude Include="include\core\LmThread.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\LmThreadMQ.h">
+    <ClInclude Include="include\core\LmThreadMQ.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\LmThreadPool.h">
+    <ClInclude Include="include\core\LmThreadPool.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\LmTimer.h">
+    <ClInclude Include="include\core\LmTimer.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\LmUtil.h">
+    <ClInclude Include="include\core\LmUtil.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\LnMD5.h">
+    <ClInclude Include="include\core\LnMD5.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\LyraDefs.h">
+    <ClInclude Include="include\core\LyraDefs.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\PTh.h">
+    <ClInclude Include="include\core\PTh.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\PThAttr.h">
+    <ClInclude Include="include\core\PThAttr.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\PThCond.h">
+    <ClInclude Include="include\core\PThCond.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\PThMutex.h">
+    <ClInclude Include="include\core\PThMutex.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\SharedConstants.h">
+    <ClInclude Include="include\core\SharedConstants.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\tchar.h">
+    <ClInclude Include="include\core\tchar.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\unix.h">
+    <ClInclude Include="include\core\unix.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\db\Gdbm.h">
+    <ClInclude Include="include\db\Gdbm.h">
       <Filter>Header Files\Database</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\db\LmBillingDBC.h">
+    <ClInclude Include="include\db\LmBillingDBC.h">
       <Filter>Header Files\Database</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\db\LmDatabase.h">
+    <ClInclude Include="include\db\LmDatabase.h">
       <Filter>Header Files\Database</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\db\LmDatabaseKey.h">
+    <ClInclude Include="include\db\LmDatabaseKey.h">
       <Filter>Header Files\Database</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\db\LmGlobalDB.h">
+    <ClInclude Include="include\db\LmGlobalDB.h">
       <Filter>Header Files\Database</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\db\LmGuildDBC.h">
+    <ClInclude Include="include\db\LmGuildDBC.h">
       <Filter>Header Files\Database</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\db\LmItemDBC.h">
+    <ClInclude Include="include\db\LmItemDBC.h">
       <Filter>Header Files\Database</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\db\LmPlayerDB.h">
+    <ClInclude Include="include\db\LmPlayerDB.h">
       <Filter>Header Files\Database</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\db\LmPlayerDBC.h">
+    <ClInclude Include="include\db\LmPlayerDBC.h">
       <Filter>Header Files\Database</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\db\LmPlayerDBF.h">
+    <ClInclude Include="include\db\LmPlayerDBF.h">
       <Filter>Header Files\Database</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\db\LmRoomDB.h">
+    <ClInclude Include="include\db\LmRoomDB.h">
       <Filter>Header Files\Database</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\db\LmServerDBC.h">
+    <ClInclude Include="include\db\LmServerDBC.h">
       <Filter>Header Files\Database</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\db\LmItemGenDB.h">
+    <ClInclude Include="include\db\LmItemGenDB.h">
       <Filter>Header Files\Database</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\db\LmLevelDBC.h">
+    <ClInclude Include="include\db\LmLevelDBC.h">
       <Filter>Header Files\Database</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmArts.h">
+    <ClInclude Include="include\game\LmArts.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmAvatar.h">
+    <ClInclude Include="include\game\LmAvatar.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmDebug.h">
+    <ClInclude Include="include\game\LmDebug.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmGame.h">
+    <ClInclude Include="include\game\LmGame.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmGoalInfo.h">
+    <ClInclude Include="include\game\LmGoalInfo.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmIdSet.h">
+    <ClInclude Include="include\game\LmIdSet.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmInventory.h">
+    <ClInclude Include="include\game\LmInventory.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmItem.h">
+    <ClInclude Include="include\game\LmItem.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmItemDefs.h">
+    <ClInclude Include="include\game\LmItemDefs.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmItemGen.h">
+    <ClInclude Include="include\game\LmItemGen.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmItemGenNames.h">
+    <ClInclude Include="include\game\LmItemGenNames.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmItemGenTables.h">
+    <ClInclude Include="include\game\LmItemGenTables.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmItemHdr.h">
+    <ClInclude Include="include\game\LmItemHdr.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmItemNames.h">
+    <ClInclude Include="include\game\LmItemNames.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmLog.h">
+    <ClInclude Include="include\game\LmLog.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmLogFile.h">
+    <ClInclude Include="include\game\LmLogFile.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmLogNull.h">
+    <ClInclude Include="include\game\LmLogNull.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmLogSyslog.h">
+    <ClInclude Include="include\game\LmLogSyslog.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmParty.h">
+    <ClInclude Include="include\game\LmParty.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmPlayerNameMap.h">
+    <ClInclude Include="include\game\LmPlayerNameMap.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmPosition.h">
+    <ClInclude Include="include\game\LmPosition.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmRoomItem.h">
+    <ClInclude Include="include\game\LmRoomItem.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmRoomItemList.h">
+    <ClInclude Include="include\game\LmRoomItemList.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmStats.h">
+    <ClInclude Include="include\game\LmStats.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\game\LmXPTable.h">
+    <ClInclude Include="include\game\LmXPTable.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\platform\win\ftp_addin\Commands.h">
+    <ClInclude Include="include\platform\win\ftp_addin\Commands.h">
       <Filter>Header Files\Platform\Windows\FTP_Addin</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\platform\win\ftp_addin\DSAddIn.h">
+    <ClInclude Include="include\platform\win\ftp_addin\DSAddIn.h">
       <Filter>Header Files\Platform\Windows\FTP_Addin</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\platform\win\ftp_addin\FTPAddIn.h">
+    <ClInclude Include="include\platform\win\ftp_addin\FTPAddIn.h">
       <Filter>Header Files\Platform\Windows\FTP_Addin</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\platform\win\ftp_addin\FTPAddInTypes.h">
+    <ClInclude Include="include\platform\win\ftp_addin\FTPAddInTypes.h">
       <Filter>Header Files\Platform\Windows\FTP_Addin</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\platform\win\ftp_addin\Resource.h">
+    <ClInclude Include="include\platform\win\ftp_addin\Resource.h">
       <Filter>Header Files\Platform\Windows\FTP_Addin</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\platform\win\ftp_addin\StdAfx.h">
+    <ClInclude Include="include\platform\win\ftp_addin\StdAfx.h">
       <Filter>Header Files\Platform\Windows\FTP_Addin</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmBit32.h">
+    <ClInclude Include="include\protocol\LmBit32.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmConnection.h">
+    <ClInclude Include="include\protocol\LmConnection.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmConnectionList.h">
+    <ClInclude Include="include\protocol\LmConnectionList.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmConnectionSet.h">
+    <ClInclude Include="include\protocol\LmConnectionSet.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmConnectionSetImp.h">
+    <ClInclude Include="include\protocol\LmConnectionSetImp.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmDispatch.h">
+    <ClInclude Include="include\protocol\LmDispatch.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmMesg.h">
+    <ClInclude Include="include\protocol\LmMesg.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmMesgBuf.h">
+    <ClInclude Include="include\protocol\LmMesgBuf.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmMesgBufPool.h">
+    <ClInclude Include="include\protocol\LmMesgBufPool.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmMesgBufPoolImp.h">
+    <ClInclude Include="include\protocol\LmMesgBufPoolImp.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmMesgHdr.h">
+    <ClInclude Include="include\protocol\LmMesgHdr.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmMessage.h">
+    <ClInclude Include="include\protocol\LmMessage.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmMessageReader.h">
+    <ClInclude Include="include\protocol\LmMessageReader.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmNetworkInput.h">
+    <ClInclude Include="include\protocol\LmNetworkInput.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmNetworkOutput.h">
+    <ClInclude Include="include\protocol\LmNetworkOutput.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmPeerUpdate.h">
+    <ClInclude Include="include\protocol\LmPeerUpdate.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmSockAddr.h">
+    <ClInclude Include="include\protocol\LmSockAddr.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmSockAddrInet.h">
+    <ClInclude Include="include\protocol\LmSockAddrInet.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmSocket.h">
+    <ClInclude Include="include\protocol\LmSocket.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmSockType.h">
+    <ClInclude Include="include\protocol\LmSockType.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LmSrvMesgBuf.h">
+    <ClInclude Include="include\protocol\LmSrvMesgBuf.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\LyraMessage.h">
+    <ClInclude Include="include\protocol\LyraMessage.h">
       <Filter>Header Files\Protocol_Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_AgentLogin.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_AgentLogin.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_All.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_All.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_ChangeAvatar.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_ChangeAvatar.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_ChangeStat.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_ChangeStat.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_CreateItem.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_CreateItem.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_DestroyItem.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_DestroyItem.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_DestroyRoomItem.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_DestroyRoomItem.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_Error.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_Error.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GetGoalHdrs.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_GetGoalHdrs.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GetItem.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_GetItem.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GetItemDescription.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_GetItemDescription.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GetLevelPlayers.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_GetLevelPlayers.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GetPlayerName.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_GetPlayerName.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GetReportHdrs.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_GetReportHdrs.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GiveItem.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_GiveItem.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GiveItemAck.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_GiveItemAck.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_Goal.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_Goal.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GotoLevel.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_GotoLevel.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_GrantPPoint.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_GrantPPoint.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_ItemDescription.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_ItemDescription.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_ItemDrop.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_ItemDrop.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_ItemPickup.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_ItemPickup.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_LevelPlayers.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_LevelPlayers.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_LocateAvatar.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_LocateAvatar.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_LocateAvatarAck.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_LocateAvatarAck.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_LocateMaresAck.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_LocateMaresAck.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_LocateNewliesAck.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_LocateNewliesAck.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_Login.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_Login.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_LoginAck.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_LoginAck.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_Logout.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_Logout.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_Ping.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_Ping.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_PostGoal.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_PostGoal.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_PostReport.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_PostReport.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_PPointAck.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_PPointAck.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_PreLogin.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_PreLogin.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_PreLoginAck.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_PreLoginAck.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_PutItem.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_PutItem.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_RcvGoalbookHdr.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_RcvGoalbookHdr.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_RcvGoalDetails.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_RcvGoalDetails.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_RcvGoalHdr.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_RcvGoalHdr.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_RcvGoalText.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_RcvGoalText.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_RcvPlayerName.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_RcvPlayerName.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_RcvReportGoals.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_RcvReportGoals.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_RcvReportHdr.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_RcvReportHdr.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_RcvReportText.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_RcvReportText.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_SenseDreamersAck.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_SenseDreamersAck.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_ServerDown.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_ServerDown.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_SetAvatarDescription.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_SetAvatarDescription.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_ShowItem.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_ShowItem.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_SummonAvatar.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_SummonAvatar.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_SummonAvatarAck.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_SummonAvatarAck.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_TakeItem.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_TakeItem.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_TakeItemAck.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_TakeItemAck.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_UpdateItem.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_UpdateItem.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_UpdateStats.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_UpdateStats.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_UsePPoint.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_UsePPoint.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\GMsg\GMsg_ViewItem.h">
+    <ClInclude Include="include\protocol\GMsg\GMsg_ViewItem.h">
       <Filter>Header Files\Protocol_Networking\GMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RmRemotePlayer.h">
+    <ClInclude Include="include\protocol\RMsg\RmRemotePlayer.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_All.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_All.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_ChangeAvatar.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_ChangeAvatar.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_CupSummons.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_CupSummons.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_EnterRoom.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_EnterRoom.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_Error.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_Error.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_GetAvatarDescription.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_GetAvatarDescription.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_GetRoomDescription.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_GetRoomDescription.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_GotoRoom.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_GotoRoom.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_ItemDrop.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_ItemDrop.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_ItemHdrDrop.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_ItemHdrDrop.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_ItemPickup.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_ItemPickup.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_JoinedParty.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_JoinedParty.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_LeaveRoom.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_LeaveRoom.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_LoginAck.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_LoginAck.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_Logout.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_Logout.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_NewlyAwakened.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_NewlyAwakened.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_Party.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_Party.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_PartyInfo.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_PartyInfo.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_PeerUpdate.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_PeerUpdate.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_Ping.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_Ping.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_PlayerMsg.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_PlayerMsg.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_PlayerUpdate.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_PlayerUpdate.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_RcvAvatarDescription.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_RcvAvatarDescription.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_RoomDescription.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_RoomDescription.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_RoomLoginAck.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_RoomLoginAck.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_Speech.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_Speech.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\RMsg\RMsg_Update.h">
+    <ClInclude Include="include\protocol\RMsg\RMsg_Update.h">
       <Filter>Header Files\Protocol_Networking\RMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_All.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_All.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_ConnStatus.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_ConnStatus.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_DBQuery.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_DBQuery.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_DBQueryAck.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_DBQueryAck.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_DestroyRoomItem.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_DestroyRoomItem.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_DS_Action.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_DS_Action.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_DumpState.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_DumpState.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_Error.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_Error.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_GetLevelPlayers.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_GetLevelPlayers.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_GetItem.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_GetItem.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_GetServerStatus.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_GetServerStatus.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_GiveItem.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_GiveItem.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_GiveItemAck.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_GiveItemAck.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_GS_Action.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_GS_Action.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_GS_Login.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_GS_Login.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_GS_Logout.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_GS_Logout.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_ItemDrop.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_ItemDrop.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_ItemPickup.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_ItemPickup.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_LevelLogin.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_LevelLogin.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_LocateAvatar.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_LocateAvatar.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_Login.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_Login.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_Logout.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_Logout.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_LS_Action.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_LS_Action.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_LS_Login.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_LS_Login.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_PartyLeader.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_PartyLeader.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_Ping.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_Ping.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_PlayerStatus.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_PlayerStatus.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_Proxy.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_Proxy.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_PutItem.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_PutItem.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_RecvMesg.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_RecvMesg.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_ResetPort.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_ResetPort.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_RotateLogs.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_RotateLogs.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_SendMesg.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_SendMesg.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_ServerStatus.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_ServerStatus.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_SetAvatarDescription.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_SetAvatarDescription.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_ShowItem.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_ShowItem.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_TakeItemAck.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_TakeItemAck.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\protocol\SMsg\SMsg_UniverseBroadcast.h">
+    <ClInclude Include="include\protocol\SMsg\SMsg_UniverseBroadcast.h">
       <Filter>Header Files\Protocol_Networking\SMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\GsForwardThread.h">
+    <ClInclude Include="include\server\gamed\GsForwardThread.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\GsGameThread.h">
+    <ClInclude Include="include\server\gamed\GsGameThread.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\GsInputDispatch.h">
+    <ClInclude Include="include\server\gamed\GsInputDispatch.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\GsLevelSet.h">
+    <ClInclude Include="include\server\gamed\GsLevelSet.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\GsMacros.h">
+    <ClInclude Include="include\server\gamed\GsMacros.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\GsMain.h">
+    <ClInclude Include="include\server\gamed\GsMain.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\GsMessageReader.h">
+    <ClInclude Include="include\server\gamed\GsMessageReader.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\GsNetworkInput.h">
+    <ClInclude Include="include\server\gamed\GsNetworkInput.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\GsNetworkOutput.h">
+    <ClInclude Include="include\server\gamed\GsNetworkOutput.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\GsOutputDispatch.h">
+    <ClInclude Include="include\server\gamed\GsOutputDispatch.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\GsPlayer.h">
+    <ClInclude Include="include\server\gamed\GsPlayer.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\GsPlayerList.h">
+    <ClInclude Include="include\server\gamed\GsPlayerList.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\GsPlayerSet.h">
+    <ClInclude Include="include\server\gamed\GsPlayerSet.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\GsPlayerThread.h">
+    <ClInclude Include="include\server\gamed\GsPlayerThread.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\GsPlayerThreadSet.h">
+    <ClInclude Include="include\server\gamed\GsPlayerThreadSet.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\GsPositionThread.h">
+    <ClInclude Include="include\server\gamed\GsPositionThread.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\GsSignalThread.h">
+    <ClInclude Include="include\server\gamed\GsSignalThread.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\GsUtil.h">
+    <ClInclude Include="include\server\gamed\GsUtil.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\gamed\resource.h">
+    <ClInclude Include="include\server\gamed\resource.h">
       <Filter>Header Files\Server\Gamed</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsCodexText.h">
+    <ClInclude Include="include\server\leveld\LsCodexText.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsComputeGroups.h">
+    <ClInclude Include="include\server\leveld\LsComputeGroups.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsInputDispatch.h">
+    <ClInclude Include="include\server\leveld\LsInputDispatch.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsItemGen.h">
+    <ClInclude Include="include\server\leveld\LsItemGen.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsLevelSerials.h">
+    <ClInclude Include="include\server\leveld\LsLevelSerials.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsLevelState.h">
+    <ClInclude Include="include\server\leveld\LsLevelState.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsLevelThread.h">
+    <ClInclude Include="include\server\leveld\LsLevelThread.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsMacros.h">
+    <ClInclude Include="include\server\leveld\LsMacros.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsMain.h">
+    <ClInclude Include="include\server\leveld\LsMain.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsMessageReader.h">
+    <ClInclude Include="include\server\leveld\LsMessageReader.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsNetworkInput.h">
+    <ClInclude Include="include\server\leveld\LsNetworkInput.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsNetworkOutput.h">
+    <ClInclude Include="include\server\leveld\LsNetworkOutput.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsOutputDispatch.h">
+    <ClInclude Include="include\server\leveld\LsOutputDispatch.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsPlayer.h">
+    <ClInclude Include="include\server\leveld\LsPlayer.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsPlayerList.h">
+    <ClInclude Include="include\server\leveld\LsPlayerList.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsPlayerSet.h">
+    <ClInclude Include="include\server\leveld\LsPlayerSet.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsPositionThread.h">
+    <ClInclude Include="include\server\leveld\LsPositionThread.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsRoomState.h">
+    <ClInclude Include="include\server\leveld\LsRoomState.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsRoomThread.h">
+    <ClInclude Include="include\server\leveld\LsRoomThread.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsSignalThread.h">
+    <ClInclude Include="include\server\leveld\LsSignalThread.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\leveld\LsUtil.h">
+    <ClInclude Include="include\server\leveld\LsUtil.h">
       <Filter>Header Files\Server\Leveld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\masterd\MsMain.h">
+    <ClInclude Include="include\server\masterd\MsMain.h">
       <Filter>Header Files\Server\Masterd</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\server\masterd\MsServerInfo.h">
+    <ClInclude Include="include\server\masterd\MsServerInfo.h">
       <Filter>Header Files\Server\Masterd</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\md5.h">
+    <ClInclude Include="include\core\md5.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\core\md5global.h">
+    <ClInclude Include="include\core\md5global.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\core\LmAssert.cpp">
+    <ClCompile Include="src\core\LmAssert.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\core\LmFuncTimer.cpp">
+    <ClCompile Include="src\core\LmFuncTimer.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\core\LmLocker.cpp">
+    <ClCompile Include="src\core\LmLocker.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\core\LmNew.cpp">
+    <ClCompile Include="src\core\LmNew.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\core\LmRand.cpp">
+    <ClCompile Include="src\core\LmRand.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\core\LmSignalThread.cpp">
+    <ClCompile Include="src\core\LmSignalThread.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\core\LmThread.cpp">
+    <ClCompile Include="src\core\LmThread.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\core\LmThreadMQ.cpp">
+    <ClCompile Include="src\core\LmThreadMQ.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\core\LmThreadPool.cpp">
+    <ClCompile Include="src\core\LmThreadPool.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\core\LmTimer.cpp">
+    <ClCompile Include="src\core\LmTimer.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\core\LmUtil.cpp">
+    <ClCompile Include="src\core\LmUtil.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\core\LnMD5.cpp">
+    <ClCompile Include="src\core\LnMD5.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\core\md5.cpp">
+    <ClCompile Include="src\core\md5.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\core\PTh.cpp">
+    <ClCompile Include="src\core\PTh.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\core\PThCond.cpp">
+    <ClCompile Include="src\core\PThCond.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\core\PThAttr.cpp">
+    <ClCompile Include="src\core\PThAttr.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\core\PThMutex.cpp">
+    <ClCompile Include="src\core\PThMutex.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\db\Gdbm.cpp">
+    <ClCompile Include="src\db\Gdbm.cpp">
       <Filter>Source Files\Database</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\db\LmBillingDBC.cpp">
+    <ClCompile Include="src\db\LmBillingDBC.cpp">
       <Filter>Source Files\Database</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\db\LmDatabase.cpp">
+    <ClCompile Include="src\db\LmDatabase.cpp">
       <Filter>Source Files\Database</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\db\LmDatabaseKey.cpp">
+    <ClCompile Include="src\db\LmDatabaseKey.cpp">
       <Filter>Source Files\Database</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\db\LmPlayerDB.cpp">
+    <ClCompile Include="src\db\LmPlayerDB.cpp">
       <Filter>Source Files\Database</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\db\LmPlayerDBC.cpp">
+    <ClCompile Include="src\db\LmPlayerDBC.cpp">
       <Filter>Source Files\Database</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\db\LmPlayerDBF.cpp">
+    <ClCompile Include="src\db\LmPlayerDBF.cpp">
       <Filter>Source Files\Database</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\db\LmRoomDB.cpp">
+    <ClCompile Include="src\db\LmRoomDB.cpp">
       <Filter>Source Files\Database</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\db\LmServerDBC.cpp">
+    <ClCompile Include="src\db\LmServerDBC.cpp">
       <Filter>Source Files\Database</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\db\LmItemDBC.cpp">
+    <ClCompile Include="src\db\LmItemDBC.cpp">
       <Filter>Source Files\Database</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\db\LmItemGenDB.cpp">
+    <ClCompile Include="src\db\LmItemGenDB.cpp">
       <Filter>Source Files\Database</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\db\LmGlobalDB.cpp">
+    <ClCompile Include="src\db\LmGlobalDB.cpp">
       <Filter>Source Files\Database</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\db\LmLevelDBC.cpp">
+    <ClCompile Include="src\db\LmLevelDBC.cpp">
       <Filter>Source Files\Database</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\game\LmArts.cpp">
+    <ClCompile Include="src\game\LmArts.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\game\LmAvatar.cpp">
+    <ClCompile Include="src\game\LmAvatar.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\game\LmGoalInfo.cpp">
+    <ClCompile Include="src\game\LmGoalInfo.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\game\LmIdSet.cpp">
+    <ClCompile Include="src\game\LmIdSet.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\game\LmInventory.cpp">
+    <ClCompile Include="src\game\LmInventory.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\game\LmItem.cpp">
+    <ClCompile Include="src\game\LmItem.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\game\LmItemDefs.cpp">
+    <ClCompile Include="src\game\LmItemDefs.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\game\LmItemGen.cpp">
+    <ClCompile Include="src\game\LmItemGen.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\game\LmItemGenColors.cpp">
+    <ClCompile Include="src\game\LmItemGenColors.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\game\LmItemHdr.cpp">
+    <ClCompile Include="src\game\LmItemHdr.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\game\LmLog.cpp">
+    <ClCompile Include="src\game\LmLog.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\game\LmLogFile.cpp">
+    <ClCompile Include="src\game\LmLogFile.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\game\LmLogSyslog.cpp">
+    <ClCompile Include="src\game\LmLogSyslog.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\game\LmParty.cpp">
+    <ClCompile Include="src\game\LmParty.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\game\LmPlayerNameMap.cpp">
+    <ClCompile Include="src\game\LmPlayerNameMap.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\game\LmPosition.cpp">
+    <ClCompile Include="src\game\LmPosition.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\game\LmRoomItem.cpp">
+    <ClCompile Include="src\game\LmRoomItem.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\game\LmStats.cpp">
+    <ClCompile Include="src\game\LmStats.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\db\LmGuildDBC.cpp">
+    <ClCompile Include="src\db\LmGuildDBC.cpp">
       <Filter>Source Files\Database</Filter>
     </ClCompile>
-    <ClCompile Include="..\ftp_addin\StdAfx.cpp">
-      <Filter>Source Files\Platform\Windows\FTP_Addin</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ftp_addin\Commands.cpp">
-      <Filter>Source Files\Platform\Windows\FTP_Addin</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ftp_addin\DSAddIn.cpp">
-      <Filter>Source Files\Platform\Windows\FTP_Addin</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ftp_addin\FTPAddIn.cpp">
-      <Filter>Source Files\Platform\Windows\FTP_Addin</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmBit32.cpp">
+    <ClCompile Include="src\protocol\LmBit32.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmConnection.cpp">
+    <ClCompile Include="src\protocol\LmConnection.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmConnectionSet.cpp">
+    <ClCompile Include="src\protocol\LmConnectionSet.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmConnectionSetImp.cpp">
+    <ClCompile Include="src\protocol\LmConnectionSetImp.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmDispatch.cpp">
+    <ClCompile Include="src\protocol\LmDispatch.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmMesg.cpp">
+    <ClCompile Include="src\protocol\LmMesg.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmMesgBuf.cpp">
+    <ClCompile Include="src\protocol\LmMesgBuf.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmMesgBufPool.cpp">
+    <ClCompile Include="src\protocol\LmMesgBufPool.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmMesgBufPoolImp.cpp">
+    <ClCompile Include="src\protocol\LmMesgBufPoolImp.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmMesgHdr.cpp">
+    <ClCompile Include="src\protocol\LmMesgHdr.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmMessageReader.cpp">
+    <ClCompile Include="src\protocol\LmMessageReader.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmNetworkInput.cpp">
+    <ClCompile Include="src\protocol\LmNetworkInput.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmNetworkOutput.cpp">
+    <ClCompile Include="src\protocol\LmNetworkOutput.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmPeerUpdate.cpp">
+    <ClCompile Include="src\protocol\LmPeerUpdate.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmSockAddr.cpp">
+    <ClCompile Include="src\protocol\LmSockAddr.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmSockAddrInet.cpp">
+    <ClCompile Include="src\protocol\LmSockAddrInet.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmSocket.cpp">
+    <ClCompile Include="src\protocol\LmSocket.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmSockType.cpp">
+    <ClCompile Include="src\protocol\LmSockType.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LmSrvMesgBuf.cpp">
+    <ClCompile Include="src\protocol\LmSrvMesgBuf.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\LyraMessage.cpp">
+    <ClCompile Include="src\protocol\LyraMessage.cpp">
       <Filter>Source Files\Protocol_Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_AgentLogin.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_AgentLogin.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_ChangeAvatar.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_ChangeAvatar.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_ChangeStat.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_ChangeStat.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_CreateItem.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_CreateItem.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_DestroyItem.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_DestroyItem.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_DestroyRoomItem.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_DestroyRoomItem.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_Error.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_Error.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GetGoalHdrs.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_GetGoalHdrs.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GetItem.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_GetItem.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GetItemDescription.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_GetItemDescription.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GetLevelPlayers.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_GetLevelPlayers.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GetPlayerName.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_GetPlayerName.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GetReportHdrs.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_GetReportHdrs.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GiveItem.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_GiveItem.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GiveItemAck.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_GiveItemAck.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_Goal.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_Goal.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GrantPPoint.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_GrantPPoint.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_GotoLevel.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_GotoLevel.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_ItemDescription.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_ItemDescription.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_ItemDrop.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_ItemDrop.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_ItemPickup.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_ItemPickup.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_LevelPlayers.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_LevelPlayers.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_LocateAvatar.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_LocateAvatar.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_LocateAvatarAck.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_LocateAvatarAck.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_LocateMaresAck.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_LocateMaresAck.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_LocateNewliesAck.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_LocateNewliesAck.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_Login.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_Login.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_LoginAck.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_LoginAck.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_Logout.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_Logout.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_Ping.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_Ping.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_PostGoal.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_PostGoal.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_PostReport.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_PostReport.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_PPointAck.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_PPointAck.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_PreLogin.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_PreLogin.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_PreLoginAck.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_PreLoginAck.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_PutItem.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_PutItem.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_RcvGoalbookHdr.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_RcvGoalbookHdr.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_RcvGoalDetails.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_RcvGoalDetails.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_RcvGoalHdr.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_RcvGoalHdr.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_RcvGoalText.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_RcvGoalText.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_RcvPlayerName.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_RcvPlayerName.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_RcvReportGoals.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_RcvReportGoals.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_RcvReportHdr.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_RcvReportHdr.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_RcvReportText.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_RcvReportText.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_SenseDreamersAck.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_SenseDreamersAck.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_ServerDown.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_ServerDown.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_SetAvatarDescription.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_SetAvatarDescription.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_ShowItem.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_ShowItem.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_SummonAvatar.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_SummonAvatar.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_SummonAvatarAck.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_SummonAvatarAck.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_TakeItem.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_TakeItem.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_TakeItemAck.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_TakeItemAck.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_UpdateItem.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_UpdateItem.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_UpdateStats.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_UpdateStats.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_UsePPoint.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_UsePPoint.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\GMsg\GMsg_ViewItem.cpp">
+    <ClCompile Include="src\protocol\GMsg\GMsg_ViewItem.cpp">
       <Filter>Source Files\Protocol_Networking\GMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_ConnStatus.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_ConnStatus.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_DBQuery.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_DBQuery.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_DBQueryAck.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_DBQueryAck.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_DestroyRoomItem.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_DestroyRoomItem.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_DS_Action.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_DS_Action.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_DumpState.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_DumpState.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_Error.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_Error.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_GetItem.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_GetItem.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_GetLevelPlayers.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_GetLevelPlayers.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_GetServerStatus.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_GetServerStatus.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_GiveItem.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_GiveItem.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_GiveItemAck.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_GiveItemAck.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_GS_Action.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_GS_Action.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_GS_Login.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_GS_Login.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_GS_Logout.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_GS_Logout.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_ItemDrop.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_ItemDrop.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_ItemPickup.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_ItemPickup.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_LevelLogin.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_LevelLogin.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_LocateAvatar.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_LocateAvatar.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_Login.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_Login.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_Logout.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_Logout.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_LS_Action.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_LS_Action.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_LS_Login.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_LS_Login.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_PartyLeader.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_PartyLeader.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_Ping.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_Ping.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_PlayerStatus.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_PlayerStatus.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_Proxy.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_Proxy.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_PutItem.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_PutItem.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_RecvMesg.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_RecvMesg.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_ResetPort.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_ResetPort.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_RotateLogs.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_RotateLogs.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_SendMesg.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_SendMesg.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_ServerStatus.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_ServerStatus.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_SetAvatarDescription.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_SetAvatarDescription.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_ShowItem.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_ShowItem.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_TakeItemAck.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_TakeItemAck.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\SMsg\SMsg_UniverseBroadcast.cpp">
+    <ClCompile Include="src\protocol\SMsg\SMsg_UniverseBroadcast.cpp">
       <Filter>Source Files\Protocol_Networking\SMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RmRemotePlayer.cpp">
+    <ClCompile Include="src\protocol\RMsg\RmRemotePlayer.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_ChangeAvatar.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_ChangeAvatar.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_CupSummons.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_CupSummons.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_EnterRoom.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_EnterRoom.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_Error.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_Error.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_GetAvatarDescription.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_GetAvatarDescription.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_GetRoomDescription.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_GetRoomDescription.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_GotoRoom.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_GotoRoom.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_ItemDrop.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_ItemDrop.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_ItemHdrDrop.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_ItemHdrDrop.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_ItemPickup.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_ItemPickup.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_JoinedParty.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_JoinedParty.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_LeaveRoom.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_LeaveRoom.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_LoginAck.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_LoginAck.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_Logout.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_Logout.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_NewlyAwakened.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_NewlyAwakened.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_Party.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_Party.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_PartyInfo.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_PartyInfo.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_Ping.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_Ping.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_PlayerMsg.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_PlayerMsg.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_PlayerUpdate.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_PlayerUpdate.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_RcvAvatarDescription.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_RcvAvatarDescription.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_RoomDescription.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_RoomDescription.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_RoomLoginAck.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_RoomLoginAck.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_Speech.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_Speech.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\protocol\RMsg\RMsg_Update.cpp">
+    <ClCompile Include="src\protocol\RMsg\RMsg_Update.cpp">
       <Filter>Source Files\Protocol_Networking\RMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsForwardThread.cpp">
+    <ClCompile Include="src\server\gamed\GsForwardThread.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsGameThread.cpp">
+    <ClCompile Include="src\server\gamed\GsGameThread.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsInputDispatch.cpp">
+    <ClCompile Include="src\server\gamed\GsInputDispatch.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsLevelSet.cpp">
+    <ClCompile Include="src\server\gamed\GsLevelSet.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsMain.cpp">
+    <ClCompile Include="src\server\gamed\GsMain.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsMessageReader.cpp">
+    <ClCompile Include="src\server\gamed\GsMessageReader.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsNetworkInput.cpp">
+    <ClCompile Include="src\server\gamed\GsNetworkInput.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsNetworkOutput.cpp">
+    <ClCompile Include="src\server\gamed\GsNetworkOutput.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsOutputDispatch.cpp">
+    <ClCompile Include="src\server\gamed\GsOutputDispatch.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsPlayer.cpp">
+    <ClCompile Include="src\server\gamed\GsPlayer.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsPlayer2.cpp">
+    <ClCompile Include="src\server\gamed\GsPlayer2.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsPlayer1.cpp">
+    <ClCompile Include="src\server\gamed\GsPlayer1.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsPlayer3.cpp">
+    <ClCompile Include="src\server\gamed\GsPlayer3.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsPlayer4.cpp">
+    <ClCompile Include="src\server\gamed\GsPlayer4.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsPlayerSet.cpp">
+    <ClCompile Include="src\server\gamed\GsPlayerSet.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsPlayerThread.cpp">
+    <ClCompile Include="src\server\gamed\GsPlayerThread.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsPlayerThread1.cpp">
+    <ClCompile Include="src\server\gamed\GsPlayerThread1.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsPlayerThread3.cpp">
+    <ClCompile Include="src\server\gamed\GsPlayerThread3.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsPlayerThread2.cpp">
+    <ClCompile Include="src\server\gamed\GsPlayerThread2.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsPlayerThread4.cpp">
+    <ClCompile Include="src\server\gamed\GsPlayerThread4.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsPlayerThreadSet.cpp">
+    <ClCompile Include="src\server\gamed\GsPlayerThreadSet.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsPositionThread.cpp">
+    <ClCompile Include="src\server\gamed\GsPositionThread.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsSignalThread.cpp">
+    <ClCompile Include="src\server\gamed\GsSignalThread.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\GsUtil.cpp">
+    <ClCompile Include="src\server\gamed\GsUtil.cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\gamed\Main_Gamed .cpp">
+    <ClCompile Include="src\server\gamed\Main_Gamed .cpp">
       <Filter>Source Files\Server\Gamed</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsCodexText.cpp">
+    <ClCompile Include="src\server\leveld\LsCodexText.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsComputeGroups.cpp">
+    <ClCompile Include="src\server\leveld\LsComputeGroups.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsInputDispatch.cpp">
+    <ClCompile Include="src\server\leveld\LsInputDispatch.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsItemGen.cpp">
+    <ClCompile Include="src\server\leveld\LsItemGen.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsLevelSerials.cpp">
+    <ClCompile Include="src\server\leveld\LsLevelSerials.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsLevelState.cpp">
+    <ClCompile Include="src\server\leveld\LsLevelState.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsLevelThread.cpp">
+    <ClCompile Include="src\server\leveld\LsLevelThread.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsMain.cpp">
+    <ClCompile Include="src\server\leveld\LsMain.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsMessageReader.cpp">
+    <ClCompile Include="src\server\leveld\LsMessageReader.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsNetworkInput.cpp">
+    <ClCompile Include="src\server\leveld\LsNetworkInput.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsNetworkOutput.cpp">
+    <ClCompile Include="src\server\leveld\LsNetworkOutput.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsOutputDispatch.cpp">
+    <ClCompile Include="src\server\leveld\LsOutputDispatch.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsPlayer.cpp">
+    <ClCompile Include="src\server\leveld\LsPlayer.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsPlayerSet.cpp">
+    <ClCompile Include="src\server\leveld\LsPlayerSet.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsPositionThread.cpp">
+    <ClCompile Include="src\server\leveld\LsPositionThread.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsRoomState.cpp">
+    <ClCompile Include="src\server\leveld\LsRoomState.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsRoomThread.cpp">
+    <ClCompile Include="src\server\leveld\LsRoomThread.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsRoomThread1.cpp">
+    <ClCompile Include="src\server\leveld\LsRoomThread1.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsRoomThread2.cpp">
+    <ClCompile Include="src\server\leveld\LsRoomThread2.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsRoomThread3.cpp">
+    <ClCompile Include="src\server\leveld\LsRoomThread3.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsSignalThread.cpp">
+    <ClCompile Include="src\server\leveld\LsSignalThread.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\LsUtil.cpp">
+    <ClCompile Include="src\server\leveld\LsUtil.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\leveld\Main_leveld.cpp">
+    <ClCompile Include="src\server\leveld\Main_leveld.cpp">
       <Filter>Source Files\Server\Leveld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\masterd\Main_Masterd.cpp">
+    <ClCompile Include="src\server\masterd\Main_Masterd.cpp">
       <Filter>Source Files\Server\Masterd</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\masterd\MsMain.cpp">
+    <ClCompile Include="src\server\masterd\MsMain.cpp">
       <Filter>Source Files\Server\Masterd</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\server\masterd\MsServerInfo.cpp">
+    <ClCompile Include="src\server\masterd\MsServerInfo.cpp">
       <Filter>Source Files\Server\Masterd</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tools\check_level.cpp">
+    <ClCompile Include="src\tools\check_level.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tools\check_serverdb.cpp">
+    <ClCompile Include="src\tools\check_serverdb.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tools\dump_item.cpp">
+    <ClCompile Include="src\tools\dump_item.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tools\dump_state.cpp">
+    <ClCompile Include="src\tools\dump_state.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tools\dump_item2.cpp">
+    <ClCompile Include="src\tools\dump_item2.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tools\fix_ghost.cpp">
+    <ClCompile Include="src\tools\fix_ghost.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tools\gdbm_clean.cpp">
+    <ClCompile Include="src\tools\gdbm_clean.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tools\gen_item.cpp">
+    <ClCompile Include="src\tools\gen_item.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tools\get_hostid.cpp">
+    <ClCompile Include="src\tools\get_hostid.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tools\get_server_status.cpp">
+    <ClCompile Include="src\tools\get_server_status.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tools\get_server_status2.cpp">
+    <ClCompile Include="src\tools\get_server_status2.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tools\ping_servers.cpp">
+    <ClCompile Include="src\tools\ping_servers.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tools\print_xp.cpp">
+    <ClCompile Include="src\tools\print_xp.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tools\rotate_logs.cpp">
+    <ClCompile Include="src\tools\rotate_logs.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tools\save_player.cpp">
+    <ClCompile Include="src\tools\save_player.cpp">
       <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\win\ftp_addin\Commands.cpp">
+      <Filter>Source Files\Platform\Windows\FTP_Addin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\win\ftp_addin\DSAddIn.cpp">
+      <Filter>Source Files\Platform\Windows\FTP_Addin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\win\ftp_addin\FTPAddIn.cpp">
+      <Filter>Source Files\Platform\Windows\FTP_Addin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\win\ftp_addin\StdAfx.cpp">
+      <Filter>Source Files\Platform\Windows\FTP_Addin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\.gitattributes" />
-    <None Include="..\..\..\..\.gitignore" />
-    <None Include="..\..\..\..\LICENSE" />
-    <None Include="..\..\..\..\README.md" />
-    <None Include="..\ftp_addin\res\FTPAddIn.rc2">
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
+    <None Include="LICENSE" />
+    <None Include="README.md" />
+    <None Include="src\platform\win\ftp_addin\res\FTPAddIn.rc2">
       <Filter>Resource Files\FTP_Addin</Filter>
     </None>
-    <None Include="..\ftp_addin\FTPAddIn.def">
+    <None Include="src\platform\win\ftp_addin\FTPAddIn.def">
       <Filter>Resource Files\FTP_Addin</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\ftp_addin\FTPAddIn.rc">
-      <Filter>Resource Files\FTP_Addin</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Midl Include="..\ftp_addin\FTPAddIn.odl">
+    <Midl Include="src\platform\win\ftp_addin\FTPAddIn.odl">
       <Filter>Resource Files\FTP_Addin</Filter>
     </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\platform\win\ftp_addin\FTPAddIn.rc">
+      <Filter>Resource Files\FTP_Addin</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
