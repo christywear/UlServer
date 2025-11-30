@@ -11,16 +11,16 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#include "LsOutputDispatch.h"
-#include "LyraDefs.h"
-#include "LsMain.h"
-#include "LmThreadPool.h"
-#include "RMsg_All.h"
-#include "LmLevelDBC.h"
-#include "LmRoomDB.h"
-#include "SMsg_SendMesg.h"
-#include "LmMesgBufPool.h"
-#include "LmSrvMesgBuf.h"
+#include "../../../include/Server/Leveld/LsOutputDispatch.h"
+#include "../../../include/Core/LyraDefs.h"
+#include "../../../include/Server/Leveld/LsMain.h"
+#include "../../../include/Core/LmThreadPool.h"
+#include "../../../include/Protocol/RMsg/RMsg_All.h"
+#include "../../../include/DB/LmLevelDBC.h"
+#include "../../../include/DB/LmRoomDB.h"
+#include "../../../include/Protocol/SMsg/SMsg_SendMesg.h"
+#include "../../../include/Protocol/LmMesgBufPool.h"
+#include "../../../include/Protocol/LmSrvMesgBuf.h"
 
 ////
 // Constructor

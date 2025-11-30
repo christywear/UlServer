@@ -14,7 +14,7 @@
 *       [Public]
 *
 ****/
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #if     _MSC_VER > 1000 /*IFSTRIP=IGN*/
 #pragma once
 #endif

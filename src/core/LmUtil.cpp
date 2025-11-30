@@ -7,7 +7,7 @@
 #ifdef __GNUC__
 #pragma implementation "LmUtil.h"
 #endif
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include <errno.h>
 #include <limits.h>
 #include <sys/stat.h>

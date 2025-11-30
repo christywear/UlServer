@@ -4,6 +4,7 @@
 //
 // send_* methods
 
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include <errno.h>
 #include <string.h>
 #include <stdio.h>

@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <wchar.h>
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #ifndef WIN32
 #include <stdlib.h>
 #include <unistd.h> //linux

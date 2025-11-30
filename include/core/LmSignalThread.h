@@ -10,7 +10,7 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include <stdio.h>
 #include <signal.h>
 

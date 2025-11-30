@@ -8,15 +8,22 @@
 #pragma implementation "MsMain.h"
 #endif
 
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
+
+#ifdef UL_POSIX
+#include <sys/wait.h>
+#include <netdb.h> 
+#include <netinet/in.h>
+#include <unistd.h>
+#endif
+
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
-#include <unistd.h> //linux?
+
 #include <signal.h>
-#include <sys/wait.h> //linux?
-#include <netdb.h> //linux?
-#include <netinet/in.h> //linux?
+
 
 #include "../../../include/Server/Masterd/MsMain.h"
 #include "../../../include/DB/LmGlobalDB.h"

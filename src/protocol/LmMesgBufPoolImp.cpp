@@ -11,12 +11,17 @@
 #include <stdio.h>
 
 #include <list>
-#include <parallel/algo.h> //??
+#include "../../include/platform/Platform.h" //for os detection and legacy compatibilty
+#ifdef UL_POSIX
+#include <parallel/algo.h>
+#endif
+
 #include <time.h>
 
 #include "../../include/Protocol/LmMesgBufPoolImp.h"
 #include "../../include/Protocol/LmSrvMesgBuf.h"
 
+#include "../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////

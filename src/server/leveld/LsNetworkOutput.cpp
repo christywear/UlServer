@@ -7,6 +7,7 @@
 #ifdef __GNUC__
 #pragma implementation "LsNetworkOutput.h"
 #endif
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
 
 #include <stdio.h>
 #ifndef WIN32
@@ -16,21 +17,22 @@
 
 #include <time.h>
 
-#include "LsNetworkOutput.h"
-#include "LyraDefs.h"
-#include "LsMain.h"
-#include "LsUtil.h"
-#include "LmLevelDBC.h"
-#include "LmGlobalDB.h"
-#include "LmSrvMesgBuf.h"
-#include "LmConnection.h"
-#include "LmConnectionList.h"
-#include "LmConnectionSet.h"
-#include "LsMacros.h"
-#include "SMsg_All.h"
-#include "LsOutputDispatch.h"
-#include "LmMesgBufPool.h"
+#include "../../../include/Server/Leveld/LsNetworkOutput.h"
+#include "../../../include/Core/LyraDefs.h"
+#include "../../../include/Server/Leveld/LsMain.h"
+#include "../../../include/Server/Leveld/LsUtil.h"
+#include "../../../include/DB/LmLevelDBC.h"
+#include "../../../include/DB/LmGlobalDB.h"
+#include "../../../include/Protocol/LmSrvMesgBuf.h"
+#include "../../../include/Protocol/LmConnection.h"
+#include "../../../include/Protocol/LmConnectionList.h"
+#include "../../../include/Protocol/LmConnectionSet.h"
+#include "../../../include/Server/Leveld/LsMacros.h"
+#include "../../../include/Protocol/SMsg/SMsg_All.h"
+#include "../../../include/Server/Leveld/LsOutputDispatch.h"
+#include "../../../include/Protocol/LmMesgBufPool.h"
 
+#include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////

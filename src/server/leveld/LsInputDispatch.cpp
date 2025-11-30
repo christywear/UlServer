@@ -7,24 +7,24 @@
 #ifdef __GNUC__
 #pragma implementation "LsInputDispatch.h"
 #endif
-
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include <stdio.h>
 #ifndef WIN32
 #include <stdlib.h>
 #include <unistd.h>
 #endif
 
-#include "LsInputDispatch.h"
-#include "LyraDefs.h"
-#include "LsMain.h"
-#include "LmSrvMesgBuf.h"
-#include "LmConnection.h"
-#include "LsPlayer.h"
-#include "LsPlayerSet.h"
-#include "LmThreadPool.h"
-#include "RMsg.h"
-#include "SMsg.h"
-#include "LyraMessage.h"
+#include "../../../include/Server/Leveld/LsInputDispatch.h"
+#include "../../../include/Core/LyraDefs.h"
+#include "../../../include/Server/Leveld/LsMain.h"
+#include "../../../include/Protocol/LmSrvMesgBuf.h"
+#include "../../../include/Protocol/LmConnection.h"
+#include "../../../include/Server/Leveld/LsPlayer.h"
+#include "../../../include/Server/Leveld/LsPlayerSet.h"
+#include "../../../include/Core/LmThreadPool.h"
+#include "../../../include/Protocol/RMsg/RMsg.h"
+#include "../../../include/Protocol/SMsg/SMsg.h"
+#include "../../../include/Protocol/LyraMessage.h"
 
 ////
 // Constructor

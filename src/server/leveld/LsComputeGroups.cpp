@@ -10,16 +10,17 @@
 #include <sys/types.h>
 //#include <algo.h>
 #include <algorithm>
-#include "LsComputeGroups.h"
-#include "LyraDefs.h"
-#include "LsMain.h"
-#include "LsRoomState.h"
-#include "LsPlayer.h"
-#include "LsPlayerSet.h"
-#include "LmLogFile.h"
-#include "LmRoomDB.h"
-#include "LsPlayerList.h"
+#include "../../../include/Server/Leveld/LsComputeGroups.h"
+#include "../../../include/Core/LyraDefs.h"
+#include "../../../include/Server/Leveld/LsMain.h"
+#include "../../../include/Server/Leveld/LsRoomState.h"
+#include "../../../include/Server/Leveld/LsPlayer.h"
+#include "../../../include/Server/Leveld/LsPlayerSet.h"
+#include "../../../include/Game/LmLogFile.h"
+#include "../../../include/DB/LmRoomDB.h"
+#include "../../../include/Server/Leveld/LsPlayerList.h"
 
+#include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////

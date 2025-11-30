@@ -18,7 +18,7 @@
 ////
 
 #define MALLOC_CHECK 2
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include "tchar.h" // wide character support
 #undef TCHAR
 #ifdef _UNICODE

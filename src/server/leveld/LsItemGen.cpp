@@ -11,11 +11,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "LsItemGen.h"
-#include "LyraDefs.h"
-#include "LmItemGenDB.h"
-#include "LmRand.h"
-#include "LmItemGen.h"
+#include "../../../include/Server/Leveld/LsItemGen.h"
+#include "../../../include/Core/LyraDefs.h"
+#include "../../../include/DB/LmItemGenDB.h"
+#include "../../../include/Core/LmRand.h"
+#include "../../../include/Game/LmItemGen.h"
 
 ////
 // Constructor

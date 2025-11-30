@@ -10,25 +10,22 @@
 
 #include <stdio.h>
 
-#include "LsLevelState.h"
-#include "LyraDefs.h"
-#include "LsRoomState.h"
-#include "LsMain.h"
-#include "LmLevelDBC.h"
-#include "LmRoomDB.h"
-#include "LmDatabase.h"
-#include "LmDatabaseKey.h"
-#include "LmGlobalDB.h"
-#include "LmLocker.h"
-#include "LmItemDBC.h"
-#include "LmLogFile.h"
-
-#ifndef USE_INLINE
-#include "LsLevelState.i"
-#endif
+#include "../../../include/Server/Leveld/LsLevelState.h"
+#include "../../../include/Core/LyraDefs.h"
+#include "../../../include/Server/Leveld/LsRoomState.h"
+#include "../../../include/Server/Leveld/LsMain.h"
+#include "../../../include/DB/LmLevelDBC.h"
+#include "../../../include/DB/LmRoomDB.h"
+#include "../../../include/DB/LmDatabase.h"
+#include "../../../include/DB/LmDatabaseKey.h"
+#include "../../../include/DB/LmGlobalDB.h"
+#include "../../../include/Core/LmLocker.h"
+#include "../../../include/DB/LmItemDBC.h"
+#include "../../../include/Game/LmLogFile.h"
 
 static lyra_id_t realtime_ids_[Lyra::MAX_LEVELPEOPLE];
 
+#include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////

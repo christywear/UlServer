@@ -7,7 +7,7 @@
 #ifdef __GNUC__
 #pragma implementation "LmThread.h"
 #endif
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #ifndef WIN32
 #include <stdlib.h>
 #include <unistd.h> //Linux
@@ -22,6 +22,7 @@
 #include "../../include/core/LmThreadMQ.h"
 #include "../../include/Game/LmLog.h"
 
+#include "../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////

@@ -24,6 +24,7 @@
 #include "../../../include/Protocol/SMsg/SMsg_All.h"
 #include "../../../include/Server/Gamed/GsUtil.h"
 
+#include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////

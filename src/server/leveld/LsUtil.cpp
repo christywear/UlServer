@@ -8,6 +8,7 @@
 #pragma implementation "LsUtil.h"
 #endif
 
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include <stdio.h>
 #include <stdarg.h>
 #include <signal.h>
@@ -15,27 +16,28 @@
 #include <list>
 #include <algorithm>
 
-#include "LsUtil.h"
-#include "LsMain.h"
-#include "LmThread.h"
-#include "LmThreadPool.h"
-#include "LmMesg.h"
-#include "LmSrvMesgBuf.h"
-#include "LmMesgBufPool.h"
-#include "RMsg_All.h"
-#include "SMsg_All.h"
-#include "LsOutputDispatch.h"
-#include "LmLogFile.h"
-#include "LmServerDBC.h"
-#include "LmLevelDBC.h"
-#include "LsPlayer.h"
-#include "LsPlayerList.h"
-#include "LmItemDBC.h"
+#include "../../../include/Server/Leveld/LsUtil.h"
+#include "../../../include/Server/Leveld/LsMain.h"
+#include "../../../include/Core/LmThread.h"
+#include "../../../include/Core/LmThreadPool.h"
+#include "../../../include/Protocol/LmMesg.h"
+#include "../../../include/Protocol/LmSrvMesgBuf.h"
+#include "../../../include/Protocol/LmMesgBufPool.h"
+#include "../../../include/Protocol/RMsg/RMsg_All.h"
+#include "../../../include/Protocol/SMsg/SMsg_All.h"
+#include "../../../include/Server/Leveld/LsOutputDispatch.h"
+#include "../../../include/Game/LmLogFile.h"
+#include "../../../include/DB/LmServerDBC.h"
+#include "../../../include/DB/LmLevelDBC.h"
+#include "../../../include/Server/Leveld/LsPlayer.h"
+#include "../../../include/Server/Leveld/LsPlayerList.h"
+#include "../../../include/DB/LmItemDBC.h"
 
 #ifndef WIN32
 #include <unistd.h>
 #endif
 
+#include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////

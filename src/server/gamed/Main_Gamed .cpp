@@ -4,7 +4,7 @@
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
 //
 // _tmain() for game server
-
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>

@@ -5,7 +5,7 @@
 
 #ifndef INCLUDED_MD5
 #define INCLUDED_MD5
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include "md5global.h"
 
 /* Copyright (C) 1991-2, RSA Data Security, Inc. Created 1991. All

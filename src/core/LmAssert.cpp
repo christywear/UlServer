@@ -11,7 +11,7 @@
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include "../../include/core/LmAssert.h"
 #include "../../include/Game/LmLog.h"
 

@@ -26,6 +26,7 @@
 #include "../../include/Protocol/LmMesgBufPool.h"
 #include "../../include/Core/LmRand.h"
 
+#include "../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////

@@ -7,7 +7,7 @@
 #ifdef __GNUC__
 #pragma implementation "GsPositionThread.h"
 #endif
-
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include <errno.h>
 #include <string.h>
 #include <stdio.h>
@@ -45,6 +45,7 @@
 #include "../../../include/Server/Gamed/GsMacros.h"
 #include "../../../include/Core/LmTimer.h"
 
+#include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////

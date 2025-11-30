@@ -7,6 +7,7 @@
 #ifdef __GNUC__
 #pragma implementation "LsLevelThread.h"
 #endif
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
 
 #include <stdio.h>
 #include <signal.h>
@@ -15,40 +16,37 @@
 #include <unistd.h>
 #endif
 
-#include "LsLevelThread.h"
-#include "LyraDefs.h"
-#include "LsMain.h"
-#include "LmConnection.h"
-#include "LmLevelDBC.h"
-#include "LmGlobalDB.h"
-#include "LmDebug.h"
-#include "RMsg_All.h"
-#include "SMsg_All.h"
-#include "LsRoomState.h"
-#include "LsLevelState.h"
-#include "LsPlayer.h"
-#include "LsPlayerSet.h"
-#include "LsOutputDispatch.h"
-#include "LmMesg.h"
-#include "LmThreadPool.h"
-#include "LmMesgBufPool.h"
-#include "LsUtil.h"
-#include "LmConnectionSet.h"
-#include "LsInputDispatch.h"
-#include "LsSignalThread.h"
-#include "LsMacros.h"
-#include "LmSrvMesgBuf.h"
-#include "LsPlayerList.h"
-#include "LmServerDBC.h"
-#include "LmPlayerDB.h"
-#include "LmConnectionList.h"
-#include "LsCodexText.h"
-#include "LmItemDBC.h"
+#include "../../../include/Server/Leveld/LsLevelThread.h"
+#include "../../../include/Core/LyraDefs.h"
+#include "../../../include/Server/Leveld/LsMain.h"
+#include "../../../include/Protocol/LmConnection.h"
+#include "../../../include/DB/LmLevelDBC.h"
+#include "../../../include/DB/LmGlobalDB.h"
+#include "../../../include/Game/LmDebug.h"
+#include "../../../include/Protocol/RMsg/RMsg_All.h"
+#include "../../../include/Protocol/SMsg/SMsg_All.h"
+#include "../../../include/Server/Leveld/LsRoomState.h"
+#include "../../../include/Server/Leveld/LsLevelState.h"
+#include "../../../include/Server/Leveld/LsPlayer.h"
+#include "../../../include/Server/Leveld/LsPlayerSet.h"
+#include "../../../include/Server/Leveld/LsOutputDispatch.h"
+#include "../../../include/Protocol/LmMesg.h"
+#include "../../../include/Core/LmThreadPool.h"
+#include "../../../include/Protocol/LmMesgBufPool.h"
+#include "../../../include/Server/Leveld/LsUtil.h"
+#include "../../../include/Protocol/LmConnectionSet.h"
+#include "../../../include/Server/Leveld/LsInputDispatch.h"
+#include "../../../include/Server/Leveld/LsSignalThread.h"
+#include "../../../include/Server/Leveld/LsMacros.h"
+#include "../../../include/Protocol/LmSrvMesgBuf.h"
+#include "../../../include/Server/Leveld/LsPlayerList.h"
+#include "../../../include/DB/LmServerDBC.h"
+#include "../../../include/DB/LmPlayerDB.h"
+#include "../../../include/Protocol/LmConnectionList.h"
+#include "../../../include/Server/Leveld/LsCodexText.h"
+#include "../../../include/DB/LmItemDBC.h"
 
-#ifndef WIN32
-#include <unistd.h>
-#endif
-
+#include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////

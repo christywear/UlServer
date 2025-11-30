@@ -10,22 +10,23 @@
 
 #include <stdio.h>
 
-#include "LsPlayer.h"
-#include "LyraDefs.h"
-#include "PThMutex.h"
-#include "LmDatabase.h"
-#include "LsMain.h"
-#include "LmPlayerDB.h"
-#include "LmGlobalDB.h"
-#include "LmSocket.h"
-#include "LmConnection.h"
-#include "LmSockType.h"
-#include "LmSockAddrInet.h"
-#include "RmRemotePlayer.h"
-#include "LmLogFile.h"
-#include "LmLocker.h"
-#include "LmUtil.h"
+#include "../../../include/Server/Leveld/LsPlayer.h"
+#include "../../../include/Core/LyraDefs.h"
+#include "../../../include/Core/PThMutex.h"
+#include "../../../include/DB/LmDatabase.h"
+#include "../../../include/Server/Leveld/LsMain.h"
+#include "../../../include/DB/LmPlayerDB.h"
+#include "../../../include/DB/LmGlobalDB.h"
+#include "../../../include/Protocol/LmSocket.h"
+#include "../../../include/Protocol/LmConnection.h"
+#include "../../../include/Protocol/LmSockType.h"
+#include "../../../include/Protocol/LmSockAddrInet.h"
+#include "../../../include/Protocol/RMsg/RmRemotePlayer.h"
+#include "../../../include/Game/LmLogFile.h"
+#include "../../../include/Core/LmLocker.h"
+#include "../../../include/Core/LmUtil.h"
 
+#include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 

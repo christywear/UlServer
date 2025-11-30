@@ -7,7 +7,7 @@
 #ifdef __GNUC__
 #pragma implementation "RMsg_RoomLoginAck.h"
 #endif
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #ifdef WIN32
 #define STRICT
 #include "unix.h"

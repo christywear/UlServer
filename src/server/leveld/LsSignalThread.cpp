@@ -7,40 +7,43 @@
 #ifdef __GNUC__
 #pragma implementation "LsSignalThread.h"
 #endif
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
 
 #include <errno.h>
 #include <signal.h>
 #include <stdio.h>
 #include <string.h>
+
 #ifndef WIN32
 #include <stdlib.h>
 #include <unistd.h>
 #endif
 
-#include "LsLevelThread.h"
-#include "LsSignalThread.h"
-#include "LyraDefs.h"
-#include "LmLog.h"
-#include "LmLevelDBC.h"
-#include "LmGlobalDB.h"
-#include "LmSrvMesgBuf.h"
-#include "LmMesg.h"
-#include "LmThreadPool.h"
-#include "LmMesgBufPool.h"
-#include "LsMain.h"
-#include "SMsg_LS_Action.h"
-#include "LsUtil.h"
-#include "LmTimer.h"
-#include "LsPlayer.h"
-#include "LsPlayerSet.h"
-#include "LmSocket.h"
-#include "RMsg_PlayerUpdate.h"
-#include "LmConnection.h"
-#include "LmConnectionSet.h"
-#include "LsMacros.h"
-#include "LsPlayerList.h"
-#include "LmRand.h"
+#include "../../../include/Server/Leveld/LsLevelThread.h"
+#include "../../../include/Server/Leveld/LsSignalThread.h"
+#include "../../../include/Core/LyraDefs.h"
+#include "../../../include/Game/LmLog.h"
+#include "../../../include/DB/LmLevelDBC.h"
+#include "../../../include/DB/LmGlobalDB.h"
+#include "../../../include/Protocol/LmSrvMesgBuf.h"
+#include "../../../include/Protocol/LmMesg.h"
+#include "../../../include/Core/LmThreadPool.h"
+#include "../../../include/Protocol/LmMesgBufPool.h"
+#include "../../../include/Server/Leveld/LsMain.h"
+#include "../../../include/Protocol/SMsg/SMsg_LS_Action.h"
+#include "../../../include/Server/Leveld/LsUtil.h"
+#include "../../../include/Core/LmTimer.h"
+#include "../../../include/Server/Leveld/LsPlayer.h"
+#include "../../../include/Server/Leveld/LsPlayerSet.h"
+#include "../../../include/Protocol/LmSocket.h"
+#include "../../../include/Protocol/RMsg/RMsg_PlayerUpdate.h"
+#include "../../../include/Protocol/LmConnection.h"
+#include "../../../include/Protocol/LmConnectionSet.h"
+#include "../../../include/Server/Leveld/LsMacros.h"
+#include "../../../include/Server/Leveld/LsPlayerList.h"
+#include "../../../include/Core/LmRand.h"
 
+#include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////

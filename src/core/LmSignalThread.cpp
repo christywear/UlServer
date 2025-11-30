@@ -7,7 +7,7 @@
 #ifdef __GNUC__
 #pragma implementation "LmSignalThread.h"
 #endif
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include <stdio.h>
 #ifndef WIN32
 #include <stdlib.h>
@@ -20,6 +20,7 @@
 #include "../../include/core/LmSignalThread.h"
 #include "../../include/core/LyraDefs.h"
 
+#include "../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 // dummy signal handler routine, that (should) never be called

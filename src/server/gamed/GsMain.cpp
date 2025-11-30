@@ -6,7 +6,7 @@
 
 extern int h_errno;
 
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #ifdef __GNUC__
 #pragma implementation "GsMain.h"
 #endif

@@ -6,7 +6,7 @@
 
 #ifndef INCLUDED_LmRand
 #define INCLUDED_LmRand
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include <stdlib.h>
 #include <time.h>
 

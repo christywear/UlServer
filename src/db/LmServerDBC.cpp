@@ -6,7 +6,7 @@
 
 #include <string.h>
 #include <stdlib.h>
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #ifndef WIN32
 #include <unistd.h> //linux
 #include <fcntl.h>

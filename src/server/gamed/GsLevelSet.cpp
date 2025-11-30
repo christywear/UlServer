@@ -23,6 +23,7 @@
 #include "../../../include/Game/LmLogFile.h"
 #include "../../../include/Core/LmLocker.h"
 
+#include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////

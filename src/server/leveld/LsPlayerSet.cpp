@@ -13,17 +13,18 @@
 //#include <hash_map.h>
 #include <unordered_map>
 
-#include "LsPlayerSet.h"
-#include "LyraDefs.h"
-#include "LsMain.h"
-#include "LsPlayer.h"
-#include "LmLevelDBC.h"
-#include "LmLogFile.h"
-#include "LsLevelState.h"
-#include "LsRoomState.h"
-#include "LsPlayerList.h"
-#include "LmLocker.h"
+#include "../../../include/Server/Leveld/LsPlayerSet.h"
+#include "../../../include/Core/LyraDefs.h"
+#include "../../../include/Server/Leveld/LsMain.h"
+#include "../../../include/Server/Leveld/LsPlayer.h"
+#include "../../../include/DB/LmLevelDBC.h"
+#include "../../../include/Game/LmLogFile.h"
+#include "../../../include/Server/Leveld/LsLevelState.h"
+#include "../../../include/Server/Leveld/LsRoomState.h"
+#include "../../../include/Server/Leveld/LsPlayerList.h"
+#include "../../../include/Core/LmLocker.h"
 
+#include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////

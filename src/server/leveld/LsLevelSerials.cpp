@@ -4,15 +4,15 @@
 //
 // implementation
 
-#include "LsLevelSerials.h"
-#include "LsMain.h"
-#include "LmDatabase.h"
-#include "LmDatabaseKey.h"
-#include "LmLocker.h"
-#include "LmLevelDBC.h"
-#include "LmItemDBC.h"
-#include "LmLogFile.h"
-#include "LsUtil.h"
+#include "../../../include/Server/Leveld/LsLevelSerials.h"
+#include "../../../include/Server/Leveld/LsMain.h"
+#include "../../../include/DB/LmDatabase.h"
+#include "../../../include/DB/LmDatabaseKey.h"
+#include "../../../include/Core/LmLocker.h"
+#include "../../../include/DB/LmLevelDBC.h"
+#include "../../../include/DB/LmItemDBC.h"
+#include "../../../include/Game/LmLogFile.h"
+#include "../../../include/Server/Leveld/LsUtil.h"
 
 ////
 // Constructor

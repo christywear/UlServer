@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #ifndef WIN32
 #include <dirent.h> //linux
 #include <unistd.h> //linux

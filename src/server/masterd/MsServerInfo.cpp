@@ -4,12 +4,17 @@
 //
 // implementation
 
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
+#ifdef UL_POSIX
+#include <unistd.h> //linux?
+#endif
+
 #include <stdio.h>
 #include <signal.h>
 #include <errno.h>
 #include <string.h>
 #include <time.h>
-#include <unistd.h> //linux?
+
 #include <list>
 
 #include "../../../include/Server/Masterd/MsServerInfo.h"
@@ -21,7 +26,7 @@
 
 #define ROUND_ROBIN
 //#define GAMED_POINTER
-
+#include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////

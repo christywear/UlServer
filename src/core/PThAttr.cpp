@@ -7,7 +7,7 @@
 #ifdef __GNUC__
 #pragma implementation "PThAttr.h"
 #endif
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include "../../include/Core/PThAttr.h"
 
 // class methods -- all inline

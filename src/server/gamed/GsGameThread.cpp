@@ -7,6 +7,7 @@
 #ifdef __GNUC__
 #pragma implementation "GsGameThread.h"
 #endif
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
 
 #include <stdio.h>
 #include <signal.h> 
@@ -49,11 +50,7 @@
 #include "../../../include/Core/LmRand.h"
 #include "../../../include/Core/LmThread.h"
 
-#ifndef WIN32
-#include <unistd.h> //linux
-#endif
-
-
+#include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 

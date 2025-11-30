@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <new>
 //#include <new.h>
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include "../../include/core/LmNew.h"
 #include "../../include/Game/LmLog.h"
 #include "../../include/core/PTh.h"

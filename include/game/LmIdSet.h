@@ -13,7 +13,7 @@
 
 #include "..\Core\LyraDefs.h"
 
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include <stdio.h>
 #ifndef WIN32
 #include <stdlib.h>

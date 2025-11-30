@@ -6,7 +6,7 @@
 
 #ifndef INCLUDED_LmNew
 #define INCLUDED_LmNew
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include <stddef.h>
 #include "tchar.h"
 

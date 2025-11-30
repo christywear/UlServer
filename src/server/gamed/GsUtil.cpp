@@ -14,7 +14,6 @@
 #include <signal.h>
 
 #include <list>
-#include <parallel/algo.h> //unknown?
 
 #include "../../../include/Server/Gamed/GsUtil.h"
 #include "../../../include/Server/Gamed/GsMain.h"
@@ -43,6 +42,11 @@
 #include "../../../include/DB/LmItemDBC.h"
 #include "../../../include/DB/LmPlayerDBC.h"
 
+#ifdef UL_POSIX
+#include <parallel/algo.h> //unknown?
+#endif
+
+#include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////

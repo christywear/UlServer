@@ -7,7 +7,7 @@
 #ifdef __GNUC__
 #pragma implementation "GsSignalThread.h"
 #endif
-
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include <errno.h>
 #include <signal.h>
 #include <stdio.h>
@@ -38,6 +38,7 @@
 #include "../../../include/Server/Gamed/GsPlayerSet.h"
 #include "../../../include/Core/LmRand.h"
 
+#include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 unsigned int last_signal_ = 0;

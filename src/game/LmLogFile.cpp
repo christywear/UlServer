@@ -7,7 +7,7 @@
 #ifdef __GNUC__
 #pragma implementation "LmLogFile.h"
 #endif
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>

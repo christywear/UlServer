@@ -188,6 +188,7 @@
     <ClInclude Include="include\game\LmRoomItemList.h" />
     <ClInclude Include="include\game\LmStats.h" />
     <ClInclude Include="include\game\LmXPTable.h" />
+    <ClInclude Include="include\platform\Platform.h" />
     <ClInclude Include="include\platform\win\ftp_addin\Commands.h" />
     <ClInclude Include="include\platform\win\ftp_addin\DSAddIn.h" />
     <ClInclude Include="include\platform\win\ftp_addin\FTPAddIn.h" />

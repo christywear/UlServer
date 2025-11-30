@@ -5,6 +5,7 @@
 //
 // _tmain() for level server
 
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
@@ -20,11 +21,11 @@
 #include <string.h>
 #include <errno.h>
 
-#include "LyraDefs.h"
-#include "LmUtil.h"
-#include "LmLog.h"
-#include "LsMain.h"
-#include "LmNew.h"
+#include "../../../include/Core/LyraDefs.h"
+#include "../../../include/Core/LmUtil.h"
+#include "../../../include/Game/LmLog.h"
+#include "../../../include/Server/Leveld/LsMain.h"
+#include "../../../include/Core/LmNew.h"
 //#include "Quantify.h"
 
 

@@ -13,18 +13,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "LsMessageReader.h"
-#include "LyraDefs.h"
-#include "LmLog.h"
-#include "RMsg_Logout.h"
-#include "SMsg_Logout.h"
-#include "LmSrvMesgBuf.h"
-#include "LmMesgBufPool.h"
-#include "LmDispatch.h"
-#include "LmConnection.h"
-#include "LsMain.h"
-#include "LyraMessage.h"
-#include "LsInputDispatch.h"
+#include "../../../include/Server/Leveld/LsMessageReader.h"
+#include "../../../include/Core/LyraDefs.h"
+#include "../../../include/Game/LmLog.h"
+#include "../../../include/Protocol/RMsg/RMsg_Logout.h"
+#include "../../../include/Protocol/SMsg/SMsg_Logout.h"
+#include "../../../include/Protocol/LmSrvMesgBuf.h"
+#include "../../../include/Protocol/LmMesgBufPool.h"
+#include "../../../include/Protocol/LmDispatch.h"
+#include "../../../include/Protocol/LmConnection.h"
+#include "../../../include/Server/Leveld/LsMain.h"
+#include "../../../include/Protocol/LyraMessage.h"
+#include "../../../include/Server/Leveld/LsInputDispatch.h"
 
 ////
 // Constructor

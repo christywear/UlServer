@@ -1,6 +1,6 @@
 #ifndef SHAREDCONSTANTS_H
 #define SHAREDCONSTANTS_H
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 // *** REALLY IMPORTANT NOTE -- READ THIS OR DIE ***
 // IF YOU CHANGE *ANYTHING* IN THIS FILE, NOTIFY BRENT,
 // OR REAL BAD THINGS CAN HAPPEN!  THIS IS NOT AN IDLE WARNING.

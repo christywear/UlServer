@@ -12,26 +12,27 @@
 #include <list>
 #include <algorithm>
 
-#include "LsRoomState.h"
-#include "LyraDefs.h"
-#include "LmDatabase.h"
-#include "LmDatabaseKey.h"
-#include "LsMain.h"
-#include "LmRoomDB.h"
-#include "LsItemGen.h"
-#include "LmRoomItem.h"
-#include "LmRoomItemList.h"
-#include "LmLogFile.h"
-#include "LmItemDefs.h"
-#include "LsLevelState.h"
-#include "LmLocker.h"
-#include "LmItemDBC.h"
-#include "LmLevelDBC.h"
-#include "LsPlayer.h"
-#include "LsPlayerSet.h"
-#include "LsUtil.h"
-#include "LsCodexText.h"
+#include "../../../include/Server/Leveld/LsRoomState.h"
+#include "../../../include/Core/LyraDefs.h"
+#include "../../../include/DB/LmDatabase.h"
+#include "../../../include/DB/LmDatabaseKey.h"
+#include "../../../include/Server/Leveld/LsMain.h"
+#include "../../../include/DB/LmRoomDB.h"
+#include "../../../include/Server/Leveld/LsItemGen.h"
+#include "../../../include/Game/LmRoomItem.h"
+#include "../../../include/Game/LmRoomItemList.h"
+#include "../../../include/Game/LmLogFile.h"
+#include "../../../include/Game/LmItemDefs.h"
+#include "../../../include/Server/Leveld/LsLevelState.h"
+#include "../../../include/Core/LmLocker.h"
+#include "../../../include/DB/LmItemDBC.h"
+#include "../../../include/DB/LmLevelDBC.h"
+#include "../../../include/Server/Leveld/LsPlayer.h"
+#include "../../../include/Server/Leveld/LsPlayerSet.h"
+#include "../../../include/Server/Leveld/LsUtil.h"
+#include "../../../include/Server/Leveld/LsCodexText.h"
 
+#include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////

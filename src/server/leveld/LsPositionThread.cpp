@@ -7,6 +7,7 @@
 #ifdef __GNUC__
 #pragma implementation "LsPositionThread.h"
 #endif
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
 
 #include <errno.h>
 #include <string.h>
@@ -21,24 +22,24 @@
 #include <stdlib.h>
 #endif
 
-#include "LsPositionThread.h"
-#include "LyraDefs.h"
-#include "LsMain.h"
-#include "LmGlobalDB.h"
-#include "LmLevelDBC.h"
-#include "LmSockAddrInet.h"
-#include "LmSockType.h"
-#include "LmConnection.h"
-#include "LmMesgHdr.h"
-#include "LmSrvMesgBuf.h"
-#include "RMsg.h"
-#include "RMsg_Update.h"
-#include "LsPlayerSet.h"
-#include "LsPlayer.h"
-#include "LmConnectionSet.h"
-#include "SMsg_LS_Action.h"
-#include "LsUtil.h"
-#include "LsMacros.h"
+#include "../../../include/Server/Leveld/LsPositionThread.h"
+#include "../../../include/Core/LyraDefs.h"
+#include "../../../include/Server/Leveld/LsMain.h"
+#include "../../../include/DB/LmGlobalDB.h"
+#include "../../../include/DB/LmLevelDBC.h"
+#include "../../../include/Protocol/LmSockAddrInet.h"
+#include "../../../include/Protocol/LmSockType.h"
+#include "../../../include/Protocol/LmConnection.h"
+#include "../../../include/Protocol/LmMesgHdr.h"
+#include "../../../include/Protocol/LmSrvMesgBuf.h"
+#include "../../../include/Protocol/RMsg/RMsg.h"
+#include "../../../include/Protocol/RMsg/RMsg_Update.h"
+#include "../../../include/Server/Leveld/LsPlayerSet.h"
+#include "../../../include/Server/Leveld/LsPlayer.h"
+#include "../../../include/Protocol/LmConnectionSet.h"
+#include "../../../include/Protocol/SMsg/SMsg_LS_Action.h"
+#include "../../../include/Server/Leveld/LsUtil.h"
+#include "../../../include/Server/Leveld/LsMacros.h"
 
 ////
 // Constructor

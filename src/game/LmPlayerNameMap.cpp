@@ -20,9 +20,9 @@
 
 #include "../../include/Game/LmPlayerNameMap.h"
 #include "../../include/Core/LmLocker.h"
-#include "../../include/Game/LmPlayerDBC.h"
+#include "../../include/DB/LmPlayerDBC.h"
 
-
+#include "../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////

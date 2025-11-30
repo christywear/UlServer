@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include "../../../include/Server/Gamed/GsPlayer.h"
 #include "../../../include/Server/Gamed/GsPlayerThread.h"
 #include "../../../include/Protocol/GMsg/GMsg_All.h"

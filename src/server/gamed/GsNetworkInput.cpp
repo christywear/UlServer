@@ -9,7 +9,7 @@
 #ifdef __GNUC__
 #pragma implementation "GsNetworkInput.h"
 #endif
-
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include <errno.h>
 #include <string.h>
 #ifndef WIN32
@@ -41,6 +41,7 @@
 #include "../../../include/Server/Gamed/GsMacros.h"
 #include "../../../include/Server/Gamed/GsPlayerList.h"
 
+#include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////

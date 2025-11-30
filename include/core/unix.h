@@ -2,7 +2,7 @@
 
 // Copyright Lyra LLC, 1996. All rights reserved. 
 // Last Modified: Brent Phillips, 4/8/96
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #ifndef UNIXINC
 #define UNIXINC
 

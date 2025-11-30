@@ -1,6 +1,6 @@
 #ifndef _LnMD5_H_
 #define _LnMD5_H_
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include "md5global.h"
 #include "md5.h"
 #include "tchar.h"

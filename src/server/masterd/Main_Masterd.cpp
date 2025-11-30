@@ -4,15 +4,22 @@
 //
 // _tmain() for master super-server
 
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
+
+#ifdef UL_POSIX
+#include <unistd.h> 
+#include <sys/wait.h> 
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h> //linux?
+
 #include <locale.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <string.h>
-#include <sys/wait.h> //linux?
+
 #include <errno.h>
 
 #include "../../../include/Core/LmUtil.h"

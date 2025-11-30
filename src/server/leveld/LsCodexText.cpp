@@ -10,13 +10,13 @@
 #include <vector>
 #include <parallel/algo.h>
 
-#include "LsCodexText.h"
-#include "LmLocker.h"
-#include "LsMain.h"
-#include "Gdbm.h"
-#include "LmGlobalDB.h"
-#include "LmRand.h"
-#include "LmLog.h"
+#include "../../../include/Server/Leveld/LsCodexText.h"
+#include "../../../include/Core/LmLocker.h"
+#include "../../../include/Server/Leveld/LsMain.h"
+#include "../../../include/DB/Gdbm.h"
+#include "../../../include/DB/LmGlobalDB.h"
+#include "../../../include/Core/LmRand.h"
+#include "../../../include/Game/LmLog.h"
 
 // LsCodexTextImp definition
 class LsCodexTextImp : public std::vector<TCHAR*> {

@@ -8,7 +8,7 @@
 #pragma implementation "LmConnectionSetImp.h"
 #endif
 
-
+#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
 #ifndef WIN32
 #include <stdlib.h>
 #include <unistd.h> //??
@@ -18,6 +18,7 @@
 #include "../../include/Protocol/LmConnection.h"
 #include "../../include/Protocol/LmConnectionList.h"
 
+#include "../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
 ////
