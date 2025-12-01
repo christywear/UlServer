@@ -15,8 +15,8 @@
 #include "../../include/Core/LyraDefs.h"
 
 // static members
-const char* LmDatabaseKey::DEFAULT_KEYTYPE = "";
-const char* LmDatabaseKey::DEFAULT_FIELD = "";
+const wchar_t* LmDatabaseKey::DEFAULT_KEYTYPE = _T("");
+const wchar_t* LmDatabaseKey::DEFAULT_FIELD = _T("");
 
 ////
 // Constructor
@@ -27,7 +27,7 @@ LmDatabaseKey::LmDatabaseKey()
   Init(DEFAULT_KEYTYPE, DEFAULT_FIELD, DEFAULT_INST, DEFAULT_SUBINST);
 }
 
-LmDatabaseKey::LmDatabaseKey(const char* type, const char* field, int instance, int subinstance)
+LmDatabaseKey::LmDatabaseKey(const TCHAR* type, const TCHAR* field, int instance, int subinstance)
 {
   Init(type, field, instance, subinstance);
 }
@@ -45,7 +45,7 @@ LmDatabaseKey::~LmDatabaseKey()
 // Init
 ////
 
-void LmDatabaseKey::Init(const char* type, const char* field, int instance, int subinstance)
+void LmDatabaseKey::Init(const TCHAR* type, const TCHAR* field, int instance, int subinstance)
 {
   SetType(type);
   SetField(field);
@@ -53,19 +53,19 @@ void LmDatabaseKey::Init(const char* type, const char* field, int instance, int 
   SetSubInstance(subinstance);
 }
 
-void LmDatabaseKey::SetType(const char* type)
+void LmDatabaseKey::SetType(const TCHAR* type)
 {
-  strcpy(type_, type);
+  strcpy((char*)(type_), (const char*)type);
   TRUNC(type_, sizeof(type_));
 }
 
-void LmDatabaseKey::SetField(const char* field)
+void LmDatabaseKey::SetField(const TCHAR* field)
 {
-  strcpy(field_, field);
+  strcpy((char*)(field_), (const char*)field);
   TRUNC(field_, sizeof(field_));
 }
 
-const char* LmDatabaseKey::KeyString() const
+const TCHAR* LmDatabaseKey::KeyString() const
 {
   // possible valid keys:
   // 1 type = "T", field = "F", instance = "1", subinstance = "2" --> T_1_2.F
@@ -75,20 +75,20 @@ const char* LmDatabaseKey::KeyString() const
   // (note: field always used)
 
   // case 1
-  if ((strlen(type_) > 0) && (instance_ != 0) && (subinstance_ != 0)) {
-   sprintf((char*) realkey_, _T("%s_%d_%d.%s"), type_, instance_, subinstance_, field_);
+  if ((strlen((char*)type_) > 0) && (instance_ != 0) && (subinstance_ != 0)) {
+   sprintf((char*) realkey_, ("%s_%d_%d.%s"), type_, instance_, subinstance_, field_);
   }
   // case 2
-  else if ((strlen(type_) > 0) && (instance_ != 0)) {
-   sprintf((char*) realkey_, _T("%s_%d.%s"), type_, instance_, field_);
+  else if ((strlen((char*)type_) > 0) && (instance_ != 0)) {
+   sprintf((char*) realkey_, ("%s_%d.%s"), type_, instance_, field_);
   }
   // case 3
-  else if (strlen(type_) > 0) {
-   sprintf((char*) realkey_, _T("%s.%s"), type_, field_);
+  else if (strlen((char*)type_) > 0) {
+   sprintf((char*) realkey_, ("%s.%s"), type_, field_);
   }
   // case 4
   else {
-   sprintf((char*) realkey_, _T("%s"), field_);
+   sprintf((char*) realkey_, ("%s"), field_);
   }
   return realkey_;
 }

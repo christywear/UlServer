@@ -16,6 +16,7 @@
 #include "../../include/Game/LmGoalInfo.h"
 #include "../../include/Core/LmTimer.h"
 #include "../../include/Core/LmFuncTimer.h"
+#include "../../include/platform/win/MariaDB Connector C 64-bit/include/mysql.h"
 
 
 unsigned int ATOI(char* value)
@@ -128,7 +129,7 @@ int LmGuildDBC::connect()
       return MYSQL_ERROR;
     }
 
-  if (!mysql_real_connect(&m_mysql, db_server_, username_, password_, dbname_, db_port_, _T("/tmp/mysql.sock"), 0))    {
+  if (!mysql_real_connect(&m_mysql, (char*)db_server_, (char*)username_, (char*)password_, (char*)dbname_, db_port_, ("/tmp/mysql.sock"), 0))    {
   //if (!mysql_real_connect(&m_mysql, db_server_, _T("ul_guild"), password_, _T("ul_guild"), db_port_, _T("/var/lib/mysql/mysql.sock"), 0))    {
     LOG_Error(_T("%s: MYSQL ul_guild connect error %s\n"), method, mysql_error(&m_mysql));
     return MYSQL_ERROR;
@@ -195,7 +196,7 @@ int LmGuildDBC::GetGoalInfo(lyra_id_t goalid, LmGoalInfo& goalinfo)
  _stprintf(query, _T("SELECT (TO_DAYS(expiration_time) - TO_DAYS(CURDATE())), guild, rank, max_accepts, number_accepted, status, creator, (TO_DAYS(vote_expiration_time) - TO_DAYS(CURDATE())) , yes_votes, no_votes, flags FROM goal WHERE goal_id = %u"), goalid);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -262,7 +263,7 @@ int LmGuildDBC::GetNumberAccepted(lyra_id_t goalid)
 	 goalid);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -305,7 +306,7 @@ int LmGuildDBC::InAcceptees(lyra_id_t goalid, lyra_id_t requestor)
  _stprintf(query, _T("SELECT player_id FROM accept WHERE goal_id = %u AND player_id = %u"), goalid, requestor);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -347,7 +348,7 @@ int LmGuildDBC::InVoters(lyra_id_t goalid, lyra_id_t requestor)
  _stprintf(query, _T("SELECT player_id FROM vote WHERE goal_id = %u AND player_id = %u"), goalid, requestor);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -392,9 +393,9 @@ int LmGuildDBC::PostMission(lyra_id_t creator, GMsg_PostGoal& msg)
   //int goal_len =_tcslen(msg.GoalText());
   //TCHAR* escaped_text = LmNEW(TCHAR[goal_len*2+1]);
 
-  mysql_escape_string(escaped_summary, msg.Summary(),_tcslen(msg.Summary()));
-  mysql_escape_string(escaped_text, msg.GoalText(),_tcslen(msg.GoalText()));
-  mysql_escape_string(escaped_keywords, msg.Keywords(),_tcslen(msg.Keywords()));
+  mysql_escape_string((char*)escaped_summary, (char*)msg.Summary(),_tcslen(msg.Summary()));
+  mysql_escape_string((char*)escaped_text, (char*)msg.GoalText(),_tcslen(msg.GoalText()));
+  mysql_escape_string((char*)escaped_keywords, (char*)msg.Keywords(),_tcslen(msg.Keywords()));
 
   int max_accepts = msg.MaxAccepted();
   if (max_accepts> Lyra::MAX_ACCEPTS) 
@@ -405,7 +406,7 @@ int LmGuildDBC::PostMission(lyra_id_t creator, GMsg_PostGoal& msg)
 	 msg.Graphic(), msg.Charges(), msg.Color1(), msg.Color2(), msg.ItemType(), msg.Field1(), msg.Field2(), msg.Field3(), msg.QuestXP(), msg.Keywords());
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   //LmDELETEARRAY(escaped_summary);
@@ -459,13 +460,13 @@ int LmGuildDBC::PostGoal(lyra_id_t creator, GMsg_PostGoal& msg)
 //  TCHAR* escaped_summary = LmNEW(TCHAR[_tcslen(msg.Summary())*2+1]);
 //  TCHAR* escaped_text = LmNEW(TCHAR[_tcslen(msg.GoalText())*2+1]);
 
-  mysql_escape_string(escaped_summary, msg.Summary(),_tcslen(msg.Summary()));
-  mysql_escape_string(escaped_text, msg.GoalText(),_tcslen(msg.GoalText()));
+  mysql_escape_string((char*)escaped_summary, (char*)msg.Summary(),_tcslen(msg.Summary()));
+  mysql_escape_string((char*)escaped_text, (char*)msg.GoalText(),_tcslen(msg.GoalText()));
 
  _stprintf(query, _T("INSERT INTO goal (goal_id, creation_time, expiration_time, creator, rank, guild, sug_sphere, sug_stat, summary, message, max_accepts, status, vote_expiration_time)  VALUES (NULL, CURDATE(), DATE_ADD(CURDATE(), INTERVAL %u DAY), %u, %u, %u, %u, %u, '%s', '%s', %u, %u, DATE_ADD(CURDATE(), INTERVAL %u DAY))"), msg.ExpirationTime(), creator, msg.Level(), msg.Guild(),  msg.SugSphere(), msg.SugStat(), escaped_summary, escaped_text, max_accepts, status, Guild::VOTE_EXPIRATION_DAYS);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   //LmDELETEARRAY(escaped_summary);
@@ -511,13 +512,13 @@ int LmGuildDBC::UpdateMission(lyra_id_t creator, const GMsg_PostGoal& msg)
 //  TCHAR* escaped_summary = LmNEW(TCHAR[_tcslen(msg.Summary())*2+1]);
 //  TCHAR* escaped_text = LmNEW(TCHAR[_tcslen(msg.GoalText())*2+1]);
 
-  mysql_escape_string(escaped_summary, msg.Summary(),_tcslen(msg.Summary()));
-  mysql_escape_string(escaped_text, msg.GoalText(),_tcslen(msg.GoalText()));
+  mysql_escape_string((char*)escaped_summary, (char*)msg.Summary(),_tcslen(msg.Summary()));
+  mysql_escape_string((char*)escaped_text, (char*)msg.GoalText(),_tcslen(msg.GoalText()));
   
  _stprintf(query, _T("UPDATE goal SET expiration_time = DATE_ADD(CURDATE(), INTERVAL %u DAY), sug_sphere = %u, sug_stat = %u, summary = '%s', message = '%s', max_accepts = %u, status = %d, flags = %u WHERE goal_id = %u"), msg.ExpirationTime(), msg.SugSphere(), msg.SugStat(), escaped_summary, escaped_text, max_accepts, Guild::GOAL_ACTIVE, msg.Flags(), msg.GoalID());
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   //LmDELETEARRAY(escaped_summary);
@@ -552,13 +553,13 @@ int LmGuildDBC::PostReport(lyra_id_t creator, lyra_id_t recipient, const GMsg_Po
 //  TCHAR* escaped_summary = LmNEW(TCHAR[_tcslen(msg.Summary())*2+1]);
   //TCHAR* escaped_text = LmNEW(TCHAR[_tcslen(msg.ReportText())*2+1]);
 
-  mysql_escape_string(escaped_summary, msg.Summary(),_tcslen(msg.Summary()));
-  mysql_escape_string(escaped_text, msg.ReportText(),_tcslen(msg.ReportText()));
+  mysql_escape_string((char*)escaped_summary, (char*)msg.Summary(),_tcslen(msg.Summary()));
+  mysql_escape_string((char*)escaped_text, (char*)msg.ReportText(),_tcslen(msg.ReportText()));
   
  _stprintf(query, _T("INSERT INTO report (report_id, goal_id, creation_time, creator, recipient, summary, message, xp_award) VALUES (NULL, %u, CURDATE(), %u, %u, '%s', '%s', %u)"),  msg.GoalID(), creator, recipient, escaped_summary, escaped_text, msg.AwardXP());
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   //LmDELETEARRAY(escaped_summary);
@@ -600,7 +601,7 @@ int LmGuildDBC::SetReportFlags(lyra_id_t report, int flags)
  _stprintf(query, _T("UPDATE report SET flags = %u WHERE report_id = %u"), flags, report);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
   
   if (error) {
@@ -634,7 +635,7 @@ int LmGuildDBC::AcceptGoal(lyra_id_t acceptee, const GMsg_Goal& msg)
 
  _stprintf(query, _T("INSERT INTO accept (goal_id, player_id) VALUES (%u, %u)"), msg.ID(), acceptee); 
 
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   
   if (error) {
     LOG_Error(_T("%s: Could not add goal %u acceptance for player %u ; mysql error %s"), method, msg.ID(), acceptee, mysql_error(&m_mysql));
@@ -676,7 +677,7 @@ int LmGuildDBC::RemoveGoal(lyra_id_t acceptee, const GMsg_Goal& msg)
     // first, pull all the goal info, and log it
   _stprintf(query, _T("SELECT * FROM goal WHERE goal_id = %u"), msg.ID());
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error) {
@@ -700,7 +701,7 @@ int LmGuildDBC::RemoveGoal(lyra_id_t acceptee, const GMsg_Goal& msg)
 
   _stprintf(query, _T("DELETE FROM accept WHERE goal_id = %u AND player_id = %u"), msg.ID(), acceptee); 
 
-  error = mysql_query(&m_mysql, query);
+  error = mysql_query(&m_mysql, (char*)query);
   
   if (error) {
     LOG_Error(_T("%s: Could not remove goal %u acceptance for player %u ; mysql error %s"), method, msg.ID(), acceptee, mysql_error(&m_mysql));
@@ -741,7 +742,7 @@ int LmGuildDBC::ExpireGoal(lyra_id_t expiror, const GMsg_Goal& msg)
       // first, pull all the goal info, and log it
   _stprintf(query, _T("SELECT * FROM goal WHERE goal_id = %u"), msg.ID());
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error) {
@@ -773,7 +774,7 @@ int LmGuildDBC::ExpireGoal(lyra_id_t expiror, const GMsg_Goal& msg)
  _stprintf(query, _T("DELETE FROM goal WHERE goal_id = %u"), msg.ID()); 
   
   ////timer.Start();
-  error = mysql_query(&m_mysql, query);
+  error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
   
   if (error) {
@@ -805,7 +806,7 @@ int LmGuildDBC::DeleteReport(lyra_id_t expiror, const GMsg_Goal& msg)
   // first, pull all the goal info, and log it
   _stprintf(query, _T("SELECT * FROM report WHERE report_id = %u"), msg.ID());
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error) {
@@ -833,7 +834,7 @@ int LmGuildDBC::DeleteReport(lyra_id_t expiror, const GMsg_Goal& msg)
   _stprintf(query, _T("DELETE FROM report WHERE report_id = %u AND (recipient = %u OR creator = %u)"), msg.ID(), expiror, expiror); 
 
   ////timer.Start();
-  error = mysql_query(&m_mysql, query);
+  error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
   
   if (error) {
@@ -863,7 +864,7 @@ int LmGuildDBC::VoteGoal(lyra_id_t voter, int vote, const GMsg_Goal& msg)
  _stprintf(query, _T("INSERT INTO vote (goal_id, player_id, vote) VALUES (%u, %u, %u)"), msg.ID(), voter, vote);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
   
   if (error) {
@@ -877,7 +878,7 @@ int LmGuildDBC::VoteGoal(lyra_id_t voter, int vote, const GMsg_Goal& msg)
    _stprintf(query, _T("UPDATE goal SET yes_votes = yes_votes + 1 WHERE goal_id = %u"), msg.ID());
 
   ////timer.Start();
-  error = mysql_query(&m_mysql, query);
+  error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
   
   if (error) {
@@ -907,7 +908,7 @@ int LmGuildDBC::RemoveReportXP(lyra_id_t reportid)
  _stprintf(query, _T("UPDATE report SET xp_award = 0 WHERE report_id = %u"), reportid);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
   
   if (error) {
@@ -937,7 +938,7 @@ int LmGuildDBC::CompleteGoal(lyra_id_t completor, const GMsg_Goal& msg)
  _stprintf(query, _T("UPDATE goal SET status = 1 WHERE goal_id = %u AND creator = %u AND status < 4"), msg.ID(), completor);
   
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
   
   if (error) {
@@ -966,7 +967,7 @@ int LmGuildDBC::CompleteQuest(lyra_id_t completor, lyra_id_t quest_id)
  _stprintf(query, _T("REPLACE INTO finished_quest (goal_id, player_id) VALUES (%u,%u)"), quest_id, completor);
   
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
   
   if (error) {
@@ -999,7 +1000,7 @@ int LmGuildDBC::GetGoalText(lyra_id_t goalid, GMsg_RcvGoalText& msg)
 
  _stprintf(query, _T("SELECT sug_sphere, sug_stat, creator, message FROM goal WHERE goal_id = %u"), goalid);
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -1021,7 +1022,7 @@ int LmGuildDBC::GetGoalText(lyra_id_t goalid, GMsg_RcvGoalText& msg)
   msg.SetSugSphere(ATOI(row[0]));
   msg.SetSugStat(ATOI(row[1]));
   msg.SetCreatorID(ATOI(row[2]));
-  msg.SetGoalText(row[3]);
+  msg.SetGoalText((wchar_t *)row[3]);
 
   mysql_free_result(res);
   
@@ -1050,7 +1051,7 @@ int LmGuildDBC::GetGoalDetails(lyra_id_t goalid, GMsg_RcvGoalDetails& msg)
  _stprintf(query, _T("SELECT TO_DAYS(expiration_time)-TO_DAYS(CURDATE()), rank, max_accepts, number_accepted, status, TO_DAYS(vote_expiration_time)-TO_DAYS(CURDATE()), yes_votes, no_votes, flags, charges, color1, color2, item_type, field1, field2, field3, quest_xp, keywords, graphic FROM goal WHERE goal_id = %u"), goalid);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -1100,7 +1101,7 @@ int LmGuildDBC::GetGoalDetails(lyra_id_t goalid, GMsg_RcvGoalDetails& msg)
   msg.SetField2(ATOI(row[14]));
   msg.SetField3(ATOI(row[15]));
   msg.SetQuestXP(ATOI(row[16]));
-  msg.SetKeywords(row[17]);
+  msg.SetKeywords((wchar_t*)row[17]);
   msg.SetGraphic(ATOI(row[18]));
 
   mysql_free_result(res);
@@ -1122,7 +1123,7 @@ int LmGuildDBC::GetGoalDetails(lyra_id_t goalid, GMsg_RcvGoalDetails& msg)
   // _tprintf(_T("%s\n"), query);
 
   ////timer.Start();
-  error = mysql_query(&m_mysql, query);
+  error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
   
   if (error)
@@ -1161,7 +1162,7 @@ int LmGuildDBC::GetGoalDetails(lyra_id_t goalid, GMsg_RcvGoalDetails& msg)
   // _tprintf(_T("%s\n"), query);
 
   ////timer.Start();
-  error = mysql_query(&m_mysql, query);
+  error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
   
   if (error)
@@ -1207,7 +1208,7 @@ int LmGuildDBC::GetReportText(lyra_id_t reportid, GMsg_RcvReportText& msg)
  _stprintf(query, _T("SELECT goal_id, creator, message, recipient, xp_award, flags FROM report WHERE report_id = %u"), reportid);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -1231,7 +1232,7 @@ int LmGuildDBC::GetReportText(lyra_id_t reportid, GMsg_RcvReportText& msg)
   msg.SetFlags(ATOI(row[5]));
   msg.SetCreatorID(ATOI(row[1])); // gameserver will fill in real name
   msg.SetRecipientID(ATOI(row[3])); // ditto
-  msg.SetReportText((row[2]));
+  msg.SetReportText((wchar_t*)(row[2]));
 
   mysql_free_result(res);
   
@@ -1259,7 +1260,7 @@ int LmGuildDBC::GetGoalbookHeader(lyra_id_t goalid, GMsg_RcvGoalbookHdr& msg)
  _stprintf(query, _T("SELECT guild, rank, summary FROM goal WHERE goal_id = %u"), goalid);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -1280,7 +1281,7 @@ int LmGuildDBC::GetGoalbookHeader(lyra_id_t goalid, GMsg_RcvGoalbookHdr& msg)
   msg.SetGoalID(goalid);
   msg.SetGuild(ATOI(row[0]));
   msg.SetRank(ATOI(row[1]));
-  msg.SetSummary(row[2]); 
+  msg.SetSummary((wchar_t*)row[2]); 
   
   mysql_free_result(res);
   
@@ -1340,7 +1341,7 @@ int LmGuildDBC::GoalHeaders(const GMsg_GetGoalHdrs& msg, int sphere, int stat,
 	_stprintf(query, _T("SELECT goal_id, summary FROM goal WHERE guild = %u AND rank = %u AND (sug_sphere <= %u OR sug_sphere = %u ) AND (sug_stat = %u OR sug_stat = %u) AND (TO_DAYS(expiration_time) > TO_DAYS(CURDATE())) AND status = 0 ORDER BY creation_time"), msg.Guild(), msg.LevelNum(), sphere, Guild::SPHERE_ANY, Stats::NO_STAT, stat);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -1366,7 +1367,7 @@ int LmGuildDBC::GoalHeaders(const GMsg_GetGoalHdrs& msg, int sphere, int stat,
     if (j >= 0)
       {
 	goal_ids[j] = ATOI(row[0]);
-    _tcscpy(summaries[j], row[1]);
+    _tcscpy(summaries[j], (wchar_t*)row[1]);
 	j++;
 	if (j == 10)
 	  break;
@@ -1407,7 +1408,7 @@ int LmGuildDBC::HirankGoalHeaders(const GMsg_GetGoalHdrs& msg, lyra_id_t request
     //   _stprintf(query, _T("SELECT goal_id, summary, status FROM goal WHERE guild = %u AND rank = %u AND (creator = %u OR MOD(flags, 2) = 1) ORDER BY creation_time"), msg.Guild(), msg.LevelNum(), requestor);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -1434,7 +1435,7 @@ int LmGuildDBC::HirankGoalHeaders(const GMsg_GetGoalHdrs& msg, lyra_id_t request
       {
 	goal_ids[j] = ATOI(row[0]);
 	status[j] = ATOI(row[2]);
-_tcscpy(summaries[j], row[1]);
+_tcscpy(summaries[j], (wchar_t*)row[1]);
 	j++;
 	if (j == 10)
 	  break;
@@ -1494,7 +1495,7 @@ int LmGuildDBC::ReportHeaders(const GMsg_GetReportHdrs& msg, lyra_id_t requestor
 
  
 ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
   
   if (error)
@@ -1521,7 +1522,7 @@ int LmGuildDBC::ReportHeaders(const GMsg_GetReportHdrs& msg, lyra_id_t requestor
       {
 	report_ids[j] = ATOI(row[0]);
 	goal_ids[j] = ATOI(row[1]);
-	_tcscpy(summaries[j], row[2]);
+	_tcscpy(summaries[j], (wchar_t*)row[2]);
 	flags[j] = ATOI(row[3]);
 	j++;
 	if (j == 10)
@@ -1567,7 +1568,7 @@ int LmGuildDBC::DetailGoalHeaders(int guild, int rank, int last_seen, lyra_id_t 
      _stprintf(query, _T("SELECT goal.goal_id FROM report, goal WHERE report.goal_id = goal.goal_id AND goal.guild = %u AND goal.rank = %u AND report.recipient = %u ORDER BY goal.goal_id;"),  guild, rank, requestor);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
   
   if (error)
@@ -1624,7 +1625,7 @@ int LmGuildDBC::HasAcceptedQuest(lyra_id_t player_id, lyra_id_t quest_id)
 	   player_id, quest_id);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
   
   if (error)
@@ -1643,3 +1644,27 @@ int LmGuildDBC::HasAcceptedQuest(lyra_id_t player_id, lyra_id_t quest_id)
   return num_rows;
 }
 
+LmLog* LmGuildDBC::Log() const
+{
+    return log_;
+}
+
+int LmGuildDBC::NumCalls() const
+{
+    return num_calls_;
+}
+
+long LmGuildDBC::LastCallTime() const
+{
+    return last_ms_;
+}
+
+long LmGuildDBC::TotalCallTime() const
+{
+    return num_ms_;
+}
+
+long LmGuildDBC::TotalSQLTime() const
+{
+    return sql_ms_;
+}

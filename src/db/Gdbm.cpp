@@ -11,8 +11,10 @@
 #ifdef __GNUC__
 #pragma implementation "Gdbm.h"
 #endif
-
+#include "../../include/platform/Platform.h"
+#ifdef UL_POSIX
 #include <gdbm.h> //linux?
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -92,10 +94,10 @@ int Gdbm::Open(const TCHAR* filename, int flags, int mode)
 	DWORD result;
 	sprintf(keyname, "%s%s", REGISTRY_GDBM_KEY, mbcs_filename);
 	if ((mode & GDBM_NEWDB) || (mode & GDBM_WRCREATE)) {
-		result = RegCreateKeyEx(HKEY_LOCAL_MACHINE, keyname, 0, NULL,0,
+		result = RegCreateKeyEx(HKEY_LOCAL_MACHINE, (wchar_t *)(keyname), 0, NULL,0,
 			KEY_ALL_ACCESS, NULL, &regkey_, NULL);
 	} else {
-		result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, keyname, 0, 
+		result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, (wchar_t*)keyname, 0, 
 			KEY_ALL_ACCESS, &regkey_);
 	}
 	if (result == ERROR_SUCCESS)
@@ -163,8 +165,8 @@ void Gdbm::Close()
 int Gdbm::Store(const TCHAR* key, const TCHAR* value, int flag)
 {
 #ifdef WIN32
-  DWORD result = LyraRegSetValueEx(regkey_, (const char*)key, 0, REG_SZ,  
-		(const char*)value, _tcslen(value));
+  DWORD result = LyraRegSetValueEx(regkey_, (const wchar_t*)key, 0, REG_SZ,  
+		(const wchar_t*)value, _tcslen(value));
   if (result == ERROR_SUCCESS)
 	  return 0;
   else
@@ -437,7 +439,7 @@ LONG LyraRegQueryValueEx(
 	if (wcstombs(mbcs_data, lpData, len) < len)
 		return -1;
 	DWORD result = RegQueryValueEx(hKey, lpValueName, lpReserved, lpType,
-		(const TUCHAR*)mbcs_data, lpcbData);
+		(UCHAR*)mbcs_data, lpcbData);
 	delete [] mbcs_data; 
 	return result;
 #else

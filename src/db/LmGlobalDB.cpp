@@ -149,27 +149,4 @@ void LmGuildDBC::SetLog(LmLog* log)
 	log_ = log;
 }
 
-LmLog* LmGuildDBC::Log() const
-{
-	return log_;
-}
 
-int LmGuildDBC::NumCalls() const
-{
-	return num_calls_;
-}
-
-long LmGuildDBC::LastCallTime() const
-{
-	return last_ms_;
-}
-
-long LmGuildDBC::TotalCallTime() const
-{
-	return num_ms_;
-}
-
-long LmGuildDBC::TotalSQLTime() const
-{
-	return sql_ms_;
-}

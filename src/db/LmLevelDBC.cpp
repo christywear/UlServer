@@ -13,6 +13,7 @@
 #include "../../include/Core/LmFuncTimer.h"
 #include "../../include/DB/LmRoomDB.h"
 #include "../../include/DB/LmLevelDBC.h"
+#include "../../include/platform/win/MariaDB Connector C 64-bit/include/mysql.h"
 
 unsigned int ATOI(char* value)
 {
@@ -119,7 +120,7 @@ int LmLevelDBC::Connect()
       return MYSQL_ERROR;
     }
 
-  if (!mysql_real_connect(&mysql_, db_server_, username_, password_, dbname_, db_port_, _T("/tmp/mysql.sock"), 0))
+  if (!mysql_real_connect(&mysql_, (char*)db_server_, (char*)username_, (char*)password_, (char*)dbname_, db_port_, ("/tmp/mysql.sock"), 0))
     {
       LOG_Error(_T("%s: MYSQL connect error %s\n"), method, mysql_error(&mysql_));
       return MYSQL_ERROR;
@@ -173,7 +174,7 @@ int LmLevelDBC::Load(lyra_id_t level_id, bool load_gens)
  _stprintf(query, _T("SELECT name FROM levl WHERE level_id = %u"), level_id);
 
   ////timer.Start();
-  int error = mysql_query(&mysql_, query);
+  int error = mysql_query(&mysql_, (char*)query);
   ////timer.Stop();
 
   if (error)   {
@@ -191,7 +192,7 @@ int LmLevelDBC::Load(lyra_id_t level_id, bool load_gens)
     return MYSQL_ERROR;
   }
 
- _tcscpy(level_name_, row[0]);
+ _tcscpy(level_name_, (wchar_t*)row[0]);
 
   mysql_free_result(res);
 
@@ -199,7 +200,7 @@ int LmLevelDBC::Load(lyra_id_t level_id, bool load_gens)
  _stprintf(query, _T("SELECT room_id FROM room WHERE level_id = %u"), level_id);
 
   ////timer.Start();
-  error = mysql_query(&mysql_, query);
+  error = mysql_query(&mysql_, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -235,7 +236,7 @@ int LmLevelDBC::Load(lyra_id_t level_id, bool load_gens)
    _stprintf(query, _T("SELECT name, start_point, max_players, no_reap FROM room WHERE level_id = %u AND room_id = %u"), level_id, room_id);
 
     ////timer.Start();
-    int error = mysql_query(&mysql_, query);
+    int error = mysql_query(&mysql_, (char*)query);
     ////timer.Stop();
 
     if (error)
@@ -248,7 +249,7 @@ int LmLevelDBC::Load(lyra_id_t level_id, bool load_gens)
 
     row = mysql_fetch_row(res);
 
-    rooms_[i].Init(room_id, row[0], ATOI(row[1]), ATOI(row[2]), ATOI(row[3]));
+    rooms_[i].Init(room_id, (wchar_t*)row[0], ATOI(row[1]), ATOI(row[2]), ATOI(row[3]));
 
     mysql_free_result(res);
 
@@ -262,7 +263,7 @@ int LmLevelDBC::Load(lyra_id_t level_id, bool load_gens)
    _stprintf(query, _T("SELECT adj_level_id, adj_room_id FROM adj_room WHERE level_id = %u AND room_id = %u"), level_id, room_id);
 
     ////timer.Start();
-    error = mysql_query(&mysql_, query);
+    error = mysql_query(&mysql_, (char*)query);
     ////timer.Stop();
 
     if (error)
@@ -301,7 +302,7 @@ int LmLevelDBC::Load(lyra_id_t level_id, bool load_gens)
    _stprintf(query, _T("SELECT delay_base, delay_var, live_base, live_var, x, y, z, angle, gen_type_id FROM item_gen WHERE level_id = %u AND room_id = %u"), level_id, room_id);
 
     ////timer.Start();
-    error = mysql_query(&mysql_, query);
+    error = mysql_query(&mysql_, (char*)query);
     ////timer.Stop();
 
     if (error)
@@ -319,7 +320,7 @@ int LmLevelDBC::Load(lyra_id_t level_id, bool load_gens)
     for (j=0; j<num_gens; j++) {
       row = mysql_fetch_row(res);
 	  LmItemGenDB& gen = (LmItemGenDB&)(rooms_[i].Generator(j));
-	  gen.Init(ATOI(row[0]), ATOI(row[1]), ATOI(row[2]), ATOI(row[3]), _ttoi(row[4]), _ttoi(row[5]), _ttoi(row[6]), ATOI(row[7]), ATOI(row[8]));
+	  gen.Init(ATOI(row[0]), ATOI(row[1]), ATOI(row[2]), ATOI(row[3]), _ttoi((TCHAR*)row[4]), _ttoi((TCHAR*)row[5]), _ttoi((TCHAR*)row[6]), ATOI(row[7]), ATOI(row[8]));
     }
     mysql_free_result(res);
 
@@ -328,7 +329,7 @@ int LmLevelDBC::Load(lyra_id_t level_id, bool load_gens)
 	_stprintf(query, _T("SELECT description FROM room_desc WHERE level_id = %u AND room_id = %u"), level_id, room_id);
 
 	////timer.Start();
-	error = mysql_query(&mysql_, query);
+	error = mysql_query(&mysql_, (char*)query);
 	////timer.Stop();
 
 	if (error)
@@ -343,7 +344,7 @@ int LmLevelDBC::Load(lyra_id_t level_id, bool load_gens)
 	
 	int room_results = mysql_num_rows(res);
 	if ((room_results > 0) && (row[0]))
-		rooms_[i].SetDescription(row[0]);
+		rooms_[i].SetDescription((TCHAR*)row[0]);
 
 	mysql_free_result(res);
   }

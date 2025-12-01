@@ -198,7 +198,7 @@ typedef wchar_t     TCHAR;
 #define _itot       itow
 #define _ltot       ltow
 #define _ultot      ultow
-#define _ttoi       wtoi
+#define _ttoi       _wtoi
 #define _ttol       wtol
 
 #define _ttoi64     wtoi64

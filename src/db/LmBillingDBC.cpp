@@ -17,7 +17,9 @@
 #include "../../include/DB/LmRoomDB.h"
 #include "../../include/Protocol/LmSockAddrInet.h"
 #include "../../include/DB/LmBillingDBC.h"
-
+#ifdef UL_WINDOWS
+#include "../../include/platform/win/MariaDB Connector C 64-bit/include/mysql.h"
+#endif
 
 inline unsigned int ATOI(char* value)
 {
@@ -116,7 +118,7 @@ int LmBillingDBC::Connect()
       return MYSQL_ERROR;
     }
 
-  if (!mysql_real_connect(&mysql_, db_server_, username_, password_, dbname_, db_port_, _T("/tmp/mysql.sock"), 0))
+  if (!mysql_real_connect(&mysql_, (const char*)db_server_, (const char*)username_, (const char*)password_, (const char*)dbname_, db_port_, "/tmp/mysql.sock", 0))
   //if (!mysql_real_connect(&mysql_, db_server_, _T("ul_billing"), password_, _T("ul_billing"), db_port_, _T("/var/lib/mysql/mysql.sock"), 0))
     {
       LOG_Error(_T("%s: MYSQL connect error %s\n"), method, mysql_error(&mysql_));
@@ -192,7 +194,7 @@ int LmBillingDBC::GetBillingStatus(lyra_id_t player_id, int acct_type,
   _stprintf(query, _T("SELECT status, (TO_DAYS(paid_date) - TO_DAYS(CURDATE())), billing_id FROM underlight WHERE underlight_id = %u"), player_id);
 
   ////timer.Start();
-  int error = mysql_query(&mysql_, query);
+  int error = mysql_query(&mysql_, (const char*)query);
   ////timer.Stop();
 
   if (error)
@@ -212,7 +214,7 @@ int LmBillingDBC::GetBillingStatus(lyra_id_t player_id, int acct_type,
 
   billing_id = ATOI(row[2]);
 
-  if (_tcscmp(_T("ACTIVE"),row[0]) != 0)
+  if (_tcscmp(_T("ACTIVE"), (const wchar_t *)row[0]) != 0)
   {
     mysql_free_result(res);
     return GMsg_LoginAck::LOGIN_NO_BILLING;
@@ -243,7 +245,7 @@ int LmBillingDBC::GetBillingStatus(lyra_id_t player_id, int acct_type,
 	  for (int j = Avatars::BOGROM; j< Avatars::HORRON; j++) {
 		  
 		  _stprintf(query, _T("SELECT SUM(minutes) FROM pmare_logins WHERE underlight_id = %u AND status = 'UNAGGREGATED' AND avatar = %d"), player_id, j);
-		  error = mysql_query(&mysql_, query);
+		  error = mysql_query(&mysql_, (const char*)query);
 		  
 		  if (error)
 		  {
@@ -290,7 +292,7 @@ int LmBillingDBC::GetBillingStatus(lyra_id_t player_id, int acct_type,
 		return GMsg_LoginAck::LOGIN_MAX_PMARE;
   
    _stprintf(query, _T("SELECT status, cash_credit, pmare_only_credit FROM accounts WHERE billing_id = %u"), billing_id);
-    error = mysql_query(&mysql_, query);
+    error = mysql_query(&mysql_, (const char*)query);
     
     if (error)
       {
@@ -320,7 +322,7 @@ int LmBillingDBC::GetBillingStatus(lyra_id_t player_id, int acct_type,
 
 	// if using a credit card, or have > $40 in cash, 
 	// set the limit to be $40 per day
-    if ((_tcscmp(_T("CREDIT"),row[0]) == 0) ||
+    if ((_tcscmp(_T("CREDIT"), (const wchar_t*)row[0]) == 0) ||
 		(i_cash > 4000)) {
       i_cash = 4000;
 	  cash = 40.0f;
@@ -385,7 +387,7 @@ int LmBillingDBC::GetBillingStatus(lyra_id_t player_id, int acct_type,
   _stprintf(query, _T("SELECT game_service, game_service_id FROM accounts WHERE billing_id = %u"), billing_id);
 
   ////timer.Start();
-  error = mysql_query(&mysql_, query);
+  error = mysql_query(&mysql_, (const char*)query);
   ////timer.Stop();
 
   if (error)
@@ -472,7 +474,7 @@ int LmBillingDBC::AddPMareCredit(lyra_id_t player_id, unsigned int amount)
 	// first get the billing id.
 	_stprintf(query, _T("select billing_id from underlight where underlight_id=%u"), player_id);
   ////timer.Start();
-  	int error = mysql_query(&mysql_, query);
+  	int error = mysql_query(&mysql_, (const char*)query);
   //    ////timer.Stop();
   
        if (error)
@@ -493,7 +495,7 @@ int LmBillingDBC::AddPMareCredit(lyra_id_t player_id, unsigned int amount)
       _stprintf(query, _T("update accounts set pmare_only_credit=pmare_only_credit+%u where billing_id=%u"),
 	amount, billing_id);
   ////timer.Start()
-     error = mysql_query(&mysql_, query);
+     error = mysql_query(&mysql_, (const char*)query);
   //    ////timer.Stop();
   //
   if (error)
@@ -602,7 +604,7 @@ int LmBillingDBC::LogoutPMare(lyra_id_t player_id, unsigned int num_seconds_onli
 	  billing_id, player_id, minutes_online, pmare_type, bill_status);
 
   ////timer.Start()
-  int error = mysql_query(&mysql_, query);
+  int error = mysql_query(&mysql_, (const char*)query);
   ////timer.Stop();
   
   if (error)
@@ -651,7 +653,7 @@ int LmBillingDBC::DisablePlayer(lyra_id_t player_id)
  _stprintf(query, _T("UPDATE underlight SET status = 'DISABLED' WHERE underlight_id = %u"), player_id);
 
   ////timer.Start();
-  int error = mysql_query(&mysql_, query);
+  int error = mysql_query(&mysql_, (const char*)query);
   ////timer.Stop();
   
   if (error)
@@ -672,7 +674,7 @@ int LmBillingDBC::IsPrimary(lyra_id_t player_id, bool* is_prim)
   MYSQL_ROW row;
 
   _stprintf(query, _T("SELECT type FROM underlight WHERE underlight_id=%u"), player_id);
-  int error = mysql_query(&mysql_, query);
+  int error = mysql_query(&mysql_, (const char*)query);
   if(error)
   {
     LOG_Error(_T("%s: Could not check if account is primary for player %u; mysql error %s"), method, player_id, mysql_error(&mysql_));
@@ -687,7 +689,7 @@ int LmBillingDBC::IsPrimary(lyra_id_t player_id, bool* is_prim)
   }
 
   row = mysql_fetch_row(res);
-  *is_prim = _tcscmp(row[0], "PRIMARY") == 0;
+  *is_prim = _tcscmp((const wchar_t*)row[0], _T("PRIMARY")) == 0;
   mysql_free_result(res);
   return 0;
 }

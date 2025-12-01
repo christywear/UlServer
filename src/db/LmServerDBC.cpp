@@ -20,6 +20,7 @@
 #include "../../include/DB/LmRoomDB.h"
 #include "../../include/Protocol/LmSockAddrInet.h"
 #include "../../include/DB/LmServerDBC.h"
+#include "../../include/platform/win/MariaDB Connector C 64-bit/include/mysql.h"
 
 extern int errno;
 
@@ -278,7 +279,7 @@ int LmServerDBC::Connect()
       return MYSQL_ERROR;
     }
 
-  if (!mysql_real_connect(&mysql_, db_host_, username_, password_, dbname_, db_port_, _T("/tmp/mysql.sock"), 0))
+  if (!mysql_real_connect(&mysql_, (char*)db_host_, (char*)username_, (char*)password_, (char*)dbname_, db_port_, ("/tmp/mysql.sock"), 0))
     {
       LOG_Error(_T("%s: MYSQL connect error %s\n"), method, mysql_error(&mysql_));
       return MYSQL_ERROR;
@@ -328,7 +329,7 @@ int LmServerDBC::Load()
  _stprintf(query, _T("SELECT host_name, host_id, server_type, arg1, arg2, allow_players FROM server"));
 
   ////timer.Start();
-  int error = mysql_query(&mysql_, query);
+  int error = mysql_query(&mysql_, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -345,14 +346,14 @@ int LmServerDBC::Load()
 
   for (i=0; i<num_servers_; i++) {
     row = mysql_fetch_row(res);
-   _tcscpy(servers_[i].hostname, row[0]);
-   _tcscpy(servers_[i].hostid, row[1]);
+   _tcscpy(servers_[i].hostname, (TCHAR*)row[0]);
+   _tcscpy(servers_[i].hostid, (TCHAR*)row[1]);
     //    tmp = row[2][0];
     servers_[i].servertype = row[2][0];
     servers_[i].arg1 = ATOI(row[3]);
     servers_[i].arg2 = ATOI(row[4]);
-    servers_[i].host_addr = inet_addr(servers_[i].hostname);
-	if (0 == _tcscmp(row[5], _T("NO")))
+    servers_[i].host_addr = inet_addr((char*)servers_[i].hostname);
+	if (0 == _tcscmp((TCHAR*)row[5], _T("NO")))
 		servers_[i].allow_players = false;
 	else
 		servers_[i].allow_players = true;

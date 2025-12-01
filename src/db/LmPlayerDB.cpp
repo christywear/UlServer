@@ -18,6 +18,7 @@
 #endif
 
 #include "../../include/DB/LmPlayerDB.h"
+#include "../../include/game/LmStats.h"
 
 // default objects
 const TCHAR* LmPlayerDB::DEFAULT_PLAYERNAME = _T("");

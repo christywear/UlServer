@@ -30,6 +30,8 @@
 #include "../../include/Protocol/GMsg/GMsg_GrantPPoint.h"
 #include "../../include/Protocol/GMsg/GMsg_UsePPoint.h"
 #include "../../include/Protocol/GMsg/GMsg_PPointAck.h"
+#include "../../include/platform/win/MariaDB Connector C 64-bit/include/mysql.h"
+#include "../../include/game/LmStats.h"
 
 const int FOCUS_INIT = 30;
 const int NORM_INIT = 10;
@@ -130,7 +132,7 @@ int LmPlayerDBC::Connect()
       return MYSQL_ERROR;
     }
 
-  if (!mysql_real_connect(&m_mysql, db_server_, username_, password_, dbname_, db_port_, _T("/tmp/mysql.sock"), 0))
+  if (!mysql_real_connect(&m_mysql, (char*)db_server_, (char*)username_, (char*)password_, (char*)dbname_, db_port_, ("/tmp/mysql.sock"), 0))
     {
       LOG_Error(_T("%s: MYSQL ul_player connect error %s\n"), method, mysql_error(&m_mysql));
       return MYSQL_ERROR;
@@ -225,13 +227,13 @@ int LmPlayerDBC::SavePlayer(LmPlayerDB& player_record, bool force)
 
     // needs to be twice as long as the max description to allow every character to be escaped
 	  TCHAR escaped_descrip[2 * Lyra::MAX_AVATARDESC];
-	  mysql_escape_string((TCHAR*)escaped_descrip,  player_record.AvatarDescrip(),_tcslen( player_record.AvatarDescrip()));
+	  mysql_escape_string((char*)escaped_descrip, (char*)player_record.AvatarDescrip(),_tcslen( player_record.AvatarDescrip()));
 
 	  _stprintf(query, _T("UPDATE player SET avatar = %u, avatar2 = %u, xp = %u, xp_bonus = xp_bonus + %u, xp_penalty = xp_penalty + %u, x = %d, y = %d, last_level_id = %u, avatar_descrip = '%s', quest_xp_pool = %u, pps = %u, pp_pool = %u WHERE player_id = %u;"),
 		  avatar1, avatar2, xp, xp_bonus, xp_penalty, x, y, level_id, escaped_descrip, quest_xp_pool, pps, pp_pool, player_id);
 
 	  ////timer.Start();
-	  int error = mysql_query(&m_mysql, query);
+	  int error = mysql_query(&m_mysql, (char*)query);
 	  ////timer.Stop();
 
 	  //  delete escaped_descrip;
@@ -251,7 +253,7 @@ int LmPlayerDBC::SavePlayer(LmPlayerDB& player_record, bool force)
    _stprintf(query, _T("UPDATE stat SET  curr_stat_level = %u, max_stat_level = %u WHERE player_id = %u AND stat = %u"),  player_record.Stats().CurrentStat(i),  player_record.Stats().MaxStat(i), player_id, i);
 
     ////timer.Start();
-    int error = mysql_query(&m_mysql, query);
+    int error = mysql_query(&m_mysql, (char*)query);
     ////timer.Stop();
 
     if (error)  {
@@ -282,7 +284,7 @@ int LmPlayerDBC::SavePlayer(LmPlayerDB& player_record, bool force)
 		  _stprintf(query, _T("SELECT skill_level FROM skill WHERE player_id = %u AND skill = %u"), player_id, i);
 
 		  ////timer.Start();
-		  int error = mysql_query(&m_mysql, query);
+		  int error = mysql_query(&m_mysql, (char*)query);
 		  ////timer.Stop();
 
 		  if (error)
@@ -302,7 +304,7 @@ int LmPlayerDBC::SavePlayer(LmPlayerDB& player_record, bool force)
 			  //     _tprintf(_T("art needs inserting!\n"));
 			  _stprintf(query, _T("INSERT INTO skill VALUES (%u, %u, %u)"), player_id, i, new_skill);
 			  ////timer.Start();
-			  error = mysql_query(&m_mysql, query);
+			  error = mysql_query(&m_mysql, (char*)query);
 			  ////timer.Stop();
 
 			  if (error)
@@ -324,7 +326,7 @@ int LmPlayerDBC::SavePlayer(LmPlayerDB& player_record, bool force)
 			  //_tprintf(_T("updating old value with new!\n"));
 			  _stprintf(query, _T("UPDATE skill SET skill_level = %u WHERE player_id = %u AND skill = %u"), new_skill, player_id, i);
 			  ////timer.Start();
-			  error = mysql_query(&m_mysql, query);
+			  error = mysql_query(&m_mysql, (char*)query);
 			  ////timer.Stop();
 
 			  if (error)
@@ -350,14 +352,14 @@ int LmPlayerDBC::SavePlayer(LmPlayerDB& player_record, bool force)
 	  _stprintf(query, _T("DELETE FROM goalbook WHERE player_id = %u;"), player_id);
 
 	  ////timer.Start();
-	  mysql_query(&m_mysql, query);
+	  mysql_query(&m_mysql, (char*)query);
 	  ////timer.Stop();
 
 	  for (i = 0; i< player_record.GoalBook().Size(); i++) {
 		  //   _tprintf(_T("inserting new goal book entry!\n"));
 		  _stprintf(query, _T("INSERT INTO goalbook (player_id, goal_id) VALUES (%u, %u)"), player_id, player_record.GoalBook().Member(i));
 		  ////timer.Start();
-		  int error = mysql_query(&m_mysql, query);
+		  int error = mysql_query(&m_mysql, (char*)query);
 		  ////timer.Stop();
 
 		  if (error)
@@ -389,7 +391,7 @@ int LmPlayerDBC::Login(lyra_id_t player_id, int pmare_type, int pmare_billing, T
 
   unsigned int unixtime = time(NULL);
   TCHAR escaped_ip[64];
-  mysql_escape_string((TCHAR*)escaped_ip,  gamed_ip,_tcslen(gamed_ip));
+  mysql_escape_string((char*)escaped_ip, (char*)gamed_ip,_tcslen(gamed_ip));
 
   if (pmare_type && (pmare_type != Avatars::PMARE_RESUME)) {
     // starting a new pmare session
@@ -401,13 +403,13 @@ int LmPlayerDBC::Login(lyra_id_t player_id, int pmare_type, int pmare_billing, T
   }
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if(first_login) 
   {
     _stprintf(query, _T("UPDATE player SET first_login=CURDATE() WHERE player_id = %u;"), player_id);
-    error = mysql_query(&m_mysql, query); 
+    error = mysql_query(&m_mysql, (char*)query);
   }
   if (error)
     {
@@ -441,7 +443,7 @@ int LmPlayerDBC::Logout(lyra_id_t player_id, unsigned int timeonline)
     _stprintf(query, _T("UPDATE player SET time_online = time_online + %u, logged_in = 0, room_id = 0, level_id = 0 WHERE player_id = %u;"), timeonline, player_id);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   LOG_Debug(_T("%s: Logging out player %u, timeonline was %u"), method, player_id, timeonline);
@@ -474,7 +476,7 @@ int LmPlayerDBC::DeleteArt(lyra_id_t playerid, lyra_id_t artid)
  _stprintf(query, _T("DELETE FROM skill WHERE player_id = %u AND skill = %u;"), playerid, artid);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -526,7 +528,7 @@ int LmPlayerDBC::ModifyXPJournal(lyra_id_t player_id, int guild, int xp_change)
   for (i=0; i<MAX_XPJOURNAL_RECURSIONS; i++)
     {
 	_stprintf(query, _T("SELECT COUNT(*) FROM guildplayer WHERE player_id = %u AND guild_id = %u"), last_initiator, guild);
-	error = mysql_query(&m_mysql, query);
+	error = mysql_query(&m_mysql, (char*)query);
         res = mysql_store_result(&m_mysql);
 
     	if (!mysql_num_rows(res))    
@@ -546,7 +548,7 @@ int LmPlayerDBC::ModifyXPJournal(lyra_id_t player_id, int guild, int xp_change)
    _stprintf(query, _T("UPDATE player SET xp_bonus = xp_bonus + %u, xp_penalty = xp_penalty + %u WHERE player_id = %u"), bonus, penalty, last_initiator);
 
     ////timer.Start();
-    error = mysql_query(&m_mysql, query);
+    error = mysql_query(&m_mysql, (char*)query);
     ////timer.Stop();
 
     if (error)
@@ -568,7 +570,7 @@ int LmPlayerDBC::ModifyXPJournal(lyra_id_t player_id, int guild, int xp_change)
    _stprintf(query, _T("SELECT initiator FROM guildplayer WHERE player_id = %u AND guild_id = %u;"), last_initiator, guild);
 
     ////timer.Start();
-    error = mysql_query(&m_mysql, query);
+    error = mysql_query(&m_mysql, (char*)query);
     ////timer.Stop();
 
     if (error)
@@ -633,7 +635,7 @@ int LmPlayerDBC::AddOfflineXP(lyra_id_t player_id, int xp_gain)
   //_tprintf(_T("%s\n"), query);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -661,7 +663,7 @@ int LmPlayerDBC::UpdateLocation(lyra_id_t player_id, lyra_id_t level_id, lyra_id
  _stprintf(query, _T("UPDATE player SET room_id = %u, level_id = %u WHERE player_id = %u;"), room_id, level_id, player_id);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -689,7 +691,7 @@ int LmPlayerDBC::SetKiller(lyra_id_t player_id, lyra_id_t killer_id)
  _stprintf(query, _T("UPDATE player SET acct_type = 75, killer_id = %u WHERE player_id = %u;"), killer_id, player_id);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -717,7 +719,7 @@ int LmPlayerDBC::LockPlayerOut(lyra_id_t player_id, lyra_id_t locker_id)
  _stprintf(query, _T("UPDATE player SET acct_type = 76, killer_id = %u WHERE player_id = %u"), locker_id, player_id);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -746,7 +748,7 @@ int LmPlayerDBC::SuspendPlayer(lyra_id_t player_id, lyra_id_t locker_id, int sus
  _stprintf(query, _T("UPDATE player SET suspended_date = FROM_DAYS(TO_DAYS(CURDATE()) + %u) WHERE player_id = %u"), suspended_days, player_id);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -777,7 +779,7 @@ int LmPlayerDBC::SetInitiator(lyra_id_t player_id, lyra_id_t initiator_id, lyra_
   // _tprintf(_T("%s\n"), query);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -823,7 +825,7 @@ int LmPlayerDBC::CanLogin(lyra_id_t player_id, int* suspended_days, bool* first_
   _stprintf(query, _T("SELECT acct_type, billing_id, (TO_DAYS(suspended_date) - TO_DAYS(CURDATE())), avatar, avatar2, logged_in, pmare_session_start, UNIX_TIMESTAMP(first_login) FROM player WHERE player_id = %u"), player_id);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -914,7 +916,7 @@ int LmPlayerDBC::CanLogin(lyra_id_t player_id, int* suspended_days, bool* first_
 
     //// PMARE GLOBAL LOCKOUT?
     _stprintf( query, _T( "SELECT count(*) FROM pmare_lock WHERE NOW() BETWEEN start_time AND end_time AND expired=0" ) );
-    error = mysql_query( &m_mysql, query );
+    error = mysql_query( &m_mysql, (char*)query );
     if (error)
       {
 	LOG_Error(_T("%s: Could not checkin CanLogin for player %u; mysql error %s"), method, player_id, mysql_error(&m_mysql));
@@ -945,7 +947,7 @@ int LmPlayerDBC::CanLogin(lyra_id_t player_id, int* suspended_days, bool* first_
    _stprintf(query, _T("SELECT count(*) FROM player WHERE billing_id = %u AND logged_in = 1"), db_billing_id);
 
     ////timer.Start();
-    error = mysql_query(&m_mysql, query);
+    error = mysql_query(&m_mysql, (char*)query);
     ////timer.Stop();
 
     if (error)
@@ -970,7 +972,7 @@ int LmPlayerDBC::CanLogin(lyra_id_t player_id, int* suspended_days, bool* first_
         _stprintf( query, _T( "SELECT count(*) FROM player WHERE billing_id=%u AND acct_type=%u AND player_id != %u AND last_logout + INTERVAL %u SECOND > NOW()" ),
             db_billing_id, LmPlayerDB::ACCT_PLAYER, player_id, COOLOFF_TIME );
         ////timer.Start();
-        error = mysql_query(&m_mysql, query);
+        error = mysql_query(&m_mysql, (char*)query);
         ////timer.Stop();
 
         if (error)
@@ -1015,7 +1017,7 @@ int LmPlayerDBC::GetLoginStatus(lyra_id_t player_id)
  _stprintf(query, _T("SELECT logged_in FROM player WHERE player_id = %u"), player_id);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -1058,7 +1060,7 @@ int LmPlayerDBC::GetLocation(lyra_id_t player_id, lyra_id_t& level_id, lyra_id_t
   TCHAR realName[128];
   int ret = 0;
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -1081,7 +1083,7 @@ int LmPlayerDBC::GetLocation(lyra_id_t player_id, lyra_id_t& level_id, lyra_id_t
   if (row[1])
     level_id = ATOI(row[1]);
   acct_type = ATOI(row[2]);
-  _tcscpy(realName, row[3]);
+  _tcscpy(realName, (wchar_t*)row[3]);
  
 
   if(!isGM && acct_type == LmPlayerDB::ACCT_ADMIN && ((NULL != _tcsstr(realName, _T("INVIS"))) || 
@@ -1110,7 +1112,7 @@ int LmPlayerDBC::NewlyNeedsAnnounce(lyra_id_t player_id, bool* announce)
   MYSQL_ROW row;
   _stprintf(query, _T("SELECT TO_DAYS(CURDATE()) - TO_DAYS(first_login),time_online,TIMESTAMPDIFF(MINUTE, last_logout, NOW()), xp from player where player_id=%u"), player_id);
   int ret = 0;
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
 
   if (error)
     {
@@ -1171,7 +1173,7 @@ int LmPlayerDBC::LoadPlayer(lyra_id_t player_id, LmPlayerDB& player_record, int 
  _stprintf(query, _T("SELECT player_name, password, focus_stat, avatar, avatar2, xp, acct_type, num_logins, time_online, TO_DAYS(last_login_date), real_name, email, xp_bonus, xp_penalty, billing_id, avatar_descrip, TO_DAYS(CURDATE()), login_alert, pmare_billing_type, time_online, x, y, last_level_id, quest_xp_pool, pps, pp_pool FROM player WHERE player_id = %u"), player_id);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -1193,8 +1195,8 @@ int LmPlayerDBC::LoadPlayer(lyra_id_t player_id, LmPlayerDB& player_record, int 
 
   // Save elements into player object
   player_record.SetPlayerID(player_id);
-  player_record.SetPlayerName(row[0]);
-  player_record.SetPassword(row[1]);
+  player_record.SetPlayerName((TCHAR*)row[0]);
+  player_record.SetPassword((TCHAR*)row[1]);
   player_record.Stats().SetFocusStat(ATOI(row[2]));
   player_record.Avatar().SetAvatar1(ATOI(row[3]));
   player_record.Avatar().SetAvatar2(ATOI(row[4]));
@@ -1209,9 +1211,9 @@ int LmPlayerDBC::LoadPlayer(lyra_id_t player_id, LmPlayerDB& player_record, int 
   if (row[9])
     ll_day = ATOI(row[9]);
   player_record.SetLastLogin(ll_day);
-  player_record.SetRealName(row[10]);
+  player_record.SetRealName((TCHAR*)row[10]);
   if (row[11])
-    player_record.SetEmail(row[11]);
+    player_record.SetEmail((TCHAR*)row[11]);
   if (row[12])
     player_record.SetXPGained(ATOI(row[12]));
   if (row[13])
@@ -1220,13 +1222,13 @@ int LmPlayerDBC::LoadPlayer(lyra_id_t player_id, LmPlayerDB& player_record, int 
   if (row[15] == NULL)
     player_record.SetAvatarDescrip(_T("(none)"));
   else
-    player_record.SetAvatarDescrip(row[15]);
+    player_record.SetAvatarDescrip((TCHAR*)row[15]);
 
   curr_day = ATOI(row[16]);
 
-  if (row[17] && (_tcslen(row[17]) > 2)) {
-    if (_tcsstr(row[17], _T("@"))) {
-		_tcscpy(login_email, row[17]);
+  if (row[17] && (_tcslen((TCHAR*)row[17]) > 2)) {
+    if (_tcsstr((TCHAR*)row[17], _T("@"))) {
+		_tcscpy(login_email, (TCHAR*)row[17]);
 		login_alert = true;
     }
   }
@@ -1298,7 +1300,7 @@ int LmPlayerDBC::LoadPlayer(lyra_id_t player_id, LmPlayerDB& player_record, int 
  _stprintf(query, _T("SELECT stat, curr_stat_level, max_stat_level  FROM stat WHERE player_id = %u"), player_id);
 
   ////timer.Start();
-  error = mysql_query(&m_mysql, query);
+  error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -1329,7 +1331,7 @@ int LmPlayerDBC::LoadPlayer(lyra_id_t player_id, LmPlayerDB& player_record, int 
  _stprintf(query, _T("SELECT skill, skill_level FROM skill WHERE player_id = %u AND skill_level > 0"), player_id);
 
   ////timer.Start();
-  error = mysql_query(&m_mysql, query);
+  error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -1386,7 +1388,7 @@ int LmPlayerDBC::LoadPlayer(lyra_id_t player_id, LmPlayerDB& player_record, int 
  _stprintf(query, _T("SELECT guild_id, rank, initiator, xp_pool_curr FROM guildplayer  WHERE player_id = %u AND rank > 0;"), player_id);
 
   ////timer.Start();
-  error = mysql_query(&m_mysql, query);
+  error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -1440,7 +1442,7 @@ int LmPlayerDBC::LoadPlayer(lyra_id_t player_id, LmPlayerDB& player_record, int 
    _stprintf(query, _T("SELECT goal_id FROM goalbook WHERE player_id = %u"), player_id);
 
     ////timer.Start();
-    error = mysql_query(&m_mysql, query);
+    error = mysql_query(&m_mysql, (char*)query);
     ////timer.Stop();
 
     if (error)
@@ -1531,7 +1533,7 @@ int LmPlayerDBC::GetPlayerID(const TCHAR* playername, TCHAR* outputname)
   MYSQL_ROW row;
 
   TCHAR escaped_upper_name[40]; // new TCHAR_tcslen(playername)*2+1];
-  mysql_escape_string((TCHAR*)escaped_upper_name, playername,_tcslen(playername));
+  mysql_escape_string((char*)escaped_upper_name, (char*)playername,_tcslen(playername));
 
   // convert to uppercase
   int name_len =_tcslen(escaped_upper_name);
@@ -1544,7 +1546,7 @@ int LmPlayerDBC::GetPlayerID(const TCHAR* playername, TCHAR* outputname)
  _stprintf(query, _T("SELECT player_id, player_name FROM player WHERE upper_name = '%s'"), escaped_upper_name);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   //  delete escaped_upper_name;
@@ -1566,7 +1568,7 @@ int LmPlayerDBC::GetPlayerID(const TCHAR* playername, TCHAR* outputname)
 
   player_id = ATOI(row[0]);
   if (outputname && row[1]) // second argument is optional
-   _tcscpy(outputname, row[1]);
+   _tcscpy(outputname, (TCHAR*)row[1]);
 
   mysql_free_result(res);
 
@@ -1593,7 +1595,7 @@ int LmPlayerDBC::GetPlayerName(lyra_id_t playerid, TCHAR* playername)
  _stprintf(query, _T("SELECT player_name FROM player WHERE player_id = %u"), playerid);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -1611,7 +1613,7 @@ int LmPlayerDBC::GetPlayerName(lyra_id_t playerid, TCHAR* playername)
 
   row = mysql_fetch_row(res);
 
- _tcscpy(playername, row[0]);
+ _tcscpy(playername, (TCHAR*)row[0]);
 
   mysql_free_result(res);
 
@@ -1637,7 +1639,7 @@ int LmPlayerDBC::GetBillingID(lyra_id_t player_id, lyra_id_t& billing_id)
  _stprintf(query, _T("SELECT billing_id FROM player WHERE player_id = %u"), player_id);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -1684,7 +1686,7 @@ int LmPlayerDBC::LocateNewlyAwakened(GMsg_LocateNewliesAck* pnewly_msg)
 	  LmPlayerDB::ACCT_PLAYER, LmPlayerDB::ACCT_ADMIN);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -1706,7 +1708,7 @@ int LmPlayerDBC::LocateNewlyAwakened(GMsg_LocateNewliesAck* pnewly_msg)
 
   for (int i = 0; i<num_players; i++) {
 	  row = mysql_fetch_row(res);
-	  pnewly_msg->SetPlayerName(i, row[0]);
+	  pnewly_msg->SetPlayerName(i, (TCHAR*)row[0]);
 	  level_id = (short)(ATOI(row[1]));
 	  room_id = (short)(ATOI(row[2]));
 	  pnewly_msg->SetLocation(i, level_id, room_id);
@@ -1744,7 +1746,7 @@ int LmPlayerDBC::LocateMares(GMsg_LocateMaresAck* pmare_msg)
   _stprintf(query, _T("SELECT player_name, level_id FROM player WHERE (logged_in = 1 OR room_id != 0 OR level_id != 0) AND acct_type = %u"),
 	 LmPlayerDB::ACCT_PMARE);
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -1766,7 +1768,7 @@ int LmPlayerDBC::LocateMares(GMsg_LocateMaresAck* pmare_msg)
 
   for (int i = 0; i<num_players; i++) {
 	  row = mysql_fetch_row(res);
-	  pmare_msg->SetPlayerName(i, row[0]);
+	  pmare_msg->SetPlayerName(i, (TCHAR*)row[0]);
 	  level_id = (short)(ATOI(row[1]));
 	  room_id = (short)(ATOI(row[2]));
 	  pmare_msg->SetLocation(i, level_id, room_id);
@@ -1803,7 +1805,7 @@ int LmPlayerDBC::FindHouseMembers(GMsg_LocateAvatarAck& locate_msg, lyra_id_t gu
 
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -1820,7 +1822,7 @@ int LmPlayerDBC::FindHouseMembers(GMsg_LocateAvatarAck& locate_msg, lyra_id_t gu
 
   for (int i = 0; i<num_players; i++) {
 	  row = mysql_fetch_row(res);
-	  locate_msg.SetPlayerName(i, row[0]);
+	  locate_msg.SetPlayerName(i, (TCHAR*)row[0]);
 	  level_id = (lyra_id_t)(ATOI(row[1]));
 	  room_id = (lyra_id_t)(ATOI(row[2]));
 	  int status = GMsg_LocateAvatarAck::LOCATE_FOUND;
@@ -1867,7 +1869,7 @@ int LmPlayerDBC::CheckPassword(lyra_id_t player_id, const MD5Hash_t* phash, cons
  _stprintf(query, _T("SELECT password FROM player WHERE player_id = %u"), player_id);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -1887,7 +1889,7 @@ int LmPlayerDBC::CheckPassword(lyra_id_t player_id, const MD5Hash_t* phash, cons
 
   TCHAR db_password[Lyra::PASSWORD_MAX];
 
- _tcscpy(db_password, row[0]);
+ _tcscpy(db_password, (TCHAR*)row[0]);
 
   //int l1 =_tcslen(db_password);
   //int l2 =_tcslen(password);
@@ -1960,7 +1962,7 @@ int LmPlayerDBC::SaveGuildRanks(lyra_id_t player_id, LmStats& stats)
    _stprintf(query, _T("SELECT rank, xp_pool_curr FROM guildplayer WHERE player_id = %u AND guild_id = %u"), player_id, i);
 
     ////timer.Start();
-    int error = mysql_query(&m_mysql, query);
+    int error = mysql_query(&m_mysql, (char*)query);
     ////timer.Stop();
 
     if (error) {
@@ -1995,7 +1997,7 @@ int LmPlayerDBC::SaveGuildRanks(lyra_id_t player_id, LmStats& stats)
 	}
 
 	////timer.Start();
-	error = mysql_query(&m_mysql, query);
+	error = mysql_query(&m_mysql, (char*)query);
 	////timer.Stop();
 
 	if (error)
@@ -2031,7 +2033,7 @@ int LmPlayerDBC::UnGhost(TCHAR* gamed_ip, unsigned int gamed_port, LmGlobalDB* g
   TCHAR escaped_ip[64];
   int error;
 
-  mysql_escape_string((TCHAR*)escaped_ip,  gamed_ip,_tcslen(gamed_ip));
+  mysql_escape_string((char*)escaped_ip, (char*)gamed_ip,_tcslen(gamed_ip));
 
   // now check the database for a list of players who were logged into
   // the crashed game, and if local state files exist, parse them
@@ -2044,7 +2046,7 @@ int LmPlayerDBC::UnGhost(TCHAR* gamed_ip, unsigned int gamed_port, LmGlobalDB* g
 	 _stprintf(query, _T("SELECT player_id FROM player WHERE gamed_ip = '%s' AND gamed_port = %u"), escaped_ip, gamed_port);
 
 	  ////timer.Start();
-	  error = mysql_query(&m_mysql, query);
+	  error = mysql_query(&m_mysql, (char*)query);
 	  ////timer.Stop();
 
 	  if (error) {
@@ -2108,7 +2110,7 @@ int LmPlayerDBC::UnGhost(TCHAR* gamed_ip, unsigned int gamed_port, LmGlobalDB* g
 	 _stprintf(query, _T("UPDATE player SET logged_in = 0 WHERE gamed_ip = '%s'"), escaped_ip);
 
   ////timer.Start();
-  error = mysql_query(&m_mysql, query);
+  error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error) {
@@ -2185,7 +2187,7 @@ int LmPlayerDBC::GrantPP(lyra_id_t granter, lyra_id_t grantee, TCHAR* why, int a
 
 
     ////timer.Start();
-    error = mysql_query(&m_mysql, query);
+    error = mysql_query(&m_mysql, (char*)query);
     ////timer.Stop();
 
     if (error) {
@@ -2213,7 +2215,7 @@ int LmPlayerDBC::GrantPP(lyra_id_t granter, lyra_id_t grantee, TCHAR* why, int a
   // insert record, signal grant is OK
 
   TCHAR escaped_why[GMsg_GrantPPoint::MAX_WHY*2];
-  mysql_escape_string((TCHAR*)escaped_why, why, _tcslen(why));
+  mysql_escape_string((char*)escaped_why, (char*)why, _tcslen(why));
 
   _stprintf(query, _T("INSERT INTO pp_grant VALUES(%u,%u,CURDATE(),'%s')"),
   	  granter, grantee, escaped_why);
@@ -2221,7 +2223,7 @@ int LmPlayerDBC::GrantPP(lyra_id_t granter, lyra_id_t grantee, TCHAR* why, int a
   LOG_Debug(_T("PPoint Grant: from %u to %u, reason = %s\n"), granter, grantee, why);
 
   ////timer.Start();
-  error = mysql_query(&m_mysql, query);
+  error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error) {
@@ -2279,7 +2281,7 @@ int LmPlayerDBC::UsePP(lyra_id_t player_id, int cost, int how, int var1, int var
 
   LOG_Debug(howstr);
 
-  mysql_escape_string((TCHAR*)escaped_how, howstr, _tcslen(howstr));
+  mysql_escape_string((char*)escaped_how, (char*)howstr, _tcslen(howstr));
 
 
   /*CREATE TABLE pp_used(
@@ -2296,7 +2298,7 @@ int LmPlayerDBC::UsePP(lyra_id_t player_id, int cost, int how, int var1, int var
 	  player_id, cost, escaped_how);
 
   ////timer.Start();
-  error = mysql_query(&m_mysql, query);
+  error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error) {
@@ -2322,7 +2324,7 @@ int LmPlayerDBC::LogQuest(lyra_id_t origin_id, lyra_id_t target_id, int art, int
  _stprintf(query, _T("INSERT INTO ul_player.trainlog (item_name, item_descrip, origin_id, target_id, art_id, skill, created_time) SELECT item_name, item_descrip, %u, %u, %u, %u, created_time FROM ul_item.quest_active WHERE art_id = %u AND target_id = %u AND owner_id = %u"), origin_id, target_id, art, skill, art, target_id, origin_id);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)

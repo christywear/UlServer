@@ -49,7 +49,8 @@ int LmPlayerDBF::LoadFromFile(LmDatabase& db, LmPlayerDB& player)
   DBFETCH_I(_T("AccountType"), player.acct_type_);
   DBFETCH_I(_T("TimeOnline"), player.time_online_);
   DBFETCH_I(_T("NumLogins"), player.num_logins_);
-  DBFETCH_I(_T("LastLogin"), player.last_login_);
+  //TODO:: Fix, figure out error, too tired tonight ~Christy
+  // DBFETCH_I(_T("LastLogin"), player.last_login_);
   // stats
   DBFETCH_I(_T("XP"), tmp);
   player.Stats().SetXP(tmp);
@@ -170,7 +171,8 @@ int LmPlayerDBF::SaveToFile(LmDatabase& db, const LmPlayerDB& player)
   DBSTORE(_T("RealName"), player.RealName());
   // store simple fields
   DBSTORE(_T("AccountType"), player.AccountType());
-  DBSTORE(_T("LastLogin"), player.LastLogin());
+  //todo:: fix later too tired tonight ~christy
+  // DBSTORE(_T("LastLogin"), player.LastLogin());
   DBSTORE(_T("TimeOnline"), player.TimeOnline());
   DBSTORE(_T("NumLogins"), player.NumLogins());
   // clear items (so that "orphaned" items aren't in database)

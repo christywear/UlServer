@@ -18,6 +18,7 @@
 #include "../../include/Core/LmFuncTimer.h"
 #include "../../include/DB/LmPlayerDBC.h"
 #include "../../include/Protocol/GMsg/GMsg_SenseDreamersAck.h"
+#include "../../include/platform/win/MariaDB Connector C 64-bit/include/mysql.h"
 
 unsigned int ATOI(char* value)
 {
@@ -125,7 +126,7 @@ int LmItemDBC::Connect()
       return MYSQL_ERROR;
     }
 
-  if (!mysql_real_connect(&m_mysql, db_server_, username_, password_, dbname_, db_port_, _T("/tmp/mysql.sock"), 0))
+  if (!mysql_real_connect(&m_mysql, (char*)db_server_, (char*)username_, (char*)password_, (char*)dbname_, db_port_, ("/tmp/mysql.sock"), 0))
   //if (!mysql_real_connect(&m_mysql, db_server_, _T("ul_item"), password_, _T("ul_item"), db_port_, _T("/var/lib/mysql/mysql.sock"), 0))
     {
       LOG_Error(_T("%s: MYSQL connect error %s\n"), method, mysql_error(&m_mysql));
@@ -191,7 +192,7 @@ int LmItemDBC::AllocateLevelItems(lyra_id_t level_id, int number_requested, int*
      _stprintf(query, _T("INSERT INTO item  (ITEM_ID, ITEM_HDR, ITEM_STATE1, ITEM_STATE2, ITEM_STATE3, ITEM_NAME, OWNER_TYPE, OWNER_ID, OWNER_SUBID, X, Y) VALUES (NULL, 0, 0, 0, 0, 'level item', 0, %d, 0, 0, 0);"),
 	      level_id);
       ////timer.Start();
-      error = mysql_query(&m_mysql, query);
+      error = mysql_query(&m_mysql, (char*)query);
       ////timer.Stop();
       if (error)
 	{
@@ -229,8 +230,8 @@ int LmItemDBC::CreateItem(lyra_id_t owner, const LmItem& item, int& item_id, con
   TCHAR escaped_name[40];
   TCHAR escaped_descrip[768];
 
-  mysql_escape_string((TCHAR*)escaped_name, item.Name(),_tcslen(item.Name()));
-  mysql_escape_string((TCHAR*)escaped_descrip, description,_tcslen(description));
+  mysql_escape_string((char*)escaped_name, (char*)item.Name(),_tcslen(item.Name()));
+  mysql_escape_string((char*)escaped_descrip, (char*)description,_tcslen(description));
 
   /* //Debug code
   TCHAR* grah = new TCHAR[_tcslen(escaped_descrip)-150];
@@ -244,7 +245,7 @@ int LmItemDBC::CreateItem(lyra_id_t owner, const LmItem& item, int& item_id, con
 	  escaped_name,  owner, escaped_descrip);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop(); 
 
   //  delete escaped_name;
@@ -277,7 +278,7 @@ int LmItemDBC::DeleteItem(int item_id)
  _stprintf(query, _T("DELETE FROM item WHERE item_id = %u;"), item_id);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -306,7 +307,7 @@ int LmItemDBC::UpdateItemOwnership(int item_id, int owner_type, lyra_id_t owner_
  _stprintf(query, _T(" UPDATE item SET owner_type = %u, owner_id = %u, owner_subid = %u, x = 0, y = 0 WHERE item_id = %u;"), owner_type, owner_id, owner_sub_id, item_id);
       
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -335,7 +336,7 @@ int LmItemDBC::UpdateItemState(const LmItem& item, int x)
  _stprintf(query, _T("UPDATE item SET item_state1 = %u, item_state2 = %u, item_state3 = %u, x = %d  WHERE item_id = %u;"), item.State1(), item.State2(), item.State3(), x, item.Serial());
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -361,12 +362,12 @@ int LmItemDBC::UpdateItemFullState(const LmItem& item)
   TCHAR query[256];
 
   TCHAR escaped_name[40];
-  mysql_escape_string((TCHAR*)escaped_name, item.Name(),_tcslen(item.Name()));
+  mysql_escape_string((char*)escaped_name, (char*)item.Name(),_tcslen(item.Name()));
 
  _stprintf(query, _T("UPDATE item SET item_state1 = %u, item_state2 = %u, item_state3 = %u, item_hdr = %u, item_hdr_2 = %u, item_name = '%s' WHERE item_id = %u;"), item.State1(), item.State2(), item.State3(), item.Header().ItemHdr1(), item.Header().ItemHdr2(), escaped_name, item.Serial());
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();  
 
   //  delete escaped_name;
@@ -396,12 +397,12 @@ int LmItemDBC::UpdateRoomItem(const LmRoomItem& roomitem)
   TCHAR query[256];
 
   TCHAR escaped_name[40];
-  mysql_escape_string((TCHAR*)escaped_name, roomitem.Item().Name(),_tcslen(roomitem.Item().Name()));
+  mysql_escape_string((char*)escaped_name, (char*)roomitem.Item().Name(),_tcslen(roomitem.Item().Name()));
 
  _stprintf(query, _T("UPDATE item SET item_state1 = %u, item_state2 = %u, item_state3 = %u, item_hdr = %u, item_hdr_2 = %u, item_name = '%s', x = %d, y = %d  WHERE item_id = %u;"), roomitem.Item().State1(), roomitem.Item().State2(), roomitem.Item().State3(), roomitem.Item().Header().ItemHdr1(), roomitem.Item().Header().ItemHdr2(), escaped_name, roomitem.Position().X(), roomitem.Position().Y(), roomitem.Item().Serial());
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();  
 
   //  delete escaped_name;
@@ -434,7 +435,7 @@ int LmItemDBC::SavePlayerInventory(lyra_id_t owner ,  LmInventory& inventory)
 		  inventory.ItemByIndex(i).State1(), inventory.ItemByIndex(i).State2(), inventory.ItemByIndex(i).State3(),  inventory.ItemX(i), inventory.ItemByIndex(i).Serial());
 
       ////timer.Start();
-      int error = mysql_query(&m_mysql, query);
+      int error = mysql_query(&m_mysql, (char*)query);
       ////timer.Stop();  
 
       if (error)
@@ -467,12 +468,12 @@ int LmItemDBC::SaveRoomItems(lyra_id_t level_id, lyra_id_t room_id, const LmRoom
     const LmRoomItem& ritem = *it;
 
     TCHAR* escaped_name = LmNEW(TCHAR[_tcslen(ritem.Item().Name())*2+1]);
-    mysql_escape_string(escaped_name, ritem.Item().Name(),_tcslen(ritem.Item().Name()));
+    mysql_escape_string((char*)escaped_name, (char*)ritem.Item().Name(),_tcslen(ritem.Item().Name()));
    
    _stprintf(query, _T("UPDATE item SET owner_subid = %u, item_hdr = %u, item_hdr_2 = %u, item_state1 = %u, item_state2 = %u,  item_state3 = %u, item_name = '%s',  x = %d, y = %d WHERE item_id = %u;"), room_id, ritem.Item().Header().ItemHdr1(), ritem.Item().Header().ItemHdr2(), ritem.Item().State1(), ritem.Item().State2(), ritem.Item().State3(), escaped_name, ritem.Position().X(), ritem.Position().Y(), ritem.Item().Serial()); 
 
     ////timer.Start();
-    int error = mysql_query(&m_mysql, query);
+    int error = mysql_query(&m_mysql, (char*)query);
     ////timer.Stop();  
 
    	LmDELETEARRAY(escaped_name);
@@ -500,12 +501,12 @@ int LmItemDBC::SetItemDescription(int item_id, const TCHAR* description)
   TCHAR query[1024];
 
   TCHAR escaped_descrip[768];
-  mysql_escape_string((TCHAR*)escaped_descrip, description, _tcslen(description));
+  mysql_escape_string((char*)escaped_descrip, (char*)description, _tcslen(description));
 
  _stprintf(query, _T("UPDATE item SET item_descrip = '%s' WHERE item_id = %u;"), escaped_descrip, item_id);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();  
 
   //  delete escaped_descrip;
@@ -535,7 +536,7 @@ int LmItemDBC::SetItemOwners(int item_id, lyra_id_t owner_id, lyra_id_t owner_su
 	  owner_id, owner_subid, owner_type);
 	  
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();  
 
   if (error)
@@ -564,7 +565,7 @@ int LmItemDBC::SetNumDreamers(lyra_id_t level_id, int count)
 	  count, level_id);
 	  
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();  
 
   if (error)
@@ -593,7 +594,7 @@ int LmItemDBC::ChangeNumDreamers(lyra_id_t level_id, int change)
 	  change, level_id);
 	  
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();  
 
   if (error)
@@ -632,7 +633,7 @@ int LmItemDBC::GetPlayerInventory(lyra_id_t owner, LmInventory& inventory)
  _stprintf(query, _T("SELECT item_id, item_hdr, item_state1, item_state2, item_state3, item_name, x, item_hdr_2  FROM item  WHERE owner_id = %u AND owner_type = %u;"), owner, OWNER_PLAYER);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -653,7 +654,7 @@ int LmItemDBC::GetPlayerInventory(lyra_id_t owner, LmInventory& inventory)
     // create and initialize new room item
     LmItem item; 
     //   _tprintf(_T("about to create a new player item!\n"));
-    item.Init(ATOI(row[0]), ATOI(row[1]), ATOI(row[7]), row[5], ATOI(row[2]), ATOI(row[3]), ATOI(row[4]));
+    item.Init(ATOI(row[0]), ATOI(row[1]), ATOI(row[7]), (const TCHAR*)row[5], ATOI(row[2]), ATOI(row[3]), ATOI(row[4]));
     float s1 = atof(row[2]);
     inventory.AddItem(item);
     inventory.SetItemX(ATOI(row[0]), ATOI(row[6]));
@@ -686,7 +687,7 @@ int LmItemDBC::GetRoomItems(lyra_id_t level_id, lyra_id_t room_id, LmRoomItemLis
  _stprintf(query, _T("SELECT count(item_id) FROM item WHERE owner_id = %u AND owner_subid = %u AND owner_type = %u;"), level_id, room_id, OWNER_ROOM);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
   if (error)
     {
@@ -708,7 +709,7 @@ int LmItemDBC::GetRoomItems(lyra_id_t level_id, lyra_id_t room_id, LmRoomItemLis
    _stprintf(query, _T("DELETE FROM item WHERE owner_id = %u AND owner_subid = %u AND owner_type = %u AND (item_name LIKE '%s' OR item_name LIKE '%s' OR item_name LIKE '%s' OR item_name LIKE '%s'OR item_name LIKE '%s')"), level_id, room_id, OWNER_ROOM, _T("\%Essence"), _T("\%Elemen"), _T("\%Alteror"), _T("\%Charm"), _T("\%Chakram"));
 
     ////timer.Start();
-    int error = mysql_query(&m_mysql, query);
+    int error = mysql_query(&m_mysql, (char*)query);
     ////timer.Stop();
     if (error)
       {
@@ -736,7 +737,7 @@ int LmItemDBC::GetRoomItems(lyra_id_t level_id, lyra_id_t room_id, LmRoomItemLis
  _stprintf(query, _T("SELECT item_id, item_hdr, item_state1, item_state2, item_state3, item_name, x, y, item_hdr_2 FROM item WHERE owner_id = %u AND owner_subid = %u AND owner_type = %u;"), level_id, room_id, OWNER_ROOM);
 
   ////timer.Start();
-  error = mysql_query(&m_mysql, query);
+  error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -760,8 +761,8 @@ int LmItemDBC::GetRoomItems(lyra_id_t level_id, lyra_id_t room_id, LmRoomItemLis
 
     // create and initialize new room item
     LmRoomItem ritem; 
-    ritem.Item().Init(ATOI(row[0]), ATOI(row[1]), ATOI(row[8]), row[5], ATOI(row[2]), ATOI(row[3]), ATOI(row[4]));
-    ritem.Position().Init(_ttoi(row[6]), _ttoi(row[7]), 0, 0); // height/angle not stored
+    ritem.Item().Init(ATOI(row[0]), ATOI(row[1]), ATOI(row[8]), (const TCHAR*)row[5], ATOI(row[2]), ATOI(row[3]), ATOI(row[4]));
+    ritem.Position().Init(_ttoi((const TCHAR*)row[6]), _ttoi((const TCHAR*)row[7]), 0, 0); // height/angle not stored
     ritem.SetLifetime(60); // live for a minute after being loaded?
     // append to list
     room_items.push_back(ritem);
@@ -798,7 +799,7 @@ int LmItemDBC::GetLevelItems(lyra_id_t level_id, int* item_ids)
  _stprintf(query, _T(" SELECT count(item_id) FROM item WHERE owner_id = %u AND owner_subid = 0 AND owner_type = %u;"), level_id, OWNER_ROOM);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -825,7 +826,7 @@ int LmItemDBC::GetLevelItems(lyra_id_t level_id, int* item_ids)
    _stprintf(query, _T("DELETE FROM item WHERE owner_id = %u AND owner_subid = 0 AND owner_type = %u"), level_id,  OWNER_ROOM);
 
     ////timer.Start();
-    error = mysql_query(&m_mysql, query);
+    error = mysql_query(&m_mysql, (char*)query);
     ////timer.Stop();
 
     if (error)
@@ -841,7 +842,7 @@ int LmItemDBC::GetLevelItems(lyra_id_t level_id, int* item_ids)
  _stprintf(query, _T("SELECT item_id  FROM item WHERE owner_id = %u AND owner_subid = 0 AND owner_type = %u;"), level_id, OWNER_ROOM);
 
   ////timer.Start();
-  error = mysql_query(&m_mysql, query);
+  error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
 
   if (error)
@@ -886,7 +887,7 @@ int LmItemDBC::GetItemDescription(int item_id, TCHAR* description)
  _stprintf(query, _T("SELECT item_descrip FROM item WHERE item_id = %u;"), item_id);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
   if (error)
     {
@@ -900,7 +901,7 @@ int LmItemDBC::GetItemDescription(int item_id, TCHAR* description)
 
   int num_items = mysql_num_rows(res);
   if ((num_items > 0) && (row[0]))
-   _tcscpy(description, row[0]);
+   _tcscpy(description, (wchar_t*)row[0]);
 
   mysql_free_result(res);
 
@@ -918,7 +919,7 @@ int LmItemDBC::GetTotalNumDreamers(unsigned int* total)
   	TCHAR query[256];
 	
 	_stprintf(query, _T("SELECT SUM(num_dreamers) FROM locations;"));
-	int error = mysql_query(&m_mysql, query);
+	int error = mysql_query(&m_mysql, (char*)query);
   	if (error)
     	{
       		LOG_Error(_T("Could not get dreamer concentrations; mysql error %s"), mysql_error(&m_mysql));
@@ -955,7 +956,7 @@ int LmItemDBC::GetDreamerLocations(lyra_id_t* level_ids, int accountType)
 		_stprintf(query, _T("SELECT level_id, num_dreamers FROM locations ORDER BY num_dreamers DESC LIMIT %d;"), PLANES_SENSED_COUNT);
 
   ////timer.Start();
-  int error = mysql_query(&m_mysql, query);
+  int error = mysql_query(&m_mysql, (char*)query);
   ////timer.Stop();
   if (error)
     {
