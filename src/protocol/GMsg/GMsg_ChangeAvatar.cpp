@@ -8,9 +8,11 @@
 #pragma implementation "GMsg_ChangeAvatar.h"
 #endif
 
+#include "../../../include/platform/Platform.h"
+
 #ifdef WIN32
 #define STRICT
-#include "unix.h"
+#include "../../../include/Core/unix.h"
 #include <winsock2.h>
 #else /* !WIN32 */
 #include <sys/types.h>
@@ -20,6 +22,7 @@
 #include <string.h>
 
 #include "../../../include/Protocol/GMsg/GMsg_ChangeAvatar.h"
+#include "../../../include/game/LmAvatar.h"
 
 
 ////

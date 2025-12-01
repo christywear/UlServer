@@ -8,9 +8,11 @@
 #pragma implementation "GMsg_CreateItem.h"
 #endif
 
+#include "../../../include/platform/Platform.h"
+
 #ifdef WIN32
 #define STRICT
-#include "unix.h"
+#include "../../../include/Core/unix.h"
 #include <winsock2.h>
 #else /* !WIN32 */
 #include <sys/types.h>
@@ -22,6 +24,7 @@
 #include "../../../include/Protocol/GMsg/GMsg_CreateItem.h"
 #include "../../../include/Core/LyraDefs.h"
 #include "../../../include/Protocol/GMsg/GMsg.h"
+#include "../../../include/game/LmItem.h"
 
 ////
 // constructor

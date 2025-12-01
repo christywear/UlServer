@@ -8,7 +8,7 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
-static TCHAR THIS_FILE[] = __FILE__;
+static TCHAR THIS_FILE[] = _T(__FILE__);
 #endif
 
 #define scriptFile "ftp-script.txt"

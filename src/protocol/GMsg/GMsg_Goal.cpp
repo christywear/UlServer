@@ -8,9 +8,11 @@
 #pragma implementation "GMsg_Goal.h"
 #endif
 
+#include "../../../include/platform/Platform.h"
+
 #ifdef WIN32
 #define STRICT
-#include "unix.h"
+#include "../../../include/Core/unix.h"
 #include <winsock.h>
 #else /* !WIN32 */
 #include <sys/types.h>

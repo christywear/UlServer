@@ -41,7 +41,7 @@ struct string_equal {
 
 #ifdef _UNICODE // use regular map
 // map from playerid to name
-typedef std::map<int, const TCHAR*, equal_to<int>> id2name_t;
+typedef std::map<int, const TCHAR*, int> id2name_t;
 // map from name to playerid
 typedef std::map<const TCHAR*, int, string_equal> name2id_t;
 #else

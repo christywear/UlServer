@@ -73,10 +73,10 @@ void LmLogSyslog::WriteLogEntry(const char* prefix, const char* fmt, va_list arg
 
   // since syslog() doesn't take varargs, we must put it into a string first
   char* out_tmp = new char[1024];
-  int len =_vstprintf(out_tmp, fmt, args);
+  int len =_vstprintf((wchar_t*)(out_tmp), (const wchar_t *)(fmt), args);
   // and then add the prefix (can't use the original string, doh!)
-  char* out = new char[len +_tcslen(prefix) + 10];
- _stprintf(out, "%s%s", prefix, out_tmp); // prefix has space already
+  char* out = new char[len + _tcslen((const wchar_t*)(prefix)) + 10];
+ _stprintf((wchar_t *)(out), _T("%s%s"), prefix, out_tmp); // prefix has space already
   // use LOG_INFO for everything, since we have our own hierarchy of log message types
   syslog(LOG_INFO, out); 
   // clean up

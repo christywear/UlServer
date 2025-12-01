@@ -11,10 +11,10 @@
 #include <limits.h>
 #include <string.h>
 
+#include "../../include/platform/Platform.h"
+
 #include "../../include/Game/LmItemDefs.h"
 #ifdef WIN32
-#include "../Underlight/SharedConstants.h"
-#else
 #include "../../include/Core/SharedConstants.h"
 #endif
 #include "../../include/Game/LmItemNames.h"

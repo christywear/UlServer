@@ -459,7 +459,7 @@ void gen_token_item(int gen_type, LmItem& item)
 	if (num_charges > gen_type + 1)
 		num_charges = LmRand::Generate(1,2);
 
-	item.Init(hdr, "Elemental Mass", 0, 0, 0);
+	item.Init(hdr, _T("Elemental Mass"), 0, 0, 0);
 	item.SetCharges(num_charges);
 	item.SetStateField(0, &state, sizeof(state));
 }

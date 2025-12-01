@@ -8,9 +8,11 @@
 #pragma implementation "RMsg_PlayerUpdate.h"
 #endif
 
+#include "../../../include/platform/Platform.h"
+
 #ifdef WIN32
 #define STRICT
-#include "unix.h"
+#include "../../../include/Core/unix.h"
 #include <winsock2.h>
 #else /* !WIN32 */
 #include <sys/types.h>
@@ -22,6 +24,7 @@
 #include "../../../include/Protocol/RMsg/RMsg_PlayerUpdate.h"
 #include "../../../include/Core/LyraDefs.h"
 #include "../../../include/Protocol/RMsg/RMsg.h"
+#include "../../../include/protocol/RMsg/RMsg_PeerUpdate.h"
 
 ////
 // constructor

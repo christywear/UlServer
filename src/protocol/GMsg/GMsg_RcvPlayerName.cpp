@@ -8,9 +8,11 @@
 #pragma implementation "GMsg_RcvPlayerName.h"
 #endif
 
+#include "../../../include/platform/Platform.h"
+
 #ifdef WIN32
 #define STRICT
-#include "unix.h"
+#include "../../../include/Core/unix.h"
 #include <winsock2.h>
 #else /* !WIN32 */
 #include <sys/types.h>
@@ -106,7 +108,7 @@ void GMsg_RcvPlayerName::Dump(FILE* f, int indent) const
 }
 #endif /* USE_DEBUG */
 
-ifndef USE_DEBUG
+#ifndef USE_DEBUG
 void GMsg_RcvPlayerName::Dump(FILE*, int) const
 {
 	// empty
