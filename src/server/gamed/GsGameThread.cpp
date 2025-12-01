@@ -235,7 +235,11 @@ void GsGameThread::handle_GMsg_PreLogin(LmSrvMesgBuf* msgbuf, LmConnection* conn
   HANDLER_ENTRY(false);
   // pre-conditions
   CHECK_CONN_NONNULL();
-  CHECK_CONN_ISUNKNOWN();
+  {
+      if (conn->Type() != LmConnection::CT_UNKNOWN) {
+          if (Log()) Log()->Error(L"%s: conn [%p] (%c,%u) not unknown", method, conn, conn->Type(), conn->ID()); GsUtil::Send_Error(main_, conn, msg_type, _T("already logged in")); return;
+      }
+  };
   // accept message
   ACCEPT_MSG(GMsg_PreLogin, true); // send error
 
@@ -421,7 +425,7 @@ void GsGameThread::handle_GMsg_Login(LmSrvMesgBuf* msgbuf, LmConnection* conn)
 
   // load player database
   player->Init(conn, msg.ServerPort(), Log(), true, msg.TCPOnly());
-  TLOG_Debug("%s: initialized player %d, firewall is true, TCPOnly is %d", method, playerid, msg.TCPOnly());
+  TLOG_Debug(_T("%s: initialized player %d, firewall is true, TCPOnly is %d"), method, playerid, msg.TCPOnly());
   if (player->Login(playerid, pmare_type, first_login) < 0) {
     TLOG_Error(_T("%s: could not load database for player %u"), method, playerid);
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_UNKNOWNERROR);
@@ -696,7 +700,7 @@ void GsGameThread::handle_GMsg_AgentLogin(LmSrvMesgBuf* msgbuf, LmConnection* co
   if (msg.BillingID() < 600){
 	((class LmPlayerDB&)player->DB()).SetAvatarDescrip(msg.PlayerName());
   } else {
-	((class LmPlayerDB&)player->DB()).SetAvatarDescrip("Revenant");
+	((class LmPlayerDB&)player->DB()).SetAvatarDescrip(_T("Revenant"));
   }
   // update connection type, message range
   main_->ConnectionSet()->UpdateConnection(conn, LmConnection::CT_CLIENT, playerid);
@@ -810,7 +814,7 @@ void GsGameThread::handle_SMsg_UniverseBroadcast_RMsg_PlayerMsg(LmSrvMesgBuf* ms
   PROXY_ACCEPT_MSG(RMsg_PlayerMsg);
   if(!msg.AllowedToDreamwideBroadcast(msg.MsgType()))
   {
-	TLOG_Warning("Attempting to broadcast a playermsg with a non-art message; not forwarding.");
+	TLOG_Warning(_T("Attempting to broadcast a playermsg with a non-art message; not forwarding."));
 	return;
   }
 
@@ -1176,7 +1180,7 @@ void GsGameThread::send_GMsg_LoginAck(LmConnection* conn, time_t conn_time, int 
   msg.SetVersion(GsMain::GAME_VERSION);
   msg.SetStatus(status);
   msg.SetServerPort(port_num);
-  msg.SetDescription(ip_address);
+  msg.SetDescription((const wchar_t*)(ip_address));
   main_->OutputDispatch()->SendMessage(&msg, conn);
 }
 

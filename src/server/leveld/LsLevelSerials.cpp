@@ -56,8 +56,8 @@ void LsLevelSerials::LoadFromDisk(LmDatabase& db)
   // load serial numbers
   for (int i = 0; i < num_serials; ++i) {
     char tmpkey[32];
-   _stprintf(tmpkey, _T("Serial_%d"), i + 1);
-    key.SetField(tmpkey);
+   _stprintf((wchar_t*)tmpkey, _T("Serial_%d"), i + 1);
+    key.SetField((wchar_t*)tmpkey);
     int tmpserial = 0;
     db.Fetch(key, &tmpserial);
     if (tmpserial != 0) {
@@ -86,9 +86,9 @@ void LsLevelSerials::SaveToDisk(LmDatabase& db)
   int j = 1;
   for (std::list<int>::iterator li = serials_.begin(); (bool)!(li == serials_.end()); ++li) {
     char tmpkey[32];
-   _stprintf(tmpkey, _T("Serial_%d"), j);
+   _stprintf((wchar_t*)tmpkey, _T("Serial_%d"), j);
     ++j;
-    key.SetField(tmpkey);
+    key.SetField((wchar_t*)tmpkey);
     db.Store(key, *li, 1);
   }
 }

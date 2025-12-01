@@ -46,6 +46,7 @@
 #include "../../../include/DB/LmPlayerDBC.h"
 #include "../../../include/Server/Gamed/GsPlayerSet.h"
 #include "../../../include/DB/LmBillingDBC.h"
+#include "../../../include/game/LmStats.h"
 ////
 // handle_GMsg_Ping
 ////
@@ -142,7 +143,7 @@ void GsPlayerThread::handle_GMsg_GrantPPoint(LmSrvMesgBuf* msgbuf, LmConnection*
       (player_->DB().AccountType() != LmPlayerDB::ACCT_ADMIN)) {
     retval = GMsg_PPointAck::UNKNOWN_ERR;
   } else { 
-    retval = main_->PlayerDBC()->GrantPP(player_->PlayerID(), msg.PlayerID(), (char*)msg.Why(), player_->DB ().AccountType ());
+      retval = main_->PlayerDBC()->GrantPP(player_->PlayerID(), msg.PlayerID(), (wchar_t*)(msg.Why()), player_->DB().AccountType());
   }
   
   send_GMsg_PPointAck(conn, GMsg_PPointAck::GRANT_ACK, retval);
@@ -795,7 +796,7 @@ void GsPlayerThread::handle_GMsg_CreateItem(LmSrvMesgBuf* msgbuf, LmConnection* 
   }
   // check if player is allowed to create given item
   if (!player_->CanCreateItem(item)) {
-    SECLOG(6, "%s: player %u: not allowed to create item: %s", method, player_->PlayerID(), itemstr);
+    SECLOG(6, _T("%s: player %u: not allowed to create item: %s"), method, player_->PlayerID(), itemstr);
     send_GMsg_ItemPickup(conn, item, GMsg_ItemPickup::PICKUP_ERRORCREATE);
     return;
   }
@@ -822,9 +823,9 @@ void GsPlayerThread::handle_GMsg_CreateItem(LmSrvMesgBuf* msgbuf, LmConnection* 
   const TCHAR* creator_name = main_->PlayerNameMap()->PlayerName(player_->PlayerID());
 
   if (msg.Description ())
-    SECLOG(-6, "%s: player %u, %s: created item: %s with text: %s", method, player_->PlayerID(), creator_name, itemstr, msg.Description ());
+    SECLOG(-6, _T("%s: player %u, %s: created item: %s with text: %s"), method, player_->PlayerID(), creator_name, itemstr, msg.Description ());
   else
-    SECLOG (-6, "%s: player %u, %s: created item: %s with NULL text",method, player_->PlayerID(), creator_name, itemstr);
+    SECLOG (-6, _T("%s: player %u, %s: created item: %s with NULL text"), method, player_->PlayerID(), creator_name, itemstr);
   // add to player's inventory
   player_->AddItem(item);
   // send ack
@@ -850,7 +851,7 @@ void GsPlayerThread::handle_GMsg_DestroyItem(LmSrvMesgBuf* msgbuf, LmConnection*
   LmItemHdr hdr = msg.ItemHeader();
   // check that player has item
   if (!player_->DB().Inventory().HasItem(hdr)) {
-    SECLOG(6, "%s: player %u: cannot destroy item [%u/%u/%u], not in inventory", method,
+    SECLOG(6, _T("%s: player %u: cannot destroy item [%u/%u/%u], not in inventory"), method,
 	   player_->PlayerID(), hdr.ItemHdr1(), hdr.ItemHdr2(), hdr.Serial());
     send_GMsg_ItemDrop(conn, hdr, GMsg_ItemDrop::DROP_ERROR);
     return;
@@ -861,7 +862,7 @@ void GsPlayerThread::handle_GMsg_DestroyItem(LmSrvMesgBuf* msgbuf, LmConnection*
   item.UnParse(itemstr, sizeof(itemstr));
   // check that item can be destroyed
   if (!player_->CanDestroyItem(hdr)) {
-    SECLOG(6, "%s: player %u: cannot destroy item: %s", method, player_->PlayerID(), itemstr);
+    SECLOG(6, _T("%s: player %u: cannot destroy item: %s"), method, player_->PlayerID(), itemstr);
     send_GMsg_ItemDrop(conn, hdr, GMsg_ItemDrop::DROP_ERROR);
     return;
   }
@@ -876,7 +877,7 @@ void GsPlayerThread::handle_GMsg_DestroyItem(LmSrvMesgBuf* msgbuf, LmConnection*
     GsUtil::HandleItemError(main_, method, rc, sqlcode);
     return;
   }
-  SECLOG(-6, "%s: player %u: destroyed item: %s", method, player_->PlayerID(), itemstr);
+  SECLOG(-6, _T("%s: player %u: destroyed item: %s"), method, player_->PlayerID(), itemstr);
   // remove from inventory
   player_->RemoveItem(hdr);
   // send ack to client
@@ -907,7 +908,7 @@ void GsPlayerThread::handle_GMsg_UpdateItem(LmSrvMesgBuf* msgbuf, LmConnection* 
     TCHAR oitemstr[80];
     oitem.UnParse(oitemstr, sizeof(oitemstr));
     item.UnParse(itemstr, sizeof(itemstr));
-    SECLOG(6, "%s: player %u: cannot update item: old: %s  new: %s", method,
+    SECLOG(6, _T("%s: player %u: cannot update item: old: %s  new: %s"), method,
 	   player_->PlayerID(), oitemstr, itemstr);
     return;
   }
@@ -972,7 +973,7 @@ void GsPlayerThread::handle_GMsg_ChangeStat(LmSrvMesgBuf* msgbuf, LmConnection* 
       int old_skill = player_->DB().Arts().Skill(stat);
       update_ok = player_->ChangeSkill(stat, value);
       if (update_ok) { // && (old_skill != value)) {
-	SECLOG(-4, "%s: player %u: art %d skill %d -> %d", method, player_->PlayerID(), stat, old_skill, value);
+	SECLOG(-4, _T("%s: player %u: art %d skill %d -> %d"), method, player_->PlayerID(), stat, old_skill, value);
       }
     }
     break;
@@ -986,7 +987,7 @@ void GsPlayerThread::handle_GMsg_ChangeStat(LmSrvMesgBuf* msgbuf, LmConnection* 
     }
     // log unsuccessful update requests
     if (!update_ok) {
-      SECLOG(4, "%s: player %u: illegal update: req=%d stat=%d val=%d", method,
+      SECLOG(4, _T("%s: player %u: illegal update: req=%d stat=%d val=%d"), method,
 	     player_->PlayerID(), req_type, stat, value);
     }
     // add update to S->C message?
@@ -1121,7 +1122,7 @@ void GsPlayerThread::handle_GMsg_DestroyRoomItem(LmSrvMesgBuf* msgbuf, LmConnect
   LmItemHdr hdr = msg.ItemHeader();
   // check if item can actually be destroyed
   if (msg.ItemHeader().FlagSet(LyraItem::FLAG_NOREAP) && player_->DB().AccountType() != LmPlayerDB::ACCT_ADMIN) {
-    SECLOG(6, "%s: player %u: trying to destroy non-reapable room item %d", method, player_->PlayerID(), hdr.Serial());
+    SECLOG(6, _T("%s: player %u: trying to destroy non-reapable room item %d"), method, player_->PlayerID(), hdr.Serial());
     return;
   }
   // check if player is in level
@@ -1154,25 +1155,25 @@ void GsPlayerThread::handle_GMsg_GetLevelPlayers(LmSrvMesgBuf* msgbuf, LmConnect
   TLOG_Debug(_T("%s: level=%u"), method, msg.LevelID());
   // check that player is anything other than a normal player
   if (player_->DB().AccountType() == LmPlayerDB::ACCT_PLAYER) {
-    SECLOG(5, "%s: player %u: attempted getlevelplayers", method, player_->PlayerID());
+    SECLOG(5, _T("%s: player %u: attempted getlevelplayers"), method, player_->PlayerID());
     return;
   }
   // check that player is anything other than a normal player
   if (player_->DB().AccountType() == LmPlayerDB::ACCT_PMARE) {
-    SECLOG(5, "%s: pmare %u: attempted getlevelplayers", method, player_->PlayerID());
+    SECLOG(5, _T("%s: pmare %u: attempted getlevelplayers"), method, player_->PlayerID());
     return;
   }
   // connect to level server
   const LmLevelDBC* ldb = main_->LevelSet()->LevelDBC(msg.LevelID());
   if (!ldb) {
     TLOG_Error(_T("%s: could not open level database for level %u"), method, msg.LevelID());
-    GsUtil::Send_Error(main_, conn, msg_type, "level %u database not found", msg.LevelID());
+    GsUtil::Send_Error(main_, conn, msg_type, _T("level %u database not found"), msg.LevelID());
     return;
   }
   LmConnection* lsconn = GsUtil::ConnectToLevelServer(main_, ldb);
   if (!lsconn) {
     TLOG_Error(_T("%s: could not connect to level server %u"), method, msg.LevelID());
-    GsUtil::Send_Error(main_, conn, msg_type, "level %u server connect error", msg.LevelID());
+    GsUtil::Send_Error(main_, conn, msg_type, _T("level %u server connect error"), msg.LevelID());
     return;
   }
   // send request to level server

@@ -161,7 +161,7 @@ typedef wchar_t     TCHAR;
 
 #define _tprintf    printf
 #define _ftprintf   fwprintf
-#define _stprintf   swprintf
+#define _stprintf   _swprintf
 #define _sntprintf  snwprintf
 #define _vtprintf   vwprintf
 #define _vftprintf  vfwprintf
@@ -242,7 +242,7 @@ typedef wchar_t     TCHAR;
 
 /* Execute functions */
 
-#define _texecl     wexecl
+#define _texecl     _wexecl
 #define _texecle    wexecle
 #define _texeclp    wexeclp
 #define _texeclpe   wexeclpe
@@ -267,7 +267,7 @@ typedef wchar_t     TCHAR;
 /* Time functions */
 
 #define _tasctime   wasctime
-#define _tctime     wctime
+#define _tctime     _wctime //changed from wctime to _wctime for now temp fix
 #define _tstrdate   wstrdate
 #define _tstrtime   wstrtime
 #define _tutime     wutime
@@ -297,7 +297,7 @@ typedef wchar_t     TCHAR;
 
 #define _tfdopen    wfdopen
 #define _tfsopen    wfsopen
-#define _tfopen     wfopen
+#define _tfopen     _wfopen
 #define _tfreopen   wfreopen
 #define _tperror    wperror
 #define _tpopen     wpopen
@@ -317,9 +317,9 @@ typedef wchar_t     TCHAR;
 #define _tmktemp    wmktemp
 #define _topen      wopen
 #define _tremove    wremove
-#define _trename    wrename
+#define _trename    _wrename
 #define _tsopen     wsopen
-#define _tunlink    wunlink
+#define _tunlink    _wunlink
 
 #define _tfinddata_t    wfinddata_t
 #define _tfinddatai64_t wfinddatai64_t
@@ -333,7 +333,7 @@ typedef wchar_t     TCHAR;
 
 /* Setlocale functions */
 
-#define _tsetlocale wsetlocale
+#define _tsetlocale _wsetlocale
 
 
 /* Redundant "logical-character" mappings */

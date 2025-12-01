@@ -7,7 +7,7 @@
 #ifdef __GNUC__
 #pragma implementation "GsNetworkOutput.h"
 #endif
-#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
 #include <stdio.h>
 #ifndef WIN32
 #include <stdlib.h>

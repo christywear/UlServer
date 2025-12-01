@@ -210,7 +210,7 @@ void __cdecl LeveldHelper(void* param)
 	}
 	else {
 		// initialization OK, run the server; when this returns we're done
-		retval = Main->Go(ip_address);
+		retval = Main->Go((const char*)(ip_address));
 	}
 	LmDELETE(Main);
 	
@@ -235,13 +235,13 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	}
 	
 	TCHAR buffer[256];
-	_stscanf(argv, _T("%s %u %u %s"), root_dir, &port_num, &level_num, buffer);
+	_stscanf((const wchar_t*)(argv), _T("%s %u %u %s"), root_dir, &port_num, &level_num, buffer);
 	// strip quotes from IP address
 _tcsnccpy(ip_address, buffer+1,_tcslen(buffer)-2);
 	
 	RegisterClass(hInstance);
 
-	setlocale(LC_ALL, _T("C"));
+	setlocale(LC_ALL, "C");
 	
 	// Perform application initialization:
 	if (!InitInstance (hInstance, nCmdShow)) 
@@ -250,7 +250,7 @@ _tcsnccpy(ip_address, buffer+1,_tcslen(buffer)-2);
 		exit(Lyra::EXIT_ARGS);
 	}
 	
-	wm_shutdown_servers = RegisterWindowMessage(SERVER_SHUTDOWN_STRING);
+	wm_shutdown_servers = RegisterWindowMessage(_T(SERVER_SHUTDOWN_STRING));
 	
 	// open log file
 	// DebugLog.Init("Leveld", "", 0, getpid());

@@ -13,8 +13,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
-#include <sched.h>
+
 #ifndef WIN32
+#include <sched.h>
 #include <stdlib.h>
 #include <unistd.h>
 #endif
@@ -63,9 +64,7 @@
 #include "../../../include/Server/Leveld/LsPlayerList.h"
 #include "../../../include/Core/LmRand.h"
 
-#ifndef WIN32
-#include <unistd.h>
-#endif
+#include <process.h>
 
 ////
 // Constructor
@@ -105,8 +104,11 @@ LsMain::LsMain()
   // message buffer needs to be large enough for a RMsg_PlayerUpdate message
   RMsg_PlayerUpdate m1;
   msgbuf_ = LmNEW(LmSrvMesgBuf(m1.MaxMessageSize()));
+  
+#ifdef UL_POSIX
   gettimeofday(&first_update_time_, NULL);
   gettimeofday(&last_update_time_, NULL);
+#endif
 }
 
 ////
@@ -227,144 +229,146 @@ int LsMain::Init(const TCHAR* root_dir, int port_num, int levelnum)
 
 int LsMain::Go(const char* ip_address)
 {
-  DEFMETHOD(LsMain, Go);
+    DEFMETHOD(LsMain, Go);
 #ifndef WIN32
-  pid_ = getpid();
-  ppid_ = getppid();
+    pid_ = getpid();
+    ppid_ = getppid();
 #endif
-  start_time_ = time(NULL);
-  log_->Log(_T("%s: main process id = %ld, parent = %ld"), method, ServerPid(), ParentPid());
+    start_time_ = time(NULL);
+    log_->Log(_T("%s: main process id = %ld, parent = %ld"), method, ServerPid(), ParentPid());
 
 #ifndef WIN32
-  if (create_pidfile() < 0) {
-    log_->Error(_T("%s: could not create server pidfile"), method);
-    return Lyra::EXIT_EXEC;
-  }
+    if (create_pidfile() < 0) {
+        log_->Error(_T("%s: could not create server pidfile"), method);
+        return Lyra::EXIT_EXEC;
+    }
 #endif
 
-  // create server sockets
-  if (create_sockets(ip_address) < 0) {
-    log_->Error(_T("%s: could not create server sockets"), method);
-    return Lyra::EXIT_EXEC;
-  }
-  // connect to databases
-  if (connect_to_databases() < 0) {
-    log_->Error(_T("%s: could not connect to databases"), method);
-    return Lyra::EXIT_EXEC;
-  }
-  // load level state, either from disk file if it exists or database otherwise
-  if (load_state() < 0) {
-    log_->Error(_T("%s: could not load level state"), method);
-    return Lyra::EXIT_EXEC;
-  }
-  log_->Debug(_T("%s: loaded level state"), method);
+    // create server sockets
+    if (create_sockets(ip_address) < 0) {
+        log_->Error(_T("%s: could not create server sockets"), method);
+        return Lyra::EXIT_EXEC;
+    }
+    // connect to databases
+    if (connect_to_databases() < 0) {
+        log_->Error(_T("%s: could not connect to databases"), method);
+        return Lyra::EXIT_EXEC;
+    }
+    // load level state, either from disk file if it exists or database otherwise
+    if (load_state() < 0) {
+        log_->Error(_T("%s: could not load level state"), method);
+        return Lyra::EXIT_EXEC;
+    }
+    log_->Debug(_T("%s: loaded level state"), method);
 
-  idbc_->SetNumDreamers(level_num_, 0);
+    idbc_->SetNumDreamers(level_num_, 0);
 
-  // start threads
-  if (start_threads() < 0) {
-    log_->Error(_T("%s: could not start threads"), method);
-    return Lyra::EXIT_EXEC;
-  }
-
-  log_->Debug(_T("%s: started threads"), method);
-
-  LsSignalThread* sthr = (LsSignalThread*) tpool_->GetThread(THREAD_SIGNAL);
-  if (!sthr) {
-    log_->Error(_T("%s: could not wait on signal thread"), method);
-    return Lyra::EXIT_EXEC;
-  }
-  //  sthr->SetUpdateTimerEnabled(0);
-
-  // wait for level thread to exit
-  LmThread* lthr = tpool_->GetThread(THREAD_LEVELSERVER);
-  if (!lthr) {
-    log_->Error(_T("%s: could not get level thread pointer"), method);
-    return Lyra::EXIT_EXEC;
-  }
-
-  bool send_neighbors = false;
-  int updates = 0;
-
-  unsigned int sec_elapsed;
-  unsigned int sec_last;
-  unsigned int msec_elapsed;
-  unsigned int msec_last_interval;
-  unsigned int sec_now;
-  unsigned int msec_last_time;
-  unsigned int msec_now;
-  unsigned int next_send;
-  timeval now;
-
-  while (lthr->IsRunning()) {
-
-    // we now check the alarm timer manually
-    if ((time(NULL) - last_alrm_) > (2*ALARM_DELAY)) { 
-      //log_->Debug(_T("%s: manually raising SIGALRM"), method);
-      last_alrm_ = time(NULL);
-      process_SIGALRM();
+    // start threads
+    if (start_threads() < 0) {
+        log_->Error(_T("%s: could not start threads"), method);
+        return Lyra::EXIT_EXEC;
     }
 
-    if (sigterm_)
-      process_SIGTERM();
-    if (sigerr_) {
-      log_->Error(sigerrtxt_);
-      sigerr_ = false;
+    log_->Debug(_T("%s: started threads"), method);
+
+    LsSignalThread* sthr = (LsSignalThread*)tpool_->GetThread(THREAD_SIGNAL);
+    if (!sthr) {
+        log_->Error(_T("%s: could not wait on signal thread"), method);
+        return Lyra::EXIT_EXEC;
+    }
+    //  sthr->SetUpdateTimerEnabled(0);
+
+    // wait for level thread to exit
+    LmThread* lthr = tpool_->GetThread(THREAD_LEVELSERVER);
+    if (!lthr) {
+        log_->Error(_T("%s: could not get level thread pointer"), method);
+        return Lyra::EXIT_EXEC;
     }
 
-    // now we check to see if its time to send updates
-    gettimeofday(&now,NULL);
+    bool send_neighbors = false;
+    int updates = 0;
 
- sec_elapsed = now.tv_sec - first_update_time_.tv_sec;
- sec_last = now.tv_sec - last_update_time_.tv_sec;
- msec_elapsed = sec_elapsed*1000 + ((now.tv_usec - first_update_time_.tv_usec)/1000);
- msec_last_interval = sec_last*1000 + ((now.tv_usec - last_update_time_.tv_usec)/1000);
- sec_now = now.tv_sec;
- msec_last_time = last_update_time_.tv_sec*1000 + (last_update_time_.tv_usec/1000);
- msec_now = sec_now*1000 + (now.tv_usec/1000);
- next_send = msec_last_time + POS_UPDATE_INTERVAL;
+    unsigned int sec_elapsed;
+    unsigned int sec_last;
+    unsigned int msec_elapsed;
+    unsigned int msec_last_interval;
+    unsigned int sec_now;
+    unsigned int msec_last_time;
+    unsigned int msec_now;
+    unsigned int next_send;
+    timeval now;
 
- // TLOG_Debug(_T("Total elapsed = %d, since last=%d, last send=%d, msec now=%d, next send=%d \n"), msec_elapsed, msec_last_interval, msec_last_time, msec_now, next_send);
+    while (lthr->IsRunning()) {
 
-  unsigned int sleep_interval;
+        // we now check the alarm timer manually
+        if ((time(NULL) - last_alrm_) > (2 * ALARM_DELAY)) {
+            //log_->Debug(_T("%s: manually raising SIGALRM"), method);
+            last_alrm_ = time(NULL);
+            process_SIGALRM();
+        }
 
-  if (msec_now >= next_send) {
-    sleep_interval = 0;
-  } else {
-  sleep_interval = next_send - msec_now;
-  sleep_interval = sleep_interval * 1000; // turn into usec
-    if (sleep_interval > 50000)
-      sleep_interval = 50000;
-  }
+        if (sigterm_)
+            process_SIGTERM();
+        if (sigerr_) {
+            log_->Error(sigerrtxt_);
+            sigerr_ = false;
+        }
+#ifdef UL_POSIX
+        // now we check to see if its time to send updates
+        gettimeofday(&now, NULL);
+#endif
+
+        sec_elapsed = now.tv_sec - first_update_time_.tv_sec;
+        sec_last = now.tv_sec - last_update_time_.tv_sec;
+        msec_elapsed = sec_elapsed * 1000 + ((now.tv_usec - first_update_time_.tv_usec) / 1000);
+        msec_last_interval = sec_last * 1000 + ((now.tv_usec - last_update_time_.tv_usec) / 1000);
+        sec_now = now.tv_sec;
+        msec_last_time = last_update_time_.tv_sec * 1000 + (last_update_time_.tv_usec / 1000);
+        msec_now = sec_now * 1000 + (now.tv_usec / 1000);
+        next_send = msec_last_time + POS_UPDATE_INTERVAL;
+
+        // TLOG_Debug(_T("Total elapsed = %d, since last=%d, last send=%d, msec now=%d, next send=%d \n"), msec_elapsed, msec_last_interval, msec_last_time, msec_now, next_send);
+
+        unsigned int sleep_interval;
+
+        if (msec_now >= next_send) {
+            sleep_interval = 0;
+        }
+        else {
+            sleep_interval = next_send - msec_now;
+            sleep_interval = sleep_interval * 1000; // turn into usec
+            if (sleep_interval > 50000)
+                sleep_interval = 50000;
+        }
 
 #ifdef WIN32
-	Sleep(200);
+        Sleep(200);
 #else
-	//TLOG_Debug(_T("sleeping for %d msec"), sleep_interval); 
-  	if (sleep_interval > 0) { 
-	  pth_nap(pth_time(0, sleep_interval));
-	}
+        //TLOG_Debug(_T("sleeping for %d msec"), sleep_interval); 
+        if (sleep_interval > 0) {
+            pth_nap(pth_time(0, sleep_interval));
+        }
+
+
+        gettimeofday(&now, NULL);
+        sec_now = now.tv_sec;
+        msec_now = sec_now * 1000 + now.tv_usec;
+
+        if (msec_now >= next_send) {
+            gettimeofday(&last_update_time_, NULL);
+            process_SIGINT();
+        }
+    }
 #endif
 
-	gettimeofday(&now,NULL);
-	sec_now = now.tv_sec;
-	msec_now = sec_now*1000 + now.tv_usec;
+    // TODO: possibly periodically check if all main server threads
+    //   are running, and if one isn't, restart it?  or exit?
 
-	if (msec_now >= next_send) {
-	  gettimeofday(&last_update_time_,NULL);
-	  process_SIGINT();
-	}
-  }
-
-
-  // TODO: possibly periodically check if all main server threads
-  //   are running, and if one isn't, restart it?  or exit?
-
-  // cleanup
-  remove_pidfile();
-  return Lyra::EXIT_OK;
+    // cleanup
+    remove_pidfile();
+    return Lyra::EXIT_OK;
+    }
 }
-
 ////
 // Dump////
 
@@ -487,7 +491,7 @@ int LsMain::create_sockets(const char* ip_address)
   // initialize server address
   LmSockAddrInet addr;
 
-  if (addr.Init(ip_address, ServerPort()) == -1) { // bind to host's IP address
+  if (addr.Init((wchar_t*)(ip_address), ServerPort()) == -1) { // bind to host's IP address
     log_->Error(_T("%s: could not bind to address %s"), method, ip_address);
   }
 
@@ -501,12 +505,12 @@ int LsMain::create_sockets(const char* ip_address)
   usock_->Socket(LmSockType::Inet_Datagram());
   usock_->SetSockOpt(SO_REUSEADDR, 1);  // in case server was started soon after it was killed
  
-  addr.Init(ip_address, ServerPort());
+  addr.Init((wchar_t*)ip_address, ServerPort());
   if (usock_->Bind(addr) < 0) {
     log_->Error(_T("%s: could not bind UDP socket: %s"), method, strerror(errno));
     return -1;
   }
-  addr.Init(ip_address, ServerPort()); // bind back to host's IP address
+  addr.Init((wchar_t*)ip_address, ServerPort()); // bind back to host's IP address
   log_->Debug(_T("%s: bound to UDP socket at port %d\n"), method, ServerPort());
   // create TCP listening socket
   tsock_ = LmNEW(LmSocket());
@@ -654,7 +658,7 @@ int LsMain::load_state()
 	{	// on error reading from disk, fall through and try the DB
       TCHAR hname[256];
      _stprintf(hname, _T("(unknown)"));
-      gethostname(hname, sizeof(hname));
+      gethostname((char*)(hname), sizeof(hname));
       LmUtil::SendMail(_T("leveld@underlight"), 
 				serverdbc_->DatabaseAdminEmail(), 
 				_T("Underlight: database error"),
@@ -868,6 +872,7 @@ void LsMain::send_player_updates(int num_updates)
   // send local group info to all players
 
   timeval now;
+#ifdef UL_POSIX
   gettimeofday(&now, NULL);
 
   unsigned int sec_elapsed = now.tv_sec - first_update_time_.tv_sec;
@@ -876,7 +881,7 @@ void LsMain::send_player_updates(int num_updates)
   unsigned int msec_last = sec_last*1000 + ((now.tv_usec - last_update_time_.tv_usec)/1000);
 
   //  TLOG_Debug(_T("Sending updates; elapsed = %d sec, %d msec; since = %d sec, %d msec\n"),  sec_elapsed, msec_elapsed, sec_last, msec_last);
-
+#endif
   LsPlayerList players;
   PlayerSet()->GetPlayerList(players);
   for (LsPlayerList::iterator i = players.begin(); !(bool)(i == players.end()); ++i) {
@@ -936,7 +941,9 @@ void LsMain::send_RMsg_PlayerUpdate(LsPlayer* player, int num_updates)
   int nnsize = player->Neighbors().Size();
   int num_players = lgsize + nnsize;
   timeval now;
+#ifdef UL_POSIX
   gettimeofday(&now,NULL);
+#endif
   int msec_now = now.tv_sec*1000 + (now.tv_usec/1000);
   //TLOG_Debug(_T("Possible update at time %u for player %u; num locals, neighbors = %u, %u"), msec_now, player->PlayerID(), lgsize, nnsize);
 

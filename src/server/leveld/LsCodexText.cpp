@@ -1,4 +1,4 @@
-// LsCodexText.cpp  -*- C++ -*-
+﻿// LsCodexText.cpp  -*- C++ -*-
 // $Id: LsCodexText.cpp,v 1.2 1998-02-24 22:35:00-08 jason Exp $
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
 //
@@ -8,8 +8,9 @@
 #include <string.h>
 
 #include <vector>
+#ifdef UL_POSIX
 #include <parallel/algo.h>
-
+#endif
 #include "../../../include/Server/Leveld/LsCodexText.h"
 #include "../../../include/Core/LmLocker.h"
 #include "../../../include/Server/Leveld/LsMain.h"
@@ -17,7 +18,8 @@
 #include "../../../include/DB/LmGlobalDB.h"
 #include "../../../include/Core/LmRand.h"
 #include "../../../include/Game/LmLog.h"
-
+#include <algorithm>
+#include <random>
 // LsCodexTextImp definition
 class LsCodexTextImp : public std::vector<TCHAR*> {
 public:
@@ -86,7 +88,7 @@ void LsCodexText::Load()
   }
   // get number of lines in db
   int num_lines = 0;
-  db.Fetch("NumLines", &num_lines);
+  db.Fetch(_T("NumLines"), &num_lines);
   if (num_lines < 0) {
     main_->Log()->Error(_T("%s: numlines = %d?"), method, num_lines);
     db.Close();
@@ -101,8 +103,8 @@ void LsCodexText::Load()
   for (int i = 0; i < num_lines; ++i) {
     TCHAR desc[Lyra::MAX_ITEMDESC];
     char key[20];
-   _stprintf(key, _T("Text_%d"), i);
-    if (db.Fetch(key, desc, sizeof(desc)) == 0) {
+   _stprintf((wchar_t*)(key), _T("Text_%d"), i);
+    if (db.Fetch((wchar_t*)key, desc, sizeof(desc)) == 0) {
       int len =_tcslen(desc) + 1;
       TCHAR* newdesc = LmNEW(TCHAR[len]);
       memset(newdesc, 0, len);
@@ -128,7 +130,12 @@ void LsCodexText::CopyDescription(TCHAR* desc, int len)
   }
   else {
     // shuffle the list
-    random_shuffle(imp_->begin(), imp_->end());
+      //std::shuffle = mix the list
+      //std::mt19937 = really good dice roller
+      //std::random_device = seed generator
+      //Together → modern replacement for random_shuffle() 
+      //random_shuffle(imp_->begin(), imp_->end());
+    std::shuffle(imp_->begin(), imp_->end(), std::mt19937(std::random_device{}()));
     // pick the first one
     LsCodexTextImp::iterator i = imp_->begin();
     chosen = *i;

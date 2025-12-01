@@ -24,6 +24,7 @@
 #include "../../../include/Protocol/GMsg/GMsg_RcvGoalDetails.h"
 #include "../../../include/Protocol/RMsg/RMsg_PlayerUpdate.h"
 #include "../../../include/Core/LmUtil.h"
+#include "../../../include/game/LmStats.h"
 
 ////
 // SetPoolXP

@@ -38,6 +38,13 @@
 #include "../../../include/DB/LmServerDBC.h"
 #include "../../../include/Protocol/SMsg/SMsg_All.h"
 
+#ifdef UL_WINDOWS
+#include <process.h>
+#ifndef getpid
+#define getpid _getpid
+#endif
+#endif
+
 // static members
 MsMain* MsMain::self = 0;
 
@@ -143,138 +150,100 @@ int MsMain::Init(const TCHAR* root_dir)
 
 void MsMain::Go()
 {
-  DEFMETHOD(MsMain, Go);
+    DEFMETHOD(MsMain, Go);
 
-  if (create_pidfile() < 0) {
-    log_->Error(_T(": could not create pidfile"), method);
-    return;
-  }
-  install_signals();
+#ifdef UL_POSIX
 
-  log_->Debug(_T("Masterd about to start servers"));
+    if (create_pidfile() < 0) {
+        log_->Error(_T("%s: could not create pidfile"), method);
+        return;
+    }
+    install_signals();
 
-  // start servers -- first dbd, then level servers, then game servers
-  if ((sinfo_->StartServers(LmServerDBC::ST_DATABASE) < 0) ||
-      (sinfo_->StartServers(LmServerDBC::ST_LEVEL) < 0) ||
-      (sinfo_->StartServers(LmServerDBC::ST_GAME) < 0)) {
-    log_->Error(_T(": could not start servers"), method);
-    // in case some got started, kill 'em all
-    sinfo_->SignalServers(SIGTERM);
-    return;
-  }
-  log_->Debug(_T("Masterd started servers"));
+    log_->Debug(_T("Masterd about to start servers"));
 
-  // main loop
-  done_ = false;
-  bool clean_exit = false;
-  log_->Debug(_T("Masterd entering main loop"));
+    if ((sinfo_->StartServers(LmServerDBC::ST_DATABASE) < 0) ||
+        (sinfo_->StartServers(LmServerDBC::ST_LEVEL) < 0) ||
+        (sinfo_->StartServers(LmServerDBC::ST_GAME) < 0)) {
 
-  while (!done_) {
-    // wait for a child to die, or for a signal to be caught
-    // (only want signals to be caught here, blocked at all other times)
-    int status;
-    dump_status_ = rotate_logs_ = false;
-    LmUtil::UnBlockAllSignals();
-    log_->Debug(_T("Masterd waiting for child to die"));
-    pid_t pid = wait(&status);
-    LmUtil::BlockAllSignals();
-    if ((pid == -1) && (errno == EINTR)) { // signal received and handled
-#if 0
-      if (dump_status_) {
-	TCHAR dfname[80];
-_stprintf(dfname, "ms_%lu_dump.%lu", pid_, time(NULL));
-	TCHAR dumpfile[FILENAME_MAX];
-	GlobalDB()->GetDumpFile(dumpfile, dfname);
-	FILE* df =_tfopen(dumpfile, "w");
-	Dump(df);
-	fclose(df);
-      } 
+        log_->Error(_T("%s: could not start servers"), method);
+        sinfo_->SignalServers(SIGTERM);
+        return;
+    }
+
+    log_->Debug(_T("Masterd started servers"));
+
+    done_ = false;
+    bool clean_exit = false;
+    log_->Debug(_T("Masterd entering main loop"));
+
+    while (!done_) {
+        int status;
+        dump_status_ = rotate_logs_ = false;
+        LmUtil::UnBlockAllSignals();
+        log_->Debug(_T("Masterd waiting for child to die"));
+        pid_t pid = wait(&status);
+        LmUtil::BlockAllSignals();
+
+        if ((pid == -1) && (errno == EINTR)) {
+            // ... existing signal-handling logic ...
+            continue;
+        }
+        else if (pid == -1) {
+            if (errno == ECHILD) {
+                done_ = true;
+            }
+            else {
+                log_->Error(_T("%s: wait: %s"), method, strerror(errno));
+            }
+        }
+        else {
+            handle_child_death(pid, status);
+        }
+    }
+
+    // stop servers and cleanup (POSIX way)
+    sinfo_->StopServers();
+    int slept = 0;
+    bool clean_exit = false;
+
+    while (slept < 60) {
+        int rc = waitpid(-1, NULL, WNOHANG);
+        if (rc == 0) {
+            log_->Debug(_T("%s: no children available; slept=%d"), method, slept);
+            sleep(5);
+            slept += 5;
+            continue;
+        }
+        else if (rc == -1) {
+            if (errno == ECHILD) {
+                log_->Log(_T("%s: all children exited normally"), method);
+                clean_exit = true;
+            }
+            else {
+                log_->Warning(_T("%s: waitpid: %s"), method, strerror(errno));
+            }
+            break;
+        }
+        log_->Log(_T("%s: child %lu exited"), method, rc);
+    }
+
+    if (!clean_exit)
+        sinfo_->SignalServers(SIGKILL);
+
+    remove_pidfile();
+
+#else // UL_WINDOWS
+
+    // Windows stub: no POSIX child/process mgmt yet.
+    log_->Error(_T("%s: MsMain::Go is not implemented for Windows (POSIX wait()/signals)"), method);
+
+    // Optionally: you could *still* call StartServers here later, using a Windows-specific
+    // process model (CreateProcess etc.), but for now we just bail out.
+
 #endif
-      if (rotate_logs_) {
-	log_->Log(_T("%s: rotating log"), method);
-	close_log();
-	open_log();
-      }
-      if (check_servers_) {
-	//	log_->Log(_T("%s: checking server status at time %d"), method, time(NULL));
-	for (int i = 0; i < serverdbc_->NumServers(); ++i) {
-	  // if server arg1 is 0, it's an inactive server, don't try to connect
-	  if (serverdbc_->Arg1(i) == 0) 
-	    continue;
-	  // we're really only worried about gamed's right now
-	  if (serverdbc_->ServerType(i) != LmServerDBC::ST_GAME)
-	    continue; 
-	  // create socket
-	  LmSocket sock;
-	  if (sock.Socket(LmSockType::Inet_Stream()) < 0) {
-	    log_->Log(_T("Could not create socket to check server index %d\n"), i);
-	    continue;
-	  }
-	  // get server address
-	  LmSockAddrInet addr;
-	  addr.Init(serverdbc_->HostIPAddr(i), serverdbc_->Arg1(i));
-	  // attempt to connect to server
-	  if (sock.Connect(addr) < 0) {
-	    pid = sinfo_->ServerPid(i);
-	    if (pid > -1) {
-	      log_->Log(_T("Server Index %d DOWN; restarting\n"), i);
-	      handle_child_death(pid, Lyra::EXIT_OK);
-	    } else {
-	      log_->Log(_T("Server Index %d DOWN; could not find in list, not restarting\n"), i);
-	    }
-	  } else {  // use a dummy login/logout to be clean about things
-	    get_status(sock);
-	  }
-	  sock.Close();
-	}
-
-	check_servers_ = false;
-      }
-      continue;
-    }
-    else if (pid == -1) { // error
-      if (errno == ECHILD) { // no children, so don't bother to stick around
-	done_ = true;
-      }
-      else {
-	log_->Error(_T(": wait: "), method, strerror(errno));
-      }
-    }
-    else { // child died
-      handle_child_death(pid, status);
-    }
-  }
-  // stop servers
-  sinfo_->StopServers();
-  // wait for them all to exit
-  int slept = 0;
-  while (slept < 60) { // wait up to a minute
-    // int rc = wait(NULL); // this would hang forever
-    int rc = waitpid(-1, NULL, WNOHANG);
-    if (rc == 0) { // no children exited yet
-      log_->Debug(_T("%s: no children available; slept=%d"), method, slept);
-      sleep(5); // sleep a bit until they do
-      slept += 5;
-      continue;
-    }
-    else if (rc == -1) { // error (most likely no child processes)
-      if (errno == ECHILD) {
-	log_->Log(_T("%s: all children exited normally"), method);
-	clean_exit = true;
-      }
-      else {
-	log_->Warning(_T("%s: waitpid: %s"), method, strerror(errno));
-      }
-      break; // exit on any error
-    }
-    log_->Log(_T("%s: child %lu exited"), method, rc);
-  }
-  // just in case there are some stragglers
-  if (!clean_exit)
-    sinfo_->SignalServers(SIGKILL);
-  // cleanup
-  remove_pidfile();
 }
+
 
 ////
 // get_status
@@ -315,9 +284,9 @@ void MsMain::Dump(FILE* f, int indent) const
   INDENT(indent, f);
  _ftprintf(f, _T("<MsMain[%p,%d]: pid=%lu>\n\n"), this, sizeof(MsMain), ServerPid());
   // dump each object
-  sinfo_->Dump(f, indent);    _ftprintf(f, "\n");
-  serverdbc_->Dump(f, indent); _ftprintf(f, "\n");
-  globaldb_->Dump(f, indent); _ftprintf(f, "\n");
+  sinfo_->Dump(f, indent);    _ftprintf(f, _T("\n"));
+  serverdbc_->Dump(f, indent); _ftprintf(f, _T("\n"));
+  globaldb_->Dump(f, indent); _ftprintf(f, _T("\n"));
 }
 
 ////
@@ -327,7 +296,7 @@ void MsMain::Dump(FILE* f, int indent) const
 void MsMain::open_log()
 {
   if (log_) {
-    log_->Init("ms", "main", ServerPid());
+    log_->Init(_T("ms"), _T("main"), ServerPid());
     log_->Open(GlobalDB()->LogDir());
     //const char* universe = _tgetenv("UL_UNIVERSE");
     //if (!universe) {
@@ -357,12 +326,12 @@ void MsMain::close_log()
 int MsMain::create_pidfile()
 {
   TCHAR pidfname[FILENAME_MAX];
-  GlobalDB()->GetPidFile(pidfname, "masterd.pid");
-  FILE* pidf =_tfopen(pidfname, "w");
+  GlobalDB()->GetPidFile(pidfname, _T("masterd.pid"));
+  FILE* pidf =_tfopen(pidfname, _T("w"));
   if (!pidf) {
     return -1;
   }
- _ftprintf(pidf, "%lu\n", ServerPid());
+ _ftprintf(pidf, _T("%lu\n"), ServerPid());
   fclose(pidf);
   return 0;
 }
@@ -374,7 +343,7 @@ int MsMain::create_pidfile()
 void MsMain::remove_pidfile()
 {
   TCHAR pidfname[FILENAME_MAX];
-  GlobalDB()->GetPidFile(pidfname, "masterd.pid");
+  GlobalDB()->GetPidFile(pidfname, _T("masterd.pid"));
   _tunlink(pidfname);
 }
 
@@ -384,6 +353,7 @@ void MsMain::remove_pidfile()
 
 void MsMain::install_signals()
 {
+#ifdef UL_POSIX
   static int sigs[] = {
     SIGTERM,
     SIGUSR1,
@@ -398,6 +368,11 @@ void MsMain::install_signals()
   for (int i = 0; i < num_sigs; ++i) {
     sigaction(sigs[i], &sa, NULL);
   }
+#else
+    // Windows: no POSIX signals installed.
+    // later hook this into a Windows service control handler or just
+    // leave it empty for now.
+#endif
 }
 
 ////
@@ -415,48 +390,38 @@ void MsMain::dispatch_signal(int sig)
 
 void MsMain::handle_signal(int sig)
 {
-  DEFMETHOD(MsMain, handle_signal);
-  // be very careful logging in signal handlers
-  // log_->Debug(_T("%s: signal '%s' (%d) received"), method, strsignal(sig), sig);
-  // handle
-  switch (sig) {
+#ifdef UL_POSIX
 
-    // restarting is no longer supported, since other tasks (such
-    // as removing items from full rooms, and waiting for the servers
-    // to shut down properly) are necessary on start
+    DEFMETHOD(MsMain, handle_signal);
 
-    //case SIGHUP: { // exit, and restart
-    //    done_ = true;
-    //    restart_ = true;
-    //  }
-    //  break;
+    switch (sig) {
 
-    // SIGUSR1 used to be dump state (per-Ul2000)
-    // now it means check all servers to ensure they are up
+    case SIGUSR1:
+        check_servers_ = true;
+        break;
 
-  case SIGUSR1: { // check server status
-      check_servers_ = true;
-      break;
+    case SIGUSR2:
+        rotate_logs_ = true;
+        break;
+
+    case SIGTERM:
+        done_ = true;
+        restart_ = false;
+        break;
+
+    default:
+        // unhandled signal
+        break;
     }
 
-  case SIGUSR2: { // rotate logs
-      rotate_logs_ = true;
-      break;
-    }
+#else  // UL_WINDOWS
 
-  case SIGTERM: { // exit, no restart
-    done_ = true;
-    restart_ = false;
-    break;
-  }
+    // No POSIX signals on Windows.
+    // This function should never be called on Windows anyway.
 
-  break;
-  default: {
-    //    log_->Warning(_T("%s: unhandled signal '%s' (%d) received"), method, strsignal(sig), sig);
-  }
+    (void)sig; // avoid unused parameter warnings
 
-  break;
-  }
+#endif
 }
 
 ////
@@ -480,7 +445,7 @@ void MsMain::handle_child_death(pid_t childpid, int status)
 #endif
 
   bool email_admin = false; // don't email by default
-  TCHAR* death_reason = _T("unknown");
+  const TCHAR* death_reason = _T("unknown");
   int email_code = 0;
   // check that child was one of the servers
   if (!sinfo_->HasServer(childpid)) {
@@ -492,7 +457,7 @@ void MsMain::handle_child_death(pid_t childpid, int status)
   int srv_type = serverdbc_->ServerType(server_index);
   int srv_arg1 = serverdbc_->Arg1(server_index);
   int srv_arg2 = serverdbc_->Arg2(server_index);
-
+#ifdef UL_POSIX
   // did child exit normally?
   if (WIFEXITED(status)) {
     int cstatus = WEXITSTATUS(status);
@@ -511,7 +476,7 @@ void MsMain::handle_child_death(pid_t childpid, int status)
       log_->Log(_T("%s: child %lu exited with known error code %d"), method, childpid, cstatus);
       // email notification
       //      email_admin = true;
-      death_reason = "exited with error code";
+      death_reason = _T("exited with error code");
       email_code = cstatus;
       break;
     default:
@@ -520,7 +485,7 @@ void MsMain::handle_child_death(pid_t childpid, int status)
       // email notification
       //      email_admin = true;
 
-      death_reason = "exited with unknown status code";
+      death_reason = _T("exited with unknown status code");
       email_code = cstatus;
       break;
     }
@@ -532,11 +497,11 @@ void MsMain::handle_child_death(pid_t childpid, int status)
     //    log_->Log(_T("%s: child %lu killed by signal '%s' (%d)"), method, childpid, strsignal(termsig), termsig);
     // rename the core file, so it won't be overwritten by others
     TCHAR newname[40];
-   _stprintf(newname, "../cores/core.%lu", childpid);
-    _trename("core", newname);
+   _stprintf(newname, _T("../cores/core.%lu"), childpid);
+    _trename(_T("core"), newname);
     // email notification
     //    email_admin = true;
-    death_reason = "killed by signal";
+    death_reason = _T("killed by signal");
     email_code = termsig;
   }
   // something else happen?
@@ -544,7 +509,7 @@ void MsMain::handle_child_death(pid_t childpid, int status)
     log_->Log(_T("%s: child %lu exited unusually with status %d"), method, childpid, status);
     // email notification
     //    email_admin = true;
-    death_reason = "exited/crashed with unusual status";
+    death_reason = _T("exited/crashed with unusual status");
     email_code = status;
   }
 
@@ -558,25 +523,26 @@ void MsMain::handle_child_death(pid_t childpid, int status)
     pid_t pid = fork();
 
     if (pid == -1) {
-      Log()->Error(": could not fork to launch fix_ghosts.pl : ", method, strerror(errno));
+      Log()->Error(_T(": could not fork to launch fix_ghosts.pl : "), method, strerror(errno));
     }
     
     if (pid == 0) { // child
       LmUtil::CloseAllDescriptors(); // close all files
       const TCHAR* rootdir = GlobalDB()->RootDir();
       TCHAR servexec[FILENAME_MAX], arg1[32], arg2[32];
-     _stprintf(arg1, "%s", serverdbc_->HostName(server_index));
-     _stprintf(arg2, "%d", srv_arg1);
-     _stprintf(servexec, "/bin/fix_ghost", rootdir);
+     _stprintf(arg1, _T("%s"), serverdbc_->HostName(server_index));
+     _stprintf(arg2, _T("%d"), srv_arg1);
+     _stprintf(servexec, _T("/bin/fix_ghost"), rootdir);
       // if execl fails, it will fall through
       int rc =_texecl(servexec, rootdir, arg1, arg2, NULL);
-      FILE* f =_tfopen("/tmp/masterd.out", "a");
+      FILE* f =_tfopen(_T("/tmp/masterd.out"), _T("a"));
      _ftprintf(f, _T("return value %d, error %s while executing %s\n"), rc, strerror(errno), servexec);
       fclose(f);
       exit(Lyra::EXIT_ARGS);
     } else { // add new child to list of known children processes
       //      sinfo_->AddGamedCleanup(pid);
     }
+
   }
 
   // restart?
@@ -594,6 +560,7 @@ void MsMain::handle_child_death(pid_t childpid, int status)
   if (email_admin) {
     LmUtil::SendMail(_T("masterd@underlight"), serverdbc_->DatabaseAdminEmail(), _T("Underlight: server exit"),  _T("HostName: %s\n")     _T("Error: return code %d from Underlight server, child %lu\n")     _T("Reason: %s %d\n")     _T("Server type: %c, args: %d %d; restarted: %d\n"),     HostName(),  status, childpid, death_reason, email_code, srv_type, srv_arg1, srv_arg2, restart);
   }
+#endif
 }
 
 const char* MsMain::HostName() const

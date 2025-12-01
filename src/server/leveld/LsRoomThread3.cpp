@@ -467,7 +467,7 @@ void LsRoomThread::handle_RMsg_Speech(LmSrvMesgBuf* msgbuf, LsPlayer* source)
     compute_RMsg_Speech_Speech(source, player_list, mumble_list, msg);
     if(mumble_list.size() > 0) {
        RMsg_Speech mumbleMsg;
-       mumbleMsg.Init(RMsg_Speech::MUMBLE_EMOTE, 0, 0, "You hear the muffled sound of voices but you are unable to make out the words.");
+       mumbleMsg.Init(RMsg_Speech::MUMBLE_EMOTE, 0, 0, _T("You hear the muffled sound of voices but you are unable to make out the words."));
        send_RMsg_Speech(source, mumble_list, mumbleMsg);
     } 
     break;

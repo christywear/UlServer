@@ -38,7 +38,7 @@
   { \
     if (conn->Type() != LmConnection::CT_UNKNOWN) { \
       TLOG_Error(_T("%s: conn [%p] (%c,%u) not unknown"), method, conn, conn->Type(), conn->ID()); \
-      GsUtil::Send_Error(main_, conn, msg_type, "already logged in"); \
+      GsUtil::Send_Error(main_, conn, msg_type, _T("already logged in")); \
       return; \
     } \
   }

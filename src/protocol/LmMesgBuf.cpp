@@ -95,7 +95,7 @@ void LmMesgBuf::Alloc(int bufsize)
   if (bufsize > max_bufsize_) {
     Free();
     if (bufsize > 0) {
-      buf_ = LmNEW(TCHAR[bufsize]);
+      buf_ = (char*) LmNEW(TCHAR[bufsize]);
       max_bufsize_ = bufsize;
     }
   }

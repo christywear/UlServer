@@ -338,7 +338,7 @@ void GsPlayerThread::send_SMsg_LevelLogin(LmConnection* lsconn, lyra_id_t roomid
 
   if (player_->Firewall()) // update address is us (the gamed) so we can forward it
   {
-	  TLOG_Debug( "Player has firewall set - tunnel thru gamed!" );
+	  TLOG_Debug( _T("Player has firewall set - tunnel thru gamed!") );
 	  msg.Init(player_->PlayerID(), player_->DB().PlayerName(), player_->DB().AccountType(),
 		main_->HostIPAddress(), main_->ServerPort(), player_->Avatar(), roomid, update,
 		player_->IsHidden(), player_->DB().AvatarDescrip(), player_->DB().NewlyAlert(),

@@ -22,6 +22,7 @@
 #include "../../include/Protocol/LmSrvMesgBuf.h"
 
 #include "../../include/core/LmNew.h" //takes care of declare_thefilename macro
+#include <algorithm>
 DECLARE_TheFileName;
 
 ////

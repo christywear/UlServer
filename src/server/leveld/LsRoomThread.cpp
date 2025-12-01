@@ -518,7 +518,7 @@ void LsRoomThread::handle_SMsg_LocateAvatar(LmSrvMesgBuf* msgbuf, LmConnection* 
   // process
   lyra_id_t locatorid = msg.LocatorID();
   lyra_id_t playerid = msg.PlayerID();
-  TLOG_Debug("%s: player %u locating player %u", method, locatorid, playerid);
+  TLOG_Debug(_T("%s: player %u locating player %u"), method, locatorid, playerid);
   // find target player
   lyra_id_t roomid = Lyra::ID_UNKNOWN; // default: not found here
   LsPlayer* player = main_->PlayerSet()->GetPlayer(playerid);
@@ -526,11 +526,11 @@ void LsRoomThread::handle_SMsg_LocateAvatar(LmSrvMesgBuf* msgbuf, LmConnection* 
     roomid = player->RoomID();
     // hidden?
     if(player->Avatar().Hidden()) {
-	TLOG_Debug("%s: player %u is hidden - returning Unknown!", method, playerid);
+	TLOG_Debug(_T("%s: player %u is hidden - returning Unknown!"), method, playerid);
 	roomid += Lyra::HIDDEN_DELTA * 2;
     }
     else if (player->IsHidden()) {
-	TLOG_Debug("%s: player %u is MINDBLANKED - returning HIDDEN!", method, playerid);
+	TLOG_Debug(_T("%s: player %u is MINDBLANKED - returning HIDDEN!"), method, playerid);
       roomid += Lyra::HIDDEN_DELTA;
     }
   }

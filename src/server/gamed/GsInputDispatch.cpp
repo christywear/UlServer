@@ -7,7 +7,7 @@
 #ifdef __GNUC__
 #pragma implementation "GsInputDispatch.h"
 #endif
-#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
 #ifndef WIN32
 #include <stdlib.h>
 #include <unistd.h> //linux

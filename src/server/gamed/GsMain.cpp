@@ -6,7 +6,7 @@
 
 extern int h_errno;
 
-#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
+#include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
 #ifdef __GNUC__
 #pragma implementation "GsMain.h"
 #endif
@@ -61,6 +61,7 @@ extern int h_errno;
 #include "../../../include/Protocol/SMsg/SMsg_GS_Action.h"
 #include "../../../include/Server/Gamed/GsMacros.h"
 #include "../../../include/Core/LmRand.h"
+#include <process.h>
 
 ////
 // Constructor
@@ -217,12 +218,12 @@ int GsMain::Init(const TCHAR* root_dir, int max_players, const char* next_ip_add
   // seed random number generator
   LmRand::InitSeed(getpid());
 
-  _tcscpy(next_ip_, next_ip_address);
+  _tcscpy((wchar_t*)(next_ip_), (wchar_t*)next_ip_address);
   next_port_ = next_server_port;
   // if the "next" IP/port is the same as ours, 
   // ignore login counts and run until shut down
   if ((next_port_ == portnum_) &&
-	  (0 == _tcscmp(next_ip_address, host_ip_)))
+	  (0 == _tcscmp((wchar_t*)next_ip_address, (wchar_t*)host_ip_)))
 	  run_forever_ = true;
 
   log_->Debug(_T("Initialized game server"));
@@ -243,7 +244,7 @@ int GsMain::CreateSockets(int min_port, int max_port, const char* ip_address)
   // initialize server address
   LmSockAddrInet addr;
   
-  if (addr.Init(ip_address, ServerPort()) == -1) { // bind to host's IP address
+  if (addr.Init((wchar_t*)ip_address, ServerPort()) == -1) { // bind to host's IP address
     log_->Error(_T("%s: could not bind to address %s"), method, ip_address);
   }
 
@@ -278,7 +279,7 @@ int GsMain::CreateSockets(int min_port, int max_port, const char* ip_address)
   usock_->ComputeAddresses(true);
   // sockets created and bound successfully; assign server port
   portnum_ = tsock_->SockName().Port();
- _tcscpy(host_ip_, ip_address);
+ _tcscpy((wchar_t*)host_ip_, (wchar_t*)ip_address);
   host_ip_addr_ = (unsigned long)(tsock_->SockName().IPAddress());
   // DEBUGLOG(("%s: port=%d, server address: %s:%d", method, portnum_, addr.AddressString(), addr.Port()));
   return 0;
@@ -296,7 +297,7 @@ int GsMain::Go()
   ppid_ = getppid();
 #endif
   start_time_ = time(NULL);
-  log_->Log("%s: main process id = %ld, parent = %ld", method, ServerPid(), ParentPid());
+  log_->Log(_T("%s: main process id = %ld, parent = %ld"), method, ServerPid(), ParentPid());
 
   // connect to databases
 
@@ -774,7 +775,7 @@ void GsMain::Close()
 
 	// if the next ip and port are the same as the current, we ignore
 	// the number  of logins and run indefinitely
-	if ((0 == _tcscmp(host_ip_, next_ip_)) &&
+	if ((0 == _tcscmp((wchar_t*)host_ip_, (wchar_t*)next_ip_)) &&
 		(portnum_ == next_port_))
 		return;
 

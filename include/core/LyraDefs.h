@@ -222,7 +222,9 @@ typedef unsigned int realmid_t;  // backwards compatibility
 
 // define a variable called "method" with the current method name
 #ifndef DEFMETHOD
-#define DEFMETHOD(Class,Method) static const TCHAR* method = #Class "::" #Method ;
+#define DEFMETHOD(cls, func) \
+    static const TCHAR* method = _T(#cls "::" #func);
+
 #endif
 
 // on Linux, include pth.h to use soft system call mapping for user-level threads

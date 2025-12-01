@@ -24,6 +24,7 @@
 #include "../../../include/Game/LmGoalInfo.h"
 #include "../../../include/Protocol/RMsg/RMsg_PlayerUpdate.h"
 #include "../../../include/Core/LmUtil.h"
+#include "../../../include/game/LmStats.h"
 
 
 ////

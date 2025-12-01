@@ -120,13 +120,13 @@ void LsPlayer::Init(LmConnection* conn, const TCHAR* playername, int acct_type, 
   // the actual name (ie. "Horron"), and Y is the playerid, which is stripped away)
   if (acct_type == LmPlayerDB::ACCT_MONSTER) {
 	  if (_tcscmp(_T("Revenant"), description) == 0) {
-		  _tcsncpy(playername_, "Revenant", sizeof(playername_));
+		  _tcsncpy(playername_, _T("Revenant"), sizeof(playername_));
 	  }
 	  else
 	  {
 		int pi;
 		// *** STRING LITERAL ***  
-		if (_stscanf(playername, "%[^_]_%d", playername_, &pi) != 2) {
+		if (_stscanf(playername, _T("%[^_]_%d"), playername_, &pi) != 2) {
 		  // couldn't parse it
 		 _tcsnccpy(playername_, playername, sizeof(playername_));
 		}

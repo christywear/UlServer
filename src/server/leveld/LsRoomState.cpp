@@ -107,15 +107,15 @@ void LsRoomState::LoadFromDisk(LmDatabase& db)
   LmDatabaseKey key(_T("Room"), _T(""), db_->RoomID(), 0);
   // fetch simple fields
   int num_items = 0;
-  DBFETCH_I("NumItems", num_items);
+  DBFETCH_I((wchar_t*)"NumItems", num_items);
   // get items in room
   for (int i = 0; i < num_items; ++i) {
     char keystr[LmDatabaseKey::MAX_KEYLEN];
     char val[LmDatabase::MAX_VALUELEN];
     LmRoomItem roomitem;
-   _stprintf(keystr, _T("RoomItem_%d"), i + 1);
-    DBFETCH_S(keystr, val);
-    if (roomitem.Parse(val) == 0) {
+   _stprintf((wchar_t*)keystr, _T("RoomItem_%d"), i + 1);
+    DBFETCH_S((wchar_t*)keystr, (wchar_t*)val);
+    if (roomitem.Parse((wchar_t*)val) == 0) {
       add_item(roomitem);
     }
   }
@@ -146,10 +146,10 @@ void LsRoomState::SaveToDisk(LmDatabase& db)
   for (ri = items_.begin(); (bool)!(ri == items_.end()); ++ri) {
     char keystr[LmDatabaseKey::MAX_KEYLEN];
     char val[LmDatabase::MAX_VALUELEN];
-   _stprintf(keystr, _T("RoomItem_%d"), i + 1);
+   _stprintf((wchar_t*)keystr, _T("RoomItem_%d"), i + 1);
     ++i;
-    (*ri).UnParse(val, sizeof(val));
-    DBSTORE(keystr, val);
+    (*ri).UnParse((wchar_t*)val, sizeof(val));
+    DBSTORE((wchar_t*)keystr, (wchar_t*)(val));
   }
 }
 
@@ -547,7 +547,7 @@ bool LsRoomState::HasPortkey() const
   bool ret = false;
   LmRoomItemList::const_iterator i;
   for(i = items_.begin(); !(bool)(i == items_.end()); ++i) {
-    void* state = (*i).Item().StateField(0);
+    const void* state = (*i).Item().StateField(0);
     unsigned char type = *((unsigned char*)state);
     if(type == LyraItem::PORTKEY_FUNCTION)
     {

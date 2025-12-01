@@ -209,11 +209,11 @@ void __cdecl GamedHelper(void* param)
 	Main = LmNEW(GsMain());
 	int rc = 0;
 
-	if ((rc = Main->CreateSockets(ServerPort, ServerPort, IPAddress)) < 0) {
+	if ((rc = Main->CreateSockets(ServerPort, ServerPort, (const char*)IPAddress)) < 0) {
 		// DEBUGLOG(("main: could not create sockets; rc=%d; error=%s", rc, strerror(errno)));
 		retval = Lyra::EXIT_INIT;
 	}
-	else if ((rc = Main->Init(RootDirectory, MaxPlayers, NextIPAddress, NextServerPort)) < 0) {
+	else if ((rc = Main->Init(RootDirectory, MaxPlayers, (const char*)NextIPAddress, NextServerPort)) < 0) {
 		// DEBUGLOG(("main: could not init Main; rc=%d", rc));
 		retval = Lyra::EXIT_INIT;
 	}
@@ -244,22 +244,22 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	}
 	
 	TCHAR buffer[256];
-	_stscanf(argv, _T("%s %d %d %s"), RootDirectory, &ServerPort, &MaxPlayers, buffer);
+	_stscanf((const wchar_t* )argv, _T("%s %d %d %s"), RootDirectory, &ServerPort, &MaxPlayers, buffer);
 	// strip quotes from IP address
 _tcsnccpy(IPAddress, buffer+1,_tcslen(buffer)-2);
 	
 	RegisterClass(hInstance);
 
-	setlocale(LC_ALL, _T("C"));
+	setlocale(LC_ALL, ("C"));
 	
 	// Perform application initialization:
 	if (!InitInstance (hInstance, nCmdShow)) 
 	{
-		MessageBox(NULL, "Could not create Window for GameD", "Window Error", MB_OK);
+		MessageBox(NULL, _T("Could not create Window for GameD"), _T("Window Error"), MB_OK);
 		exit(Lyra::EXIT_ARGS);
 	}
 	
-	wm_shutdown_servers = RegisterWindowMessage(SERVER_SHUTDOWN_STRING);
+	wm_shutdown_servers = RegisterWindowMessage((const wchar_t*)SERVER_SHUTDOWN_STRING);
 	
 	// open log file
 	// DebugLog.Init("gamed", "", 0, getpid());

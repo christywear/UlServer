@@ -8,10 +8,12 @@
 #pragma implementation "LmConnection.h"
 #endif
 
+#include "../../include/platform/Platform.h"
+
 #include <stdio.h>
 #ifdef WIN32
 #define STRICT
-#include "unix.h"
+#include "../../include/core/unix.h"
 #include <winsock.h>
 #else /* !WIN32 */
 #include <sys/types.h>

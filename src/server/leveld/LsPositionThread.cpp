@@ -307,7 +307,7 @@ void LsPositionThread::handle_RMsg_Update(LmSrvMesgBuf* msgbuf, LmSockAddrInet& 
     struct in_addr a1;
     a1.s_addr = player->IPAddress();
     TCHAR connstr[20];
-   _tcsnccpy(connstr, inet_ntoa(a1), sizeof(connstr));
+   _tcsnccpy(connstr, (wchar_t*)inet_ntoa(a1), sizeof(connstr));
     TLOG_Warning(_T("%s: possible spoof, player %u, connection IP = %s, udp IP = %s:%d"), method,
                  playerid, connstr, caddr.AddressString(), caddr.Port());
     return;

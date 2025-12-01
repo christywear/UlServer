@@ -329,7 +329,7 @@ int GsPlayer::Login(lyra_id_t playerid, int pmare_type, bool first_login)
 
   // log player in
   rc = main_->PlayerDBC()->Login(playerid, pmare_type, db_.PMareBilling(),
-	  main_->HostIP(), main_->ServerPort(), first_login);
+	  (wchar_t*)(main_->HostIP()), main_->ServerPort(), first_login);
   sc = main_->PlayerDBC()->LastSQLCode();
   lt = main_->PlayerDBC()->LastCallTime();
   //  main_->Log()->Debug(_T("%s: LmPlayerDBC::Login took %d ms"), method, lt);

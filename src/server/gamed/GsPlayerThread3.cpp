@@ -44,6 +44,7 @@
 #include "../../../include/Server/Gamed/GsPlayerThreadSet.h"
 #include "../../../include/DB/LmPlayerDBC.h"
 #include "../../../include/DB/LmBillingDBC.h"
+#include "../../../include/game/LmStats.h"
 
 ////
 // handle_SMsg_PartyLeader
@@ -102,7 +103,7 @@ void GsPlayerThread::handle_SMsg_LocateAvatar(LmSrvMesgBuf* msgbuf, LmConnection
   }
   // check if player was found in level
    if (msg.RoomID() == Lyra::ID_UNKNOWN) { // not found
-    main_->Log()->Log("%s: unable to find player %u in level so calling perform_locateavatar", method, msg.PlayerID());
+    main_->Log()->Log(_T("%s: unable to find player %u in level so calling perform_locateavatar"), method, msg.PlayerID());
     perform_locateavatar(msg.PlayerID(), pname);
     return;
      }

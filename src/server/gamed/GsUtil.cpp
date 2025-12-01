@@ -442,7 +442,7 @@ void GsUtil::HandleItemError(GsMain* main, const TCHAR* calling_method, int rc, 
       TCHAR hname[256];
 	// *** STRING LITERAL ***
      _stprintf(hname, _T("(unknown)"));
-      gethostname(hname, sizeof(hname));
+      gethostname((char*)hname, sizeof(hname));
       LmUtil::SendMail(_T("gamed@underlight"), main->ServerDBC()->DatabaseAdminEmail(), _T("Underlight: database error"),
 		       _T("HostName: %s\n")
 		       _T("Server Info: port %d, pid %lu\n")
@@ -483,7 +483,7 @@ void GsUtil::HandlePlayerError(GsMain* main, const TCHAR* calling_method,
       TCHAR hname[256];
 	  	// *** STRING LITERAL ***
      _stprintf(hname, _T("(unknown)"));
-      gethostname(hname, sizeof(hname));
+      gethostname((char*)hname, sizeof(hname));
       LmUtil::SendMail(_T("gamed@underlight"), main->ServerDBC()->DatabaseAdminEmail(), _T("Underlight: database error"),
 		       _T("HostName: %s\n")
 		       _T("Server Info: port %d, pid %lu\n")

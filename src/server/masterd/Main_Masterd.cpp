@@ -36,7 +36,7 @@ int _tmain(int argc, TCHAR** argv)
 
   // check command-line arguments
   if ((argc != 2) && (argc != 3)) {
-   _tprintf(_T("Usage: %s root_dir <debugging>\n"), argv[0]);
+   _tprintf("Usage: %s root_dir <debugging>\n", argv[0]);
     exit(1);
     }
   
@@ -55,7 +55,9 @@ int _tmain(int argc, TCHAR** argv)
 
   _tsetlocale(LC_ALL, _T("C"));
 
+#ifdef UL_POSIX
   pth_init();
+#endif
 
 #ifdef USE_LMNEW
   // open new/delete log file
@@ -89,7 +91,9 @@ int _tmain(int argc, TCHAR** argv)
   log.Close();
 #endif /* USE_LMNEW */
 
+#ifdef UL_POSIX
   pth_kill();
+#endif
 
   return 0;
 }

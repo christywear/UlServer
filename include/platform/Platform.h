@@ -30,7 +30,9 @@
 #define win32 1
 #endif
 #endif
-
+#ifndef UL_SERVER_WIN32 //added to fix pid_t missing
+#define UL_SERVER_WIN32 1
+#endif
 // You can add more later if needed, e.g. UL_MACOS, UL_BSD, etc.
 // #if defined(__APPLE__)
 //   #define UL_MACOS 1

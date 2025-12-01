@@ -215,7 +215,7 @@ void LsUtil::HandleItemError(LsMain* main, const TCHAR* calling_method, int rc, 
       TCHAR hname[256];
 // *** STRING LITERAL ***  
      _stprintf(hname, _T("(unknown)"));
-      gethostname(hname, sizeof(hname));
+      gethostname((char*)(hname), sizeof(hname));
       LmUtil::SendMail(_T("leveld@underlight"), main->ServerDBC()->DatabaseAdminEmail(), _T("Underlight: database error"),
 		       _T("HostName: %s\n") _T("Server Info: level %d, pid %lu\n")  _T("Error: item database fatal error in method %s\n") _T("Reason: sqlcode %d\n"),
 		       hname, main->LevelDBC()->LevelID(), main->ServerPid(),

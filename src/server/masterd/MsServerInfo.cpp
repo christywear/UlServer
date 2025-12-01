@@ -23,6 +23,7 @@
 #include "../../../include/Game/LmLog.h"
 #include "../../../include/Core/LmUtil.h"
 #include "../../../include/DB/LmGlobalDB.h"
+#include "../../../include/core/LyraDefs.h"
 
 #define ROUND_ROBIN
 //#define GAMED_POINTER
@@ -157,11 +158,16 @@ int MsServerInfo::SignalServers(int sig)
     cs_t cs = *i;
     main_->Log()->Debug(_T("%s: sending signal %d to child %lu"), method, sig, cs.pid);
     //    main_->Log()->Debug(_T("%s: sending signal '%s' (%d) to child %lu"), method, strsignal(sig), sig, cs.pid);
+#ifdef UL_POSIX
     if (kill(cs.pid, sig) < 0) {
       //main_->Log()->Error(_T("%s: sigsend: %s"), method, strerror(errno));
       retval = -1;
       // continue anyway
     }
+#else
+        //window stub
+        retval = -1;
+#endif
   }
   return retval;
 }
@@ -316,23 +322,24 @@ pid_t MsServerInfo::start_server(int server_index, int next_index)
   }
   // put integer args into strings
   TCHAR arg1[32], arg2[32], arg3[32], arg4[32], arg5[32];
- _stprintf(arg1, "%d", main_->ServerDB()->Arg1(server_index));
- _stprintf(arg2, "%d", main_->ServerDB()->Arg2(server_index));
+ _stprintf(arg1, _T("%d"), main_->ServerDB()->Arg1(server_index));
+ _stprintf(arg2, _T("%d"), main_->ServerDB()->Arg2(server_index));
  // _stprintf(arg3, "\"%s\"", main_->ServerDB()->HostName(server_index));
-  _stprintf(arg3, "%s", main_->ServerDB()->HostName(server_index));
+  _stprintf(arg3, _T("%s"), main_->ServerDB()->HostName(server_index));
   
   if ((servtype == LmServerDBC::ST_GAME) && (0 <= next_index)) {
-    _stprintf(arg4, "%s", main_->ServerDB()->HostName(next_index));
-    _stprintf(arg5, "%d", main_->ServerDB()->Arg1(next_index));
+    _stprintf(arg4, _T("%s"), main_->ServerDB()->HostName(next_index));
+    _stprintf(arg5, _T("%d"), main_->ServerDB()->Arg1(next_index));
   } else {
-    _stprintf(arg4, "0");
-    _stprintf(arg5, "0");
+    _stprintf(arg4, _T("0"));
+    _stprintf(arg5, _T("0"));
   } 
   // get full path of executable, root directory
   TCHAR servexec[FILENAME_MAX];
   main_->GlobalDB()->GetExecFile(servexec, servname);
   const TCHAR* rootdir = main_->GlobalDB()->RootDir();
   // fork
+#ifdef UL_POSIX //old linux || old winnt variant .. fork in this conectx goes way of unix, the texecl method no longer works esp for fork method as is
   pid_t pid = fork();
 
   if (pid == -1) {
@@ -358,9 +365,13 @@ pid_t MsServerInfo::start_server(int server_index, int next_index)
     // if execl fails, this is called
     exit(Lyra::EXIT_ARGS);
   }
+
   // else - parent
   main_->Log()->Debug(_T("%s: started '%s', args '%s %s %s %s %s', pid %lu"), method, servexec, arg1, arg2, arg3, arg4, arg5, pid);
+
   return pid;
+#endif
+  return -1;
 }
 
 int MsServerInfo::NumServers() const
