@@ -9,9 +9,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef UL_POSIX
 #include <unistd.h> //linux
 #include <sys/time.h> //linux
-
+#endif
 #include "../../include/DB/LmGlobalDB.h"
 #include "../../include/Protocol/LmSocket.h"
 #include "../../include/DB/LmServerDBC.h"
@@ -24,7 +25,7 @@ void send_dump_msg(FILE* outf, LmSocket& sock);
 
 void bail(TCHAR* str)
 {
- _tprintf(_T("ERROR %s\n"), str);
+ _tprintf(("ERROR %s\n"), str);
   exit(1);
 }
 
@@ -36,11 +37,11 @@ int _tmain(int argc, TCHAR** argv)
 {
   // check args
   if ((argc != 3) && (argc != 4)) {
-    bail(_T("usage: dump_state hostid [universe]"));
+    bail((wchar_t*)("usage: dump_state hostid [universe]"));
   }
-
+#ifdef UL_POSIX
   pth_init();
-
+#endif
   // list players?
   // get target hostid ("all" == all hosts)
   TCHAR* hostid = argv[1];
@@ -80,7 +81,7 @@ int _tmain(int argc, TCHAR** argv)
       continue;
     }
     // check hostid against "all", and against current server's hostid
-    if ((_tcscmp(hostid, "all") != 0) &&
+    if ((_tcscmp(hostid, _T("all")) != 0) &&
 	(_ttoi(hostid) != _ttoi(serverdbc_->HostID(i)))) {
       // not "all", and doesn't match current server
      _ftprintf(outf, _T("Skipping %d due to hostid mismatch %s, %s\n"), i, hostid, serverdbc_->HostID(i));
@@ -91,7 +92,7 @@ int _tmain(int argc, TCHAR** argv)
     // create socket
     LmSocket sock;
     if (sock.Socket(LmSockType::Inet_Stream()) < 0) {
-      bail(_T("could not create socket\n"));
+      bail((wchar_t*)("could not create socket\n"));
     }
     // get server address
     LmSockAddrInet addr;
@@ -108,7 +109,9 @@ int _tmain(int argc, TCHAR** argv)
   }
   fclose(outf);
   LmDELETE(serverdbc_);
+#ifdef UL_POSIX
   pth_kill();
+#endif
   return 0;
 }
 

@@ -16,7 +16,9 @@
 
 int _tmain(int argc, TCHAR** argv)
 {
+#ifdef UL_POSIX
   pth_init();
+#endif
   // if there are 5 arguments, treat them as item state
   int h1, h2, s1, s2, s3;
   h1 = h2 = s1 = s2 = s3 = 0;
@@ -28,19 +30,21 @@ int _tmain(int argc, TCHAR** argv)
     s3 = _ttoi(argv[5]);
   }
   else {
-   _tprintf(_T("Enter the item header and serial integers, separated by spaces: "));
+   _tprintf(("Enter the item header and serial integers, separated by spaces: "));
    _tscanf(_T("%d %d"), &h1, &h2);
-   _tprintf(_T("Enter the three item state integers, separated by spaces: "));
+   _tprintf(("Enter the three item state integers, separated by spaces: "));
    _tscanf(_T("%d %d %d"), &s1, &s2, &s3);
   }
 
   LmItem item;
+#ifdef UL_POSIX
   item.Init(h2, h1, _T("ItemName"), s1, s2, s3);
- _tprintf(_T("Item Dump:\n\n"));
+#endif
+ _tprintf(("Item Dump:\n\n"));
   item.Dump(stdout);
-
+#ifdef UL_POSIX
   pth_kill();
- 
+#endif
   return 0;
 }
 

@@ -1,3 +1,4 @@
+#ifdef UL_POSIX
 // PThAttr.cpp  -*- C++ -*-
 // $Id: PThAttr.cpp,v 1.3 1997-06-17 23:14:41-07 jason Exp $
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
@@ -71,3 +72,5 @@ int PThAttr::GetStackSize(unsigned int* stacksize) const
 	return pth_attr_get(attr_, PTH_ATTR_STACK_SIZE, stacksize);
 #endif
 }
+
+#endif

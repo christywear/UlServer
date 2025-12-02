@@ -12,6 +12,7 @@
 #include "mysql.h"
 #include "..\core\PThMutex.h"
 #include "..\core\SharedConstants.h"
+#include "../platform/win/MariaDB Connector C 64-bit/include/mysql.h"
 
 // local types
 

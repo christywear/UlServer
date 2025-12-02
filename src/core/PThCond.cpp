@@ -1,3 +1,4 @@
+#ifdef UL_POSIX
 // PThCond.cpp  -*- C++ -*-
 // $Id: PThCond.cpp,v 1.4 1997-08-20 01:34:36-07 jason Exp $
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
@@ -87,3 +88,4 @@ int PThCond::Broadcast()
     return pth_cond_notify(&cond_, TRUE);
 #endif
 }
+#endif

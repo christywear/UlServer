@@ -1,3 +1,4 @@
+#ifdef UL_POSIX
 // PThAttr.h  -*- C++ -*-
 // $Id: PThAttr.h,v 1.7 1997-07-08 13:58:37-07 jason Exp $
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
@@ -65,3 +66,4 @@ private:
 };
 
 #endif /* INCLUDED_PThAttr */
+#endif

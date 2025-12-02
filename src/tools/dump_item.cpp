@@ -16,26 +16,30 @@
 
 int _tmain(int argc, TCHAR** argv)
 {
+#ifdef UL_POSIX
   pth_init();
+#endif
   // if there's an argument, it is the item string, otherwise prompt for it
   TCHAR itemstr[80];
   if (argc == 2) {
    _tcsnccpy(itemstr, argv[1], sizeof(itemstr));
   }
   else {
-   _tprintf(_T("Enter item string: "));
+   _tprintf(("Enter item string: "));
    _tscanf(_T("%s"), itemstr);
   }
 
   LmItem item;
   if (item.Parse(itemstr) < 0) {
-   _tprintf(_T("Error: item string '%s' did not parse.\n"), itemstr);
+   _tprintf(("Error: item string '%s' did not parse.\n"), itemstr);
   }
   else {
-   _tprintf(_T("Item Dump:\n\n"));
+   _tprintf(("Item Dump:\n\n"));
     item.Dump(stdout);
   }
+#ifdef UL_POSIX
   pth_kill();
+#endif
   return 0;
 }
 

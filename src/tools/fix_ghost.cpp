@@ -8,10 +8,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef UL_POSIX
 #include <unistd.h> //linux
-#include <sys/types.h>
 #include <pwd.h> //linux?
-
+#endif
+#include <sys/types.h>
 #include "../../include/Core/LyraDefs.h"
 #include "../../include/DB/LmGlobalDB.h"
 #include "../../include/DB/LmPlayerDBC.h"
@@ -19,10 +20,11 @@
 
 int _tmain(int argc, TCHAR** argv)
 {
+#ifdef UL_POSIX
   pth_init();
-
+#endif
   if (argc < 3) {
-   _tprintf(_T("usage: fix_ghost <gamed ip address> <gamed port> (to unghost a given ip address/port) OR fix_ghost <gamed host ID> 0 (to unghost all players last logged into a gamd on the host ID)\n"));
+   _tprintf(("usage: fix_ghost <gamed ip address> <gamed port> (to unghost a given ip address/port) OR fix_ghost <gamed host ID> 0 (to unghost all players last logged into a gamd on the host ID)\n"));
     exit(-1);
   }
 
@@ -52,7 +54,7 @@ int _tmain(int argc, TCHAR** argv)
     FILE* fp =_tfopen(pid_file, _T("r"));
     if (fp) {
       fclose(fp);
-     _tprintf(_T("ERROR: you can never run this script with port = 0 when Underlight is running, as it may modify live player records\n"));
+     _tprintf(("ERROR: you can never run this script with port = 0 when Underlight is running, as it may modify live player records\n"));
       exit(-1);
     }
   }
@@ -65,7 +67,7 @@ int _tmain(int argc, TCHAR** argv)
   globaldb_->GetPasswordFile(pw_file);
   serverdbc_->LoadPasswords(pw_file);
   if (serverdbc_->Connect() < 0) {
-   _tprintf(_T("Error - could not connect to server database\n"));
+   _tprintf(("Error - could not connect to server database\n"));
     exit(-1);
   }
   serverdbc_->Load();
@@ -92,8 +94,8 @@ int _tmain(int argc, TCHAR** argv)
 
   LmDELETE(serverdbc_);
   LmDELETE(playerdbc_);
-
+#ifdef UL_POSIX
   pth_kill();
-
+#endif
   return 0;
 }

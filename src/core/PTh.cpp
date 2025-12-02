@@ -1,3 +1,4 @@
+#ifdef UL_POSIX
 // PTh.cpp -*- C++ -*-
 // $Id: PTh.cpp,v 1.11 1997-08-20 01:34:36-07 jason Exp $
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
@@ -171,3 +172,4 @@ void PTh::Yield()
 }
 #endif
 
+#endif

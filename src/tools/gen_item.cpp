@@ -8,23 +8,25 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "LyraDefs.h"
-#include "LmRand.h"
-#include "LmItem.h"
-#include "LmItemHdr.h"
-#include "LmItemDefs.h"
-#include "SharedConstants.h"
-#include "LmItemGen.h"
+#include "../../include/core/LyraDefs.h"
+#include "../../include/core/LmRand.h"
+#include "../../include/game/LmItem.h"
+#include "../../include/game/LmItemHdr.h"
+#include "../../include/game/LmItemDefs.h"
+#include "../../include/core/SharedConstants.h"
+#include "../../include/game/LmItemGen.h"
 
 int _tmain()
 {
+#ifdef UL_POSIX
   pth_init();
+#endif
   LmItem item;
 
   LmRand::InitSeed();
 
   for (int gt = LmItemGen::MIN_GENTYPE; gt <= LmItemGen::MAX_GENTYPE; ++gt) {
-   _tprintf(_T("*** Generator Type %d ***\n\n"), gt);
+   _tprintf(("*** Generator Type %d ***\n\n"), gt);
     // print out N items of each type, for each generator type
     int N = 100;
     int i;
@@ -52,15 +54,17 @@ int _tmain()
     }
 #endif
 
-   _tprintf(_T("Missile:\n\n"));
+   _tprintf(("Missile:\n\n"));
     for (i = 0; i < N; ++i) {
       LmItemGen::GenerateItem(gt, LmItemGen::ITEM_MISSILE, item);
       item.Dump(stdout);
-     _tprintf(_T("\n"));
+     _tprintf(("\n"));
     }
 
   }
+#ifdef UL_POSIX
   pth_kill();
+#endif
   return 0;
 }
 

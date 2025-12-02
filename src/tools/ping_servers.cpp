@@ -7,10 +7,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h> //linux
 #include <errno.h>
 #include <string.h>
+#ifdef UL_POSIX
 #include <sys/time.h> //linux
+#include <unistd.h>
+#endif
 #include <time.h>
 
 #include "../../include/DB/LmGlobalDB.h"
@@ -19,7 +21,7 @@
 
 void bail(TCHAR* str)
 {
- _tprintf(_T("ERROR %s\n"), str);
+ _tprintf(("ERROR %s\n"), str);
   exit(1);
 }
 
@@ -27,11 +29,11 @@ int _tmain(int argc, TCHAR** argv)
 {
   // check args
   if ((argc != 2) && (argc != 3) && (argc != 1)) {
-    bail(_T("usage: ping_servers [universe] [outfile]"));
+    bail((wchar_t*)("usage: ping_servers [universe] [outfile]"));
   }
-
+#ifdef UL_POSIX
   pth_init();
-    
+#endif
   TCHAR default_universe[] = _T("prod");
   TCHAR *universe;
   if (argc > 1)
@@ -72,7 +74,7 @@ int _tmain(int argc, TCHAR** argv)
     // create socket
     LmSocket sock;
     if (sock.Socket(LmSockType::Inet_Stream()) < 0) {
-      bail(_T("could not create socket\n"));
+      bail((wchar_t*)("could not create socket\n"));
     }
     // get server address
     LmSockAddrInet addr;
@@ -94,7 +96,8 @@ int _tmain(int argc, TCHAR** argv)
   }
   fclose(outf);
   LmDELETE(serverdbc_);
-
+#ifdef UL_POSIX
   pth_kill();
+#endif
   return 0;
 }

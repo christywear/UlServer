@@ -7,8 +7,10 @@
 
 #include <time.h>
 #include <stdio.h>
+#ifdef UL_POSIX
 #include <unistd.h> //linux
 
+#include <tchar.h>
 int _tmain(int argc, TCHAR** argv)
 {
   unsigned int hostid = gethostid();
@@ -24,3 +26,4 @@ int _tmain(int argc, TCHAR** argv)
  _tprintf(_T("%u\n"), hostid);
   exit(0);
 }
+#endif

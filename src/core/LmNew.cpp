@@ -16,6 +16,7 @@
 #ifndef WIN32
 #include <unistd.h> //linux?
 #endif
+#include <new.h>
 
 // log for new/delete ops
 static LmLog* the_log = 0;
@@ -34,7 +35,7 @@ void TheNewHandler()
   // if the log has been set up, print an error message
   if (the_log) {
 #ifdef WIN32
-	  MessageBox(NULL, "operator new failed, aborting", "New Failed!", MB_OK);
+	  MessageBox(NULL, _T("operator new failed, aborting"), _T("New Failed!"), MB_OK);
 #else
 	the_log->Error("%s: operation new failed, aborting", method);
 #endif

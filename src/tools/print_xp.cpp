@@ -31,7 +31,7 @@ struct {
 int _tmain(int argc, TCHAR** argv)
 {
   // print header
- _tprintf(_T("// LmXPTable.h - automatically generated\n")
+ _tprintf((const char*)("// LmXPTable.h - automatically generated\n"),
 	 "\n"
 	 "#ifndef INCLUDED_LMXPTABLE\n"
 	 "#define INCLUDED_LMXPTABLE\n"
@@ -40,10 +40,10 @@ int _tmain(int argc, TCHAR** argv)
   int xp_base = 0;
   for (int orbit = 0; orbit < 100; ++orbit) {
     int sphere = orbit / 10;
-   _tprintf(_T("  { %2d, %8d, %7d },\n"), orbit, xp_base, xp_table[sphere].gain_xp);
+   _tprintf(("  { %2d, %8d, %7d },\n"), orbit, xp_base, xp_table[sphere].gain_xp);
     xp_base += xp_table[sphere].gain_xp;
   }
- _tprintf(_T("};\n")
+ _tprintf((const char*)("};\n"),
 	 "\n"
 	 "#endif /* INCLUDED_LMXPTABLE */\n");
   return 0;

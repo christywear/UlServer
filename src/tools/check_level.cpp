@@ -15,10 +15,11 @@
 
 int _tmain(int argc, TCHAR** argv)
 {
+#ifdef UL_POSIX
   pth_init();
-
+#endif
   if (argc < 2) {
-   _tprintf(_T("usage: check_level <level_id>\n"));
+   _tprintf(("usage: check_level <level_id>\n"));
     exit(-1);
   }
 
@@ -45,13 +46,13 @@ int _tmain(int argc, TCHAR** argv)
   leveldbc_->Disconnect();
 
   // dump contents
- _tprintf(_T("Level file loaded successfully.  Dump follows.\n\n"));
+ _tprintf(("Level file loaded successfully.  Dump follows.\n\n"));
   leveldbc_->Dump(stdout);
 
   LmDELETE(serverdbc_);
   LmDELETE(leveldbc_);
-
+#ifdef UL_POSIX
   pth_kill();
-
+#endif
   return 0;
 }

@@ -32,16 +32,19 @@ struct LmThreadPool::TP {
 
 	typedef std::map<int, LmThread*, std::less<int> > p_t;
 	p_t p;
+#ifdef UL_POSIX
 	PThMutex p_lock;
-
+#endif
 	TP();
 
 };
 
 LmThreadPool::TP::TP()
 {
+#ifdef UL_POSIX
   DECLARE_TheLineNum;
   p_lock.Init();
+#endif
 }
 
 ////
@@ -66,9 +69,11 @@ LmThreadPool::~LmThreadPool()
   TP::p_t::iterator i;
   for (i = tp_->p.begin(); !(bool)(i == tp_->p.end()); ++i) {
     LmThread* thr = (*i).second;
+#ifdef UL_POSIX
     if (thr->IsActive()) {
       thr->Cancel();
     }
+#endif
     LmDELETE(thr);
   }
   LmDELETE(tp_);
@@ -81,7 +86,9 @@ LmThreadPool::~LmThreadPool()
 void LmThreadPool::AddThread(int id, LmThread* thread)
 {
   DECLARE_TheLineNum;
+#ifdef UL_POSIX
   LmLocker lock(tp_->p_lock); // lock during this method
+#endif
   tp_->p[id] = thread;
 }
 
@@ -92,7 +99,9 @@ void LmThreadPool::AddThread(int id, LmThread* thread)
 void LmThreadPool::RemoveThread(int id, bool del)
 {
   DECLARE_TheLineNum;
+#ifdef UL_POSIX
   LmLocker lock(tp_->p_lock); // lock during this method
+#endif
   LmThread* thr = get_thread(id);
   // if found
   if (thr != 0) {
@@ -106,7 +115,9 @@ void LmThreadPool::RemoveThread(int id, bool del)
 
 void LmThreadPool::RemoveThread(LmThread* thread, bool del)
 {
+#ifdef UL_POSIX
   LmLocker lock(tp_->p_lock); // lock during this method
+#endif
   TP::p_t::iterator i;
   for (i = tp_->p.begin(); !(bool)(i == tp_->p.end()); ++i) {
     int id = (*i).first;
@@ -128,7 +139,9 @@ void LmThreadPool::RemoveThread(LmThread* thread, bool del)
 LmThread* LmThreadPool::GetThread(int id) const
 {
   DECLARE_TheLineNum;
+#ifdef UL_POSIX
   LmLocker lock(tp_->p_lock); // lock during this method
+#endif
   return get_thread(id);
 }  
 
@@ -139,7 +152,9 @@ LmThread* LmThreadPool::GetThread(int id) const
 bool LmThreadPool::HasThread(int id) const
 {
   DECLARE_TheLineNum;
+#ifdef UL_POSIX
   LmLocker lock(tp_->p_lock); // lock during this method
+#endif
   return (get_thread(id) != 0);
 }
 
@@ -150,7 +165,9 @@ bool LmThreadPool::HasThread(int id) const
 void LmThreadPool::GetThreadIDs(std::list<int>& tids)
 {
   DECLARE_TheLineNum;
+#ifdef UL_POSIX
   LmLocker lock(tp_->p_lock); // lock during this method
+#endif
   TP::p_t::iterator i;
   for (i = tp_->p.begin(); !(bool)(i == tp_->p.end()); ++i) {
     tids.push_back((*i).first);
@@ -164,7 +181,9 @@ void LmThreadPool::GetThreadIDs(std::list<int>& tids)
 void LmThreadPool::Dump(FILE* f, int indent) const
 {
   DECLARE_TheLineNum;
+#ifdef UL_POSIX
   LmLocker lock(tp_->p_lock); // lock during this method
+#endif
   INDENT(indent, f);
  _ftprintf(f, _T("<LmThreadPool[%p,%d]: threads=%d>\n"), this, sizeof(LmThreadPool), tp_->p.size());
   indent++;
@@ -172,7 +191,9 @@ void LmThreadPool::Dump(FILE* f, int indent) const
   for (i = tp_->p.begin(); !(bool)(i == tp_->p.end()); ++i) {
     LmThread* thr = (*i).second;
     INDENT(indent, f);
+#ifdef UL_POSIX
    _ftprintf(f, _T("thread(%d): active=%d running=%d\n"), (*i).first, thr->IsActive(), thr->IsRunning());
+#endif
     thr->Dump(f, indent + 1);
   }
 }

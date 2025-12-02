@@ -9,13 +9,13 @@
 
 #include <stdio.h>
 #include "..\Core\LyraDefs.h"
-#include "mysql.h"
 #include "..\Core\PThMutex.h"
 #include "..\Core\SharedConstants.h"
 #include "..\Protocol\GMsg\GMsg_LocateNewliesAck.h"
 #include "..\Protocol\GMsg\GMsg_LocateMaresAck.h"
 #include "LmPlayerDB.h"
 #include "..\Core\LnMD5.h"
+#include "../game/LmStats.h"
 
 // local types
 
@@ -110,7 +110,9 @@ private:
   //operator=(const LmPlayerDBC&);
 
   bool connected_;
+#ifdef UL_POSIX
   PThMutex lock_;
+#endif
   long last_sql_code_;
   LmLog* log_;
 

@@ -40,7 +40,7 @@ void LnMD5::Final(MD5Hash_t& hash)
 
 void LnMD5::Dump(TCHAR* buffer)
 {
-	_stprintf(buffer, "state: %d count: %d buffer len: %d buffer: %s\n",
+	_stprintf(buffer, _T("state: %d count: %d buffer len: %d buffer: %s\n"),
 		ctx_->state, ctx_->count, ctx_->buffer);
 	return;
 }

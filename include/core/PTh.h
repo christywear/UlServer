@@ -1,3 +1,5 @@
+
+#ifdef UL_POSIX
 // PTh.h  -*- C++ -*-
 // $Id: PTh.h,v 1.14 1997-08-04 13:14:46-07 jason Exp $
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
@@ -102,3 +104,5 @@ private:
 };
 
 #endif /* INCLUDED_PTh */
+
+#endif

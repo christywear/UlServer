@@ -5,26 +5,29 @@
 // reorganize GDBM database 
 
 #include <stdio.h>
-#include <unistd.h> //linux
+
 #include <stdlib.h>
 
 #include "../../include/Core/LyraDefs.h"
+#ifdef UL_POSIX
+#include <unistd.h> //linux
 #include "gdbm.h" //linux? Gdbm.h doesnt seem to work for it.
-
+#endif
 int _tmain(int argc, TCHAR** argv)
 {
   if (argc != 3) {
-   _tprintf(_T("usage: gdbm_clean infile.db outfile.db\n"));
+   _tprintf(("usage: gdbm_clean infile.db outfile.db\n"));
     exit(1);
   }
-
+#ifdef UL_POSIX
   pth_init();
-
+#endif
   // parse args
 
   TCHAR* infile = argv[1];
   TCHAR* outfile = argv[2];
 
+#ifdef UL_POSIX
   // open databases
   GDBM_FILE db_in, db_out;
   db_in = gdbm_open(infile, 512, GDBM_READER, 0444, 0);
@@ -57,7 +60,7 @@ int _tmain(int argc, TCHAR** argv)
   gdbm_close(db_out);
 
   pth_kill();
-
+#endif
   return 0;
 }
 

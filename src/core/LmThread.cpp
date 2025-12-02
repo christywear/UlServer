@@ -87,7 +87,9 @@ void LmThread::Run()
     HandleNextMessage();
     Yield();
   }
+#ifdef UL_POSIX
   DoneRunning();
+#endif
 } 
 
 ////
@@ -231,5 +233,7 @@ void LmThread::Dump(FILE* f, int indent) const
  _ftprintf(f, _T("\n"));
   mq_->Dump(f, indent + 1);
   // base class
+#ifdef UL_POSIX
   PTh::Dump(f, indent + 1);
+#endif
 }

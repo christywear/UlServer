@@ -9,7 +9,7 @@
 #endif
 
 #include "../../include/core/LmLocker.h"
-
+#ifdef UL_POSIX
 LmLocker::LmLocker(PThMutex& m)
 	: m_(m)
 {
@@ -36,3 +36,4 @@ LmLocker::~LmLocker()
 {
 	UnLock();
 }
+#endif

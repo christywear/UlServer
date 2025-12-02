@@ -15,8 +15,9 @@
 
 int _tmain(int argc, TCHAR** argv)
 {
+#ifdef UL_POSIX
   pth_init();
-
+#endif
   // load server database
   TCHAR root_dir[FILENAME_MAX] = _T("/opt/lyra/ul/prod/");
   LmGlobalDB* globaldb_ = LmNEW(LmGlobalDB(root_dir));
@@ -33,7 +34,8 @@ int _tmain(int argc, TCHAR** argv)
   serverdbc_->Dump(stdout);
   LmDELETE(serverdbc_);
 
+#ifdef UL_POSIX
   pth_kill();
-
+#endif
   return 0;
 }

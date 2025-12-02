@@ -9,8 +9,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef UL_POSIX
 #include <unistd.h> //linux
 #include <sys/time.h>//linux?
+#endif
 #include <time.h>
 
 #include "../../include/DB/LmDatabase.h"
@@ -23,7 +25,7 @@ void get_status(FILE* outf, LmConnection& conn, int what);
 
 void bail(TCHAR* str)
 {
- _tprintf(_T("ERROR %s\n"), str);
+ _tprintf(("ERROR %s\n"), str);
   exit(1);
 }
 
@@ -31,7 +33,7 @@ int _tmain(int argc, TCHAR** argv)
 {
   // check args
   if ((argc != 4) && (argc != 5)) {
-    bail(_T("usage: get_server_status2 hostname port what [outfile]; what: 0=status, 1=players, 2=connections"));
+    bail((wchar_t*)("usage: get_server_status2 hostname port what [outfile]; what: 0=status, 1=players, 2=connections"));
   }
 
   TCHAR* hostname = argv[1];
@@ -59,7 +61,7 @@ int _tmain(int argc, TCHAR** argv)
   // create socket
   LmSocket sock;
   if (sock.Socket(LmSockType::Inet_Stream()) < 0) {
-    bail(_T("could not create socket\n"));
+    bail((wchar_t*)("could not create socket\n"));
   }
   // get server address
   LmSockAddrInet addr;
