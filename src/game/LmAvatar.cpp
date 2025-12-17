@@ -159,8 +159,6 @@ void LmAvatar::Dump1(FILE* f) const
 }
 #endif /* USE_DEBUG */
 
-#include "SharedConstants.h"
-
 #ifndef USE_DEBUG
 void LmAvatar::Dump(FILE*, int) const
 {

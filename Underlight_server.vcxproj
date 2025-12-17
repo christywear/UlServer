@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -76,10 +77,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\public;D:\Ul_shenangians\UlServer\include;D:\Ul_shenangians\UlServer\third_party\enet-1.3.18\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\redistributable_bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>steam_api64.lib;enet.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -90,10 +94,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\public;D:\Ul_shenangians\UlServer\include;D:\Ul_shenangians\UlServer\third_party\enet-1.3.18\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\redistributable_bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>steam_api64.lib;enet.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -104,10 +111,13 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\public;D:\Ul_shenangians\UlServer\include;D:\Ul_shenangians\UlServer\third_party\enet-1.3.18\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\redistributable_bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>steam_api64.lib;enet.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -120,10 +130,13 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\public;D:\Ul_shenangians\UlServer\include;D:\Ul_shenangians\UlServer\third_party\enet-1.3.18\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\redistributable_bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>steam_api64.lib;enet.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -163,6 +176,8 @@
     <ClInclude Include="include\db\LmPlayerDBF.h" />
     <ClInclude Include="include\db\LmRoomDB.h" />
     <ClInclude Include="include\db\LmServerDBC.h" />
+    <ClInclude Include="include\game\CommandContext.h" />
+    <ClInclude Include="include\game\CommandRouter.h" />
     <ClInclude Include="include\game\LmArts.h" />
     <ClInclude Include="include\game\LmAvatar.h" />
     <ClInclude Include="include\game\LmDebug.h" />
@@ -188,6 +203,8 @@
     <ClInclude Include="include\game\LmRoomItemList.h" />
     <ClInclude Include="include\game\LmStats.h" />
     <ClInclude Include="include\game\LmXPTable.h" />
+    <ClInclude Include="include\game\ServerHandlers.h" />
+    <ClInclude Include="include\game\Verbs.h" />
     <ClInclude Include="include\platform\Platform.h" />
     <ClInclude Include="include\platform\win\ftp_addin\Commands.h" />
     <ClInclude Include="include\platform\win\ftp_addin\DSAddIn.h" />
@@ -275,6 +292,16 @@
     <ClInclude Include="include\protocol\LmSockType.h" />
     <ClInclude Include="include\protocol\LmSrvMesgBuf.h" />
     <ClInclude Include="include\protocol\LyraMessage.h" />
+    <ClInclude Include="include\protocol\net\AutoTransport.h" />
+    <ClInclude Include="include\protocol\net\BinaryReader.h" />
+    <ClInclude Include="include\protocol\net\BinaryWriter.h" />
+    <ClInclude Include="include\protocol\net\EnetTransport.h" />
+    <ClInclude Include="include\protocol\net\GameNet.h" />
+    <ClInclude Include="include\protocol\net\ITransport.h" />
+    <ClInclude Include="include\protocol\net\NetTypes.h" />
+    <ClInclude Include="include\protocol\net\PacketAssembler.h" />
+    <ClInclude Include="include\protocol\net\PacketEnvelope.h" />
+    <ClInclude Include="include\protocol\net\SteamTransport.h" />
     <ClInclude Include="include\protocol\RMsg\RmRemotePlayer.h" />
     <ClInclude Include="include\protocol\RMsg\RMsg.h" />
     <ClInclude Include="include\protocol\RMsg\RMsg_All.h" />
@@ -436,6 +463,7 @@
     <ClCompile Include="src\game\LmPosition.cpp" />
     <ClCompile Include="src\game\LmRoomItem.cpp" />
     <ClCompile Include="src\game\LmStats.cpp" />
+    <ClCompile Include="src\game\ServerHandlers.cpp" />
     <ClCompile Include="src\protocol\GMsg\GMsg_AgentLogin.cpp" />
     <ClCompile Include="src\protocol\GMsg\GMsg_ChangeAvatar.cpp" />
     <ClCompile Include="src\protocol\GMsg\GMsg_ChangeStat.cpp" />
@@ -512,6 +540,11 @@
     <ClCompile Include="src\protocol\LmSockType.cpp" />
     <ClCompile Include="src\protocol\LmSrvMesgBuf.cpp" />
     <ClCompile Include="src\protocol\LyraMessage.cpp" />
+    <ClCompile Include="src\protocol\net\AutoTransport.cpp" />
+    <ClCompile Include="src\protocol\net\EnetTransport.cpp" />
+    <ClCompile Include="src\protocol\net\GameNet.cpp" />
+    <ClCompile Include="src\protocol\net\PacketAssembler.cpp" />
+    <ClCompile Include="src\protocol\net\SteamTransport.cpp" />
     <ClCompile Include="src\protocol\RMsg\RmRemotePlayer.cpp" />
     <ClCompile Include="src\protocol\RMsg\RMsg_ChangeAvatar.cpp" />
     <ClCompile Include="src\protocol\RMsg\RMsg_CupSummons.cpp" />
@@ -650,6 +683,7 @@
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
     <None Include="LICENSE" />
+    <None Include="packages.config" />
     <None Include="README.md" />
     <None Include="src\platform\win\ftp_addin\FTPAddIn.def" />
     <None Include="src\platform\win\ftp_addin\res\FTPAddIn.rc2" />
@@ -662,5 +696,13 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.targets'))" />
+  </Target>
 </Project>

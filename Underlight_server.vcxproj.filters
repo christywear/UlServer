@@ -127,6 +127,12 @@
     <Filter Include="Source Files\Server\Leveld">
       <UniqueIdentifier>{4666c584-f90e-4dd2-9d0d-37f52701e795}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Protocol_Networking\net">
+      <UniqueIdentifier>{6d1eaa4c-1576-4014-a9e0-60b457013378}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Protocol_Networking\net">
+      <UniqueIdentifier>{8a0d94f4-e0ec-4636-b041-3987fc7895d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\core\LmAssert.h">
@@ -902,6 +908,48 @@
     </ClInclude>
     <ClInclude Include="include\platform\Platform.h">
       <Filter>Header Files\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protocol\net\AutoTransport.h">
+      <Filter>Header Files\Protocol_Networking\net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protocol\net\BinaryReader.h">
+      <Filter>Header Files\Protocol_Networking\net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protocol\net\BinaryWriter.h">
+      <Filter>Header Files\Protocol_Networking\net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protocol\net\EnetTransport.h">
+      <Filter>Header Files\Protocol_Networking\net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protocol\net\GameNet.h">
+      <Filter>Header Files\Protocol_Networking\net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protocol\net\ITransport.h">
+      <Filter>Header Files\Protocol_Networking\net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protocol\net\NetTypes.h">
+      <Filter>Header Files\Protocol_Networking\net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protocol\net\PacketAssembler.h">
+      <Filter>Header Files\Protocol_Networking\net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protocol\net\PacketEnvelope.h">
+      <Filter>Header Files\Protocol_Networking\net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protocol\net\SteamTransport.h">
+      <Filter>Header Files\Protocol_Networking\net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\game\Verbs.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\game\CommandContext.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\game\ServerHandlers.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\game\CommandRouter.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1679,6 +1727,24 @@
     <ClCompile Include="src\platform\win\ftp_addin\StdAfx.cpp">
       <Filter>Source Files\Platform\Windows\FTP_Addin</Filter>
     </ClCompile>
+    <ClCompile Include="src\protocol\net\EnetTransport.cpp">
+      <Filter>Source Files\Protocol_Networking\net</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\net\GameNet.cpp">
+      <Filter>Source Files\Protocol_Networking\net</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\net\SteamTransport.cpp">
+      <Filter>Source Files\Protocol_Networking\net</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\ServerHandlers.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\net\AutoTransport.cpp">
+      <Filter>Source Files\Protocol_Networking\net</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\net\PacketAssembler.cpp">
+      <Filter>Source Files\Protocol_Networking\net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />
@@ -1691,6 +1757,7 @@
     <None Include="src\platform\win\ftp_addin\FTPAddIn.def">
       <Filter>Resource Files\FTP_Addin</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="src\platform\win\ftp_addin\FTPAddIn.odl">

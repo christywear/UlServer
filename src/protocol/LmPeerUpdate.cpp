@@ -109,7 +109,6 @@ void LmPeerUpdate::Dump(FILE* f, int indent) const
 }
 #endif /* USE_DEBUG */
 
-#include "SharedConstants.h" // need bitmap constants
 
 #ifndef USE_DEBUG
 void LmPeerUpdate::Dump(FILE*, int) const

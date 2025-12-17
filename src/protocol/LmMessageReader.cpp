@@ -62,7 +62,9 @@ void LmMessageReader::Run()
     HandleNextMessage();
     Yield();
   }
+#ifdef UL_POSIX
   DoneRunning();
+#endif
 }
 
 ////
