@@ -15,7 +15,6 @@
 
 typedef unsigned short ushort;
 typedef int	pid_t;
-typedef long time_t;
 
 
 #endif

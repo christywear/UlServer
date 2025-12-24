@@ -123,11 +123,7 @@ extern "C" {
 extern "C" {
 #endif
 
-#ifndef _WCTYPE_T_DEFINED
-  //typedef wchar_t wint_t;
-typedef wchar_t wctype_t;
-#define _WCTYPE_T_DEFINED
-#endif
+
 
 #ifndef __TCHAR_DEFINED
 typedef wchar_t     _TCHAR;
@@ -226,7 +222,7 @@ typedef wchar_t     TCHAR;
 #define _tcsset     wcsset
 
 #define _tcscmp     wcscmp
-#define _tcsicmp    wcsicmp
+#define _tcsicmp    _wcsicmp
 #define _tcsnccmp   wcsncmp
 #define _tcsncmp    wcsncmp
 #define _tcsncicmp  wcsnicmp

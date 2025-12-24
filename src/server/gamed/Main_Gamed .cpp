@@ -1,4 +1,4 @@
-
+#if 0 old legacy code
 // Main.cpp  -*- C++ -*-
 // $Id: Main.cpp,v 1.22 1998/02/12 23:33:31 jason Exp brent $
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
@@ -289,4 +289,5 @@ _tcsnccpy(IPAddress, buffer+1,_tcslen(buffer)-2);
 }
 
 
+#endif
 #endif

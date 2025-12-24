@@ -12,7 +12,6 @@
 #endif
 
 #ifdef WIN32
-#include "unix.h"
 #include <winsock2.h>
 #else
 #include <sys/types.h>

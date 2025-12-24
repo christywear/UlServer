@@ -3,7 +3,7 @@
 // Copyright 1996-1997 Lyra LLC, All rights reserved. 
 //
 // master server main class
-
+#if 0 //taking care of legacy code to make single server
 #ifndef INCLUDED_MsMain
 #define INCLUDED_MsMain
 
@@ -92,3 +92,4 @@ private:
 };
 
 #endif /* INCLUDED_MsMain */
+#endif

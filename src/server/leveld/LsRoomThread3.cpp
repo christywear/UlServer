@@ -52,7 +52,7 @@ void LsRoomThread::handle_RMsg_Ping(LmSrvMesgBuf* msgbuf, LsPlayer* source)
   // accept message
   ACCEPT_PLAYERMSG(RMsg_Ping, true); // send error
   // send it right back
-  LsUtil::Send_SMsg_Proxy(main_, source, msg);
+  LsUtil::Send_SMsg_Proxy(source, msg);
 }
 
 ////
@@ -67,7 +67,7 @@ void LsRoomThread::handle_RMsg_GetAvatarDescription(LmSrvMesgBuf* msgbuf, LsPlay
   // accept message
   ACCEPT_PLAYERMSG(RMsg_GetAvatarDescription, true); // send error
   // find target player
-  LsPlayer* tplayer = main_->PlayerSet()->GetPlayer(msg.PlayerID());
+  LsPlayer* tplayer = LsPlayerSet::Instance()->GetPlayer(msg.PlayerID());
   if (!tplayer) {
     return; // don't send anything
   }
@@ -92,18 +92,18 @@ void LsRoomThread::handle_RMsg_ChangeAvatar(LmSrvMesgBuf* msgbuf, LsPlayer* sour
   int wasHidden = source->Avatar().Hidden();
   source->SetAvatar(msg.Avatar());
   // get player's room
-  LsRoomState* room = main_->LevelState()->RoomState(source->RoomID());
+  LsRoomState* room = LsLevelState::Instance()->RoomState(source->RoomID());
   if (!room) {
     TLOG_Error(_T("%s: could not get room %u, player %u"), method, source->RoomID(), source->PlayerID());
     // TODO: send error?
     return;
   }
-
+  LsPlayer* player = LsPlayerSet().GetPlayer(msg.PlayerID());
   // If I wasn't GM INVIS and now I am, or if I was and now I'm not, modify the sense count.
   if(wasHidden && !msg.Avatar().Hidden())
-    main_->ItemDBC()->ChangeNumDreamers(main_->LevelNum(), 1);
+    LmItemDBC::Instance()->ChangeNumDreamers(player->GetLevelID(), 1);
   else if(!wasHidden && msg.Avatar().Hidden())
-    main_->ItemDBC()->ChangeNumDreamers(main_->LevelNum(), -1);
+    LmItemDBC::Instance()->ChangeNumDreamers(player->GetLevelID(), -1);
 
   // get all players in room except source player
   LsPlayerList target_list;
@@ -126,7 +126,7 @@ void LsRoomThread::handle_RMsg_GetRoomDescription(LmSrvMesgBuf* msgbuf, LsPlayer
 	// accept message
 	ACCEPT_PLAYERMSG(RMsg_GetRoomDescription, true); // send error
 													 // look up description
-	const TCHAR* rmDesc = main_->LevelDBC()->RoomDB(msg.RoomID()).RoomDescription();
+	const TCHAR* rmDesc = LmLevelDBC::Instance()->RoomDB(msg.RoomID()).RoomDescription();
 
 	if (rmDesc[0] == _T('\0')) {
 		return; // no description, don't send anything
@@ -147,10 +147,10 @@ void LsRoomThread::handle_RMsg_GotoRoom(LmSrvMesgBuf* msgbuf, LsPlayer* source)
   // accept message
   ACCEPT_PLAYERMSG(RMsg_GotoRoom, true); // send error
   // check target roomid
-  if (!main_->LevelDBC()->ContainsRoom(msg.RoomID())) {
+  if (!LmLevelDBC::Instance()->ContainsRoom(msg.RoomID())) {
         TLOG_Warning(_T("%s: player %u attempted goto room %u pos=(%d,%d), not in level"), method,
 		 source_id, msg.RoomID(), source->Position().X(), source->Position().Y());
-    LsUtil::Send_RMsg_RoomLoginAck(main_, source, RMsg_LoginAck::LOGIN_ROOMNOTFOUND, 0);
+    LsUtil::Send_RMsg_RoomLoginAck(source, RMsg_LoginAck::LOGIN_ROOMNOTFOUND, 0);
     return;
   }
   // check that player is not going into same room
@@ -161,28 +161,28 @@ void LsRoomThread::handle_RMsg_GotoRoom(LmSrvMesgBuf* msgbuf, LsPlayer* source)
     return;
   }
   // get player's current room
-  LsRoomState* room = main_->LevelState()->RoomState(source->RoomID());
+  LsRoomState* room = LsLevelState::Instance()->RoomState(source->RoomID());
   if (!room) {
     TLOG_Error(_T("%s: player %u in room %u, room not in level!"), method, source_id, source->RoomID());
-    LsUtil::Send_RMsg_RoomLoginAck(main_, source, RMsg_RoomLoginAck::LOGIN_ERROR, 0);
+    LsUtil::Send_RMsg_RoomLoginAck(source, RMsg_RoomLoginAck::LOGIN_ERROR, 0);
     return;
   }
   // check if player is in room
   if (!room->HasPlayer(source_id)) {
     TLOG_Error(_T("%s: player %u not in room %u?"), method, source_id, source->RoomID());
-    LsUtil::Send_RMsg_RoomLoginAck(main_, source, RMsg_RoomLoginAck::LOGIN_ERROR, 0);
+    LsUtil::Send_RMsg_RoomLoginAck(source, RMsg_RoomLoginAck::LOGIN_ERROR, 0);
     return;
   }
   // get target room state
-  LsRoomState* troom = main_->LevelState()->RoomState(msg.RoomID());
+  LsRoomState* troom = LsLevelState::Instance()->RoomState(msg.RoomID());
   if (!troom) {
     TLOG_Error(_T("%s: room %u state not found!"), method, msg.RoomID());
-    LsUtil::Send_RMsg_RoomLoginAck(main_, source, RMsg_RoomLoginAck::LOGIN_ERROR, 0);
+    LsUtil::Send_RMsg_RoomLoginAck(source, RMsg_RoomLoginAck::LOGIN_ERROR, 0);
     return;
   }
   // check if target room is full
   if (troom->IsFull()) {
-    LsUtil::Send_RMsg_RoomLoginAck(main_, source, RMsg_RoomLoginAck::LOGIN_ROOMFULL, 0);
+    LsUtil::Send_RMsg_RoomLoginAck(source, RMsg_RoomLoginAck::LOGIN_ROOMFULL, 0);
     return;
   }
   //  TLOG_Debug(_T("%s: player %u going from room %u to room %u"), method,
@@ -211,7 +211,7 @@ void LsRoomThread::handle_RMsg_Logout(LmSrvMesgBuf* msgbuf, LsPlayer* source)
   if ((source->AccountType() == LmPlayerDB::ACCT_PLAYER) ||
 	  (source->AccountType() == LmPlayerDB::ACCT_ADMIN && !source->Avatar().Hidden()) ||
 	  (source->AccountType() == LmPlayerDB::ACCT_PMARE))
-	main_->ItemDBC()->ChangeNumDreamers(main_->LevelNum(), -1);
+	LmItemDBC::Instance()->ChangeNumDreamers(source->GetLevelID(), -1);
 
   perform_Logout(source, msg.Status());
   // if a normal player, add
@@ -247,7 +247,7 @@ void LsRoomThread::handle_RMsg_Party(LmSrvMesgBuf* msgbuf, LsPlayer* source)
     break;
   default:
     TLOG_Error(_T("%s: illegal party request %d"), method, msg.RequestType());
-    LsUtil::Send_RMsg_Error(main_, source, RMsg::PARTY, _T("illegal party request"));
+    LsUtil::Send_RMsg_Error(source, RMsg::PARTY, _T("illegal party request"));
     break;
   }
 }
@@ -271,7 +271,7 @@ void LsRoomThread::handle_RMsg_Party_Join(LsPlayer* source, RMsg_Party& msg)
   }
   // get target player (leader)
   lyra_id_t leaderid = msg.PlayerID();
-  LsPlayer* leader = main_->PlayerSet()->GetPlayer(leaderid);
+  LsPlayer* leader = LsPlayerSet::Instance()->GetPlayer(leaderid);
   // check that target player is in level
   if (!leader) {
     TLOG_Warning(_T("%s: leader %u not in level"), method, leaderid);
@@ -316,7 +316,7 @@ void LsRoomThread::handle_RMsg_Party_Accept(LsPlayer* source, RMsg_Party& msg)
   lyra_id_t source_id = source->PlayerID(); // source is leader
   // get target player
   lyra_id_t tplayerid = msg.PlayerID();
-  LsPlayer* tplayer = main_->PlayerSet()->GetPlayer(tplayerid);
+  LsPlayer* tplayer = LsPlayerSet::Instance()->GetPlayer(tplayerid);
   if (!tplayer) {
     TLOG_Warning(_T("%s: target player %u not in level"), method, tplayerid);
     // notify leader that player left level
@@ -333,7 +333,7 @@ void LsRoomThread::handle_RMsg_Party_Accept(LsPlayer* source, RMsg_Party& msg)
   // source player's party is empty
   if (!source->Party().IsEmpty() && (source->Party().LeaderID() != source_id)) {
     TLOG_Error(_T("%s: source player %u is not leader of a party"), method, source_id);
-    LsUtil::Send_RMsg_Error(main_, source, RMsg::PARTY, _T("party accept: player not party leader"));
+    LsUtil::Send_RMsg_Error(source, RMsg::PARTY, _T("party accept: player not party leader"));
     // send target player a reject message
     send_RMsg_Party_Reject(tplayer, RMsg_Party::REJECT_NOTINROOM);
     return;
@@ -341,7 +341,7 @@ void LsRoomThread::handle_RMsg_Party_Accept(LsPlayer* source, RMsg_Party& msg)
   // check that leader's party is not full
   if (source->Party().IsFull()) {
     TLOG_Error(_T("%s: leader %u's party is full, but accepted player %u"), method, source_id, tplayerid);
-    LsUtil::Send_RMsg_Error(main_, source, RMsg::PARTY, _T("party accept: leader's party full"));
+    LsUtil::Send_RMsg_Error(source, RMsg::PARTY, _T("party accept: leader's party full"));
     // send target player a reject message
     send_RMsg_Party_Reject(tplayer, RMsg_Party::REJECT_PARTYFULL);
     return;
@@ -361,7 +361,7 @@ void LsRoomThread::handle_RMsg_Party_Accept(LsPlayer* source, RMsg_Party& msg)
   party.AddPlayer(tplayerid);
   for (int i = 0; i < party.PartySize(); ++i) {
     lyra_id_t memberid = party.PlayerID(i);
-    LsPlayer* member = main_->PlayerSet()->GetPlayer(memberid);
+    LsPlayer* member = LsPlayerSet::Instance()->GetPlayer(memberid);
     if (!member) {
       TLOG_Error(_T("%s: stale party member %u in leader %u's party"), method, memberid, source_id);
     }
@@ -391,7 +391,7 @@ void LsRoomThread::handle_RMsg_Party_Reject(LsPlayer* source, RMsg_Party& msg)
   lyra_id_t source_id = source->PlayerID(); // source is party leader
   // check that target player is in level
   lyra_id_t tplayerid = msg.PlayerID();
-  LsPlayer* tplayer = main_->PlayerSet()->GetPlayer(tplayerid);
+  LsPlayer* tplayer = LsPlayerSet::Instance()->GetPlayer(tplayerid);
   if (!tplayer) {
     TLOG_Warning(_T("%s: target player %u not in level"), method, tplayerid);
     return;
@@ -429,7 +429,7 @@ void LsRoomThread::handle_RMsg_Party_Leave(LsPlayer* source, RMsg_Party& /* msg 
   // check that player is in a party
   if (source->Party().IsEmpty()) {
     TLOG_Error(_T("%s: player %u is not in a party"), method, source_id);
-    //LsUtil::Send_RMsg_Error(main_, source, RMsg::PARTY, _T("leave party: player not in a party"));
+    //LsUtil::Send_RMsg_Error(source, RMsg::PARTY, _T("leave party: player not in a party"));
     return;
   }
   // leave the party, notify members, etc
@@ -503,7 +503,7 @@ void LsRoomThread::handle_RMsg_Speech(LmSrvMesgBuf* msgbuf, LsPlayer* source)
     break;
   default:
     TLOG_Error(_T("%s: unknown speech type %d"), method, msg.SpeechType());
-    LsUtil::Send_RMsg_Error(main_, source, RMsg::SPEECH, _T("unknown speech type"));
+    LsUtil::Send_RMsg_Error(source, RMsg::SPEECH, _T("unknown speech type"));
     return;
     break;
   }
@@ -514,8 +514,8 @@ void LsRoomThread::handle_RMsg_Speech(LmSrvMesgBuf* msgbuf, LsPlayer* source)
   // log
   if (log_speech) {
     msg.RemoveNewlines();
-    main_->SpeechLog()->Speech(_T("player %u [level=%u room=%u]: %c (%u): %s"),
-			       source->PlayerID(), main_->LevelDBC()->LevelID(), source->RoomID(),
+    LmLogFile::Instance()->Speech(_T("player %u [level=%u room=%u]: %c (%u): %s"),
+			       source->PlayerID(), LmLevelDBC::Instance()->LevelID(), source->RoomID(),
 			       msg.SpeechType(), msg.PlayerID(), msg.SpeechText());
   }
 }
@@ -537,7 +537,7 @@ void LsRoomThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LsPlayer* source)
   LsPlayerList targets;
   LsPlayer* target = 0;
   bool send_out = true;
-  LsRoomState* room = main_->LevelState()->RoomState(source->RoomID());
+  LsRoomState* room = LsLevelState::Instance()->RoomState(source->RoomID());
   if (targetid == Lyra::ID_UNKNOWN) {  // if it's 0, broadcast to all players in room
     if (!room) {
       TLOG_Error(_T("%s: no room state for player %u, room %u"), method, source_id, source->RoomID());
@@ -553,7 +553,7 @@ void LsRoomThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LsPlayer* source)
     }
   }
   else {  // otherwise, target is a single player in the level
-    target = main_->PlayerSet()->GetPlayer(targetid);
+    target = LsPlayerSet::Instance()->GetPlayer(targetid);
     if (!target) {
       // TLOG_Warning(_T("%s: target player %u not in level"), method, targetid);
     }
@@ -617,7 +617,7 @@ void LsRoomThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LsPlayer* source)
 	for (int i = 0; i < party.PartySize(); ++i) {
 	  msg.Init(originalSender, 0, RMsg_PlayerMsg::PARTYKILL, originalOrbit, 0);
 	  lyra_id_t memberid = party.PlayerID(i);
-	  LsPlayer* member = main_->PlayerSet()->GetPlayer(memberid);
+	  LsPlayer* member = LsPlayerSet::Instance()->GetPlayer(memberid);
 	  if (member) {
 	    msg.SetReceiverID(memberid);
 	    int state2 = party.PartySize();
@@ -631,7 +631,7 @@ void LsRoomThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LsPlayer* source)
 	      state2 += 100;
 	    
 	    msg.SetState2(state2); // member share
-	    LsUtil::Send_SMsg_Proxy(main_, member, msg);
+	    LsUtil::Send_SMsg_Proxy(member, msg);
 	    if(state2 % 10 == 9)
 	    {
 	        // if we're channelling take this message and send a ChannelKill to the channellee.
@@ -639,11 +639,11 @@ void LsRoomThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LsPlayer* source)
 	        state2 -= 9;
 	        state2 += party.PartySize();
 	        msg.SetReceiverID(member->ChannelTarget());
-	        LsPlayer* channellee = main_->PlayerSet()->GetPlayer(member->ChannelTarget());
+	        LsPlayer* channellee = LsPlayerSet::Instance()->GetPlayer(member->ChannelTarget());
 	        msg.SetSenderID(memberid);
 	        msg.SetState2(state2);
 	        if(channellee)
-	            LsUtil::Send_SMsg_Proxy(main_, channellee, msg);    
+	            LsUtil::Send_SMsg_Proxy(channellee, msg);    
         }	        
 	  }
 	} // end for
@@ -705,9 +705,9 @@ void LsRoomThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LsPlayer* source)
 	  const LmItemHdr* primehdr = NULL;
 	  LmItem prime;
 	  //LmRoomItem dummy;
-	  int max_rooms = main_->LevelDBC()->NumRooms();
+	  int max_rooms = LmLevelDBC::Instance()->NumRooms();
 	  for (roomid = 0; roomid < max_rooms; roomid++) {
-		LsRoomState* primeroom = main_->LevelState()->Room(roomid);
+		LsRoomState* primeroom = LsLevelState::Instance()->Room(roomid);
 		if (!primeroom) {
 		  continue;
 		}
@@ -724,11 +724,11 @@ void LsRoomThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LsPlayer* source)
 		   // update item's ownership in database, transfer to player
 			lyra_id_t serial = primehdr->Serial();
 			// update item's full state in database before giving to player
-			int rc = main_->ItemDBC()->UpdateItemFullState(prime);
-			int sqlcode = main_->ItemDBC()->LastSQLCode();
+			int rc = LmItemDBC::Instance()->UpdateItemFullState(prime);
+			int sqlcode = LmItemDBC::Instance()->LastSQLCode();
 
-			rc = main_->ItemDBC()->UpdateItemOwnership(serial, LmItemDBC::OWNER_PLAYER, source_id, 0);
-			sqlcode = main_->ItemDBC()->LastSQLCode();
+			rc = LmItemDBC::Instance()->UpdateItemOwnership(serial, LmItemDBC::OWNER_PLAYER, source_id, 0);
+			sqlcode = LmItemDBC::Instance()->LastSQLCode();
 			  if (rc < 0) {
 				TLOG_Warning(_T("%s: player %u could not summon prime item %d; rc=%d, sql=%d"), method, source_id, serial, rc, sqlcode);
 				break;
@@ -761,5 +761,5 @@ void LsRoomThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LsPlayer* source)
     return;
   }
   // send message to targets
-  LsUtil::Send_SMsg_Proxy(main_, targets, msg);
+  LsUtil::Send_SMsg_Proxy(targets, msg);
 }

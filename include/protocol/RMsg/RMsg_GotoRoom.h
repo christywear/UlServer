@@ -12,7 +12,7 @@
 #endif
 
 #include <stdio.h>
-
+#include <protocol/LmMesg.h>
 #include "..\LmPeerUpdate.h"
 
 // forward references

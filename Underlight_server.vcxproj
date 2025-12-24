@@ -75,16 +75,20 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_NON_CONFORMING_WCSTOK;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\public;D:\Ul_shenangians\UlServer\include;D:\Ul_shenangians\UlServer\third_party\enet-1.3.18\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\platform\win\stubs;D:\Ul_shenangians\UlServer\third_party\steam_sdk\public\;D:\Ul_shenangians\UlServer\third_party\steam_sdk\redistributable_bin\win64;D:\Ul_shenangians\UlServer\include;D:\Ul_shenangians\UlServer\third_party\enet-1.3.18\include;$(ProjectDir);$(ProjectDir)include;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\redistributable_bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>steam_api64.lib;enet.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\redistributable_bin\win64;D:\Ul_shenangians\UlServer\third_party\enet-1.3.18\;D:\Ul_shenangians\UlServer\third_party\MariaDB Connector C 64-bit\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>steam_api64.lib;enet64.lib;ws2_32.lib;winmm.lib;libmariadb.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -92,33 +96,41 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_NON_CONFORMING_WCSTOK;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\public;D:\Ul_shenangians\UlServer\include;D:\Ul_shenangians\UlServer\third_party\enet-1.3.18\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\platform\win\stubs;D:\Ul_shenangians\UlServer\third_party\steam_sdk\public\;D:\Ul_shenangians\UlServer\third_party\steam_sdk\redistributable_bin\win64;D:\Ul_shenangians\UlServer\include;D:\Ul_shenangians\UlServer\third_party\enet-1.3.18\include;$(ProjectDir);$(ProjectDir)include;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\redistributable_bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>steam_api64.lib;enet.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\redistributable_bin\win64;D:\Ul_shenangians\UlServer\third_party\enet-1.3.18\;D:\Ul_shenangians\UlServer\third_party\MariaDB Connector C 64-bit\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>steam_api64.lib;enet64.lib;ws2_32.lib;winmm.lib;libmariadb.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_NON_CONFORMING_WCSTOK;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\public;D:\Ul_shenangians\UlServer\include;D:\Ul_shenangians\UlServer\third_party\enet-1.3.18\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\platform\win\stubs;D:\Ul_shenangians\UlServer\third_party\steam_sdk\public\;D:\Ul_shenangians\UlServer\third_party\steam_sdk\redistributable_bin\win64;D:\Ul_shenangians\UlServer\include;D:\Ul_shenangians\UlServer\third_party\enet-1.3.18\include;$(ProjectDir);$(ProjectDir)include;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\redistributable_bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>steam_api64.lib;enet.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\redistributable_bin\win64;D:\Ul_shenangians\UlServer\third_party\enet-1.3.18\;D:\Ul_shenangians\UlServer\third_party\MariaDB Connector C 64-bit\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>steam_api64.lib;enet64.lib;ws2_32.lib;winmm.lib;libmariadb.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -126,18 +138,22 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_NON_CONFORMING_WCSTOK;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\public;D:\Ul_shenangians\UlServer\include;D:\Ul_shenangians\UlServer\third_party\enet-1.3.18\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\platform\win\stubs;D:\Ul_shenangians\UlServer\third_party\steam_sdk\public\;D:\Ul_shenangians\UlServer\third_party\steam_sdk\redistributable_bin\win64;D:\Ul_shenangians\UlServer\include;D:\Ul_shenangians\UlServer\third_party\enet-1.3.18\include;$(ProjectDir);$(ProjectDir)include;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\redistributable_bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>steam_api64.lib;enet.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Ul_shenangians\UlServer\third_party\steam_sdk\redistributable_bin\win64;D:\Ul_shenangians\UlServer\third_party\enet-1.3.18\;D:\Ul_shenangians\UlServer\third_party\MariaDB Connector C 64-bit\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>steam_api64.lib;enet64.lib;ws2_32.lib;winmm.lib;libmariadb.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\core\LmAssert.h" />
@@ -206,12 +222,9 @@
     <ClInclude Include="include\game\ServerHandlers.h" />
     <ClInclude Include="include\game\Verbs.h" />
     <ClInclude Include="include\platform\Platform.h" />
-    <ClInclude Include="include\platform\win\ftp_addin\Commands.h" />
-    <ClInclude Include="include\platform\win\ftp_addin\DSAddIn.h" />
-    <ClInclude Include="include\platform\win\ftp_addin\FTPAddIn.h" />
-    <ClInclude Include="include\platform\win\ftp_addin\FTPAddInTypes.h" />
-    <ClInclude Include="include\platform\win\ftp_addin\Resource.h" />
-    <ClInclude Include="include\platform\win\ftp_addin\StdAfx.h" />
+    <ClInclude Include="include\platform\win\win_stubs\pthread.h" />
+    <ClInclude Include="include\platform\win\win_stubs\uninstd.h" />
+    <ClInclude Include="include\platform\win\win_stubs\unix.h" />
     <ClInclude Include="include\protocol\GMsg\GMsg.h" />
     <ClInclude Include="include\protocol\GMsg\GMsg_AgentLogin.h" />
     <ClInclude Include="include\protocol\GMsg\GMsg_All.h" />
@@ -659,25 +672,7 @@
     <ClCompile Include="src\server\masterd\Main_Masterd.cpp" />
     <ClCompile Include="src\server\masterd\MsMain.cpp" />
     <ClCompile Include="src\server\masterd\MsServerInfo.cpp" />
-    <ClCompile Include="src\tools\check_level.cpp" />
-    <ClCompile Include="src\tools\check_serverdb.cpp" />
-    <ClCompile Include="src\tools\dump_item.cpp" />
-    <ClCompile Include="src\tools\dump_item2.cpp" />
-    <ClCompile Include="src\tools\dump_state.cpp" />
-    <ClCompile Include="src\tools\fix_ghost.cpp" />
-    <ClCompile Include="src\tools\gdbm_clean.cpp" />
-    <ClCompile Include="src\tools\gen_item.cpp" />
-    <ClCompile Include="src\tools\get_hostid.cpp" />
-    <ClCompile Include="src\tools\get_server_status.cpp" />
-    <ClCompile Include="src\tools\get_server_status2.cpp" />
-    <ClCompile Include="src\tools\ping_servers.cpp" />
-    <ClCompile Include="src\tools\print_xp.cpp" />
-    <ClCompile Include="src\tools\rotate_logs.cpp" />
-    <ClCompile Include="src\tools\save_player.cpp" />
-    <ClCompile Include="src\platform\win\ftp_addin\Commands.cpp" />
-    <ClCompile Include="src\platform\win\ftp_addin\DSAddIn.cpp" />
-    <ClCompile Include="src\platform\win\ftp_addin\FTPAddIn.cpp" />
-    <ClCompile Include="src\platform\win\ftp_addin\StdAfx.cpp" />
+    <ClCompile Include="src\server\Unified_Server\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />
@@ -685,14 +680,6 @@
     <None Include="LICENSE" />
     <None Include="packages.config" />
     <None Include="README.md" />
-    <None Include="src\platform\win\ftp_addin\FTPAddIn.def" />
-    <None Include="src\platform\win\ftp_addin\res\FTPAddIn.rc2" />
-  </ItemGroup>
-  <ItemGroup>
-    <Midl Include="src\platform\win\ftp_addin\FTPAddIn.odl" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="src\platform\win\ftp_addin\FTPAddIn.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

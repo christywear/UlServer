@@ -3,7 +3,7 @@
 // Copyright 1996-1997 Lyra LLC, All rights reserved. 
 //
 // game server main class
-
+#if 0 //taking care of legacy code to make single server
 #ifndef INCLUDED_GsMain
 #define INCLUDED_GsMain
 
@@ -225,8 +225,8 @@ private:
 
 };
 
-// macro to make security logging easier (usage: SECLOG(3, "level 3 warning %d", foo); )
-#define SECLOG main_->SecurityLog()->Security
+// macro to make security logging easier (usage: LmLogFile::Instance()->Security(3, "level 3 warning %d", foo); )
+#define LmLogFile::Instance()->Security LmLogFile::Instance()
 
 // debug log definition
 #ifdef USE_DEBUG
@@ -234,3 +234,4 @@ extern LmLogFile DebugLog;
 #endif
 
 #endif /* INCLUDED_GsMain */
+#endif

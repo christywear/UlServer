@@ -19,6 +19,7 @@
 #include "LyraDefs.h"
 #include "PThMutex.h"
 #include "PThCond.h"
+#include "PThCond.h"
 
 // forward declarations
 
@@ -67,7 +68,7 @@ private:
   //operator=(const LmThreadMQ&);
 
   // object lock, and "not empty" condition variable
-  PThMutex lock_;
+  mutable PThMutex lock_;
   PThCond notempty_;
 
   // message queue

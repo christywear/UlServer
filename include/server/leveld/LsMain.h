@@ -3,7 +3,7 @@
 // Copyright 1996-1997 Lyra LLC, All rights reserved. 
 //
 // level server main class
-
+#if 0 //taking care of legacy code to make single server
 #ifndef INCLUDED_LsMain
 #define INCLUDED_LsMain
 
@@ -207,3 +207,4 @@ private:
 };
 
 #endif /* INCLUDED_LsMain */
+#endif

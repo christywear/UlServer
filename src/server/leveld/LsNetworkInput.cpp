@@ -34,8 +34,10 @@
 #include "../../../include/Server/Leveld/LsMacros.h"
 #include "../../../include/Server/Leveld/LsPlayerList.h"
 #include "../../../include/DB/LmServerDBC.h"
-
+#include <include/core/PThAttr.h>
 #include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
+
+
 DECLARE_TheFileName;
 
 ////
@@ -43,13 +45,12 @@ DECLARE_TheFileName;
 ////
 
 LsNetworkInput::LsNetworkInput(LsMain* lsmain)
-  : LmNetworkInput(lsmain->InputDispatch(), lsmain->ConnectionSet(), lsmain->BufferPool(), lsmain->Log() /* &logf_ */),
-    main_(lsmain)
+  : LmNetworkInput(LsInputDispatch::Instance(), LmConnectionSet::Instance(), LmMesgBufPool::Instance(), LmLog::Instance() /* &logf_ */)
 {
   DECLARE_TheLineNum;
   open_log();
   register_message_handlers();
-  AddListener(main_->SocketTCP());
+  AddListener(LmSocket::Instance());
   //  StartIdleReaders(4);
 }
 
@@ -93,7 +94,7 @@ void LsNetworkInput::Run()
 
 bool LsNetworkInput::AllowConnection(LmSocket* sock)
 {
-  return main_->ServerDBC()->IsServerIP(sock->PeerName().IPAddress());
+  return LmServerDBC::Instance()->IsServerIP(sock->PeerName().IPAddress());
 }
 
 ////
@@ -104,7 +105,7 @@ LmMessageReader* LsNetworkInput::StartReader()
 {
   DEFMETHOD(LsNetworkInput, StartReader);
   DECLARE_TheLineNum;
-  LsMessageReader* thr = LmNEW(LsMessageReader(main_, Log()));
+  LsMessageReader* thr = LmNEW(LsMessageReader(Log()));
   // stack size on these can be smaller (64K should be more than plenty)
   PThAttr attr;
   attr.Init();
@@ -138,8 +139,8 @@ void LsNetworkInput::Dump(FILE* f, int indent) const
 
 void LsNetworkInput::open_log()
 {
-  // logf_.Init("ls", "in", main_->LevelDBC()->LevelID());
-  // logf_.Open(main_->GlobalDB()->LogDir());
+  // logf_.Init("ls", "in", LmLevelDBC::Instance()->LevelID());
+  // logf_.Open(LmGlobalDB::Instance()->LogDir());
 }
 
 ////
@@ -224,7 +225,7 @@ void LsNetworkInput::handle_SMsg_LS_Action_CheckIdlePlayers()
   // TLOG_Debug(_T("%s: checking idle players"), method);
   // get list of players
   LsPlayerList plist;
-  main_->PlayerSet()->GetPlayerList(plist);
+  LsPlayerSet::Instance()->GetPlayerList(plist);
   for (LsPlayerList::iterator i = plist.begin(); !(bool)(i == plist.end()); ++i) {
     LsPlayer* player = *i;
 #if 0
@@ -252,7 +253,7 @@ void LsNetworkInput::handle_SMsg_LS_Action_CheckIdleClients()
   // TLOG_Debug(_T("%s: checking idle clients"), method);
   // get list of clients
   LmConnectionList conn_list;
-  main_->ConnectionSet()->GetConnectionList(conn_list);
+  LmConnectionSet::Instance()->GetConnectionList(conn_list);
   // TLOG_Debug(_T("%s: number of connections: %d"), method, conn_list.size());
   // check each network connection
   for (LmConnectionList::iterator i = conn_list.begin(); !(bool)(i == conn_list.end()); ++i) {
@@ -298,14 +299,14 @@ void LsNetworkInput::close_connection(LmConnection* conn)
   // fake a logout message from the client
   SMsg_Logout msg;
   LmSrvMesgBuf* mbuf;
-  mbuf = main_->BufferPool()->AllocateBuffer(msg.MessageSize());
+  mbuf = LmMesgBufPool::Instance()->AllocateBuffer(msg.MessageSize());
   mbuf->ReadMessage(msg);
-  if (main_->InputDispatch()->DispatchMessage(mbuf, conn) < 0) {
+  if (LsInputDispatch::Instance()->DispatchMessage(mbuf, conn) < 0) {
     TLOG_Error(_T("%s: could not dispatch fake logout message for connection [%p]"), method, conn);
     // return message buffer
-    main_->BufferPool()->ReturnBuffer(mbuf);
+    LmMesgBufPool::Instance()->ReturnBuffer(mbuf);
     // couldn't dispatch message, so close ourselves
-    main_->ConnectionSet()->RemoveConnection(conn);
+    LmConnectionSet::Instance()->RemoveConnection(conn);
   }
 }
 
@@ -325,14 +326,14 @@ void LsNetworkInput::fake_player_logout(LsPlayer* player)
   SMsg_Proxy msg_proxy;
   msg_proxy.InitProcess(player->PlayerID(), msg_logout);
   // allocate message buffer, initialize it
-  LmSrvMesgBuf* mbuf = main_->BufferPool()->AllocateBuffer(msg_proxy.MessageSize());
+  LmSrvMesgBuf* mbuf = LmMesgBufPool::Instance()->AllocateBuffer(msg_proxy.MessageSize());
   mbuf->ReadMessage(msg_proxy);
   // send it
-  if (main_->InputDispatch()->DispatchMessage(mbuf, conn) < 0) {
+  if (LsInputDispatch::Instance()->DispatchMessage(mbuf, conn) < 0) {
     TLOG_Error(_T("%s: could not dispatch fake player logout message for connection [%p]"), method, conn);
     // return message buffer
-    main_->BufferPool()->ReturnBuffer(mbuf);
+    LmMesgBufPool::Instance()->ReturnBuffer(mbuf);
     // remove player from game
-    main_->PlayerSet()->RemovePlayer(player);
+    LsPlayerSet::Instance()->RemovePlayer(player);
   }
 }

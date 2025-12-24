@@ -20,11 +20,14 @@
 #include "../../include/DB/LmRoomDB.h"
 #include "../../include/Protocol/LmSockAddrInet.h"
 #include "../../include/DB/LmServerDBC.h"
-#include "../../include/platform/win/MariaDB Connector C 64-bit/include/mysql.h"
+#include <third_party/MariaDB Connector C 64-bit/include/mysql.h>
+
+//init tracker to null
+LmServerDBC* LmServerDBC::s_instance = nullptr;
 
 extern int errno;
 
-unsigned int ATOI(char* value)
+inline unsigned int ATOI(char* value)
 {
   if (!value)
     return 0;
@@ -76,6 +79,9 @@ LmServerDBC::LmServerDBC()
     sql_ms_(0),
     last_ms_(0)
 {
+    //register instance
+    s_instance = this;
+
   lock_.Init();
 
  _tcscpy(sdb_passwd_, _T("unknown"));
@@ -97,6 +103,8 @@ LmServerDBC::~LmServerDBC()
 {
   Disconnect();
   LmDELETEARRAY(servers_);
+  if (s_instance == this)
+      s_instance == nullptr;
 }
 
 

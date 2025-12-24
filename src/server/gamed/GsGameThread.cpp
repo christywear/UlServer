@@ -1,3 +1,5 @@
+#if 0 old legacy code
+
 // GsGameThread.cpp  -*- C++ -*-
 // $Id: GsGameThread.cpp,v 1.68 1998/04/18 00:40:23 jason Exp $
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
@@ -108,7 +110,7 @@ void GsGameThread::Dump(FILE* f, int indent) const
 void GsGameThread::open_log()
 {
   // logf_.Init("gs", "game", main_->ServerPort());
-  // logf_.Open(main_->GlobalDB()->LogDir());
+  // logf_.Open(LmGlobalDB::Instance()->LogDir());
 }
 
 ////
@@ -237,7 +239,7 @@ void GsGameThread::handle_GMsg_PreLogin(LmSrvMesgBuf* msgbuf, LmConnection* conn
   CHECK_CONN_NONNULL();
   {
       if (conn->Type() != LmConnection::CT_UNKNOWN) {
-          if (Log()) Log()->Error(L"%s: conn [%p] (%c,%u) not unknown", method, conn, conn->Type(), conn->ID()); GsUtil::Send_Error(main_, conn, msg_type, _T("already logged in")); return;
+          if (Log()) Log()->Error(L"%s: conn [%p] (%c,%u) not unknown", method, conn, conn->Type(), conn->ID()); GsUtil::Send_Error(conn, msg_type, _T("already logged in")); return;
       }
   };
   // accept message
@@ -262,7 +264,7 @@ void GsGameThread::handle_GMsg_PreLogin(LmSrvMesgBuf* msgbuf, LmConnection* conn
     return;
   }
 
-  //SECLOG(-1, _T("%s: player being challenged, logging in from %s:%d"), method,
+  //LmLogFile::Instance()->Security(-1, _T("%s: player being challenged, logging in from %s:%d"), method,
 	// conn->Socket().PeerName().AddressString(), conn->Socket().PeerName().Port());
 
   //send_GMsg_PreLoginAck(conn, GMsg_PreLoginAck::GAMEFULL);
@@ -302,7 +304,7 @@ void GsGameThread::handle_GMsg_Login(LmSrvMesgBuf* msgbuf, LmConnection* conn)
   }
 
   // log connection
-  //  SECLOG(-1, _T("%s: player 0: '%s' connecting from %s:%d"), method,
+  //  LmLogFile::Instance()->Security(-1, _T("%s: player 0: '%s' connecting from %s:%d"), method,
   //	 msg.PlayerName(), conn->Socket().PeerName().AddressString(), conn->Socket().PeerName().Port());
 
   // determine if GM build
@@ -327,7 +329,7 @@ void GsGameThread::handle_GMsg_Login(LmSrvMesgBuf* msgbuf, LmConnection* conn)
 
   // check version
   if (version != GsMain::GAME_VERSION) {
-    SECLOG(1, _T("%s: player 0: player '%s' using version %d, not %d"), method,
+    LmLogFile::Instance()->Security(1, _T("%s: player 0: player '%s' using version %d, not %d"), method,
 	   msg.PlayerName(), version, GsMain::GAME_VERSION);
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_WRONGVERSION);
     return;
@@ -335,20 +337,20 @@ void GsGameThread::handle_GMsg_Login(LmSrvMesgBuf* msgbuf, LmConnection* conn)
 
   // check sub-version
   if (msg.SubVersion() != GsMain::GAME_SUBVERSION) {
-    SECLOG(1, _T("%s: player 0: player '%s' subversion mismatch: %d, not %d"), method,
+    LmLogFile::Instance()->Security(1, _T("%s: player 0: player '%s' subversion mismatch: %d, not %d"), method,
 	   msg.PlayerName(), msg.SubVersion(), GsMain::GAME_SUBVERSION);
     // don't return, let the player assume they weren't detected
   }
 
   // check that game server isn't full
-  //  SECLOG(1, _T("%s: curr players = %d, max = %d"), method, main_->PlayerSet()->NumPlayers(), main_->PlayerSet()->MaxPlayers());
+  //  LmLogFile::Instance()->Security(1, _T("%s: curr players = %d, max = %d"), method, GsPlayerSet::Instance()->NumPlayers(), GsPlayerSet::Instance()->MaxPlayers());
 
   // uncomment these lines to force a pathalogical server full condition
 	//send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_GAMEFULL, 	main_->NextIP(), main_->NextPort());
     //return;
 
   if ((main_->Closed()) || 
-	  (main_->PlayerSet()->NumPlayers() >= main_->PlayerSet()->MaxPlayers())) {
+	  (GsPlayerSet::Instance()->NumPlayers() >= GsPlayerSet::Instance()->MaxPlayers())) {
 	  send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_GAMEFULL, 
 		main_->NextIP(), main_->NextPort());
     return;
@@ -356,7 +358,7 @@ void GsGameThread::handle_GMsg_Login(LmSrvMesgBuf* msgbuf, LmConnection* conn)
 
   // check that player name is non-null
   if (_tcslen(msg.PlayerName()) == 0) {
-    SECLOG(1, _T("%s: player 0: connection from %s using null player name"), method,
+    LmLogFile::Instance()->Security(1, _T("%s: player 0: connection from %s using null player name"), method,
 	   conn->Socket().PeerName().AddressString());
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_USERNOTFOUND);
     return;
@@ -365,23 +367,23 @@ void GsGameThread::handle_GMsg_Login(LmSrvMesgBuf* msgbuf, LmConnection* conn)
   int rc, sc, lt; // db return codes
   // find playerid from name, and get "real" name
   TCHAR player_name[Lyra::PLAYERNAME_MAX];
-  rc = main_->PlayerDBC()->GetPlayerID(msg.PlayerName(), player_name);
-  sc = main_->PlayerDBC()->LastSQLCode();
-  lt = main_->PlayerDBC()->LastCallTime();
-  //  main_->Log()->Debug(_T("%s: LmPlayerDBC::GetPlayerID took %d ms"), method, lt);
+  rc = LmPlayerDBC::Instance()->GetPlayerID(msg.PlayerName(), player_name);
+  sc = LmPlayerDBC::Instance()->LastSQLCode();
+  lt = LmPlayerDBC::Instance()->LastCallTime();
+  //  LmLog::Instance()->Debug(_T("%s: LmPlayerDBC::GetPlayerID took %d ms"), method, lt);
   if (rc <= 0) {
-    SECLOG(1, _T("%s: player 0: could not find id for player '%s'"), method, msg.PlayerName());
+    LmLogFile::Instance()->Security(1, _T("%s: player 0: could not find id for player '%s'"), method, msg.PlayerName());
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_USERNOTFOUND);
-    GsUtil::HandlePlayerError(main_, method, rc, sc, false);
+    GsUtil::HandlePlayerError(method, rc, sc, false);
     return;
   }
   lyra_id_t playerid = rc;
   // put into the name map
-  main_->PlayerNameMap()->AddMapping(playerid, player_name);
+  LmPlayerNameMap::Instance()->AddMapping(playerid, player_name);
 
   // check that player isn't already in this game server
-  if (main_->PlayerSet()->IsInGame(playerid)) {
-    SECLOG(1, _T("%s: player %u: %s already logged in"), method, playerid, msg.PlayerName());
+  if (GsPlayerSet::Instance()->IsInGame(playerid)) {
+    LmLogFile::Instance()->Security(1, _T("%s: player %u: %s already logged in"), method, playerid, msg.PlayerName());
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_ALREADYIN);
     return;
   }
@@ -389,8 +391,8 @@ void GsGameThread::handle_GMsg_Login(LmSrvMesgBuf* msgbuf, LmConnection* conn)
   // check password 
 
 
-  if (!main_->PlayerDBC()->CheckPassword(playerid, msg.HashPtr(), conn->Challenge())) {
-    SECLOG(1, _T("%s: player %u: %s gave incorrect hash"), method, playerid, msg.PlayerName());
+  if (!LmPlayerDBC::Instance()->CheckPassword(playerid, msg.HashPtr(), conn->Challenge())) {
+    LmLogFile::Instance()->Security(1, _T("%s: player %u: %s gave incorrect hash"), method, playerid, msg.PlayerName());
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_BADPASSWORD);
     return;
   }    
@@ -398,24 +400,24 @@ void GsGameThread::handle_GMsg_Login(LmSrvMesgBuf* msgbuf, LmConnection* conn)
   // check that this account can log in to the player db
   int suspended_days = 0;
   bool first_login = false;
-  rc = main_->PlayerDBC()->CanLogin(playerid, &suspended_days, &first_login, pmare_type); 
-  sc = main_->PlayerDBC()->LastSQLCode();
-  lt = main_->PlayerDBC()->LastCallTime();
-  //  main_->Log()->Debug(_T("%s: LmPlayerDBC::CanLogin took %d ms"), method, lt);
+  rc = LmPlayerDBC::Instance()->CanLogin(playerid, &suspended_days, &first_login, pmare_type); 
+  sc = LmPlayerDBC::Instance()->LastSQLCode();
+  lt = LmPlayerDBC::Instance()->LastCallTime();
+  //  LmLog::Instance()->Debug(_T("%s: LmPlayerDBC::CanLogin took %d ms"), method, lt);
   if (rc < 0) {
     TLOG_Warning(_T("%s: error from CanLogin: rc=%d, sqlcode=%d"), method, rc, sc);
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_UNKNOWNERROR);
-    GsUtil::HandlePlayerError(main_, method, rc, sc, false);
+    GsUtil::HandlePlayerError(method, rc, sc, false);
     return;
   }
   else if (rc != GMsg_LoginAck::LOGIN_OK) {
-    SECLOG(1, _T("%s: player %u: locked out / killed / suspended/ billing_id not matched; reason = %d"), method, playerid, rc);
+    LmLogFile::Instance()->Security(1, _T("%s: player %u: locked out / killed / suspended/ billing_id not matched; reason = %d"), method, playerid, rc);
     send_GMsg_LoginAck(conn, conn_time, rc, suspended_days);
     return;
   }
 
   // allocate player in player set
-  GsPlayer* player = main_->PlayerSet()->AllocatePlayer(playerid);
+  GsPlayer* player = GsPlayerSet::Instance()->AllocatePlayer(playerid);
   if (!player) {
     TLOG_Error(_T("%s: could not allocate player for player %u"), method, playerid);
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_GAMEFULL, 
@@ -429,7 +431,7 @@ void GsGameThread::handle_GMsg_Login(LmSrvMesgBuf* msgbuf, LmConnection* conn)
   if (player->Login(playerid, pmare_type, first_login) < 0) {
     TLOG_Error(_T("%s: could not load database for player %u"), method, playerid);
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_UNKNOWNERROR);
-    main_->PlayerSet()->RemovePlayer(player, false);
+    GsPlayerSet::Instance()->RemovePlayer(player, false);
     return;
   }
 
@@ -441,9 +443,9 @@ void GsGameThread::handle_GMsg_Login(LmSrvMesgBuf* msgbuf, LmConnection* conn)
 #ifdef RELEASE
     // must use pmare build
     if (!pmare_build) {
-      SECLOG(1, _T("%s: player %u: Non-pmare build used with pmare account"), method, playerid);
+      LmLogFile::Instance()->Security(1, _T("%s: player %u: Non-pmare build used with pmare account"), method, playerid);
       send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_MISMATCH);
-      main_->PlayerSet()->RemovePlayer(player, false);
+      GsPlayerSet::Instance()->RemovePlayer(player, false);
       return;
     }
 #endif
@@ -453,33 +455,33 @@ void GsGameThread::handle_GMsg_Login(LmSrvMesgBuf* msgbuf, LmConnection* conn)
 #ifdef RELEASE
     // cannot use GM build in release
     if (gm_build) {
-      SECLOG(1, _T("%s: player %u: GM build used with non-GM account"), method, playerid);
+      LmLogFile::Instance()->Security(1, _T("%s: player %u: GM build used with non-GM account"), method, playerid);
       send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_MISMATCH);
-      main_->PlayerSet()->RemovePlayer(player, false);
+      GsPlayerSet::Instance()->RemovePlayer(player, false);
       return;
     }
 #endif
 #ifdef RELEASE // check result 
     // check that this account has not been disabled by the billing
     // system - but ONLY for release builds
-    rc = main_->BillingDBC()->GetBillingStatus(playerid, player->DB().AccountType(), 
+    rc = LmBillingDBC::Instance()->GetBillingStatus(playerid, player->DB().AccountType(), 
 		player->DB().PMareBilling(), &max_minutes_online, &session_minutes,
 		&gamesite, &gamesite_id); 
     //      send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_NO_PMARE);
-    sc = main_->PlayerDBC()->LastSQLCode();
-    lt = main_->PlayerDBC()->LastCallTime();
-    //  main_->Log()->Debug(_T("%s: LmPlayerDBC::CanLogin took %d ms"), method, lt);
+    sc = LmPlayerDBC::Instance()->LastSQLCode();
+    lt = LmPlayerDBC::Instance()->LastCallTime();
+    //  LmLog::Instance()->Debug(_T("%s: LmPlayerDBC::CanLogin took %d ms"), method, lt);
     if (rc == -1) {
       TLOG_Warning(_T("%s: database error from GetBillingStatus: rc=%d, sqlcode=%d"), method, rc, sc);
       send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_UNKNOWNERROR);
-      main_->PlayerSet()->RemovePlayer(player, false);
-      GsUtil::HandlePlayerError(main_, method, rc, sc, false);
+      GsPlayerSet::Instance()->RemovePlayer(player, false);
+      GsUtil::HandlePlayerError(method, rc, sc, false);
       return;
     }
     else if (rc != GMsg_LoginAck::LOGIN_OK) {
-      SECLOG(1, _T("%s: player %u: account disabled by billing system; reason = %d"), method, playerid, rc);
+      LmLogFile::Instance()->Security(1, _T("%s: player %u: account disabled by billing system; reason = %d"), method, playerid, rc);
       send_GMsg_LoginAck(conn, conn_time, rc);
-      main_->PlayerSet()->RemovePlayer(player, false);
+      GsPlayerSet::Instance()->RemovePlayer(player, false);
       return;
     }
 
@@ -489,17 +491,17 @@ void GsGameThread::handle_GMsg_Login(LmSrvMesgBuf* msgbuf, LmConnection* conn)
   case LmPlayerDB::ACCT_ADMIN: // GM
     // must use GM build
     if (!gm_build) {
-      SECLOG(1, _T("%s: player %u: non-GM build used with GM account"), method, playerid);
+      LmLogFile::Instance()->Security(1, _T("%s: player %u: non-GM build used with GM account"), method, playerid);
       send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_MISMATCH);
-      main_->PlayerSet()->RemovePlayer(player, false);
+      GsPlayerSet::Instance()->RemovePlayer(player, false);
       return;
     }
     break;
   case LmPlayerDB::ACCT_MONSTER: // agents, not allowed
   default: // all others -- unknown
-    SECLOG(1, _T("%s: player %u: illegal account type %c"), method, playerid, player->DB().AccountType());
+    LmLogFile::Instance()->Security(1, _T("%s: player %u: illegal account type %c"), method, playerid, player->DB().AccountType());
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_MISMATCH);
-    main_->PlayerSet()->RemovePlayer(player, false);
+    GsPlayerSet::Instance()->RemovePlayer(player, false);
     break;
 }
 
@@ -508,7 +510,7 @@ void GsGameThread::handle_GMsg_Login(LmSrvMesgBuf* msgbuf, LmConnection* conn)
   if ((conn->ConnectTime() != conn_time) || !conn->IsConnected()) {
     TLOG_Warning(_T("%s: conn [%p] connection times differ!"), method, conn);
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_UNKNOWNERROR);
-    main_->PlayerSet()->RemovePlayer(player, false);
+    GsPlayerSet::Instance()->RemovePlayer(player, false);
     return;
   }
 
@@ -521,27 +523,27 @@ void GsGameThread::handle_GMsg_Login(LmSrvMesgBuf* msgbuf, LmConnection* conn)
   GsPlayerThread* pthr = start_player_thread(player);
   if (!pthr) {
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_UNKNOWNERROR);
-    main_->PlayerSet()->RemovePlayer(player, false);
+    GsPlayerSet::Instance()->RemovePlayer(player, false);
     return;
   }
   // send login message to thread
   SMsg_GS_Login msg_login;
   msg_login.Init(playerid);
-  GsUtil::SendInternalMessage(main_, msg_login, pthr);
+  GsUtil::SendInternalMessage(msg_login, pthr);
   // send successful loginack to client
-  SECLOG(-1, _T("%s: player %u: %s logged in from %s:%d"), method,
+  LmLogFile::Instance()->Security(-1, _T("%s: player %u: %s logged in from %s:%d"), method,
 	 playerid, msg.PlayerName(), conn->Socket().PeerName().AddressString(), conn->Socket().PeerName().Port());
   send_GMsg_LoginAck(conn, player, max_minutes_online, session_minutes, gamesite, gamesite_id);
   main_->SetNumLogins(main_->NumLogins() + 1);
 
   // closing mechanism disabled as unnecessary
 
-  //if (main_->PlayerSet()->NumLogins() >= GsMain::MAX_LOGINS) { 
-  //if (main_->PlayerSet()->NumLogins() > GsMain::CLOSING_THRESHHOLD) {
-  //if (main_->PlayerSet()->NumLogins() >= 4) {
+  //if (GsPlayerSet::Instance()->NumLogins() >= GsMain::MAX_LOGINS) { 
+  //if (GsPlayerSet::Instance()->NumLogins() > GsMain::CLOSING_THRESHHOLD) {
+  //if (GsPlayerSet::Instance()->NumLogins() >= 4) {
 //	  int roll = LmRand::Generate(1, 100);
-//	  if (roll < (main_->PlayerSet()->NumLogins()))
-//	  if (roll < (main_->PlayerSet()->NumLogins() - GsMain::CLOSING_THRESHHOLD));
+//	  if (roll < (GsPlayerSet::Instance()->NumLogins()))
+//	  if (roll < (GsPlayerSet::Instance()->NumLogins() - GsMain::CLOSING_THRESHHOLD));
 //		main_->TryToClose();
   //}
 }
@@ -572,7 +574,7 @@ void GsGameThread::handle_GMsg_AgentLogin(LmSrvMesgBuf* msgbuf, LmConnection* co
   }
 
   // log connection
-  SECLOG(-1, _T("%s: player 0: '%s' connecting from %s:%d"), method,
+  LmLogFile::Instance()->Security(-1, _T("%s: player 0: '%s' connecting from %s:%d"), method,
 	 msg.PlayerName(), conn->Socket().PeerName().AddressString(), conn->Socket().PeerName().Port());
 
   // determine if GM build
@@ -585,7 +587,7 @@ void GsGameThread::handle_GMsg_AgentLogin(LmSrvMesgBuf* msgbuf, LmConnection* co
 
   // check version (no sub-version in this message)
   if (version != GsMain::GAME_VERSION) {
-    SECLOG(1, _T("%s: player 0: player '%s' using version %d, not %d"), method,
+    LmLogFile::Instance()->Security(1, _T("%s: player 0: player '%s' using version %d, not %d"), method,
 	   msg.PlayerName(), version, GsMain::GAME_VERSION);
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_WRONGVERSION);
     return;
@@ -593,14 +595,14 @@ void GsGameThread::handle_GMsg_AgentLogin(LmSrvMesgBuf* msgbuf, LmConnection* co
 
   // check that player name is non-null
   if (_tcslen(msg.PlayerName()) == 0) {
-    SECLOG(1, _T("%s: player 0: connection from %s using null player name"), method,
+    LmLogFile::Instance()->Security(1, _T("%s: player 0: connection from %s using null player name"), method,
 	   conn->Socket().PeerName().AddressString());
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_USERNOTFOUND);
     return;
   }
 
   // check that game server isn't _really_ full
-  if (main_->PlayerSet()->NumPlayers() >= main_->PlayerSet()->MaxPlayers()) {
+  if (GsPlayerSet::Instance()->NumPlayers() >= GsPlayerSet::Instance()->MaxPlayers()) {
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_GAMEFULL, 
 		main_->NextIP(), main_->NextPort());
     return;
@@ -611,31 +613,31 @@ void GsGameThread::handle_GMsg_AgentLogin(LmSrvMesgBuf* msgbuf, LmConnection* co
 
   // find playerid from name, and get "real" name
   TCHAR player_name[Lyra::PLAYERNAME_MAX];
-  rc = main_->PlayerDBC()->GetPlayerID(msg.PlayerName(), player_name);
-  sc = main_->PlayerDBC()->LastSQLCode();
-  //  lt = main_->PlayerDBC()->LastCallTime();
-  //  main_->Log()->Debug(_T("%s: LmPlayerDBC::GetPlayerID took %d ms"), method, lt);
+  rc = LmPlayerDBC::Instance()->GetPlayerID(msg.PlayerName(), player_name);
+  sc = LmPlayerDBC::Instance()->LastSQLCode();
+  //  lt = LmPlayerDBC::Instance()->LastCallTime();
+  //  LmLog::Instance()->Debug(_T("%s: LmPlayerDBC::GetPlayerID took %d ms"), method, lt);
   if (rc < 0) {
-    SECLOG(1, _T("%s: player 0: could not find id for player '%s'"), method, msg.PlayerName());
+    LmLogFile::Instance()->Security(1, _T("%s: player 0: could not find id for player '%s'"), method, msg.PlayerName());
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_USERNOTFOUND);
-    GsUtil::HandlePlayerError(main_, method, rc, sc, false);
+    GsUtil::HandlePlayerError(method, rc, sc, false);
     return;
   }
   lyra_id_t playerid = rc;
   // put into the name map
-  main_->PlayerNameMap()->AddMapping(playerid, player_name);
+  LmPlayerNameMap::Instance()->AddMapping(playerid, player_name);
 
   // check that player isn't already in this game server
-  if (main_->PlayerSet()->IsInGame(playerid)) {
-    SECLOG(1, _T("%s: player %u: %s already logged in"), method, playerid, msg.PlayerName());
+  if (GsPlayerSet::Instance()->IsInGame(playerid)) {
+    LmLogFile::Instance()->Security(1, _T("%s: player %u: %s already logged in"), method, playerid, msg.PlayerName());
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_ALREADYIN);
     return;
   }
 
   // if billing_id = 0, check that connection is from an agent server (actually any server, but it will do)
   if (billing_id == 0) {
-    if (!main_->ServerDBC()->IsServerIP(conn->Socket().PeerName().IPAddress())) {
-      SECLOG(1, _T("%s: player 0: illegal non-server agent login (player '%s', IP %s:%d)"), method,
+    if (!LmServerDBC::Instance()->IsServerIP(conn->Socket().PeerName().IPAddress())) {
+      LmLogFile::Instance()->Security(1, _T("%s: player 0: illegal non-server agent login (player '%s', IP %s:%d)"), method,
 	     msg.PlayerName(), conn->Socket().PeerName().AddressString(), conn->Socket().PeerName().Port());
       send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_MISMATCH);
       return;
@@ -643,25 +645,25 @@ void GsGameThread::handle_GMsg_AgentLogin(LmSrvMesgBuf* msgbuf, LmConnection* co
   }
   else { // billing_id != 0, must be a GM build, and billing_id must be that of a GM
     if (!gm_build) {
-      SECLOG(1, _T("%s: player 0: illegal agent possession by mplayer %u (player '%s', IP %s:%d)"), method,
+      LmLogFile::Instance()->Security(1, _T("%s: player 0: illegal agent possession by mplayer %u (player '%s', IP %s:%d)"), method,
 	     billing_id, msg.PlayerName(), conn->Socket().PeerName().AddressString(), conn->Socket().PeerName().Port());
       send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_MISMATCH);
       return;
     }
     // log and check later
-    SECLOG(-1, _T("%s: player 0: agent '%s' being possessed by mplayer %u"), method, msg.PlayerName(), billing_id);
+    LmLogFile::Instance()->Security(-1, _T("%s: player 0: agent '%s' being possessed by mplayer %u"), method, msg.PlayerName(), billing_id);
   }
 
   // check password (always, since this is for agents)
   //
-  if (!main_->PlayerDBC()->CheckPassword(playerid, msg.HashPtr(), conn->Challenge())) {
-      SECLOG(1, _T("%s: nightmare %u: %s gave incorrect password"), method, playerid, msg.PlayerName());
+  if (!LmPlayerDBC::Instance()->CheckPassword(playerid, msg.HashPtr(), conn->Challenge())) {
+      LmLogFile::Instance()->Security(1, _T("%s: nightmare %u: %s gave incorrect password"), method, playerid, msg.PlayerName());
       send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_BADPASSWORD);
       return;
   }    
 
   // allocate player in player set
-  GsPlayer* player = main_->PlayerSet()->AllocatePlayer(playerid);
+  GsPlayer* player = GsPlayerSet::Instance()->AllocatePlayer(playerid);
   if (!player) {
     TLOG_Error(_T("%s: could not allocate player for player %u"), method, playerid);
 #if 0 // deprecated BMP 10/03 - round robin only
@@ -676,14 +678,14 @@ void GsGameThread::handle_GMsg_AgentLogin(LmSrvMesgBuf* msgbuf, LmConnection* co
   if (player->Login(playerid, 0) < 0) {
     TLOG_Error(_T("%s: could not load database for player %u"), method, playerid);
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_USERNOTFOUND);
-    main_->PlayerSet()->RemovePlayer(player, false);
+    GsPlayerSet::Instance()->RemovePlayer(player, false);
     return;
   }
 
   // check that player type is agent
   if (player->DB().AccountType() != LmPlayerDB::ACCT_MONSTER) {
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_USERNOTFOUND);
-    main_->PlayerSet()->RemovePlayer(player, false);
+    GsPlayerSet::Instance()->RemovePlayer(player, false);
     return;
   }
 
@@ -692,7 +694,7 @@ void GsGameThread::handle_GMsg_AgentLogin(LmSrvMesgBuf* msgbuf, LmConnection* co
   if ((conn->ConnectTime() != conn_time) || !conn->IsConnected()) {
     TLOG_Warning(_T("%s: conn [%p] connection times differ!"), method, conn);
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_UNKNOWNERROR);
-    main_->PlayerSet()->RemovePlayer(player, false);
+    GsPlayerSet::Instance()->RemovePlayer(player, false);
     return;
   }
 
@@ -710,15 +712,15 @@ void GsGameThread::handle_GMsg_AgentLogin(LmSrvMesgBuf* msgbuf, LmConnection* co
   GsPlayerThread* pthr = start_player_thread(player);
   if (!pthr) {
     send_GMsg_LoginAck(conn, conn_time, GMsg_LoginAck::LOGIN_UNKNOWNERROR);
-    main_->PlayerSet()->RemovePlayer(player, false);
+    GsPlayerSet::Instance()->RemovePlayer(player, false);
     return;
   }
   // send login message to thread
   SMsg_GS_Login msg_login;
   msg_login.Init(playerid);
-  GsUtil::SendInternalMessage(main_, msg_login, pthr);
+  GsUtil::SendInternalMessage(msg_login, pthr);
   // send successful loginack to client
-  SECLOG(-1, _T("%s: player %u: %s logged in from %s:%d"), method,
+  LmLogFile::Instance()->Security(-1, _T("%s: player %u: %s logged in from %s:%d"), method,
 	 playerid, msg.PlayerName(), conn->Socket().PeerName().AddressString(), conn->Socket().PeerName().Port());
   send_GMsg_LoginAck(conn, player, 0, 0);
   // NOTE: agent logins do not count towards the max limit for closing, 
@@ -773,7 +775,7 @@ void GsGameThread::handle_SMsg_Login(LmSrvMesgBuf* msgbuf, LmConnection* conn)
   // accept message
   ACCEPT_MSG(SMsg_Login, true); // send error
   // check that connection's peer IP is a server IP
-  if (!main_->ServerDBC()->IsServerIP(conn->Socket().PeerName().IPAddress())) {
+  if (!LmServerDBC::Instance()->IsServerIP(conn->Socket().PeerName().IPAddress())) {
     TLOG_Warning(_T("%s: conn [%p] not a server; ip=%s"), method, conn, conn->Socket().PeerName().AddressString());
     return;
   }
@@ -820,7 +822,7 @@ void GsGameThread::handle_SMsg_UniverseBroadcast_RMsg_PlayerMsg(LmSrvMesgBuf* ms
 
   msg.SetSenderID(DUMMY_PID_FOR_DREAMWIDE_EVOKES);
   GsPlayerList players;
-  main_->PlayerSet()->GetPlayerList(players);
+  GsPlayerSet::Instance()->GetPlayerList(players);
   for (GsPlayerList::iterator i = players.begin(); !(bool)(i == players.end()); ++i) {
     LmConnection* conn = (*i)->Connection();
     if (conn) {
@@ -834,7 +836,7 @@ void GsGameThread::handle_SMsg_UniverseBroadcast_RMsg_PlayerMsg(LmSrvMesgBuf* ms
 void GsGameThread::broadcast_to_game(LmSrvMesgBuf* mbuf)
 {
   GsPlayerList players;
-  main_->PlayerSet()->GetPlayerList(players);
+  GsPlayerSet::Instance()->GetPlayerList(players);
   for (GsPlayerList::iterator i = players.begin(); !(bool)(i == players.end()); ++i) {
     LmConnection* conn = (*i)->Connection();
     if (conn) {
@@ -876,7 +878,7 @@ void GsGameThread::handle_SMsg_GetServerStatus(LmSrvMesgBuf* msgbuf, LmConnectio
     break;
   default:
     TLOG_Warning(_T("%s: unknown status request %d"), method, msg.Status());
-    GsUtil::Send_SMsg_Error(main_, conn, msg.MessageType(), _T("unknown status request %d"), msg.Status());
+    GsUtil::Send_SMsg_Error(conn, msg.MessageType(), _T("unknown status request %d"), msg.Status());
     break;
   }
 }
@@ -905,7 +907,7 @@ void GsGameThread::handle_SMsg_DumpState(LmSrvMesgBuf* msgbuf, LmConnection* con
   TCHAR df[80];
  _stprintf(df, _T("gs_%u_dump.%lu"), main_->ServerPort(), time(NULL));
   TCHAR dfname[FILENAME_MAX];
-  main_->GlobalDB()->GetDumpFile(dfname, df);
+  LmGlobalDB::Instance()->GetDumpFile(dfname, df);
   FILE* dumpf =_tfopen(dfname, _T("w"));
   if (!dumpf) {
     TLOG_Error(_T("%s: could not open dump file '%s'"), method, dfname);
@@ -998,13 +1000,13 @@ void GsGameThread::handle_SMsg_Logout(LmSrvMesgBuf* msgbuf, LmConnection* conn)
   // if connection is a level server, notify any players in the level
   if (conn->Type() == LmConnection::CT_LSRV) {
     GsPlayerList players;
-    main_->PlayerSet()->GetPlayerList(players);
+    GsPlayerSet::Instance()->GetPlayerList(players);
     for (GsPlayerList::iterator i = players.begin(); !(bool)(i == players.end()); ++i) {
       GsPlayer* player = *i;
       if ((player->LevelConnection() == conn) && (player->InLevel())) {
 	// send loginack message
 	//TLOG_Debug(_T("%s: player %u being logged out of level %d"), method, player->PlayerID(), conn->ID());
-	GsUtil::Send_RMsg_LevelLoginAck(main_, player->Connection(), RMsg_LoginAck::LOGIN_SERVERDOWN,
+	GsUtil::Send_RMsg_LevelLoginAck(player->Connection(), RMsg_LoginAck::LOGIN_SERVERDOWN,
 				   player->LevelID(), player->RoomID());
 	player->SetInLevel(false);
       }
@@ -1032,7 +1034,7 @@ void GsGameThread::handle_SMsg_GS_Logout(LmSrvMesgBuf* msgbuf, LmConnection* con
   // accept message
   ACCEPT_MSG(SMsg_GS_Logout, false); // don't send error
   // process
-  // SECLOG(-1, _T("%s: player %u: logging out of game, status %c, %d seconds online"), method,
+  // LmLogFile::Instance()->Security(-1, _T("%s: player %u: logging out of game, status %c, %d seconds online"), method,
   // msg.PlayerID(), msg.Status(), msg.Online());
 }
 
@@ -1068,11 +1070,11 @@ void GsGameThread::handle_SMsg_GS_Action(LmSrvMesgBuf* msgbuf, LmConnection* con
     TLOG_Log(_T("%s: game thread running, brk=[%p]"), method, sbrk(0));
 #endif
     // also write some stats to the security log
-    SECLOG(-9, _T("%s: players=%d monsters=%d admins=%d pmares=%d cpu=%.3lf"), method, 
-	   main_->PlayerSet()->NumPlayers(LmPlayerDB::ACCT_PLAYER),
-	   main_->PlayerSet()->NumPlayers(LmPlayerDB::ACCT_MONSTER),
-	   main_->PlayerSet()->NumPlayers(LmPlayerDB::ACCT_ADMIN),
-	   main_->PlayerSet()->NumPlayers(LmPlayerDB::ACCT_PMARE),
+    LmLogFile::Instance()->Security(-9, _T("%s: players=%d monsters=%d admins=%d pmares=%d cpu=%.3lf"), method, 
+	   GsPlayerSet::Instance()->NumPlayers(LmPlayerDB::ACCT_PLAYER),
+	   GsPlayerSet::Instance()->NumPlayers(LmPlayerDB::ACCT_MONSTER),
+	   GsPlayerSet::Instance()->NumPlayers(LmPlayerDB::ACCT_ADMIN),
+	   GsPlayerSet::Instance()->NumPlayers(LmPlayerDB::ACCT_PMARE),
 	   LmUtil::GetCPULoad());
     break;
   default:
@@ -1101,7 +1103,7 @@ void GsGameThread::handle_SMsg_GS_Action_Exit()
   SMsg_GS_Action msg;
   msg.Init(SMsg_GS_Action::ACTION_EXIT);
   // send to all server threads
-  GsUtil::BroadcastInternalMessage(main_, msg, GsMain::THREAD_GAMESERVER);
+  GsUtil::BroadcastInternalMessage(msg, GsMain::THREAD_GAMESERVER);
   // wait a few seconds
 #ifdef WIN32
   Sleep(5000);
@@ -1110,7 +1112,7 @@ void GsGameThread::handle_SMsg_GS_Action_Exit()
 #endif
   // then wait until all player threads have exited, or up to a minute
   for (int i = 0; i < 30; ++i) {
-    if (main_->PlayerSet()->NumPlayers() > 0) {
+    if (GsPlayerSet::Instance()->NumPlayers() > 0) {
 #ifdef WIN32
   Sleep(2000);
 #else
@@ -1231,7 +1233,7 @@ void GsGameThread::send_GMsg_ServerDown(int status)
   msg.Init(status);
   // send to all players
   GsPlayerList players;
-  main_->PlayerSet()->GetPlayerList(players);
+  GsPlayerSet::Instance()->GetPlayerList(players);
   for (GsPlayerList::iterator i = players.begin(); !(bool)(i == players.end()); ++i) {
     LmConnection* conn = (*i)->Connection();
     if (conn) {
@@ -1251,15 +1253,15 @@ void GsGameThread::send_SMsg_ServerStatus(LmConnection* conn)
   SMsg_ServerStatus msg;
   // get playerlist
   GsPlayerList plist;
-  main_->PlayerSet()->GetPlayerList(plist);
+  GsPlayerSet::Instance()->GetPlayerList(plist);
   // initialize message
   unsigned short frac_value = 2112;
-  msg.Init(main_->Uptime(), main_->PlayerSet()->NumLogins(), plist.size(),
-	   main_->PlayerSet()->NumPlayers(LmPlayerDB::ACCT_PLAYER),
-	   main_->PlayerSet()->NumPlayers(LmPlayerDB::ACCT_MONSTER),
-	   main_->PlayerSet()->NumPlayers(LmPlayerDB::ACCT_ADMIN),
-	   //	   main_->PlayerSet()->NumPlayers(LmPlayerDB::ACCT_PMARE),
-	   main_->PlayerSet()->MaxPlayers(), main_->ConnectionSet()->NumConnections(),
+  msg.Init(main_->Uptime(), GsPlayerSet::Instance()->NumLogins(), plist.size(),
+	   GsPlayerSet::Instance()->NumPlayers(LmPlayerDB::ACCT_PLAYER),
+	   GsPlayerSet::Instance()->NumPlayers(LmPlayerDB::ACCT_MONSTER),
+	   GsPlayerSet::Instance()->NumPlayers(LmPlayerDB::ACCT_ADMIN),
+	   //	   GsPlayerSet::Instance()->NumPlayers(LmPlayerDB::ACCT_PMARE),
+	   GsPlayerSet::Instance()->MaxPlayers(), main_->ConnectionSet()->NumConnections(),
 	   main_->ConnectionSet()->MaxConnections(), main_->ServerPid(), main_->ParentPid(),
 	   LmUtil::GetCPULoad(&frac_value));
   // copy playerids
@@ -1299,7 +1301,7 @@ void GsGameThread::send_SMsg_PlayerStatus(LmConnection* conn, lyra_id_t playerid
 {
   SMsg_PlayerStatus msg;
   // get player
-  GsPlayer* player = main_->PlayerSet()->GetPlayer(playerid);
+  GsPlayer* player = GsPlayerSet::Instance()->GetPlayer(playerid);
   if (player) {
     msg.Init(player->PlayerID(), player->DB().PlayerName(), player->LevelID(), player->RoomID(),
 	     player->PlayerUpdate().X(), player->PlayerUpdate().Y(), player->DB().AccountType(),
@@ -1310,3 +1312,4 @@ void GsGameThread::send_SMsg_PlayerStatus(LmConnection* conn, lyra_id_t playerid
   }
   main_->OutputDispatch()->SendMessage(&msg, conn);
 }
+#endif

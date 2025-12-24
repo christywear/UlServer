@@ -4,22 +4,27 @@
 //
 // implementation
 
-#include "../../../include/Server/Gamed/GsPlayerThreadSet.h"
-#include "../../../include/Server/Gamed/GsMain.h"
-#include "../../../include/Server/Gamed/GsPlayerThread.h"
-#include "../../../include/Game/LmLogFile.h"
-#include "../../../include/Core/LmLocker.h"
+#include <include/core/PThAttr.h>
+#include <include/core/LmLocker.h>
+#include <include/game/LmLogFile.h>
+#include <include/server/gamed/GsPlayerThread.h>
+#include <include/server/gamed/GsMain.h>
+#include <include/server/gamed/GsPlayerThreadSet.h>
 
 #include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
+
+//init s_instance
+GsPlayerThreadSet* GsPlayerThreadSet::s_instance = nullptr;
 
 ////
 // Constructor
 ////
 
-GsPlayerThreadSet::GsPlayerThreadSet(GsMain* gsmain)
-  : main_(gsmain)
+GsPlayerThreadSet::GsPlayerThreadSet()
 {
+    //assign s_instance
+    s_instance = this;
   DECLARE_TheLineNum;
   lock_.Init();
 }
@@ -30,6 +35,8 @@ GsPlayerThreadSet::GsPlayerThreadSet(GsMain* gsmain)
 
 GsPlayerThreadSet::~GsPlayerThreadSet()
 {
+    if (s_instance == this)
+        s_instance == nullptr;
   DECLARE_TheLineNum;
   LmLocker mon(lock_);  // lock object during method
   // cancel and delete any threads in the list
@@ -116,9 +123,9 @@ GsPlayerThread* GsPlayerThreadSet::start_player_thread()
   DEFMETHOD(GsPlayerThreadSet, start_player_thread);
   DECLARE_TheLineNum;
   // allocate new thread object
-  GsPlayerThread* pthr = LmNEW(GsPlayerThread(main_));
+  GsPlayerThread* pthr = LmNEW(GsPlayerThread());
   if (!pthr) {
-    main_->Log()->Error(_T("%s: could not allocate thread"), method);
+    LmLog::Instance()->Error(_T("%s: could not allocate thread"), method);
     return 0;
   }
   // start player thread, with reasonable stack size 
@@ -128,7 +135,7 @@ GsPlayerThread* GsPlayerThreadSet::start_player_thread()
   //attr.SetStackSize(65536);
   attr.SetStackSize(131072);
   if (pthr->Create(&attr) < 0) {
-    main_->Log()->Error(_T("%s: could not create player thread"), method);
+    LmLog::Instance()->Error(_T("%s: could not create player thread"), method);
     LmDELETE(pthr);
     return 0;
   }

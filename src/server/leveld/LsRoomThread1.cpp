@@ -58,7 +58,7 @@ void LsRoomThread::broadcast_room(LsRoomState* room, LsPlayer* source, LmMesg& m
     player_list.push_back(source);
   }
   // send message
-  LsUtil::Send_SMsg_Proxy(main_, player_list, msg);
+  LsUtil::Send_SMsg_Proxy(player_list, msg);
 }
 
 ////
@@ -77,7 +77,7 @@ void LsRoomThread::broadcast_party(const LmParty& party, LsPlayer* source, LmMes
     player_list.push_back(source);
   }
   // send message
-  LsUtil::Send_SMsg_Proxy(main_, player_list, msg);
+  LsUtil::Send_SMsg_Proxy(player_list, msg);
 }
 
 ////
@@ -89,13 +89,13 @@ void LsRoomThread::send_GMsg_LevelPlayers(LmConnection* gsconn, lyra_id_t player
   DEFMETHOD(LsRoomThread, send_GMsg_LevelPlayers);
   DECLARE_TheLineNum;
 
-  int num_rooms = main_->LevelDBC()->NumRooms();
+  int num_rooms = LmLevelDBC::Instance()->NumRooms();
   // init message
   GMsg_LevelPlayers msg;
-  msg.Init(main_->LevelDBC()->LevelID(), num_rooms);
+  msg.Init(LmLevelDBC::Instance()->LevelID(), num_rooms);
   // for each room, get # of players
   for (int i = 0; i < num_rooms; ++i) {
-    LsRoomState* room = main_->LevelState()->Room(i);
+    LsRoomState* room = LsLevelState::Instance()->Room(i);
     if (!room) {
       TLOG_Error(_T("%s: room number %d not found"), method, i);
     }
@@ -108,7 +108,7 @@ void LsRoomThread::send_GMsg_LevelPlayers(LmConnection* gsconn, lyra_id_t player
     }
   }
   // send it out
-  LsUtil::Send_SMsg_Proxy(main_, gsconn, playerid, msg);
+  LsUtil::Send_SMsg_Proxy(gsconn, playerid, msg);
 }
 
 ////
@@ -122,7 +122,7 @@ void LsRoomThread::send_RMsg_Party_Reject(LsPlayer* target, int responsecode, ly
   RMsg_Party msg_party;
   msg_party.InitReject(playerid, responsecode);
   // send it
-  LsUtil::Send_SMsg_Proxy(main_, target, msg_party);
+  LsUtil::Send_SMsg_Proxy(target, msg_party);
 }
 
 ////
@@ -136,7 +136,7 @@ void LsRoomThread::send_RMsg_Party_Join(LsPlayer* target, lyra_id_t new_playerid
   RMsg_Party msg_party;
   msg_party.InitJoin(new_playerid, responsecode);
   // send it
-  LsUtil::Send_SMsg_Proxy(main_, target, msg_party);
+  LsUtil::Send_SMsg_Proxy(target, msg_party);
 }
 
 ////
@@ -184,7 +184,7 @@ void LsRoomThread::send_RMsg_PartyInfo(LsPlayer* target)
   msg_partyinfo.Init(party.LeaderID(), party.PartySize());
   for (int i = 0; i < party.PartySize(); ++i) {
     lyra_id_t memberid = party.PlayerID(i);
-    LsPlayer* member = main_->PlayerSet()->GetPlayer(memberid);
+    LsPlayer* member = LsPlayerSet::Instance()->GetPlayer(memberid);
     if (!member) {
       TLOG_Error(_T("send_RMsg_PartyInfo: could not get party member %u!"), memberid);
       continue;
@@ -194,7 +194,7 @@ void LsRoomThread::send_RMsg_PartyInfo(LsPlayer* target)
     msg_partyinfo.SetPartyMember(i, rp);
   }
   // send to new player
-  LsUtil::Send_SMsg_Proxy(main_, target, msg_partyinfo);
+  LsUtil::Send_SMsg_Proxy(target, msg_partyinfo);
 }
 
 ////
@@ -246,7 +246,7 @@ void LsRoomThread::send_RMsg_EnterRoom(LsPlayer* player, LsRoomState* room)
   }
   // send list of players to new player, if there are any
   if (rpnum > 0) {
-    LsUtil::Send_SMsg_Proxy(main_, player, msg_enterroom);
+    LsUtil::Send_SMsg_Proxy(player, msg_enterroom);
   }
 }
 
@@ -263,7 +263,7 @@ void LsRoomThread::send_RMsg_Speech(LsPlayer* player, LsPlayerList& t_list, RMsg
 
   msg_speech.Init(omsg.SpeechType(), player->PlayerID(), omsg.Babble(), omsg.SpeechText());
   // send out to targets
-  LsUtil::Send_SMsg_Proxy(main_, t_list, msg_speech);
+  LsUtil::Send_SMsg_Proxy(t_list, msg_speech);
 }
 
 ////
@@ -356,10 +356,10 @@ void LsRoomThread::send_RMsg_ItemDrop(LsPlayer* player, LsRoomState* room,
   else {
     // if (full_item > 0) {
     // always send this, so that client knows what items are in room (wards, in particular)
-    LsUtil::Send_SMsg_Proxy(main_, player, msg_itemdrop);
+    LsUtil::Send_SMsg_Proxy(player, msg_itemdrop);
     // }
     if (hdr_item > 0) {
-      LsUtil::Send_SMsg_Proxy(main_, player, msg_itemhdrdrop);
+      LsUtil::Send_SMsg_Proxy(player, msg_itemhdrdrop);
     }
   }
 }
@@ -382,7 +382,7 @@ void LsRoomThread::send_RMsg_ChangeAvatar(LsPlayer* source, LsPlayerList& target
   DECLARE_TheLineNum;
   RMsg_ChangeAvatar msg;
   msg.Init(source->PlayerID(), source->Avatar());
-  LsUtil::Send_SMsg_Proxy(main_, target_list, msg);
+  LsUtil::Send_SMsg_Proxy(target_list, msg);
 }
 
 ////
@@ -393,7 +393,7 @@ void LsRoomThread::send_RMsg_RcvAvatarDescription(LsPlayer* player, lyra_id_t ta
 {
   RMsg_RcvAvatarDescription msg;
   msg.Init(targetid, targetdesc);
-  LsUtil::Send_SMsg_Proxy(main_, player, msg);
+  LsUtil::Send_SMsg_Proxy(player, msg);
 }
 
 ////
@@ -404,7 +404,7 @@ void LsRoomThread::send_RMsg_RoomDescription(LsPlayer* player, short levelid, sh
 {
 		RMsg_RoomDescription msg;
 		msg.Init(levelid, roomid, roomdesc);
-		LsUtil::Send_SMsg_Proxy(main_, player, msg);
+		LsUtil::Send_SMsg_Proxy(player, msg);
 }
 
 ////
@@ -418,7 +418,7 @@ void LsRoomThread::send_RMsg_PlayerMsg_DreamStrikeAck(LsPlayer* player, lyra_id_
   // the person who was the target
   msg.Init(target, player->PlayerID(), RMsg_PlayerMsg::DREAMSTRIKE_ACK);
   msg.SetState1(success);
-  LsUtil::Send_SMsg_Proxy(main_, player, msg);
+  LsUtil::Send_SMsg_Proxy(player, msg);
 }
 
 ////
@@ -433,7 +433,7 @@ void LsRoomThread::send_SMsg_ItemPickup(LsPlayer* player, const LmItem& item, in
   }
   SMsg_ItemPickup msg_itempickup;
   msg_itempickup.Init(player->PlayerID(), item, status);
-  main_->OutputDispatch()->SendMessage(&msg_itempickup, player->Connection());
+  LsOutputDispatch::Instance()->SendMessage(&msg_itempickup, player->Connection());
 }
 
 ////
@@ -448,7 +448,7 @@ void LsRoomThread::send_SMsg_ItemDrop(LsPlayer* player, const LmItem& item, int 
   }
   SMsg_ItemDrop msg_itemdrop;
   msg_itemdrop.Init(player->PlayerID(), item.Header(), status);
-  main_->OutputDispatch()->SendMessage(&msg_itemdrop, player->Connection());
+  LsOutputDispatch::Instance()->SendMessage(&msg_itemdrop, player->Connection());
 }
 
 ////
@@ -459,7 +459,7 @@ void LsRoomThread::send_SMsg_PartyLeader(LmConnection* gsconn, lyra_id_t playeri
 {
   SMsg_PartyLeader msg;
   msg.Init(playerid, leader_time);
-  main_->OutputDispatch()->SendMessage(&msg, gsconn);
+  LsOutputDispatch::Instance()->SendMessage(&msg, gsconn);
 }
 
 ////
@@ -471,7 +471,7 @@ void LsRoomThread::send_SMsg_GiveItemAck(LmConnection* conn, lyra_id_t sourceid,
 {
   SMsg_GiveItemAck msg;
   msg.Init(status, sourceid, targetid, hdr);
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  LsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -483,5 +483,5 @@ void LsRoomThread::send_SMsg_TakeItemAck(LmConnection* conn, lyra_id_t sourceid,
 {
   SMsg_TakeItemAck msg;
   msg.Init(status, sourceid, targetid, hdr);
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  LsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }

@@ -21,7 +21,6 @@
 
 // class forward declarations
 
-class LsMain;
 class LmSockAddrInet;
 
 // the class
@@ -30,7 +29,7 @@ class LsPositionThread : public LmThread {
 
 public:
 
-  LsPositionThread(LsMain* lsmain);
+  LsPositionThread();
   ~LsPositionThread();
 
   void Dump(FILE* f, int indent = 0) const;
@@ -59,7 +58,7 @@ private:
   void close_log();
   void register_message_handlers();
 
-  LsMain* main_;
+  
   LmSocket* usock_;       // UDP socket to read from
   LmSrvMesgBuf* msgbuf_;  // message buffer to use for receiving
 

@@ -19,7 +19,7 @@
 
 // class forward declarations
 
-class GsMain;
+
 
 // class declarations
 
@@ -27,7 +27,7 @@ class GsNetworkOutput : public LmNetworkOutput {
 
 public:
 
-  GsNetworkOutput(GsMain* gsmain);
+  GsNetworkOutput();
   ~GsNetworkOutput();
 
   void Dump(FILE* f, int indent = 0) const;
@@ -48,7 +48,7 @@ private:
   void close_log();
   void register_message_handlers();
 
-  GsMain* main_;
+
 
   // LmLogFile logf_;
 

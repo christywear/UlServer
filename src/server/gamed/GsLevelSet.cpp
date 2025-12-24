@@ -26,13 +26,17 @@
 #include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
+//init s_instance
+GsLevelSet* GsLevelSet::s_instance = nullptr;
+
 ////
 // Constructor
 ////
 
-GsLevelSet::GsLevelSet(GsMain* gsmain)
-  : main_(gsmain)
+GsLevelSet::GsLevelSet()
 {
+    //assign s_instance
+    s_instance = this;
   DECLARE_TheLineNum;
   lock_.Init();
 }
@@ -48,6 +52,8 @@ GsLevelSet::~GsLevelSet()
   for (llist_t::iterator i = levels_.begin(); !(bool)(i == levels_.end()); ++i) {
     LmDELETE(*i);
   }
+  if (s_instance == this)
+      s_instance == nullptr;
 }
 
 ////
@@ -111,7 +117,7 @@ void GsLevelSet::Dump(FILE* f, int indent) const
   DECLARE_TheLineNum;
   LmLocker mon(lock_); // lock object during method
   INDENT(indent, f);
- _ftprintf(f, _T("<GsLevelSet[%p,%d]: main=[%p] levels=%d>\n"), this, sizeof(GsLevelSet), main_, levels_.size());
+ _ftprintf(f, _T("<GsLevelSet[%p,%d]: main=[%p] levels=%d>\n"), this, sizeof(GsLevelSet), levels_.size());
   for (llist_t::const_iterator i = levels_.begin();  !(bool)(i == levels_.end()); ++i) {
     (*i)->Dump(f, indent + 1);
   }
@@ -145,7 +151,7 @@ LmLevelDBC* GsLevelSet::load_level(lyra_id_t levelid) const
 {
   LmLevelDBC* retval = 0;
 
-  retval = LmNEW(LmLevelDBC(main_->ServerDBC()->LevelDBUsername(), main_->ServerDBC()->LevelDBPassword(), main_->ServerDBC()->DatabaseHost(), main_->ServerDBC()->DatabasePort()));
+  retval = LmNEW(LmLevelDBC(LmServerDBC::Instance()->LevelDBUsername(), LmServerDBC::Instance()->LevelDBPassword(), LmServerDBC::Instance()->DatabaseHost(), LmServerDBC::Instance()->DatabasePort()));
   
   retval->Connect();
 

@@ -9,10 +9,9 @@
 
 #include <stdio.h>
 #include "..\core\LyraDefs.h"
-#include "mysql.h"
+#include <third_party/MariaDB Connector C 64-bit/include/mysql.h>
 #include "..\core\PThMutex.h"
 #include "..\core\SharedConstants.h"
-#include "../platform/win/MariaDB Connector C 64-bit/include/mysql.h"
 
 // local types
 
@@ -47,6 +46,8 @@ public:
   LmItemDBC(const TCHAR *dbuser, const TCHAR *dbpassword, const TCHAR* dbserver, int dbport);
   ~LmItemDBC();
 
+  // 2. The Public Accessor (The "Address")
+  static LmItemDBC* Instance() { return s_instance; }
   int Connect();
   void Disconnect();
 
@@ -88,7 +89,8 @@ protected:
   LmLog* Log() const;
 
 private:
-
+    // 1. The hidden static pointer to the real object
+    static LmItemDBC* s_instance;
   // not implemented
   LmItemDBC(const LmItemDBC&);
   //operator=(const LmItemDBC&);
@@ -97,7 +99,7 @@ private:
   MYSQL m_mysql;
 
   bool connected_;
-  PThMutex lock_;
+  mutable PThMutex lock_;
   long last_sql_code_;
   LmLog* log_;
 

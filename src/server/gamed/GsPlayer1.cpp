@@ -428,14 +428,14 @@ bool GsPlayer::CanCreateItem(const LmItem& item) const
   case LyraItem::WARD_FUNCTION: {
     // player must have WARD art
     if (db_.Arts().Skill(Arts::WARD) < 1) {
-      SECLOG(6, _T("%s: doesn't have ward"),  method);	
+      LmLogFile::Instance()->Security(6, _T("%s: doesn't have ward"),  method);	
       return false;
     }
     lyra_item_ward_t ward;
     memcpy(&ward, func_field, sizeof(lyra_item_ward_t));
     // check creator field
     if (ward.player_id() != db_.PlayerID()) {
-      SECLOG(6, _T("%s: illegal playerid"), method);	
+      LmLogFile::Instance()->Security(6, _T("%s: illegal playerid"), method);	
       return false;
     }
     // TODO: check strength?
@@ -646,9 +646,9 @@ bool GsPlayer::CanCreateItem(const LmItem& item) const
 	return false;
       }
 
-    //    const char* target_name = main_->PlayerNameMap()->PlayerName(((lyra_id_t)support.target_id()));
+    //    const char* target_name = LmPlayerNameMap::Instance()->PlayerName(((lyra_id_t)support.target_id()));
 
-    main_->Log()->Security(-6, _T("%s: player %s created Support Training token for player ID %u in art %d"), method, db_.PlayerName(), support.target_id(), support.art_id);
+    LmLog::Instance()->Security(-6, _T("%s: player %s created Support Training token for player ID %u in art %d"), method, db_.PlayerName(), support.target_id(), support.art_id);
 
   }
   break;
@@ -659,12 +659,12 @@ bool GsPlayer::CanCreateItem(const LmItem& item) const
   case LyraItem::GRATITUDE_FUNCTION: 
   case LyraItem::MAP_FUNCTION:            
   case LyraItem::TELEPORTER_FUNCTION:
-    SECLOG(6, _T("%s: illegal func type %d"), method, func_type);
+    LmLogFile::Instance()->Security(6, _T("%s: illegal func type %d"), method, func_type);
     PDEBUG((_T("%s: illegal function type %d"), method, func_type));
     return false;
     break;
   default: // unknown
-    SECLOG(6, _T("%s: unknown func type %d"), method, func_type);
+    LmLogFile::Instance()->Security(6, _T("%s: unknown func type %d"), method, func_type);
     PDEBUG((_T("%s: unknown function type %d"), method, func_type));
     return false;
     break;

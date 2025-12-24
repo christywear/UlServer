@@ -27,17 +27,17 @@ class LmThread;
 // class declarations
 
 struct LsUtil {
-  static void SendInternalMessage(LsMain* main, LmMesg& msg, LmThread* thr);
-  static int SendInternalMessage(LsMain* main, LmMesg& msg, int threadid);
-  static void BroadcastInternalMessage(LsMain* main, LmMesg& msg, int threadid, bool s2s = false);
-  static void Send_SMsg_Error(LsMain* main, LmConnection* conn, int msgtype, const TCHAR* fmt, ...);
-  static void Send_SMsg_Proxy(LsMain* main, LmConnection* conn, lyra_id_t playerid, LmMesg& msg);
-  static void Send_SMsg_Proxy(LsMain* main, LsPlayer* player, LmMesg& msg);
-  static void Send_SMsg_Proxy(LsMain* main, LsPlayerList& player_list, LmMesg& msg);
-  static void Send_RMsg_Error(LsMain* main, LsPlayer* player, int msgtype, const TCHAR* fmt, ...);
-  static void Send_RMsg_LevelLoginAck(LsMain* main, LsPlayer* player, int status, lyra_id_t roomid);
-  static void Send_RMsg_RoomLoginAck(LsMain* main, LsPlayer* player, short status, short num_neighbors);
-  static void HandleItemError(LsMain* main, const TCHAR* method, int rc, int sc);
+  static void SendInternalMessage(LmMesg& msg, LmThread* thr);
+  static int SendInternalMessage(LmMesg& msg, int threadid);
+  static void BroadcastInternalMessage(LmMesg& msg,int threadid, bool s2s = false);
+  static void Send_SMsg_Error(LmConnection* conn, int msgtype, const TCHAR* fmt, ...);
+  static void Send_SMsg_Proxy(LmConnection* conn, lyra_id_t playerid, LmMesg& msg);
+  static void Send_SMsg_Proxy(LsPlayer* player, LmMesg& msg);
+  static void Send_SMsg_Proxy(LsPlayerList& player_list, LmMesg& msg);
+  static void Send_RMsg_Error(LsPlayer* player, int msgtype, const TCHAR* fmt, ...);
+  static void Send_RMsg_LevelLoginAck(LsPlayer* player, int status, lyra_id_t roomid);
+  static void Send_RMsg_RoomLoginAck(LsPlayer* player, short status, short num_neighbors);
+  static void HandleItemError(const TCHAR* method, int rc, int sc);
 };
 
 #endif /* INCLUDED_LsUtil */

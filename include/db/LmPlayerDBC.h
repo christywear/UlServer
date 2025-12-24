@@ -16,6 +16,7 @@
 #include "LmPlayerDB.h"
 #include "..\Core\LnMD5.h"
 #include "../game/LmStats.h"
+#include <third_party/MariaDB Connector C 64-bit/include/mysql.h>
 
 // local types
 
@@ -47,6 +48,9 @@ public:
 
   LmPlayerDBC(const TCHAR *dbuser, const TCHAR *dbpassword, const TCHAR* dbserver, int dbport);
   ~LmPlayerDBC();
+
+  //public acessor
+  static LmPlayerDBC* Instance() { return s_instance; }
 
   int Connect();
   void Disconnect();
@@ -102,6 +106,8 @@ protected:
 
 private:
 
+    //hidden accessor
+    static LmPlayerDBC* s_instance;
   // mysql object
   MYSQL m_mysql;
 
@@ -110,9 +116,9 @@ private:
   //operator=(const LmPlayerDBC&);
 
   bool connected_;
-#ifdef UL_POSIX
-  PThMutex lock_;
-#endif
+
+  mutable PThMutex lock_;
+
   long last_sql_code_;
   LmLog* log_;
 

@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 #include "..\Core\LyraDefs.h"
-#include "mysql.h"
+#include <third_party/MariaDB Connector C 64-bit/include/mysql.h>
 #include "..\Core\PThMutex.h"
 #include "..\Core\SharedConstants.h"
 
@@ -101,6 +101,9 @@ public:
   unsigned long DatabaseServerIP() const;
   int DatabaseServerPort() const;
 
+  //public accessor
+  static LmServerDBC* Instance() { return s_instance; }
+
   unsigned long LevelServerIP(lyra_id_t levelid) const;
   int LevelServerPort(lyra_id_t levelid) const;
   int ChooseServer(int serv_type, const TCHAR* hostid) const;
@@ -126,7 +129,10 @@ protected:
 
 private:
 
-  // not implemented
+   // private accessor
+    static LmServerDBC* s_instance;
+
+   // not implemented
   LmServerDBC(const LmServerDBC&);
   //operator=(const LmServerDBC&);
 
@@ -170,7 +176,7 @@ private:
   si_t* servers_;
 
   bool connected_;
-  PThMutex lock_;
+  mutable PThMutex lock_;
   long last_sql_code_;
   LmLog* log_;
 

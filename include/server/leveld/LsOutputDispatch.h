@@ -18,7 +18,6 @@
 
 // class forward declarations
 
-class LsMain;
 
 // the class
 
@@ -26,8 +25,11 @@ class LsOutputDispatch : public LmDispatch {
 
 public:
 
-  LsOutputDispatch(LsMain* lsmain);
+  LsOutputDispatch();
   ~LsOutputDispatch();
+
+  //public accessor
+  static LsOutputDispatch* Instance() { return s_instance; }
 
   void SendMessage(LmMesg* msg, LmConnection* conn);
   void SendMessage(LmSrvMesgBuf* mbuf, LmConnection* conn);
@@ -39,8 +41,8 @@ protected:
   LmThread* ComputeTarget(LmSrvMesgBuf* mbuf, LmConnection* conn);
 
 private:
-
-  LsMain* main_;
+	//private accessor
+	static LsOutputDispatch* s_instance;
 
 };
 

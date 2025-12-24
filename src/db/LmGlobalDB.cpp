@@ -13,13 +13,19 @@
 
 #include "../../include/DB/LmGlobalDB.h"
 #include "../../include/Core/LyraDefs.h"
+#include <db/LmGuildDBC.h>
 
+//init tracker
+LmGlobalDB* LmGlobalDB::s_instance = nullptr;
 ////
 // Constructor
 ////
 
 LmGlobalDB::LmGlobalDB(const TCHAR* root_dir)
 {
+	//register instance
+	s_instance = this;
+
   // initialize directories
  _tcscpy(rootdir_, root_dir);
 #ifdef WIN32
@@ -36,6 +42,8 @@ LmGlobalDB::LmGlobalDB(const TCHAR* root_dir)
 LmGlobalDB::~LmGlobalDB()
 {
   // empty
+	if (s_instance == this)
+		s_instance == nullptr;
 }
 
 ////

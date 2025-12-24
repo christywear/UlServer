@@ -21,7 +21,7 @@
 // class forward declarations
 
 class LmConnection;
-class GsMain;
+
 class GsMessageReader;
 
 // class declarations
@@ -47,7 +47,7 @@ public:
 
 public:
 
-  GsNetworkInput(GsMain* gsmain);
+  GsNetworkInput();
   ~GsNetworkInput();
 
   void StartIdleReaders(int num_readers = 4);
@@ -77,7 +77,7 @@ private:
   void close_log();
   void register_message_handlers();
 
-  GsMain* main_;
+ 
 
   // LmLogFile logf_;
 

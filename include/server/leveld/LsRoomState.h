@@ -23,7 +23,6 @@
 class LmItemHdr;
 class LmItem;
 class LmRoomDB;
-class LsMain;
 class LsItemGen;
 class LmRoomItem;
 class LmDatabase;
@@ -38,7 +37,7 @@ public:
   LsRoomState();
   ~LsRoomState();
 
-  void Init(LsMain* lsmain, const LmRoomDB* roomdb);
+  void Init(const LmRoomDB* roomdb);
 
   int LoadFromDB();
   int SaveToDB();
@@ -85,10 +84,9 @@ private:
   bool can_add_item() const;
 
   // related objects
-  LsMain* main_;
   const LmRoomDB* db_;
 
-  PThMutex lock_;
+  mutable PThMutex lock_;
 
   // room state
   std::list<lyra_id_t> players_;

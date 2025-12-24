@@ -10,7 +10,7 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-
+#include "time.h"
 #include "LyraDefs.h"
 
 // LmTimer

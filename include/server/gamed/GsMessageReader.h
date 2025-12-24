@@ -19,7 +19,6 @@
 // class forward declarations
 
 class LmLog;
-class GsMain;
 
 // class declarations
 
@@ -27,7 +26,7 @@ class GsMessageReader : public LmMessageReader {
 
 public:
 
-  GsMessageReader(GsMain* gsmain, LmLog* log);
+  GsMessageReader(LmLog* log);
   ~GsMessageReader();
 
   void Dump(FILE* f, int indent = 0) const;
@@ -39,7 +38,7 @@ protected:
 
 private:
 
-  GsMain* main_;
+ 
 
 };
 

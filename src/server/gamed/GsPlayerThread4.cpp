@@ -50,7 +50,7 @@ void GsPlayerThread::send_GMsg_RcvPlayerName(LmConnection* conn, lyra_id_t playe
 {
   GMsg_RcvPlayerName msg;
   msg.Init(playerid, requestid, name);
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -61,7 +61,7 @@ void GsPlayerThread::send_GMsg_PPointAck(LmConnection* conn, int type, int resul
 {
   GMsg_PPointAck msg;
   msg.Init(type, result); //, var1, var2);
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 
@@ -77,7 +77,7 @@ void GsPlayerThread::send_GMsg_LocateAvatarAck(LmConnection* conn, const TCHAR* 
   msg.SetPlayerName(0, name);
   msg.SetStatus(0, status);
   msg.SetLocation(0, levelid, roomid);
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -89,7 +89,7 @@ void GsPlayerThread::send_GMsg_ChangeStat(LmConnection* conn, int req, int stat,
   GMsg_ChangeStat msg;
   msg.Init(1);
   msg.InitChange(0, req, stat, val);
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -100,7 +100,7 @@ void GsPlayerThread::send_GMsg_ItemDrop(LmConnection* conn, const LmItemHdr& ite
 {
   GMsg_ItemDrop msg;
   msg.Init(status, itemhdr);
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -111,7 +111,7 @@ void GsPlayerThread::send_GMsg_ItemPickup(LmConnection* conn, const LmItem& item
 {
   GMsg_ItemPickup msg;
   msg.Init(status, item);
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -122,7 +122,7 @@ void GsPlayerThread::send_GMsg_Goal(LmConnection* conn, int req, lyra_id_t id)
 {
   GMsg_Goal msg;
   msg.Init(id, req);
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -134,7 +134,7 @@ void GsPlayerThread::send_GMsg_RcvGoalHdr(LmConnection* conn, int sessionid, lyr
 {
   GMsg_RcvGoalHdr msg;
   msg.Init(goalid, sessionid, status, playeroption, summary);
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -145,7 +145,7 @@ void GsPlayerThread::send_GMsg_RcvReportHdr(LmConnection* conn, int sessionid, l
 {
   GMsg_RcvReportHdr msg;
   msg.Init(reportid, goalid, sessionid, summary, flags);
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -155,7 +155,7 @@ void GsPlayerThread::send_GMsg_RcvReportGoals(LmConnection* conn, lyra_id_t goal
 {
   GMsg_RcvReportGoals msg;
   msg.Init(goalid);
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 
@@ -167,7 +167,7 @@ void GsPlayerThread::send_GMsg_TakeItem(LmConnection* conn, lyra_id_t source_id,
 {
   GMsg_TakeItem msg;
   msg.Init(source_id, item);
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -178,7 +178,7 @@ void GsPlayerThread::send_GMsg_TakeItemAck(LmConnection* conn, const LmItemHdr& 
 {
   GMsg_TakeItemAck msg;
   msg.Init(status, itemhdr);
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -189,7 +189,7 @@ void GsPlayerThread::send_GMsg_GiveItemAck(LmConnection* conn, const LmItemHdr& 
 {
   GMsg_GiveItemAck msg;
   msg.Init(status, itemhdr, targetid);
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -201,7 +201,7 @@ void GsPlayerThread::send_GMsg_ViewItem(LmConnection* conn, lyra_id_t sourceid, 
 {
   GMsg_ViewItem msg;
   msg.Init(sourceid, itemhdr, itemname);
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -212,7 +212,7 @@ void GsPlayerThread::send_GMsg_ItemDescription(LmConnection* conn, int serial, c
 {
   GMsg_ItemDescription msg;
   msg.Init(serial, creator, desc, target);
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -247,7 +247,7 @@ void GsPlayerThread::send_RMsg_PlayerMsg_DreamStrikeAck(bool strike_success, lyr
   // init and send ack
   msg.Init(target, player_->PlayerID(), RMsg_PlayerMsg::DREAMSTRIKE_ACK);
   msg.SetState1(strike_success);
-  main_->OutputDispatch()->SendMessage(&msg, player_->Connection());
+  GsOutputDispatch::Instance()->SendMessage(&msg, player_->Connection());
   // send changestat for max ds
   send_GMsg_ChangeStat(player_->Connection(), GMsg_ChangeStat::SET_STAT_MAX, Stats::DREAMSOUL,
 		       player_->DB().Stats().MaxStat(Stats::DREAMSOUL));
@@ -264,7 +264,7 @@ void GsPlayerThread::send_RMsg_PlayerMsg_Ascend(int guild, bool success)
   msg.Init(player_->PlayerID(), player_->PlayerID(), RMsg_PlayerMsg::ASCEND);
   msg.SetState1(guild);
   msg.SetState2(success);
-  main_->OutputDispatch()->SendMessage(&msg, player_->Connection());
+  GsOutputDispatch::Instance()->SendMessage(&msg, player_->Connection());
 }
 
 ////
@@ -278,7 +278,7 @@ void GsPlayerThread::send_RMsg_PlayerMsg_SelfTrain(int art, bool success)
   msg.Init(player_->PlayerID(), player_->PlayerID(), RMsg_PlayerMsg::TRAIN_SELF);
   msg.SetState1(art);
   msg.SetState2(success);
-  main_->OutputDispatch()->SendMessage(&msg, player_->Connection());
+  GsOutputDispatch::Instance()->SendMessage(&msg, player_->Connection());
 }
 
 ////
@@ -291,7 +291,7 @@ void GsPlayerThread::send_RMsg_PlayerMsg_GratitudeAck(bool success)
   // init and send ack
   msg.Init(player_->PlayerID(), player_->PlayerID(), RMsg_PlayerMsg::REDEEM_GRATITUDE);
   msg.SetState1(success);
-  main_->OutputDispatch()->SendMessage(&msg, player_->Connection());
+  GsOutputDispatch::Instance()->SendMessage(&msg, player_->Connection());
 }
 
 ////
@@ -318,7 +318,7 @@ void GsPlayerThread::send_SMsg_LocateAvatar(LmConnection* lsconn, lyra_id_t play
 {
   SMsg_LocateAvatar msg;
   msg.Init(player_->PlayerID(), playerid, 0);
-  main_->OutputDispatch()->SendMessage(&msg, lsconn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, lsconn);
 }
 
 ////
@@ -340,7 +340,7 @@ void GsPlayerThread::send_SMsg_LevelLogin(LmConnection* lsconn, lyra_id_t roomid
   {
 	  TLOG_Debug( _T("Player has firewall set - tunnel thru gamed!") );
 	  msg.Init(player_->PlayerID(), player_->DB().PlayerName(), player_->DB().AccountType(),
-		main_->HostIPAddress(), main_->ServerPort(), player_->Avatar(), roomid, update,
+		GsConfig::HostIP(), GsConfig::ServerPort(), player_->Avatar(), roomid, update,
 		player_->IsHidden(), player_->DB().AvatarDescrip(), player_->DB().NewlyAlert(),
 		player_->DB().NewlyAwakened(), 0); 
   }
@@ -349,7 +349,7 @@ void GsPlayerThread::send_SMsg_LevelLogin(LmConnection* lsconn, lyra_id_t roomid
 		player_->UpdateAddress().IPAddress(), player_->UpdateAddress().Port(), player_->Avatar(), roomid, update,
 		player_->IsHidden(), player_->DB().AvatarDescrip(), player_->DB().NewlyAlert(),
 		player_->DB().NewlyAwakened(), 0);
-  main_->OutputDispatch()->SendMessage(&msg, lsconn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, lsconn);
 }
 
 ////
@@ -361,7 +361,7 @@ void GsPlayerThread::send_SMsg_PutItem(LmConnection* lsconn, lyra_id_t playerid,
 {
   SMsg_PutItem msg;
   msg.Init(playerid, roomid, item, pos, ttl);
-  main_->OutputDispatch()->SendMessage(&msg, lsconn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, lsconn);
 }
 
 ////
@@ -372,7 +372,7 @@ void GsPlayerThread::send_SMsg_GetItem(LmConnection* lsconn, lyra_id_t roomid, c
 {
   SMsg_GetItem msg;
   msg.Init(player_->PlayerID(), roomid, itemhdr);
-  main_->OutputDispatch()->SendMessage(&msg, lsconn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, lsconn);
 }
 
 ////
@@ -383,14 +383,14 @@ void GsPlayerThread::send_SMsg_Proxy(LmConnection* lsconn, LmSrvMesgBuf* msgbuf)
 {
   SMsg_Proxy msg;
   msg.Init(player_->PlayerID(), SMsg_Proxy::PROXY_PROCESS, msgbuf);
-  main_->OutputDispatch()->SendMessage(&msg, lsconn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, lsconn);
 }
 
 void GsPlayerThread::send_SMsg_Proxy(LmConnection* lsconn, LmMesg& pmsg)
 {
   SMsg_Proxy msg;
   msg.Init(player_->PlayerID(), SMsg_Proxy::PROXY_PROCESS, pmsg);
-  main_->OutputDispatch()->SendMessage(&msg, lsconn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, lsconn);
 }
 
 
@@ -398,14 +398,14 @@ void GsPlayerThread::send_SMsg_UniverseBroadcast(LmSrvMesgBuf* msgbuf)
 {
   SMsg_UniverseBroadcast msg;
   msg.Init(msgbuf);
-  main_->OutputDispatch()->SendMessage(&msg, connectToBcastLevelD());
+  GsOutputDispatch::Instance()->SendMessage(&msg, connectToBcastLevelD());
 }
 
 void GsPlayerThread::send_SMsg_UniverseBroadcast(LmMesg& pmsg)
 {
   SMsg_UniverseBroadcast msg;
   msg.Init(pmsg);
-  main_->OutputDispatch()->SendMessage(&msg, connectToBcastLevelD());
+  GsOutputDispatch::Instance()->SendMessage(&msg, connectToBcastLevelD());
 }
 
 
@@ -418,7 +418,7 @@ void GsPlayerThread::send_SMsg_DestroyRoomItem(LmConnection* lsconn, lyra_id_t r
 {
   SMsg_DestroyRoomItem msg;
   msg.Init(player_->PlayerID(), roomid, itemhdr);
-  main_->OutputDispatch()->SendMessage(&msg, lsconn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, lsconn);
 }
 
 ////
@@ -429,7 +429,7 @@ void GsPlayerThread::send_SMsg_GetLevelPlayers(LmConnection* lsconn)
 {
   SMsg_GetLevelPlayers msg;
   msg.Init(player_->PlayerID());
-  main_->OutputDispatch()->SendMessage(&msg, lsconn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, lsconn);
 }
 
 ////
@@ -440,7 +440,7 @@ void GsPlayerThread::send_SMsg_GiveItem(LmConnection* lsconn, lyra_id_t targetid
 {
   SMsg_GiveItem msg;
   msg.Init(player_->PlayerID(), targetid, item);
-  main_->OutputDispatch()->SendMessage(&msg, lsconn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, lsconn);
 }
 
 ////
@@ -451,7 +451,7 @@ void GsPlayerThread::send_SMsg_TakeItemAck(LmConnection* lsconn, lyra_id_t targe
 {
   SMsg_TakeItemAck msg;
   msg.Init(status, player_->PlayerID(), targetid, itemhdr);
-  main_->OutputDispatch()->SendMessage(&msg, lsconn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, lsconn);
 }
 
 ////
@@ -462,7 +462,7 @@ void GsPlayerThread::send_SMsg_ShowItem(LmConnection* lsconn, lyra_id_t sourceid
 {
   SMsg_ShowItem msg;
   msg.Init(sourceid, targetid, item.Header(), item.Name());
-  main_->OutputDispatch()->SendMessage(&msg, lsconn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, lsconn);
 }
 
 ////
@@ -473,5 +473,5 @@ void GsPlayerThread::send_SMsg_SetAvatarDescription(LmConnection* lsconn, lyra_i
 {
   SMsg_SetAvatarDescription msg;
   msg.Init(playerid, description);
-  main_->OutputDispatch()->SendMessage(&msg, lsconn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, lsconn);
 }

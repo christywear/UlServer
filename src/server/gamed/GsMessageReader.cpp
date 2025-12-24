@@ -30,9 +30,8 @@
 // Constructor
 ////
 
-GsMessageReader::GsMessageReader(GsMain* gsmain, LmLog* log)
-  : LmMessageReader(gsmain->InputDispatch(), gsmain->BufferPool(), log),
-    main_(gsmain)
+GsMessageReader::GsMessageReader(LmLog* log)
+  : LmMessageReader(GsInputDispatch::Instance(), LmMesgBufPool::Instance(), log)
 {
   // empty
 }
@@ -85,7 +84,7 @@ bool GsMessageReader::HandleError(LmConnection* conn, int errcode, int mtype, in
       conn->Socket().Shutdown(LmSocket::SHUTDOWN_READ);
       // if we get an error while reading a message, we fake a logout
       // message of the appropriate type; the server will close the connection
-      GsUtil::FakeLogout(main_, conn);
+      GsUtil::FakeLogout(conn);
     }
     retval = true; // fatal error, don't read anything more from connection
     break;

@@ -39,7 +39,7 @@ LmLogSyslog::~LmLogSyslog()
 
 void LmLogSyslog::Open(const char* log_ident, int log_options, int log_facility)
 {
-  openlog(log_ident, log_options, log_facility);
+  //openlog(log_ident, log_options, log_facility);
   SetLogOpened(true);
 }
 
@@ -49,7 +49,7 @@ void LmLogSyslog::Open(const char* log_ident, int log_options, int log_facility)
 
 void LmLogSyslog::Close()
 {
-  closelog();
+  //closelog();
   SetLogOpened(false);
 }
 
@@ -59,7 +59,7 @@ void LmLogSyslog::Close()
 
 void LmLogSyslog::SetLogMask(int mask)
 {
-  setlogmask(mask);
+  //setlogmask(mask);
 }
 
 ////
@@ -78,7 +78,7 @@ void LmLogSyslog::WriteLogEntry(const char* prefix, const char* fmt, va_list arg
   char* out = new char[len + _tcslen((const wchar_t*)(prefix)) + 10];
  _stprintf((wchar_t *)(out), _T("%s%s"), prefix, out_tmp); // prefix has space already
   // use LOG_INFO for everything, since we have our own hierarchy of log message types
-  syslog(LOG_INFO, out); 
+  //syslog(LOG_INFO, out); 
   // clean up
   delete out;
   delete out_tmp;

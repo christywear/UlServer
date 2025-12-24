@@ -24,6 +24,7 @@
 #include "../../../include/Protocol/RMsg/RMsg_LeaveRoom.h"
 #include "../../../include/Protocol/RMsg/RMsg.h"
 #include "../../../include/Core/LyraDefs.h"
+#include <protocol/LmMesg.h>
 
 ////
 // constructor
@@ -89,7 +90,7 @@ void RMsg_LeaveRoom::Dump(FILE* f, int indent) const
 {
   INDENT(indent, f);
  _ftprintf(f, _T("<RMsg_LeaveRoom[%p,%d]: "), this, sizeof(RMsg_LeaveRoom));
-  if (ByteOrder() == ByteOrder::HOST) {
+ if (this->ByteOrder() == (int)::ByteOrder::HOST) {
    _ftprintf(f, _T("playerid=%u status=%c lastpos=(%d,%d)>\n"), PlayerID(), Status(), LastX(), LastY());
   }
   else {

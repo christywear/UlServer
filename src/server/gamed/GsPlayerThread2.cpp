@@ -124,25 +124,25 @@ void GsPlayerThread::handle_RMsg_GotoRoom(LmSrvMesgBuf* msgbuf, LmConnection* co
   // check that player is in a level, and is connected to level server
   if (!player_->InLevel() || !player_->LevelDBC() || !player_->LevelConnection()) {
     TLOG_Warning(_T("%s: player %u not in level"), method, player_->PlayerID());
-    GsUtil::Send_RMsg_RoomLoginAck(main_, conn, RMsg_RoomLoginAck::LOGIN_ERROR);
+    GsUtil::Send_RMsg_RoomLoginAck(conn, RMsg_RoomLoginAck::LOGIN_ERROR);
     return;
   }
   // check that room is in level
   if (!player_->LevelDBC()->ContainsRoom(roomid)) {
     TLOG_Warning(_T("%s: room %u not in level %u"), method, roomid, levelid);
-    GsUtil::Send_RMsg_RoomLoginAck(main_, conn, RMsg_RoomLoginAck::LOGIN_ROOMNOTFOUND);
+    GsUtil::Send_RMsg_RoomLoginAck(conn, RMsg_RoomLoginAck::LOGIN_ROOMNOTFOUND);
     return;
   }
 
   // check that player is allowed to "get there from here"
   if (!player_->CanGotoRoom(roomid)) {
-    SECLOG(1, _T("%s: player %u: illegal gotoroom, no portal from room %u to room %u in level %u"), method,
+    LmLogFile::Instance()->Security(1, _T("%s: player %u: illegal gotoroom, no portal from room %u to room %u in level %u"), method,
 	   player_->PlayerID(), player_->RoomID(), roomid, levelid);
     // TODO: don't allow this eventually
-    GsUtil::Send_RMsg_RoomLoginAck(main_, conn, RMsg_RoomLoginAck::LOGIN_ROOMNOTFOUND);
+    GsUtil::Send_RMsg_RoomLoginAck(conn, RMsg_RoomLoginAck::LOGIN_ROOMNOTFOUND);
     // return;
   }
-  SECLOG(-1, _T("%s: player %u: moving to room %u in level %u"), method, player_->PlayerID(), roomid, levelid);
+  LmLogFile::Instance()->Security(-1, _T("%s: player %u: moving to room %u in level %u"), method, player_->PlayerID(), roomid, levelid);
   // save roomid, update info
   player_->GotoRoom(roomid);
   player_->ReceivedUpdate(msg.PeerUpdate());
@@ -154,13 +154,13 @@ void GsPlayerThread::handle_RMsg_GotoRoom(LmSrvMesgBuf* msgbuf, LmConnection* co
   if (player_->IsHidden()) {
     levelid += Lyra::HIDDEN_DELTA; // player hidden from location?
   }
-  int rc = main_->PlayerDBC()->UpdateLocation(player_->PlayerID(), levelid, roomid);
-  int sc = main_->PlayerDBC()->LastSQLCode();
-  // int lt = main_->PlayerDBC()->LastCallTime();
-  // main_->Log()->Debug(_T("%s: LmPlayerDBC::UpdateLocation took %d ms"), method, lt);
+  int rc = LmPlayerDBC::Instance()->UpdateLocation(player_->PlayerID(), levelid, roomid);
+  int sc = LmPlayerDBC::Instance()->LastSQLCode();
+  // int lt = LmPlayerDBC::Instance()->LastCallTime();
+  // LmLog::Instance()->Debug(_T("%s: LmPlayerDBC::UpdateLocation took %d ms"), method, lt);
   if (rc < 0) {
-    main_->Log()->Error(_T("%s: could not update player location; rc=%d, sqlcode=%d"), method, rc, sc);
-    //    GsUtil::HandlePlayerError(main_, method, rc, sc);
+    LmLog::Instance()->Error(_T("%s: could not update player location; rc=%d, sqlcode=%d"), method, rc, sc);
+    //    GsUtil::HandlePlayerError(method, rc, sc);
   }
 }
 
@@ -180,7 +180,7 @@ void GsPlayerThread::handle_RMsg_Logout(LmSrvMesgBuf* msgbuf, LmConnection* conn
   // accept message, send error
   ACCEPT_MSG(RMsg_Logout, true);
   // process
-  //  SECLOG(-1, _T("%s: player %u: logging out of level %u, status %c"), method,	 player_->PlayerID(), player_->LevelID(), msg.Status());
+  //  LmLogFile::Instance()->Security(-1, _T("%s: player %u: logging out of level %u, status %c"), method,	 player_->PlayerID(), player_->LevelID(), msg.Status());
   if (msg.Status() == RMsg_Logout::GOALBOOK) {
     // save goal posting return location
     player_->SaveGoalReturnInfo();
@@ -232,7 +232,7 @@ void GsPlayerThread::handle_RMsg_Speech(LmSrvMesgBuf* msgbuf, LmConnection* conn
 	}
       }
       if(!can_send_universe) {	
-		SECLOG(2, _T("%s: player %u: illegal UNIVERSE-WIDE GM-only speech (%c)"), method, player_->PlayerID(), msg.SpeechType());
+		LmLogFile::Instance()->Security(2, _T("%s: player %u: illegal UNIVERSE-WIDE GM-only speech (%c)"), method, player_->PlayerID(), msg.SpeechType());
 		return;
       }
     }
@@ -240,7 +240,7 @@ void GsPlayerThread::handle_RMsg_Speech(LmSrvMesgBuf* msgbuf, LmConnection* conn
   switch (msg.SpeechType()) {
   case RMsg_Speech::REPORT_BUG:
     msg.RemoveNewlines();
-    SECLOG(-2, _T("%s: player %u: BUG (level=%u, room=%u, pos=(%d,%d)): %s"), method,
+    LmLogFile::Instance()->Security(-2, _T("%s: player %u: BUG (level=%u, room=%u, pos=(%d,%d)): %s"), method,
 	   player_->PlayerID(), player_->LevelID(), player_->RoomID(),
 	   player_->PlayerUpdate().X(), player_->PlayerUpdate().Y(), msg.SpeechText());
     send_out = false;
@@ -248,7 +248,7 @@ void GsPlayerThread::handle_RMsg_Speech(LmSrvMesgBuf* msgbuf, LmConnection* conn
     break;
   //case RMsg_Speech::REPORT_QUEST: // eliminated unnecessary double sending of text
 //    msg.RemoveNewlines();
-    //SECLOG(-2, _T("%s: player %u: QUEST: %s"), method,
+    //LmLogFile::Instance()->Security(-2, _T("%s: player %u: QUEST: %s"), method,
 	   //player_->PlayerID(),
 	   //msg.SpeechText());
     //send_out = false;
@@ -256,14 +256,14 @@ void GsPlayerThread::handle_RMsg_Speech(LmSrvMesgBuf* msgbuf, LmConnection* conn
 
   case RMsg_Speech::RP:
     msg.RemoveNewlines();
-    SECLOG(-2, _T("%s: player %u: ROLE PLAY REPORT: %s"), method,
+    LmLogFile::Instance()->Security(-2, _T("%s: player %u: ROLE PLAY REPORT: %s"), method,
 	   player_->PlayerID(), msg.SpeechText());
     send_out = false;
     send_universe = false;
     break;
   case RMsg_Speech::REPORT_DEBUG:
     msg.RemoveNewlines();
-    SECLOG(-2, _T("%s: player %u: DEBUG (level=%u, room=%u, pos=(%d,%d)): %s"), method,
+    LmLogFile::Instance()->Security(-2, _T("%s: player %u: DEBUG (level=%u, room=%u, pos=(%d,%d)): %s"), method,
 	   player_->PlayerID(), player_->LevelID(), player_->RoomID(),
 	   player_->PlayerUpdate().X(), player_->PlayerUpdate().Y(), msg.SpeechText());
     send_out = false;
@@ -272,7 +272,7 @@ void GsPlayerThread::handle_RMsg_Speech(LmSrvMesgBuf* msgbuf, LmConnection* conn
   case RMsg_Speech::REPORT_CHEAT:
     if (player_->DB().AccountType() != LmPlayerDB::ACCT_MONSTER) { // don't log cheat reports from agents
       msg.RemoveNewlines();
-      SECLOG(2, _T("%s: player %u: CHEAT (level=%u, room=%u): %s"), method, player_->PlayerID(),  player_->LevelID(), player_->RoomID(), msg.SpeechText());
+      LmLogFile::Instance()->Security(2, _T("%s: player %u: CHEAT (level=%u, room=%u): %s"), method, player_->PlayerID(),  player_->LevelID(), player_->RoomID(), msg.SpeechText());
     }
     send_out = false;
     send_universe = false;
@@ -280,21 +280,21 @@ void GsPlayerThread::handle_RMsg_Speech(LmSrvMesgBuf* msgbuf, LmConnection* conn
   case RMsg_Speech::AUTO_CHEAT:
     if (player_->DB().AccountType() != LmPlayerDB::ACCT_MONSTER) { // don't log cheat reports from agents
       msg.RemoveNewlines();
-      SECLOG(2, _T("%s: player %u: AUTOCHEAT  (level=%u, room=%u): %s"), method, player_->PlayerID(),  player_->LevelID(), player_->RoomID(),msg.SpeechText());
+      LmLogFile::Instance()->Security(2, _T("%s: player %u: AUTOCHEAT  (level=%u, room=%u): %s"), method, player_->PlayerID(),  player_->LevelID(), player_->RoomID(),msg.SpeechText());
     }
     send_out = false;
     send_universe = false;
     break;
   case RMsg_Speech::SERVER_TEXT:
     // shouldn't ever be sent from client, just ignore it
-    SECLOG(2, _T("%s: player %u: illegal SERVER_TEXT speech"), method, player_->PlayerID());
+    LmLogFile::Instance()->Security(2, _T("%s: player %u: illegal SERVER_TEXT speech"), method, player_->PlayerID());
     send_out = false;
     send_universe = false;
     break;
   case RMsg_Speech::RAW_EMOTE: // GM-only
   case RMsg_Speech::GLOBALSHOUT:
     if (player_->DB().AccountType() != LmPlayerDB::ACCT_ADMIN) {
-      SECLOG(2, _T("%s: player %u: illegal GM-only speech (%c)"), method, player_->PlayerID(), msg.SpeechType());
+      LmLogFile::Instance()->Security(2, _T("%s: player %u: illegal GM-only speech (%c)"), method, player_->PlayerID(), msg.SpeechType());
       send_out = false;
     }
     break;
@@ -312,7 +312,7 @@ void GsPlayerThread::handle_RMsg_Speech(LmSrvMesgBuf* msgbuf, LmConnection* conn
     // ok
     break;
   default: // unknown
-    SECLOG(2, _T("%s: player %u: illegal unknown speech (%c)"), method, player_->PlayerID(), msg.SpeechType());
+    LmLogFile::Instance()->Security(2, _T("%s: player %u: illegal unknown speech (%c)"), method, player_->PlayerID(), msg.SpeechType());
     send_out = false;
     send_universe = false;
     break;
@@ -325,7 +325,7 @@ void GsPlayerThread::handle_RMsg_Speech(LmSrvMesgBuf* msgbuf, LmConnection* conn
   }
 
   if (send_out && send_universe) {
-    SECLOG(2, _T("%s: player %u doing global bcast"), method, player_->PlayerID());
+    LmLogFile::Instance()->Security(2, _T("%s: player %u doing global bcast"), method, player_->PlayerID());
     send_SMsg_UniverseBroadcast(msgbuf);
   }
 }
@@ -372,12 +372,12 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
   //int art = RMsg_PlayerMsg::ArtType(msg.MsgType());
 
   //if (!player_->CanUseArt(art, 1)) {
-    //  SECLOG(4, _T("%s: player %u: attempt to use art %d with zero"), method,
+    //  LmLogFile::Instance()->Security(4, _T("%s: player %u: attempt to use art %d with zero"), method,
 	  //   player_->PlayerID(), art);
       //send_to_level = false;
   //} else
   if (msg.Universal() && player_->DB().AccountType() != LmPlayerDB::ACCT_ADMIN) {
-	SECLOG(5, _T("%s: player %u sending illegal universe message"), method, msg.SenderID());
+	LmLogFile::Instance()->Security(5, _T("%s: player %u sending illegal universe message"), method, msg.SenderID());
 	return;
   }
 
@@ -450,7 +450,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 		}
 
       int p_skill = player_->DB().Arts().Skill(art);
-      SECLOG(4, _T("%s: player %u: attempt to use art %d at skill level %d, own skill is %d"), method,
+      LmLogFile::Instance()->Security(4, _T("%s: player %u: attempt to use art %d at skill level %d, own skill is %d"), method,
 	     player_->PlayerID(), art, skill, p_skill);
       send_to_level = false;
     }
@@ -460,7 +460,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 
   // should never get this
   case RMsg_PlayerMsg::GRANT_PPOINT: {         // not used, not used
-      SECLOG(5, _T("%s: player %u: sent illegal attempt at ppoint grant message"), method, player_->PlayerID());
+      LmLogFile::Instance()->Security(5, _T("%s: player %u: sent illegal attempt at ppoint grant message"), method, player_->PlayerID());
       send_to_level = false;
 	  break;
 	}
@@ -487,7 +487,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
   case RMsg_PlayerMsg::SUSPEND:                // not used, not used
   case RMsg_PlayerMsg::TERMINATE: {         // not used, not used
     if (player_->DB().AccountType() != LmPlayerDB::ACCT_ADMIN) {
-      SECLOG(5, _T("%s: player %u: sent GM-only playermsg %d"), method, player_->PlayerID(), msg.MsgType());
+      LmLogFile::Instance()->Security(5, _T("%s: player %u: sent GM-only playermsg %d"), method, player_->PlayerID(), msg.MsgType());
       send_to_level = false;
     }
   }
@@ -495,12 +495,12 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 
   case RMsg_PlayerMsg::GRANT_RP_XP: {       // units of 1000, units of 100
     if (player_->DB().AccountType() != LmPlayerDB::ACCT_ADMIN) {
-      SECLOG(5, _T("%s: player %u: sent GM-only playermsg %d"), method, player_->PlayerID(), msg.MsgType());
+      LmLogFile::Instance()->Security(5, _T("%s: player %u: sent GM-only playermsg %d"), method, player_->PlayerID(), msg.MsgType());
       send_to_level = false;
     }
     int xp = (msg.State1() * 1000) + (msg.State2() * 100);
     if ((xp > 100000) || (xp < -100000)) { // max rp xp is 100k;
-		SECLOG(5, _T("%s: player %u: attempted to grant %d rp xp"), method, player_->PlayerID(), xp);
+		LmLogFile::Instance()->Security(5, _T("%s: player %u: attempted to grant %d rp xp"), method, player_->PlayerID(), xp);
 		send_to_level = false;
     }
   }
@@ -515,17 +515,17 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 	  // look up current dreamer locations
     GMsg_SenseDreamersAck sense_msg;
 	lyra_id_t level_ids[PLANES_SENSED_COUNT];
-	//main_->ItemDBC()->SetNumDreamers(29, 4);
-	//main_->ItemDBC()->ChangeNumDreamers(29, -2);
-	main_->ItemDBC()->GetDreamerLocations((lyra_id_t*)level_ids, player_->DB().AccountType());
+	//LmItemDBC::Instance()->SetNumDreamers(29, 4);
+	//LmItemDBC::Instance()->ChangeNumDreamers(29, -2);
+	LmItemDBC::Instance()->GetDreamerLocations((lyra_id_t*)level_ids, player_->DB().AccountType());
     sense_msg.Init(); // one change
 	int i;
 	for (i=0; i<PLANES_SENSED_COUNT; i++)
 		sense_msg.SetLevelID((unsigned char)level_ids[i], i);
 	unsigned int totalsense;
-	main_->ItemDBC()->GetTotalNumDreamers(&totalsense);
+	LmItemDBC::Instance()->GetTotalNumDreamers(&totalsense);
 	sense_msg.SetTotal(totalsense);
-    main_->OutputDispatch()->SendMessage(&sense_msg, player_->Connection());
+    GsOutputDispatch::Instance()->SendMessage(&sense_msg, player_->Connection());
 	}
 	break;
 
@@ -533,8 +533,8 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 	GMsg_LocateAvatarAck locate_msg;
 	bool gm = (player_->DB().AccountType() == LmPlayerDB::ACCT_ADMIN);
 
-	main_->PlayerDBC()->FindHouseMembers(locate_msg, (unsigned int)msg.State1(), gm, player_->DB().PlayerID());
-    main_->OutputDispatch()->SendMessage(&locate_msg, player_->Connection());
+	LmPlayerDBC::Instance()->FindHouseMembers(locate_msg, (unsigned int)msg.State1(), gm, player_->DB().PlayerID());
+    GsOutputDispatch::Instance()->SendMessage(&locate_msg, player_->Connection());
 	}
 	break;
 
@@ -543,22 +543,22 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
   case RMsg_PlayerMsg::LOCATE_NEWLIES:	  {
 	  // look up newly awakened dreamer locations
     GMsg_LocateNewliesAck newly_msg;
-	//main_->ItemDBC()->SetNumDreamers(29, 4);
-	//main_->ItemDBC()->ChangeNumDreamers(29, -2);
-	main_->PlayerDBC()->LocateNewlyAwakened(&newly_msg);
+	//LmItemDBC::Instance()->SetNumDreamers(29, 4);
+	//LmItemDBC::Instance()->ChangeNumDreamers(29, -2);
+	LmPlayerDBC::Instance()->LocateNewlyAwakened(&newly_msg);
 
-    main_->OutputDispatch()->SendMessage(&newly_msg, player_->Connection());
+    GsOutputDispatch::Instance()->SendMessage(&newly_msg, player_->Connection());
 	}
 	break;
 
   case RMsg_PlayerMsg::LOCATE_MARES:	  {
 	  // look up newly awakened dreamer locations
     GMsg_LocateMaresAck mares_msg;
-	//main_->ItemDBC()->SetNumDreamers(29, 4);
-	//main_->ItemDBC()->ChangeNumDreamers(29, -2);
-	main_->PlayerDBC()->LocateMares(&mares_msg);
+	//LmItemDBC::Instance()->SetNumDreamers(29, 4);
+	//LmItemDBC::Instance()->ChangeNumDreamers(29, -2);
+	LmPlayerDBC::Instance()->LocateMares(&mares_msg);
 
-    main_->OutputDispatch()->SendMessage(&mares_msg, player_->Connection());
+    GsOutputDispatch::Instance()->SendMessage(&mares_msg, player_->Connection());
 	}
 	break;
 
@@ -582,7 +582,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 			memcpy(&gratitude, state, sizeof(gratitude));
 			if (creator_low_bits == gratitude.creator_lo) {
 					// we found the match!
-				//bool success = main_->BillingDBC()->CanRedeemToken(gratitude.creatorid(), gratitude.maturity_date);
+				//bool success = LmBillingDBC::Instance()->CanRedeemToken(gratitude.creatorid(), gratitude.maturity_date);
 				bool success = true; // maturity period no longer enforced
 				// and double check the target ID is correct
 				unsigned short target_lo = (player_->PlayerID() & 0x0000ffff);
@@ -620,12 +620,12 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
     int skill = msg.State2();
 
     if (!player_->CanTrain(art, skill)) {
-      SECLOG(4, _T("%s: player %u: attempted illegal train of player %u, art %d, skill %d"), method,
+      LmLogFile::Instance()->Security(4, _T("%s: player %u: attempted illegal train of player %u, art %d, skill %d"), method,
 	     player_->PlayerID(), msg.ReceiverID(), art, skill);
       send_to_level = false;
     }
     else {
-      SECLOG(-4, _T("%s: player %u: training player %u in art %d, skill %d"), method,
+      LmLogFile::Instance()->Security(-4, _T("%s: player %u: training player %u in art %d, skill %d"), method,
 	     player_->PlayerID(), msg.ReceiverID(), art, skill);
     }
   }
@@ -639,7 +639,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 
         int xp = (msg.State1() * 1000) + (msg.State2() * 100);
 		if ((xp > 50000) || (xp < 100)) {
-			SECLOG(3, _T("%s: player %u: attempted to Bequeath %i xp to %u"), method, player_->PlayerID(), xp, msg.ReceiverID());
+			LmLogFile::Instance()->Security(3, _T("%s: player %u: attempted to Bequeath %i xp to %u"), method, player_->PlayerID(), xp, msg.ReceiverID());
 			send_to_level = false;
 			break;
 		}
@@ -650,7 +650,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
   // check guild membership on House arts
   case RMsg_PlayerMsg::RADIANT_BLAZE:
 	if (player_->DB().Stats().GuildRank(Guild::RADIANCE) < Guild::INITIATE) {
-		  SECLOG(3, _T("%s: player %u: attempted illegal use of Radiant Blaze (non-POR)"), method,
+		  LmLogFile::Instance()->Security(3, _T("%s: player %u: attempted illegal use of Radiant Blaze (non-POR)"), method,
 			 player_->PlayerID());
 		send_to_level = false;
 	}
@@ -659,7 +659,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 
   case RMsg_PlayerMsg::POISON_CLOUD:
 	if (player_->DB().Stats().GuildRank(Guild::CALENTURE) < Guild::INITIATE) {
-		  SECLOG(3, _T("%s: player %u: attempted illegal use of Poison Cloud (non-HC)"), method,
+		  LmLogFile::Instance()->Security(3, _T("%s: player %u: attempted illegal use of Poison Cloud (non-HC)"), method,
 			 player_->PlayerID());
 		send_to_level = false;
 	}
@@ -668,7 +668,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 
   case RMsg_PlayerMsg::BREAK_COVENANT:
 	if (player_->DB().Stats().GuildRank(Guild::COVENANT) < Guild::INITIATE) {
-		  SECLOG(3, _T("%s: player %u: attempted illegal use of Break Covenant (non-UOC)"), method,
+		  LmLogFile::Instance()->Security(3, _T("%s: player %u: attempted illegal use of Break Covenant (non-UOC)"), method,
 			 player_->PlayerID());
 		send_to_level = false;
 	}
@@ -677,7 +677,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 
   case RMsg_PlayerMsg::PEACE_AURA:
 	if (player_->DB().Stats().GuildRank(Guild::ECLIPSE) < Guild::INITIATE) {
-		  SECLOG(3, _T("%s: player %u: attempted illegal use of Peace Aura (non-AOE)"), method,
+		  LmLogFile::Instance()->Security(3, _T("%s: player %u: attempted illegal use of Peace Aura (non-AOE)"), method,
 			 player_->PlayerID());
 		send_to_level = false;
 	}
@@ -686,7 +686,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 
   case RMsg_PlayerMsg::SABLE_SHIELD:
 	if (player_->DB().Stats().GuildRank(Guild::MOON) < Guild::INITIATE) {
-		  SECLOG(3, _T("%s: player %u: attempted illegal use of Sable Shield (non-OSM)"), method,
+		  LmLogFile::Instance()->Security(3, _T("%s: player %u: attempted illegal use of Sable Shield (non-OSM)"), method,
 			 player_->PlayerID());
 		send_to_level = false;
 	}
@@ -695,7 +695,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 
   case RMsg_PlayerMsg::ENTRANCEMENT:
 	if (player_->DB().Stats().GuildRank(Guild::ENTRANCED) < Guild::INITIATE) {
-		  SECLOG(3, _T("%s: player %u: attempted illegal use of Entrancement (non-GOE)"), method,
+		  LmLogFile::Instance()->Security(3, _T("%s: player %u: attempted illegal use of Entrancement (non-GOE)"), method,
 			 player_->PlayerID());
 		send_to_level = false;
 	}
@@ -704,7 +704,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 
   case RMsg_PlayerMsg::SHADOW_STEP:
 	if (player_->DB().Stats().GuildRank(Guild::SHADOW) < Guild::INITIATE) {
-		  SECLOG(3, _T("%s: player %u: attempted illegal use of Shadow Step (non-KOES)"), method,
+		  LmLogFile::Instance()->Security(3, _T("%s: player %u: attempted illegal use of Shadow Step (non-KOES)"), method,
 			 player_->PlayerID());
 		send_to_level = false;
 	}
@@ -713,7 +713,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 
   case RMsg_PlayerMsg::DAZZLE:
 	if (player_->DB().Stats().GuildRank(Guild::LIGHT) < Guild::INITIATE) {
-		  SECLOG(3, _T("%s: player %u: attempted illegal use of Dazzle (non-DOL)"), method,
+		  LmLogFile::Instance()->Security(3, _T("%s: player %u: attempted illegal use of Dazzle (non-DOL)"), method,
 			 player_->PlayerID());
 		send_to_level = false;
 	}
@@ -725,7 +725,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
   case RMsg_PlayerMsg::SUMMON_PRIME:
    if (!player_->CanUseArt(Arts::SUMMON_PRIME, 1) || !player_->HasMinRank(Guild::RULER)) {
       int p_skill = player_->DB().Arts().Skill(Arts::SUMMON_PRIME);
-      SECLOG(4, _T("%s: player %u: illegal attempt to use Summon Prime art, own skill is %d or doesn't posess necessary guild rank"), method,
+      LmLogFile::Instance()->Security(4, _T("%s: player %u: illegal attempt to use Summon Prime art, own skill is %d or doesn't posess necessary guild rank"), method,
           player_->PlayerID(), p_skill);
       send_to_level = false;
   }
@@ -736,7 +736,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
   case RMsg_PlayerMsg::TRAIN_SPHERE: {       // success, max sphere trainable
     int max_skill_sphere = player_->DB().Stats().Sphere() - 1;
     if (player_->DB().Arts().Skill(Arts::LEVELTRAIN) < 1) {
-      SECLOG(3, _T("%s: player %u: attempted illegal leveltrain of player %u"), method,
+      LmLogFile::Instance()->Security(3, _T("%s: player %u: attempted illegal leveltrain of player %u"), method,
 	     player_->PlayerID(), msg.ReceiverID());
       send_to_level = false;
     }  else {
@@ -746,10 +746,10 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 
       // GMs can sphere to 9th
       if (player_->DB().AccountType() == LmPlayerDB::ACCT_ADMIN) max_sphere = 9;
-      //SECLOG(-3, _T("%s: player %u: max skill = %d, tokens = %d, max = %d"), method, max_tokens_sphere, max_skill_sphere, max_sphere);
+      //LmLogFile::Instance()->Security(-3, _T("%s: player %u: max skill = %d, tokens = %d, max = %d"), method, max_tokens_sphere, max_skill_sphere, max_sphere);
       msg.SetState1(1);
       msg.SetState2(max_sphere);
-      SECLOG(-3, _T("%s: player %u: leveltraining player %u to at most sphere %d"), method,
+      LmLogFile::Instance()->Security(-3, _T("%s: player %u: leveltraining player %u to at most sphere %d"), method,
 	     player_->PlayerID(), msg.ReceiverID(), max_sphere);
     }
   }
@@ -761,12 +761,12 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
     int num_tokens = msg.State2();
     if ((!player_->CanDemote(guild, num_tokens, msg.ReceiverID())) &&
 		(player_->PlayerID() != msg.ReceiverID())) {
-      SECLOG(7, _T("%s: player %u: attempted illegal demotion of player %u, guild %d"), method,
+      LmLogFile::Instance()->Security(7, _T("%s: player %u: attempted illegal demotion of player %u, guild %d"), method,
 	     player_->PlayerID(), msg.ReceiverID(), guild);
       send_to_level = false; // can't demote
     }
     else {
-      SECLOG(-7, _T("%s: player %u: attempting to demote player %u in guild %d"), method,
+      LmLogFile::Instance()->Security(-7, _T("%s: player %u: attempting to demote player %u in guild %d"), method,
 	     player_->PlayerID(), msg.ReceiverID(), guild);
     }
     // tokens checked on receiver side, ack/fail sent by receiver
@@ -779,7 +779,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
     int delta = 1; // how much to lose
     // has soulevoke art?
     if (player_->DB().Arts().Skill(Arts::SOULEVOKE) == 0) {
-      SECLOG(7, _T("%s: player %u: attempted illegal soulevoke"), method);
+      LmLogFile::Instance()->Security(7, _T("%s: player %u: attempted illegal soulevoke"), method);
     }
     // decrement their dreamsoul anyway
     int max_ds = player_->DB().Stats().MaxStat(Stats::DREAMSOUL);
@@ -791,7 +791,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
     GMsg_ChangeStat out_msg;
     out_msg.Init(1); // one change
     out_msg.InitChange(0, GMsg_ChangeStat::SET_STAT_MAX, Stats::DREAMSOUL, max_ds);
-    main_->OutputDispatch()->SendMessage(&out_msg, player_->Connection());
+    GsOutputDispatch::Instance()->SendMessage(&out_msg, player_->Connection());
   }
   break;
 
@@ -800,7 +800,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
     bool strike_success = false;
     // check that player has the skill and necessary dreamsoul
     if (!player_->CanDreamStrike(msg.ReceiverID())) { // naughty, naughty
-      SECLOG(8, _T("%s: player %u: attempting illegal dreamstrike of player %u"), method,
+      LmLogFile::Instance()->Security(8, _T("%s: player %u: attempting illegal dreamstrike of player %u"), method,
 	     player_->PlayerID(), msg.ReceiverID());
       send_to_level = false;
     }
@@ -824,7 +824,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
       // log it if unsuccessful (successful is logged in ack reception)
       if (!strike_success) {
 		send_to_level = false; // don't send to target
-		SECLOG(-8, _T("%s: player %u: failed in attempt to dreamstrike player %u"), method,
+		LmLogFile::Instance()->Security(-8, _T("%s: player %u: failed in attempt to dreamstrike player %u"), method,
 	       player_->PlayerID(), msg.ReceiverID());
       }
     }
@@ -842,11 +842,11 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
     int success = msg.State2();
     // check that they can initiate
     if (!player_->CanInitiate(guild)) {
-      SECLOG(7, _T("%s: player %u: illegal attempt to initiate into guild %d"), method, player_->PlayerID(), guild);
+      LmLogFile::Instance()->Security(7, _T("%s: player %u: illegal attempt to initiate into guild %d"), method, player_->PlayerID(), guild);
       msg.SetState2(0); // set success to false
     }
     else {
-      SECLOG(-7, _T("%s: player %u: attempting to initiate player %u into guild %d (success %d)"), method,
+      LmLogFile::Instance()->Security(-7, _T("%s: player %u: attempting to initiate player %u into guild %d (success %d)"), method,
 	     player_->PlayerID(), msg.ReceiverID(), guild, success);
     }
   }
@@ -858,27 +858,27 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
     int accept = msg.State2();
     // check that rank is initiate_pending
     if (player_->DB().Stats().GuildRank(guild) != Guild::INITIATE_PENDING) {
-      SECLOG(7, _T("%s: player %u: illegal attempt to ack initiate in guild %d"), method, player_->PlayerID(), guild);
+      LmLogFile::Instance()->Security(7, _T("%s: player %u: illegal attempt to ack initiate in guild %d"), method, player_->PlayerID(), guild);
       send_to_level = false;
     }
     else if (accept) { // accepted, update guild rank
-      SECLOG(-7, _T("%s: player %u: accepted initiation into guild %d from player %u"), method,
+      LmLogFile::Instance()->Security(-7, _T("%s: player %u: accepted initiation into guild %d from player %u"), method,
 	     player_->PlayerID(), guild, msg.ReceiverID());
       player_->ChangeGuildRank(guild, Guild::INITIATE);
       // update initiator in player db (both local and db copies)
       player_->Initiate(guild, msg.ReceiverID());
-      int rc = main_->PlayerDBC()->SetInitiator(player_->PlayerID(), msg.ReceiverID(), guild);
-      int sc = main_->PlayerDBC()->LastSQLCode();
-      // int lt = main_->PlayerDBC()->LastCallTime();
-      // main_->Log()->Debug(_T("%s: LmPlayerDBC::SetInitiator took %d ms"), method, lt);
+      int rc = LmPlayerDBC::Instance()->SetInitiator(player_->PlayerID(), msg.ReceiverID(), guild);
+      int sc = LmPlayerDBC::Instance()->LastSQLCode();
+      // int lt = LmPlayerDBC::Instance()->LastCallTime();
+      // LmLog::Instance()->Debug(_T("%s: LmPlayerDBC::SetInitiator took %d ms"), method, lt);
       if (rc < 0) {
 	TLOG_Warning(_T("%s: could not set initiator in guild %d for player %u; rc=%d, sqlcode=%d"), method,
 		     guild, player_->PlayerID(), rc, sc);
-	GsUtil::HandlePlayerError(main_, method, rc, sc, false);
+	GsUtil::HandlePlayerError(method, rc, sc, false);
       }
     }
     else { // didn't accept, reset guild rank to none (from pending)
-      SECLOG(-7, _T("%s: player %u: rejected initiation into guild %d from player %u"), method,
+      LmLogFile::Instance()->Security(-7, _T("%s: player %u: rejected initiation into guild %d from player %u"), method,
 	     player_->PlayerID(), guild, msg.ReceiverID());
       player_->ChangeGuildRank(guild, Guild::NO_RANK);
     }
@@ -890,11 +890,11 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
     int guild = msg.State1();
     // check that they can knight someone
     if (!player_->CanKnight(guild)) {
-      SECLOG(7, _T("%s: player %u: illegal attempt to knight in guild %d"), method, player_->PlayerID(), guild);
+      LmLogFile::Instance()->Security(7, _T("%s: player %u: illegal attempt to knight in guild %d"), method, player_->PlayerID(), guild);
       msg.SetState2(0); // set success to false
     }
     else {
-      SECLOG(-7, _T("%s: player %u: knighting player %u in guild %d"), method,
+      LmLogFile::Instance()->Security(-7, _T("%s: player %u: knighting player %u in guild %d"), method,
 	     player_->PlayerID(), msg.ReceiverID(), guild);
     }
   }
@@ -908,13 +908,13 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
     if (player_->CanAscend(guild)) {
       player_->ChangeGuildRank(guild, Guild::RULER);
       success = true;
-      SECLOG(-7, _T("%s: player %u: ascending to rulership in guild %d"), method, player_->PlayerID(), guild);
+      LmLogFile::Instance()->Security(-7, _T("%s: player %u: ascending to rulership in guild %d"), method, player_->PlayerID(), guild);
       // set xp pool value
       player_->SetPoolXP(guild, Lyra::RULER_XP_POOL);
       player_->SetQuestPoolXP(Lyra::QUEST_XP_POOL);
     }
     else {
-      SECLOG(7, _T("%s: player %u: unsuccessful attempt to ascend in guild %d"), method, player_->PlayerID(), guild);
+      LmLogFile::Instance()->Security(7, _T("%s: player %u: unsuccessful attempt to ascend in guild %d"), method, player_->PlayerID(), guild);
     }
     // send ack to client either way
     send_RMsg_PlayerMsg_Ascend(guild, success);
@@ -932,10 +932,10 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 
       // now make up a list of all those who contributed to self training
 
-      SECLOG(-7, _T("%s: player %u: self training in art %d to level"), method, player_->PlayerID(), art, player_->DB().Arts().Skill(art));
+      LmLogFile::Instance()->Security(-7, _T("%s: player %u: self training in art %d to level"), method, player_->PlayerID(), art, player_->DB().Arts().Skill(art));
     }
     else {
-      SECLOG(7, _T("%s: player %u: unsuccessful attempt to self train in art %d"), method, player_->PlayerID(), art);
+      LmLogFile::Instance()->Security(7, _T("%s: player %u: unsuccessful attempt to self train in art %d"), method, player_->PlayerID(), art);
     }
     // send ack to client either way
     send_RMsg_PlayerMsg_SelfTrain(art, success);
@@ -962,7 +962,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
       player_->SaveReturnInfo();
     }
     else {
-      SECLOG(4, _T("%s: player %u: illegal use of RETURN"), method, player_->PlayerID());
+      LmLogFile::Instance()->Security(4, _T("%s: player %u: illegal use of RETURN"), method, player_->PlayerID());
     }
     send_to_level = false; // don't ever send to level server
   }
@@ -976,7 +976,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
       player_->SaveRecallInfo();
     }
     else {
-      SECLOG(4, _T("%s: player %u: illegal use of RECALL"), method, player_->PlayerID());
+      LmLogFile::Instance()->Security(4, _T("%s: player %u: illegal use of RECALL"), method, player_->PlayerID());
     }
     send_to_level = false; // don't ever send to level server
   }
@@ -1004,7 +1004,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
       // player have head of target?
     }
     else {
-      SECLOG(4, _T("%s: player %u: illegal use of VAMPIRIC_DRAW"), method, player_->PlayerID());
+      LmLogFile::Instance()->Security(4, _T("%s: player %u: illegal use of VAMPIRIC_DRAW"), method, player_->PlayerID());
     }
     send_to_level = true;
   }
@@ -1019,8 +1019,8 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 	  GMsg_ChangeStat changemsg;
 	  changemsg.Init(1);
 	  changemsg.InitChange(0, GMsg_ChangeStat::SET_STAT_MAX, Stats::DREAMSOUL, max_ds);
-	  main_->OutputDispatch()->SendMessage(&changemsg, player_->Connection());
-	  SECLOG(-8, _T("%s: player %u: evoking Tehthu's Oblivion"), method,
+	  GsOutputDispatch::Instance()->SendMessage(&changemsg, player_->Connection());
+	  LmLogFile::Instance()->Security(-8, _T("%s: player %u: evoking Tehthu's Oblivion"), method,
 	       player_->PlayerID());
 	  send_to_level = true;
   }
@@ -1036,7 +1036,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 	  // check that player can use Rally, skill level doesn't matter
 	  if (!player_->CanUseArt(Arts::RALLY, 1) || !player_->HasMinRank(Guild::KNIGHT)) {
 		  int p_skill = player_->DB().Arts().Skill(Arts::RALLY);
-		  SECLOG(4, _T("%s: player %u: illegal attempt to use Rally art, own skill is %d or doesn't posess necessary guild rank"), method,
+		  LmLogFile::Instance()->Security(4, _T("%s: player %u: illegal attempt to use Rally art, own skill is %d or doesn't posess necessary guild rank"), method,
 			      player_->PlayerID(), p_skill);
 		      send_to_level = false;
 	  }
@@ -1044,7 +1044,7 @@ void GsPlayerThread::handle_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf, LmConnection* c
 	  // Rally not allowed on certain levels
 	  for (int i = 0; i < num_no_rally_levels; i++) {
 		  if (no_rally_levels[i] == player_->LevelID()) {
-			  SECLOG(4, _T("%s: player %u: attempt to use Rally in illegal level %d"), method,
+			  LmLogFile::Instance()->Security(4, _T("%s: player %u: attempt to use Rally in illegal level %d"), method,
 			      player_->PlayerID(), player_->LevelID());
 			  send_to_level = false;
 		  }

@@ -20,7 +20,7 @@
 #endif /* WIN32 */
 #include <stdio.h>
 #include <string.h>
-
+#include <protocol/LmMesg.h>
 #include "../../../include/Protocol/RMsg/RMsg_ItemPickup.h"
 #include "../../../include/Core/LyraDefs.h"
 #include "../../../include/Protocol/RMsg/RMsg.h"
@@ -90,7 +90,7 @@ void RMsg_ItemPickup::Dump(FILE* f, int indent) const
 {
   INDENT(indent, f);
  _ftprintf(f, _T("<RMsg_ItemPickup[%p,%d]: "), this, sizeof(RMsg_ItemPickup));
-  if (ByteOrder() == ByteOrder::HOST) {
+  if (ByteOrder() == ::ByteOrder::HOST) {
    _ftprintf(f, _T("items=%d>\n"), NumItems());
     for (int i = 0; i < NumItems(); ++i) {
       ItemHeader(i).Dump(f, indent + 1);

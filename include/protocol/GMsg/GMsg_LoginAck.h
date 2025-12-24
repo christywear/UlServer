@@ -14,10 +14,10 @@
 #include <stdio.h>
 
 #include "GMsg.h"
-#include "..\Game\LmItem.h"
-#include "LmStats.h"
-#include "..\Game\LmAvatar.h"
-#include "..\Game\LmArts.h"
+#include <game/LmItem.h>
+#include <game/lmstats.h>
+#include <game/LmAvatar.h>
+#include <game/LmArts.h>
 
 // forward references
 

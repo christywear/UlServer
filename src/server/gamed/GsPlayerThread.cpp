@@ -53,9 +53,8 @@
 // Constructor
 ////
 
-GsPlayerThread::GsPlayerThread(GsMain* gsmain)
-  : LmThread(gsmain->BufferPool(), &logf_),
-    main_(gsmain),
+GsPlayerThread::GsPlayerThread()
+  : LmThread(LmMesgBufPool::Instance(), &logf_),
     num_uses_(0),
     num_save_sigs_(0),
     player_(0)
@@ -133,7 +132,7 @@ void GsPlayerThread::Dump(FILE* f, int indent) const
 {
   INDENT(indent, f);
  _ftprintf(f, _T("<GsPlayerThread[%p,%d]: main=[%p] player=[%p] uses=%d>\n"), this, sizeof(GsPlayerThread),
-	  main_, player_, num_uses_);
+	  player_, num_uses_);
   LmThread::Dump(f, indent + 1);
 }
 
@@ -149,7 +148,7 @@ void GsPlayerThread::open_log()
   }
 #ifndef RELEASE
   logf_.Init(_T("player"), _T(""), player_->PlayerID());
-  logf_.Open(main_->GlobalDB()->LogDir());
+  logf_.Open(LmGlobalDB::Instance()->LogDir());
 #endif /* !RELEASE */
 }
 
@@ -272,8 +271,8 @@ int GsPlayerThread::get_goalinfo(LmGoalInfo& goalinfo, lyra_id_t goalid, int err
 {
   DEFMETHOD(GsPlayerThread, get_goalinfo);
   // get goal information
-  int rc = main_->GuildDBC()->GetGoalInfo(goalid, goalinfo);
-  int sqlcode = main_->GuildDBC()->LastSQLCode();
+  int rc = LmGuildDBC::Instance()->GetGoalInfo(goalid, goalinfo);
+  int sqlcode = LmGuildDBC::Instance()->LastSQLCode();
   if (rc < 0) {
     guild_error(rc, sqlcode, err_status, goalid);
   }
@@ -332,7 +331,7 @@ void GsPlayerThread::perform_logout(const GMsg_Logout& msg)
 	  if (player_->InLevel() && player_->LevelConnection()) 
 	    send_SMsg_PutItem(player_->LevelConnection(), Lyra::ID_UNKNOWN, roomid, item, pos, GMsg_PutItem::DEFAULT_TTL);
 	  else // set item owned by the 
-	    main_->ItemDBC()->SetItemOwners(item.Serial(), levelid, roomid, 0);
+	    LmItemDBC::Instance()->SetItemOwners(item.Serial(), levelid, roomid, 0);
 	  
 	  //player_->SetItemOwners(item.Serial(),  levelid, roomid, 0);
 	  
@@ -368,19 +367,19 @@ void GsPlayerThread::perform_logout(const GMsg_Logout& msg)
   }
 
   // log player out, save player database, remove player from player set
-  main_->PlayerSet()->RemovePlayer(player_);
+  GsPlayerSet::Instance()->RemovePlayer(player_);
   // NOTE: at this point, player_ is not valid
   // disconnect player if ids match
   if (conn && (conn->ID() == playerid)) {
-	main_->ConnectionSet()->RemoveConnection(conn); //*****
+	LmConnectionSet::Instance()->RemoveConnection(conn); //*****
 //	conn->Disable();
   }
   // remove self from thread pool, don't delete, put back into spare thread set
-  main_->ThreadPool()->RemoveThread(playerid, false);
+  LmThreadPool::Instance()->RemoveThread(playerid, false);
   
   //TLOG_Debug(_T("%s: removing self from thread pool for player %u"), method, playerid);
   
-  main_->PlayerThreadSet()->ReturnPlayerThread(this);
+  GsPlayerThreadSet::Instance()->ReturnPlayerThread(this);
   // go back to inactive state
   Logout();
 }
@@ -412,13 +411,13 @@ void GsPlayerThread::adjust_xp(int xp_adj, const TCHAR* why, lyra_id_t why_id, b
     // was there an actual change?
     if (xp_adj != 0) {
       if (why_id != Lyra::ID_UNKNOWN) {
-	SECLOG(-3, _T("%s: player %u: change of %d in xp due to %s %u"), method, playerid, xp_adj, why, why_id);
+	LmLogFile::Instance()->Security(-3, _T("%s: player %u: change of %d in xp due to %s %u"), method, playerid, xp_adj, why, why_id);
       }
       else {
-	SECLOG(-3, _T("%s: player %u: change of %d in xp due to %s"), method, playerid, xp_adj, why);
+	LmLogFile::Instance()->Security(-3, _T("%s: player %u: change of %d in xp due to %s"), method, playerid, xp_adj, why);
       }
       if (old_orbit != new_orbit) {
-	SECLOG(-3, _T("%s: player %u: orbit %d -> %d"), method, playerid, old_orbit, new_orbit);
+	LmLogFile::Instance()->Security(-3, _T("%s: player %u: orbit %d -> %d"), method, playerid, old_orbit, new_orbit);
       }
     }
   }  else if (player_->DB().AccountType() == LmPlayerDB::ACCT_PMARE) {
@@ -447,12 +446,12 @@ void GsPlayerThread::adjust_xp(int xp_adj, const TCHAR* why, lyra_id_t why_id, b
       player_->ChangeAvatar(avatar, GMsg_ChangeAvatar::AVATAR_CURRENT);
       GMsg_ChangeAvatar camsg;
       camsg.Init(avatar, GMsg_ChangeAvatar::AVATAR_CURRENT);
-      main_->OutputDispatch()->SendMessage(&camsg, player_->Connection());
+      GsOutputDispatch::Instance()->SendMessage(&camsg, player_->Connection());
       if (player_->InLevel() && player_->LevelConnection()) {
-	send_RMsg_ChangeAvatar(player_->LevelConnection(), player_->Avatar());
+          send_RMsg_ChangeAvatar(player_->LevelConnection(), player_->Avatar());
       }
       if (send_msg) {
-	main_->OutputDispatch()->SendMessage(&camsg, player_->Connection());
+	  GsOutputDispatch::Instance()->SendMessage(&camsg, player_->Connection());
       }      
       // now change stat message for new max stats
       msg.SetNumChanges(1 + NUM_PLAYER_STATS); // XP + stats
@@ -464,7 +463,7 @@ void GsPlayerThread::adjust_xp(int xp_adj, const TCHAR* why, lyra_id_t why_id, b
 
   // send ChangeStat message to client, if anything changed
   if ((msg.NumChanges() > 0) && send_msg) {
-    main_->OutputDispatch()->SendMessage(&msg, player_->Connection());
+    GsOutputDispatch::Instance()->SendMessage(&msg, player_->Connection());
   }
 }
 
@@ -484,7 +483,7 @@ void GsPlayerThread::adjust_offline_xp(int xp_adj, const TCHAR* why, lyra_id_t w
   }
   lyra_id_t playerid = player_->DB().PlayerID();
   // log it
-  SECLOG(5, _T("%s: Player %u: Offline XP Adjusted due to %s %u, value: %i"), method, playerid, why, why_id, xp_adj);
+  LmLogFile::Instance()->Security(5, _T("%s: Player %u: Offline XP Adjusted due to %s %u, value: %i"), method, playerid, why, why_id, xp_adj);
   // update player record/stats
   xp_adj = player_->AdjustOfflineXP(xp_adj);
 
@@ -504,15 +503,15 @@ void GsPlayerThread::perform_locateavatar(lyra_id_t playerid, const TCHAR* playe
   int acct_type = 0;
   // make db transaction
   // TLOG_Warning(_T("calling locateavatar for %d"), playerid);
-  int rc = main_->PlayerDBC()->GetLocation(playerid, levelid, roomid, acct_type, gm);
-  int sc = main_->PlayerDBC()->LastSQLCode();
-  // int lt = main_->PlayerDBC()->LastCallTime();
-  // main_->Log()->Debug(_T("%s: LmPlayerDBC::GetLocation took %d ms"), method, lt);
+  int rc = LmPlayerDBC::Instance()->GetLocation(playerid, levelid, roomid, acct_type, gm);
+  int sc = LmPlayerDBC::Instance()->LastSQLCode();
+  // int lt = LmPlayerDBC::Instance()->LastCallTime();
+  // LmLog::Instance()->Debug(_T("%s: LmPlayerDBC::GetLocation took %d ms"), method, lt);
   if (rc < 0) {
     TLOG_Warning(_T("%s: could not get player %u location"), method, playerid);
     status = GMsg_LocateAvatarAck::LOCATE_NOTLOGGEDIN; // best fit for this
     levelid = roomid = Lyra::ID_UNKNOWN;    
-    //GsUtil::HandlePlayerError(main_, method, rc, sc);
+    //GsUtil::HandlePlayerError(method, rc, sc);
   }
   else if ((levelid == Lyra::ID_UNKNOWN) || (roomid == Lyra::ID_UNKNOWN)) {
     status = GMsg_LocateAvatarAck::LOCATE_NOTLOGGEDIN;
@@ -563,19 +562,19 @@ void GsPlayerThread::perform_locateavatar_group(const GMsg_LocateAvatar& msg)
     lyra_id_t levelid = 0;
     lyra_id_t roomid = 0;
     // lookup playerid
-    lyra_id_t playerid = main_->PlayerNameMap()->PlayerID(playername);
+    lyra_id_t playerid = LmPlayerNameMap::Instance()->PlayerID(playername);
     if (playerid == Lyra::ID_UNKNOWN) {
       status = GMsg_LocateAvatarAck::LOCATE_PLAYERNOTFOUND;
     }
     else {
       int acct_type = 0;
       // make db transaction
-      int rc = main_->PlayerDBC()->GetLocation(playerid, levelid, roomid, acct_type, gm);
-      int sc = main_->PlayerDBC()->LastSQLCode();
+      int rc = LmPlayerDBC::Instance()->GetLocation(playerid, levelid, roomid, acct_type, gm);
+      int sc = LmPlayerDBC::Instance()->LastSQLCode();
       if (rc < 0) {
 	TLOG_Warning(_T("%s: could not get player %u location"), method, playerid);
 	status = GMsg_LocateAvatarAck::LOCATE_NOTLOGGEDIN; // best fit for this
-	//GsUtil::HandlePlayerError(main_, method, rc, sc);
+	//GsUtil::HandlePlayerError(method, rc, sc);
       }
       else if ((levelid == Lyra::ID_UNKNOWN) || (roomid == Lyra::ID_UNKNOWN)) {
 	status = GMsg_LocateAvatarAck::LOCATE_NOTLOGGEDIN;
@@ -612,7 +611,7 @@ void GsPlayerThread::perform_locateavatar_group(const GMsg_LocateAvatar& msg)
     outmsg.SetLocation(i, levelid, roomid);
   }
   // send message to client
-  main_->OutputDispatch()->SendMessage(&outmsg, player_->Connection());
+  GsOutputDispatch::Instance()->SendMessage(&outmsg, player_->Connection());
 }
 
 ////
@@ -628,7 +627,7 @@ void GsPlayerThread::send_motd()
   }
   // everyone else does
   TCHAR fname[FILENAME_MAX];
-  main_->GlobalDB()->GetTextFile(fname, _T("motd.txt"));
+  LmGlobalDB::Instance()->GetTextFile(fname, _T("motd.txt"));
   FILE* inf =_tfopen(fname, _T("r"));
   if (!inf) {
     // no message of the day, return
@@ -645,7 +644,7 @@ void GsPlayerThread::send_motd()
   RMsg_Speech msg;
   msg.InitServerText(0, tbuf);
   // send to player
-  main_->OutputDispatch()->SendMessage(&msg, player_->Connection());
+  GsOutputDispatch::Instance()->SendMessage(&msg, player_->Connection());
 }
 
 ////
@@ -663,11 +662,11 @@ void GsPlayerThread::hide_player(int hide)
   if (hide) {
     levelid += Lyra::HIDDEN_DELTA;
   }
-  int rc = main_->PlayerDBC()->UpdateLocation(player_->PlayerID(), levelid, roomid);
-  int sc = main_->PlayerDBC()->LastSQLCode();
+  int rc = LmPlayerDBC::Instance()->UpdateLocation(player_->PlayerID(), levelid, roomid);
+  int sc = LmPlayerDBC::Instance()->LastSQLCode();
   if (rc < 0) {
-    main_->Log()->Error(_T("%s: could not update player location; rc=%d, sqlcode=%d"), method, rc, sc);
-    //    GsUtil::HandlePlayerError(main_, method, rc, sc);
+    LmLog::Instance()->Error(_T("%s: could not update player location; rc=%d, sqlcode=%d"), method, rc, sc);
+    //    GsUtil::HandlePlayerError(method, rc, sc);
   }
-  //  main_->Log()->Debug(_T("%s: player %u hidden state = %d"), method, player_->PlayerID(), hide);
+  //  LmLog::Instance()->Debug(_T("%s: player %u hidden state = %d"), method, player_->PlayerID(), hide);
 }

@@ -19,7 +19,7 @@
   { \
     if (conn) { \
       TLOG_Error(_T("%s: internal message received from conn [%p] (%c,%u)!"), method, conn, conn->Type(), conn->ID()); \
-      GsUtil::Send_Error(main_, conn, msg_type, _T("illegal message")); \
+      GsUtil::Send_Error(conn, msg_type, _T("illegal message")); \
       return; \
     } \
   }
@@ -38,7 +38,7 @@
   { \
     if (conn->Type() != LmConnection::CT_UNKNOWN) { \
       TLOG_Error(_T("%s: conn [%p] (%c,%u) not unknown"), method, conn, conn->Type(), conn->ID()); \
-      GsUtil::Send_Error(main_, conn, msg_type, _T("already logged in")); \
+      GsUtil::Send_Error(conn, msg_type, _T("already logged in")); \
       return; \
     } \
   }
@@ -48,7 +48,7 @@
   { \
     if (conn->Type() != LmConnection::CT_CLIENT) { \
       TLOG_Error(_T("%s: conn [%p] (%c,%u) not client"), method, conn, conn->Type(), conn->ID()); \
-      GsUtil::Send_Error(main_, conn, msg_type, _T("never logged in")); \
+      GsUtil::Send_Error(conn, msg_type, _T("never logged in")); \
       return; \
     } \
   }
@@ -58,7 +58,7 @@
   { \
     if (conn->Type() != LmConnection::CT_LSRV) { \
       TLOG_Error(_T("%s: conn [%p] (%c,%u) not level server"), method, conn, conn->Type(), conn->ID()); \
-      GsUtil::Send_Error(main_, conn, msg_type, _T("incorrect connection type")); \
+      GsUtil::Send_Error(conn, msg_type, _T("incorrect connection type")); \
       return; \
     } \
   }
@@ -69,7 +69,7 @@
   { \
     if (conn->Type() != LmConnection::CT_DSRV) { \
       TLOG_Error(_T("%s: conn [%p] (%c,%u) not a database proxy server"), method, conn, conn->Type(), conn->ID()); \
-      GsUtil::Send_Error(main_, conn, msg_type, _T("incorrect connection type")); \
+      GsUtil::Send_Error(conn, msg_type, _T("incorrect connection type")); \
       return; \
     } \
   }
@@ -78,7 +78,7 @@
 #define CHECK_PLAYER_NONNULL() \
   { \
     if (!player_) { \
-      main_->Log()->Error(_T("GsPlayerThread::%s: player is null"), method); \
+      LmLog::Instance()->Error(_T("GsPlayerThread::%s: player is null"), method); \
       return; \
     } \
   }
@@ -87,7 +87,7 @@
 #define CHECK_PLAYER_NULL() \
   { \
     if (player_) { \
-      main_->Log()->Error(_T("GsPlayerThread::%s: player is not null"), method); \
+      LmLog::Instance()->Error(_T("GsPlayerThread::%s: player is not null"), method); \
       return; \
     } \
   }
@@ -97,7 +97,7 @@
   { \
     if (conn->ID() != player_->PlayerID()) { \
       TLOG_Error(_T("%s: message from client id %u, not player %u"), method, conn->ID(), player_->PlayerID()); \
-      GsUtil::Send_Error(main_, conn, msg_type, _T("id mismatch")); \
+      GsUtil::Send_Error(conn, msg_type, _T("id mismatch")); \
       return; \
     } \
   }
@@ -125,7 +125,7 @@
   if (msg.Read(*msgbuf) < 0) { \
     TLOG_Error(_T("%s: could not read message, type %d, size %d"), method, msg_type, msg_size); \
     if (conn && se) { \
-      GsUtil::Send_Error(main_, conn, msg_type, _T("corrupt ") #T _T(" message")); \
+      GsUtil::Send_Error(conn, msg_type, _T("corrupt ") #T _T(" message")); \
     } \
     return; \
   }
@@ -135,7 +135,7 @@
   if (msg.Read(*msgbuf) < 0) { \
     TLOG_Error(_T("%s: could not read message, type %d, size %d"), method, msg_type, msg_size); \
     if (conn && se) { \
-      GsUtil::Send_SMsg_Error(main_, conn, msg_type, _T("corrupt ") #T _T(" message")); \
+      GsUtil::Send_SMsg_Error(conn, msg_type, _T("corrupt ") #T _T(" message")); \
     } \
     return; \
   }

@@ -25,6 +25,8 @@
 #include "../../include/Core/PTh.h"
 #include <ctime>
 
+//init s_instance
+LmLogFile* LmLogFile::s_instance = nullptr;
 
 ////
 // constructor
@@ -35,6 +37,7 @@ LmLogFile::LmLogFile()
     instance_(0),
     pid_(0)
 {
+    s_instance = this;
   // zero out strings
   memset(progname_, 0, sizeof(progname_));
   memset(logname_, 0, sizeof(logname_));
@@ -60,6 +63,8 @@ LmLogFile::LmLogFile()
 LmLogFile::~LmLogFile()
 {
   Close();
+  if (s_instance == this)
+      s_instance == nullptr;
 }
 
 ////

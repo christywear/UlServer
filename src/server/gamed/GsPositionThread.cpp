@@ -46,16 +46,16 @@
 #include "../../../include/Core/LmTimer.h"
 
 #include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
+#include <protocol/LmMesgBufPool.h>
 DECLARE_TheFileName;
 
 ////
 // Constructor
 ////
 
-GsPositionThread::GsPositionThread(GsMain* gsmain)
-  : LmThread(gsmain->BufferPool(), gsmain->Log() /* &logf_ */ ),
-    main_(gsmain),
-    usock_(gsmain->SocketUDP()),
+GsPositionThread::GsPositionThread()
+  : LmThread(LmMesgBufPool::Instance(), LmLog::Instance() /* &logf_ */ ),
+    usock_(LmSocket::Instance()), //udp socket
     msgbuf_(0),
     ls_udp_in_bytes_(0),
     ls_udp_in_msgs_(0),
@@ -205,7 +205,7 @@ void GsPositionThread::Dump(FILE* f, int indent) const
   DECLARE_TheLineNum;
   INDENT(indent, f);
  _ftprintf(f, _T("<GsPositionThread[%p,%d]: main=[%p] usock=[%p]>\n"), this, sizeof(GsPositionThread),
-	  main_, usock_);
+	  usock_);
   INDENT(indent + 1, f);
  _ftprintf(f, _T("ls udp: in=%d/%d out=%d/%d\n"),
 	  ls_udp_in_msgs_, ls_udp_in_bytes_, ls_udp_out_msgs_, ls_udp_out_bytes_);
@@ -223,7 +223,7 @@ void GsPositionThread::Dump(FILE* f, int indent) const
 void GsPositionThread::open_log()
 {
   // logf_.Init("gs", "pos", main_->ServerPort());
-  // logf_.Open(main_->GlobalDB()->LogDir());
+  // logf_.Open(LmGlobalDB::Instance()->LogDir());
 }
 
 ////
@@ -312,7 +312,7 @@ void GsPositionThread::handle_RMsg_Update_UDP(LmSrvMesgBuf* msgbuf, LmSockAddrIn
   //msg.Dump(TLOG_Stream(), 2);
   lyra_id_t playerid = msg.PlayerID();
   // check that message came from player in the game
-  GsPlayer* player = main_->PlayerSet()->GetPlayer(playerid);
+  GsPlayer* player = GsPlayerSet::Instance()->GetPlayer(playerid);
   if (!player) {
     //TLOG_Warning(_T("%s: update from player %u, not in game"), method, playerid);
     return;
@@ -330,7 +330,7 @@ void GsPositionThread::handle_RMsg_Update_UDP(LmSrvMesgBuf* msgbuf, LmSockAddrIn
     // if rc is -1, then log, up to 5 times
     if ((rc == -1) && (player->NumWeaponChecksFailed() < 5)) {		
 		player->CheckAndReceiveUpdate(msg.PeerUpdate());
-      SECLOG(6, _T("%s: player %u: peer update contained illegal weapon (bm=%d vel=%d fx=%d dmg=%d)"), method,
+      LmLogFile::Instance()->Security(6, _T("%s: player %u: peer update contained illegal weapon (bm=%d vel=%d fx=%d dmg=%d)"), method,
 	     playerid, msg.PeerUpdate().WeaponBitmap(), msg.PeerUpdate().WeaponVelocity(),
 	     msg.PeerUpdate().WeaponEffect(), msg.PeerUpdate().WeaponDamage());
     }
@@ -348,7 +348,7 @@ void GsPositionThread::handle_RMsg_Update_UDP(LmSrvMesgBuf* msgbuf, LmSockAddrIn
 	  player->SetUpdateAddress(caddr.IPAddress(), caddr.Port());
     //TCHAR connstr[20];
    //_tcsnccpy(connstr, player->ClientAddress().AddressString(), sizeof(connstr));
-    //SECLOG(1, _T("%s: player %u: possible C->S update spoof, connection IP = %s, udp IP = %s:%d"), method,
+    //LmLogFile::Instance()->Security(1, _T("%s: player %u: possible C->S update spoof, connection IP = %s, udp IP = %s:%d"), method,
 	   //playerid, connstr, caddr.AddressString(), caddr.Port());
     //return;
   }
@@ -392,7 +392,7 @@ void GsPositionThread::handle_RMsg_Update_TCP(LmSrvMesgBuf* msgbuf, LmConnection
 
   if (conn->ID() != msg.PlayerID()) { 
       TLOG_Error(_T("%s: message from client id %u, not player %u"), method, conn->ID(), msg.PlayerID()); \
-      GsUtil::Send_Error(main_, conn, msg_type, _T("id mismatch")); 
+      GsUtil::Send_Error(conn, msg_type, _T("id mismatch")); 
       return; 
     } 
 
@@ -402,7 +402,7 @@ void GsPositionThread::handle_RMsg_Update_TCP(LmSrvMesgBuf* msgbuf, LmConnection
   //msg.Dump(TLOG_Stream(), 2);
   lyra_id_t playerid = msg.PlayerID();
   // check that message came from player in the game
-  GsPlayer* player = main_->PlayerSet()->GetPlayer(playerid);
+  GsPlayer* player = GsPlayerSet::Instance()->GetPlayer(playerid);
   if (!player) {
     //TLOG_Warning(_T("%s: update from player %u, not in game"), method, playerid);
     return;
@@ -416,7 +416,7 @@ void GsPositionThread::handle_RMsg_Update_TCP(LmSrvMesgBuf* msgbuf, LmConnection
   if (rc < 0) {
     // if rc is -1, then log, up to 5 times
     if ((rc == -1) && (player->NumWeaponChecksFailed() < 5)) {
-      SECLOG(6, _T("%s: player %u: peer update contained illegal weapon (bm=%d vel=%d fx=%d dmg=%d)"), method,
+      LmLogFile::Instance()->Security(6, _T("%s: player %u: peer update contained illegal weapon (bm=%d vel=%d fx=%d dmg=%d)"), method,
 	     playerid, msg.PeerUpdate().WeaponBitmap(), msg.PeerUpdate().WeaponVelocity(),
 	     msg.PeerUpdate().WeaponEffect(), msg.PeerUpdate().WeaponDamage());
     }
@@ -457,7 +457,7 @@ void GsPositionThread::handle_RMsg_PlayerUpdate(LmSrvMesgBuf* msgbuf, LmSockAddr
   //msg.Dump(TLOG_Stream(), 2);
   lyra_id_t playerid = msg.PlayerID();
   // check that message target is in the game
-  GsPlayer* player = main_->PlayerSet()->GetPlayer(playerid);
+  GsPlayer* player = GsPlayerSet::Instance()->GetPlayer(playerid);
   if (!player) {
     //TLOG_Warning(_T("%s: peer update for player %u, not in game"), method, playerid);
     return;
@@ -471,7 +471,7 @@ void GsPositionThread::handle_RMsg_PlayerUpdate(LmSrvMesgBuf* msgbuf, LmSockAddr
   if (player->LevelAddress().IPAddress() != caddr.IPAddress()) {
     TCHAR levelstr[20];
    _tcsnccpy(levelstr, player->LevelAddress().AddressString(), sizeof(levelstr));
-    SECLOG(1, _T("%s: player %u: possible S->C update spoof, level connection IP = %s, udp IP = %s:%d"), method,
+    LmLogFile::Instance()->Security(1, _T("%s: player %u: possible S->C update spoof, level connection IP = %s, udp IP = %s:%d"), method,
 	   playerid, levelstr, caddr.AddressString(), caddr.Port());
     return;
   }
@@ -480,7 +480,7 @@ void GsPositionThread::handle_RMsg_PlayerUpdate(LmSrvMesgBuf* msgbuf, LmSockAddr
   // forward to player via UDP
   //TLOG_Debug(_T("%s: redirecting player update for player %u to %s:%d"), method, playerid, player->UpdateAddress().AddressString(), player->UpdateAddress().Port());
    if( player->TCPOnly() )
-     main_->OutputDispatch()->SendMessage(&msg, player->Connection());
+     GsOutputDispatch::Instance()->SendMessage(&msg, player->Connection());
    else
       usock_->SendTo(msgbuf->BufferAddress(), msgbuf->BufferSize(), player->UpdateAddress());
 
@@ -499,5 +499,5 @@ void GsPositionThread::send_SMsg_ResetPort(lyra_id_t playerid, int port, LmConne
   DEFMETHOD(GsPositionThread, send_SMsg_ResetPort);
   SMsg_ResetPort msg;
   msg.Init(playerid, port);
-  main_->OutputDispatch()->SendMessage(&msg, level_conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, level_conn);
 }

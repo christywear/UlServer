@@ -25,6 +25,8 @@ public:
   LmGlobalDB(const TCHAR* root_dir);
   ~LmGlobalDB();
 
+  //public accessor
+  static LmGlobalDB* Instance() { return s_instance; }
   // selectors
   const TCHAR* RootDir() const;
   const TCHAR* LogDir() const;
@@ -43,7 +45,8 @@ public:
   void Dump(FILE* f, int indent = 0) const;
 
 private:
-
+	//private accessor
+	static LmGlobalDB* s_instance;
   // not implemented
   LmGlobalDB(const LmGlobalDB&);
   //operator=(const LmGlobalDB&);

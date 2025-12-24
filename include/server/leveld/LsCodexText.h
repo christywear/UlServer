@@ -14,7 +14,6 @@
 
 // class forward declarations
 
-class LsMain;
 class LsCodexTextImp;
 
 // class declarations
@@ -29,24 +28,25 @@ public:
 
 public:
 
-  LsCodexText(LsMain* lsmain);
+  LsCodexText();
   ~LsCodexText();
-
+  //public accessor.
+  static LsCodexText* Instance() { return s_instance; }
   void Load();
   void CopyDescription(TCHAR* desc, int length);
 
   void Dump(FILE* f, int indent = 0) const;
 
 private:
-
+    //private accessor
+    static LsCodexText* s_instance;
   // not implemented
   LsCodexText(const LsCodexText&);
   //operator=(const LsCodexText&);
 
-  LsMain* main_;
 
   // lock
-  PThMutex lock_;
+  mutable PThMutex lock_;
 
   // implementation pointer
   LsCodexTextImp* imp_;

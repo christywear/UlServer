@@ -89,7 +89,7 @@ void RMsg_GotoRoom::Dump(FILE* f, int indent) const
 {
   INDENT(indent, f);
  _ftprintf(f, _T("<RMsg_GotoRoom[%p,%d]: "), this, sizeof(RMsg_GotoRoom));
-  if (ByteOrder() == ByteOrder::HOST) {
+ if (this->ByteOrder() == (int)::ByteOrder::HOST) {
    _ftprintf(f, _T("roomid=%u lastpos=(%d,%d)>\n"), RoomID(), LastX(), LastY());
     PeerUpdate().Dump(f, indent + 1);
   }

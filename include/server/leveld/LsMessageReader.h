@@ -15,10 +15,10 @@
 
 #include "..\..\Core\LyraDefs.h"
 #include "..\..\Protocol\LmMessageReader.h"
+#include <Core/LmThread.h>
 
 // class forward declarations
 
-class LsMain;
 class LmLog;
 
 // class declarations
@@ -27,7 +27,7 @@ class LsMessageReader : public LmMessageReader {
 
 public:
 
-  LsMessageReader(LsMain* lsmain, LmLog* log);
+  LsMessageReader(LmLog* log);
   ~LsMessageReader();
 
   void Dump(FILE* f, int indent = 0) const;
@@ -39,7 +39,7 @@ protected:
 
 private:
 
-  LsMain* main_;
+ 
 
 };
 

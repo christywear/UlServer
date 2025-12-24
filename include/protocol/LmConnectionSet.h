@@ -13,7 +13,6 @@
 
 #include <stdio.h>
 #ifdef WIN32
-#include "unix.h"
 #include <winsock.h>
 #else /* !WIN32 */
 #include <sys/types.h>
@@ -38,7 +37,8 @@ public:
 
   LmConnectionSet(int setsize);
   ~LmConnectionSet();
-
+  //public accessor
+  static LmConnectionSet* Instance() { return s_instance; }
   LmConnection* AllocateConnection(LmSocket& sock);
   void RemoveConnection(LmConnection* conn);
   LmConnection* GetConnection(int conn_type, int conn_id) const;
@@ -55,12 +55,13 @@ public:
   void Dump(FILE* f, int indent = 0) const;
 
 private:
-
+	//private accessor
+	static LmConnectionSet* s_instance;
   // not implemented
   LmConnectionSet(const LmConnectionSet&);
   //operator=(const LmConnectionSet&);
 
-  PThMutex lock_;        // object lock
+  mutable PThMutex lock_;        // object lock
   LmConnectionSetImp* imp_;  // map of active connections (private implementation)
   LmConnection* conns_;      // array of all available connections
   int max_conns_;            // size of array

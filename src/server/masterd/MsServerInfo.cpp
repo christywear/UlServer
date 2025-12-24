@@ -1,3 +1,4 @@
+#if 0 old legacy code
 // MsServerInfo.cpp  -*- C++ -*-
 // $Id: MsServerInfo.cpp,v 1.16 1998-02-12 15:33:49-08 jason Exp $
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
@@ -98,7 +99,7 @@ int MsServerInfo::StartServers(int servtype)
   DECLARE_TheLineNum;
   int retval = 0;
 
-  main_->Log()->Debug(_T("%s: starting servers of type %u; total servers = %u"), method, servtype, main_->ServerDB()->NumServers());
+  LmLog::Instance()->Debug(_T("%s: starting servers of type %u; total servers = %u"), method, servtype, main_->ServerDB()->NumServers());
   for (int i = 0; i < main_->ServerDB()->NumServers(); ++i) {
     // right server type?
     if (servtype != main_->ServerDB()->ServerType(i)) {
@@ -119,7 +120,7 @@ int MsServerInfo::StartServers(int servtype)
 
     pid_t childpid = start_server(i, next);
     if (childpid < 0) {
-      main_->Log()->Error(_T("%s: could not start server at index %d"), method, i);
+      LmLog::Instance()->Error(_T("%s: could not start server at index %d"), method, i);
       retval = -1;
     }
     else {
@@ -141,7 +142,7 @@ int MsServerInfo::StopServers()
 {
   DEFMETHOD(MsServerInfo, StopServers);
   DECLARE_TheLineNum;
-  main_->Log()->Debug(_T("%s: shutting down servers"), method);
+  LmLog::Instance()->Debug(_T("%s: shutting down servers"), method);
   return SignalServers(SIGTERM);
 }
 
@@ -156,11 +157,11 @@ int MsServerInfo::SignalServers(int sig)
   int retval = 0; // OK
   for (cs_list_t::iterator i = children_.begin(); i != children_.end(); ++i) {
     cs_t cs = *i;
-    main_->Log()->Debug(_T("%s: sending signal %d to child %lu"), method, sig, cs.pid);
-    //    main_->Log()->Debug(_T("%s: sending signal '%s' (%d) to child %lu"), method, strsignal(sig), sig, cs.pid);
+    LmLog::Instance()->Debug(_T("%s: sending signal %d to child %lu"), method, sig, cs.pid);
+    //    LmLog::Instance()->Debug(_T("%s: sending signal '%s' (%d) to child %lu"), method, strsignal(sig), sig, cs.pid);
 #ifdef UL_POSIX
     if (kill(cs.pid, sig) < 0) {
-      //main_->Log()->Error(_T("%s: sigsend: %s"), method, strerror(errno));
+      //LmLog::Instance()->Error(_T("%s: sigsend: %s"), method, strerror(errno));
       retval = -1;
       // continue anyway
     }
@@ -180,12 +181,12 @@ int MsServerInfo::RemoveServer(pid_t pid)
 {
   DEFMETHOD(MsServerInfo, RemoveServer);
   DECLARE_TheLineNum;
-  main_->Log()->Debug(_T("%s: removing pid %lu"), method, pid);
+  LmLog::Instance()->Debug(_T("%s: removing pid %lu"), method, pid);
   // find child info
   for (cs_list_t::iterator i = children_.begin(); i != children_.end(); ++i) {
     cs_t cs = *i;
     if (cs.pid == pid) { // found
-      main_->Log()->Debug(_T("%s: found child %lu, index %d"), method, pid, cs.index);
+      LmLog::Instance()->Debug(_T("%s: found child %lu, index %d"), method, pid, cs.index);
       children_.erase(i); // remove from list
       return 0;
     }
@@ -201,12 +202,12 @@ int MsServerInfo::RestartServer(pid_t pid)
 {
   DEFMETHOD(MsServerInfo, RestartServer);
   DECLARE_TheLineNum;
-  // main_->Log()->Debug(_T("%s: restarting pid %lu"), method, pid);
+  // LmLog::Instance()->Debug(_T("%s: restarting pid %lu"), method, pid);
   // find child info
   for (cs_list_t::iterator i = children_.begin(); i != children_.end(); ++i) {
     cs_t cs = *i;
     if (cs.pid == pid) { // found
-      // main_->Log()->Debug(_T("%s: found child %lu, index %d"), method, pid, cs.index);
+      // LmLog::Instance()->Debug(_T("%s: found child %lu, index %d"), method, pid, cs.index);
       children_.erase(i); // remove from list
       int next = next_server_index(cs.index);
       cs.pid = start_server(cs.index, next); // restart
@@ -317,7 +318,7 @@ pid_t MsServerInfo::start_server(int server_index, int next_index)
   int servtype = main_->ServerDB()->ServerType(server_index);
   const TCHAR* servname = main_->ServerDB()->ProgramName(servtype);
   if (!servname) {
-    main_->Log()->Error(_T("%s: null server name, type=%c"), method, servtype);
+    LmLog::Instance()->Error(_T("%s: null server name, type=%c"), method, servtype);
     return -1;
   }
   // put integer args into strings
@@ -336,14 +337,14 @@ pid_t MsServerInfo::start_server(int server_index, int next_index)
   } 
   // get full path of executable, root directory
   TCHAR servexec[FILENAME_MAX];
-  main_->GlobalDB()->GetExecFile(servexec, servname);
-  const TCHAR* rootdir = main_->GlobalDB()->RootDir();
+  LmGlobalDB::Instance()->GetExecFile(servexec, servname);
+  const TCHAR* rootdir = LmGlobalDB::Instance()->RootDir();
   // fork
 #ifdef UL_POSIX //old linux || old winnt variant .. fork in this conectx goes way of unix, the texecl method no longer works esp for fork method as is
   pid_t pid = fork();
 
   if (pid == -1) {
-    main_->Log()->Error(_T("%s: could not fork: %s"), method, strerror(errno));
+    LmLog::Instance()->Error(_T("%s: could not fork: %s"), method, strerror(errno));
     return -1;
   }
   if (pid == 0) { // child
@@ -367,7 +368,7 @@ pid_t MsServerInfo::start_server(int server_index, int next_index)
   }
 
   // else - parent
-  main_->Log()->Debug(_T("%s: started '%s', args '%s %s %s %s %s', pid %lu"), method, servexec, arg1, arg2, arg3, arg4, arg5, pid);
+  LmLog::Instance()->Debug(_T("%s: started '%s', args '%s %s %s %s %s', pid %lu"), method, servexec, arg1, arg2, arg3, arg4, arg5, pid);
 
   return pid;
 #endif
@@ -378,3 +379,5 @@ int MsServerInfo::NumServers() const
 {
     return children_.size();
 }
+
+#endif

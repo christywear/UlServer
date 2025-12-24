@@ -40,14 +40,15 @@
 #include "../../../include/DB/LmItemDBC.h"
 #include "../../../include/Server/Leveld/LsOutputDispatch.h"
 #include "../../../include/DB/LmPlayerDB.h"
+#include <protocol/LmMesgBufPool.h>
+#include <Game/LmLog.h>
 
 ////
 // Constructor
 ////
 
-LsRoomThread::LsRoomThread(LsMain* lsmain)
-  : LmThread(lsmain->BufferPool(), lsmain->Log() /* &logf_ */ ),
-    main_(lsmain)
+LsRoomThread::LsRoomThread()
+    : LmThread(LmMesgBufPool::Instance(), LmLog::Instance() /* &logf_ */)
 {
   open_log();
   register_handlers();
@@ -79,7 +80,7 @@ void LsRoomThread::Run()
 void LsRoomThread::Dump(FILE* f, int indent) const
 {
   INDENT(indent, f);
- _ftprintf(f, _T("<LsRoomThread[%p,%d]: main=[%p]>\n"), this, sizeof(LsRoomThread), main_);
+ _ftprintf(f, _T("<LsRoomThread[%p,%d]: main=[%p]>\n"), this, sizeof(LsRoomThread));
   LmThread::Dump(f, indent + 1);
 }
 
@@ -89,8 +90,8 @@ void LsRoomThread::Dump(FILE* f, int indent) const
 
 void LsRoomThread::open_log()
 {
-  // logf_.Init("ls", "room", main_->LevelDBC()->LevelID());
-  // logf_.Open(main_->GlobalDB()->LogDir());
+  // logf_.Init("ls", "room", LmLevelDBC::Instance()->LevelID());
+  // logf_.Open(LmGlobalDB::Instance()->LogDir());
 }
 
 ////
@@ -162,25 +163,25 @@ void LsRoomThread::handle_SMsg_GetItem(LmSrvMesgBuf* msgbuf, LmConnection* conn)
   LmItem item;
   item.Init(msg.ItemHeader());
   // get player
-  LsPlayer* player = main_->PlayerSet()->GetPlayer(playerid);
+  LsPlayer* player = LsPlayerSet::Instance()->GetPlayer(playerid);
   if (!player) {
     TLOG_Error(_T("%s: player %u not in level"), method, playerid);
-    LsUtil::Send_SMsg_Error(main_, conn, SMsg::GETITEM, _T("player not in level"));
+    LsUtil::Send_SMsg_Error(conn, SMsg::GETITEM, _T("player not in level"));
     return;
   }
   // check player's connection
   if (player->Connection() != conn) {
     TLOG_Error(_T("%s: player %u conn [%p] not incoming conn [%p]"), method, playerid, player->Connection(), conn);
     send_SMsg_ItemPickup(player, item, SMsg_ItemPickup::PICKUP_ERROR); // send this anyway
-    LsUtil::Send_SMsg_Error(main_, conn, SMsg::GETITEM, _T("connection mismatch"));
+    LsUtil::Send_SMsg_Error(conn, SMsg::GETITEM, _T("connection mismatch"));
     return;
   }
   // get room
-  LsRoomState* room = main_->LevelState()->RoomState(roomid);
+  LsRoomState* room = LsLevelState::Instance()->RoomState(roomid);
   if (!room) {
     TLOG_Error(_T("%s: room %u not in level"), method, playerid, roomid);
     send_SMsg_ItemPickup(player, item, SMsg_ItemPickup::PICKUP_ERROR); // send this anyway
-    LsUtil::Send_SMsg_Error(main_, conn, SMsg::GETITEM, _T("room not found in level"));
+    LsUtil::Send_SMsg_Error(conn, SMsg::GETITEM, _T("room not found in level"));
     return;
   }
   // check if room contains item
@@ -195,25 +196,25 @@ void LsRoomThread::handle_SMsg_GetItem(LmSrvMesgBuf* msgbuf, LmConnection* conn)
   item = room->GetItem(msg.ItemHeader());
   int serial = item.Header().Serial();
   // update item's full state in database before giving to player
-  int rc = main_->ItemDBC()->UpdateItemFullState(item);
-  int sqlcode = main_->ItemDBC()->LastSQLCode();
-  // int lt = main_->ItemDBC()->LastCallTime();
-  // main_->Log()->Debug(_T("%s: LmItemDBC::UpdateItemFullState took %d ms"), method, lt);
+  int rc = LmItemDBC::Instance()->UpdateItemFullState(item);
+  int sqlcode = LmItemDBC::Instance()->LastSQLCode();
+  // int lt = LmItemDBC::Instance()->LastCallTime();
+  // LmLog::Instance()->Debug(_T("%s: LmItemDBC::UpdateItemFullState took %d ms"), method, lt);
   if (rc < 0) {
     TLOG_Warning(_T("%s: could not update fullstate of item %d; rc=%d, sql=%d"), method, serial, rc, sqlcode);
     send_SMsg_ItemPickup(player, item, SMsg_ItemPickup::PICKUP_ERROR);
-    LsUtil::HandleItemError(main_, method, rc, sqlcode);
+    LsUtil::HandleItemError(method, rc, sqlcode);
     return;
   }
   // update item's ownership in database, transfer to player
-  rc = main_->ItemDBC()->UpdateItemOwnership(serial, LmItemDBC::OWNER_PLAYER, playerid, 0);
-  sqlcode = main_->ItemDBC()->LastSQLCode();
-  // lt = main_->ItemDBC()->LastCallTime();
-  // main_->Log()->Debug(_T("%s: LmItemDBC::UpdateItemOwnership took %d ms"), method, lt);
+  rc = LmItemDBC::Instance()->UpdateItemOwnership(serial, LmItemDBC::OWNER_PLAYER, playerid, 0);
+  sqlcode = LmItemDBC::Instance()->LastSQLCode();
+  // lt = LmItemDBC::Instance()->LastCallTime();
+  // LmLog::Instance()->Debug(_T("%s: LmItemDBC::UpdateItemOwnership took %d ms"), method, lt);
   if (rc < 0) {
     TLOG_Warning(_T("%s: player %u could not take item %d; rc=%d, sql=%d"), method, playerid, serial, rc, sqlcode);
     send_SMsg_ItemPickup(player, item, SMsg_ItemPickup::PICKUP_ERROR);
-    LsUtil::HandleItemError(main_, method, rc, sqlcode);
+    LsUtil::HandleItemError(method, rc, sqlcode);
     return;
   }
   // remove item from room, send out messages to players except for one getting item
@@ -238,18 +239,18 @@ void LsRoomThread::handle_SMsg_PutItem(LmSrvMesgBuf* msgbuf, LmConnection* conn)
   lyra_id_t roomid = msg.RoomID();
   LmItem item = msg.Item();
   // get player
-  LsPlayer* player = main_->PlayerSet()->GetPlayer(playerid);
+  LsPlayer* player = LsPlayerSet::Instance()->GetPlayer(playerid);
   if (!player) { // players not in the room can still drop items
     TLOG_Warning(_T("%s: player %u not in level, dropping item in room %u"), method, playerid, roomid);
-    //LsUtil::Send_SMsg_Error(main_, conn, SMsg::PUTITEM, _T("player not in level"));
+    //LsUtil::Send_SMsg_Error(conn, SMsg::PUTITEM, _T("player not in level"));
     //return;
   }
   // get room
-  LsRoomState* room = main_->LevelState()->RoomState(roomid);
+  LsRoomState* room = LsLevelState::Instance()->RoomState(roomid);
   if (!room) {
     TLOG_Error(_T("%s: player %u dropping item in room %u not in level"), method, playerid, roomid);
     send_SMsg_ItemDrop(player, item, SMsg_ItemDrop::DROP_ERROR);
-    LsUtil::Send_SMsg_Error(main_, conn, SMsg::PUTITEM, _T("room not found in level"));
+    LsUtil::Send_SMsg_Error(conn, SMsg::PUTITEM, _T("room not found in level"));
     return;
   }
   // if room has "noreapitems" flag set, then check that item is not a ward
@@ -277,7 +278,7 @@ void LsRoomThread::handle_SMsg_PutItem(LmSrvMesgBuf* msgbuf, LmConnection* conn)
     if (player && (player->Connection() != conn)) {
       TLOG_Error(_T("%s: player %u conn [%p] not incoming conn [%p]"), method, playerid, player->Connection(), conn);
       send_SMsg_ItemDrop(player, item, SMsg_ItemDrop::DROP_ERROR);
-      LsUtil::Send_SMsg_Error(main_, conn, SMsg::PUTITEM, _T("connection mismatch"));
+      LsUtil::Send_SMsg_Error(conn, SMsg::PUTITEM, _T("connection mismatch"));
       return;
     }
     // check if room contains item
@@ -304,14 +305,14 @@ void LsRoomThread::handle_SMsg_PutItem(LmSrvMesgBuf* msgbuf, LmConnection* conn)
   }
   // update ownership, transfer to room
   int serial = item.Header().Serial();
-  int rc = main_->ItemDBC()->UpdateItemOwnership(serial, LmItemDBC::OWNER_ROOM, main_->LevelDBC()->LevelID(), room->DB()->RoomID());
-  int sqlcode = main_->ItemDBC()->LastSQLCode();
-  // int lt = main_->ItemDBC()->LastCallTime();
-  // main_->Log()->Debug(_T("%s: LmItemDBC::UpdateItemOwnership took %d ms"), method, lt);
+  int rc = LmItemDBC::Instance()->UpdateItemOwnership(serial, LmItemDBC::OWNER_ROOM, LmLevelDBC::Instance()->LevelID(), room->DB()->RoomID());
+  int sqlcode = LmItemDBC::Instance()->LastSQLCode();
+  // int lt = LmItemDBC::Instance()->LastCallTime();
+  // LmLog::Instance()->Debug(_T("%s: LmItemDBC::UpdateItemOwnership took %d ms"), method, lt);
   if (rc < 0) {
     TLOG_Warning(_T("%s: player %u could not drop item %d; rc=%d, sql=%d"), method, playerid, serial, rc, sqlcode);
     send_SMsg_ItemDrop(player, item, SMsg_ItemDrop::DROP_ERROR);
-    LsUtil::HandleItemError(main_, method, rc, sqlcode);
+    LsUtil::HandleItemError(method, rc, sqlcode);
     return;
   }
   // create new room item
@@ -338,23 +339,23 @@ void LsRoomThread::handle_SMsg_DestroyRoomItem(LmSrvMesgBuf* msgbuf, LmConnectio
   lyra_id_t playerid = msg.PlayerID();
   lyra_id_t roomid = msg.RoomID();
   // get player
-  LsPlayer* player = main_->PlayerSet()->GetPlayer(playerid);
+  LsPlayer* player = LsPlayerSet::Instance()->GetPlayer(playerid);
   if (!player) {
     TLOG_Error(_T("%s: player %u not in level"), method, playerid);
-    LsUtil::Send_SMsg_Error(main_, conn, SMsg::DESTROYROOMITEM, _T("player not in level"));
+    LsUtil::Send_SMsg_Error(conn, SMsg::DESTROYROOMITEM, _T("player not in level"));
     return;
   }
   // check player's connection
   if (player->Connection() != conn) {
     TLOG_Error(_T("%s: player %u conn [%p] not incoming conn [%p]"), method, playerid, player->Connection(), conn);
-    LsUtil::Send_SMsg_Error(main_, conn, SMsg::DESTROYROOMITEM, _T("connection mismatch"));
+    LsUtil::Send_SMsg_Error(conn, SMsg::DESTROYROOMITEM, _T("connection mismatch"));
     return;
   }
   // get room
-  LsRoomState* room = main_->LevelState()->RoomState(roomid);
+  LsRoomState* room = LsLevelState::Instance()->RoomState(roomid);
   if (!room) {
     TLOG_Error(_T("%s: room %u not in level"), method, playerid, roomid);
-    LsUtil::Send_SMsg_Error(main_, conn, SMsg::DESTROYROOMITEM, _T("room not found in level"));
+    LsUtil::Send_SMsg_Error(conn, SMsg::DESTROYROOMITEM, _T("room not found in level"));
     return;
   }
   // check if room contains item (may have been destroy by someone else earlier)
@@ -385,16 +386,16 @@ void LsRoomThread::handle_SMsg_SetAvatarDescription(LmSrvMesgBuf* msgbuf, LmConn
   // process
   lyra_id_t playerid = msg.PlayerID();
   // get player
-  LsPlayer* player = main_->PlayerSet()->GetPlayer(playerid);
+  LsPlayer* player = LsPlayerSet::Instance()->GetPlayer(playerid);
   if (!player) {
     TLOG_Error(_T("%s: player %u not in level"), method, playerid);
-    LsUtil::Send_SMsg_Error(main_, conn, SMsg::SETAVATARDESCRIPTION, _T("player not in level"));
+    LsUtil::Send_SMsg_Error(conn, SMsg::SETAVATARDESCRIPTION, _T("player not in level"));
     return;
   }
   // check player's connection
   if (player->Connection() != conn) {
     TLOG_Error(_T("%s: player %u conn [%p] not incoming conn [%p]"), method, playerid, player->Connection(), conn);
-    LsUtil::Send_SMsg_Error(main_, conn, SMsg::SETAVATARDESCRIPTION, _T("connection mismatch"));
+    LsUtil::Send_SMsg_Error(conn, SMsg::SETAVATARDESCRIPTION, _T("connection mismatch"));
     return;
   }
   // update player
@@ -422,25 +423,25 @@ void LsRoomThread::handle_SMsg_Proxy(LmSrvMesgBuf* msgbuf, LmConnection* conn)
   if (msg.ProxyType() != SMsg_Proxy::PROXY_PROCESS) {
     TLOG_Error(_T("%s: incorrect proxy type '%c'"), method, msg.ProxyType());
     if (send_error) {
-      LsUtil::Send_SMsg_Error(main_, conn, SMsg::PROXY, _T("incorrect proxy type"));
+      LsUtil::Send_SMsg_Error(conn, SMsg::PROXY, _T("incorrect proxy type"));
     }
     return;
   }
   // re-use msgbuf (no need to up the usage count, since the handle_RMsg methods don't decrement it)
   msg.CopyToBuffer(*msgbuf);
   // get source player
-  LsPlayer* player = main_->PlayerSet()->GetPlayer(msg.PlayerID());
+  LsPlayer* player = LsPlayerSet::Instance()->GetPlayer(msg.PlayerID());
   if (!player) {
     TLOG_Error(_T("%s: source player %u not in level"), method, msg.PlayerID());
     if (send_error) {
-      LsUtil::Send_SMsg_Error(main_, conn, SMsg::PROXY, _T("source player not in level"));
+      LsUtil::Send_SMsg_Error(conn, SMsg::PROXY, _T("source player not in level"));
     }
     return;
   }
   // check that player's connection is same as one message came over, if the conn is non-null
   if (conn && (player->Connection() != conn)) {
     TLOG_Warning(_T("%s: message from player %u received from wrong connection %p"), method, msg.PlayerID(), conn);
-    LsUtil::Send_SMsg_Error(main_, conn, SMsg::PROXY, _T("player/connection mismatch"));
+    LsUtil::Send_SMsg_Error(conn, SMsg::PROXY, _T("player/connection mismatch"));
     return;
   }
 #if 0
@@ -521,7 +522,7 @@ void LsRoomThread::handle_SMsg_LocateAvatar(LmSrvMesgBuf* msgbuf, LmConnection* 
   TLOG_Debug(_T("%s: player %u locating player %u"), method, locatorid, playerid);
   // find target player
   lyra_id_t roomid = Lyra::ID_UNKNOWN; // default: not found here
-  LsPlayer* player = main_->PlayerSet()->GetPlayer(playerid);
+  LsPlayer* player = LsPlayerSet::Instance()->GetPlayer(playerid);
   if (player && (player->AccountType() != LmPlayerDB::ACCT_MONSTER)) { // monsters are not locatable
     roomid = player->RoomID();
     // hidden?
@@ -536,7 +537,7 @@ void LsRoomThread::handle_SMsg_LocateAvatar(LmSrvMesgBuf* msgbuf, LmConnection* 
   }
   msg.SetRoomID(roomid);
   // send message back
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  LsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -556,14 +557,14 @@ void LsRoomThread::handle_SMsg_GiveItem(LmSrvMesgBuf* msgbuf, LmConnection* conn
   lyra_id_t sourceid = msg.SourceID();
   lyra_id_t targetid = msg.TargetID();
   // check that source (giver) is in level
-  LsPlayer* source = main_->PlayerSet()->GetPlayer(sourceid);
+  LsPlayer* source = LsPlayerSet::Instance()->GetPlayer(sourceid);
   if (!source) {
     TLOG_Warning(_T("%s: source player %u not in level"), method, sourceid);
     // nothing to send back
     return;
   }
   // check that target (taker) is in level
-  LsPlayer* target = main_->PlayerSet()->GetPlayer(targetid);
+  LsPlayer* target = LsPlayerSet::Instance()->GetPlayer(targetid);
   if (!target) {
     TLOG_Warning(_T("%s: target player %u not in level"), method, target);
     // send nack back to source
@@ -576,7 +577,7 @@ void LsRoomThread::handle_SMsg_GiveItem(LmSrvMesgBuf* msgbuf, LmConnection* conn
   // add item/target to source's "giving item" list
   source->GivingItem(targetid, msg.Item());
   // send SMsg_GiveItem message along to target (taker)
-  main_->OutputDispatch()->SendMessage(&msg, target->Connection());
+  LsOutputDispatch::Instance()->SendMessage(&msg, target->Connection());
 }
 
 ////
@@ -597,8 +598,8 @@ void LsRoomThread::handle_SMsg_TakeItemAck(LmSrvMesgBuf* msgbuf, LmConnection* c
   lyra_id_t targetid = msg.TargetID(); // giver
   LmItemHdr hdr = msg.ItemHeader();
   // get source, target players
-  LsPlayer* source = main_->PlayerSet()->GetPlayer(sourceid);
-  LsPlayer* target = main_->PlayerSet()->GetPlayer(targetid);
+  LsPlayer* source = LsPlayerSet::Instance()->GetPlayer(sourceid);
+  LsPlayer* target = LsPlayerSet::Instance()->GetPlayer(targetid);
   // check that target (giver) is in level
   if (!target) {
     TLOG_Warning(_T("%s: target player %u not in level"), method, targetid);
@@ -665,15 +666,15 @@ void LsRoomThread::handle_SMsg_TakeItemAck(LmSrvMesgBuf* msgbuf, LmConnection* c
   // if taken update ownership, transfer to source (taker)
   if (msg.Status() == GMsg_TakeItemAck::TAKE_YES) {
     int serial = hdr.Serial();
-    int rc = main_->ItemDBC()->UpdateItemOwnership(serial, LmItemDBC::OWNER_PLAYER, sourceid, 0);
-    int sc = main_->ItemDBC()->LastSQLCode();
-    // int lt = main_->ItemDBC()->LastCallTime();
-    // main_->Log()->Debug(_T("%s: LmItemDBC::UpdateItemOwnership took %d ms"), method, lt);
+    int rc = LmItemDBC::Instance()->UpdateItemOwnership(serial, LmItemDBC::OWNER_PLAYER, sourceid, 0);
+    int sc = LmItemDBC::Instance()->LastSQLCode();
+    // int lt = LmItemDBC::Instance()->LastCallTime();
+    // LmLog::Instance()->Debug(_T("%s: LmItemDBC::UpdateItemOwnership took %d ms"), method, lt);
     if (rc < 0) {
       TLOG_Warning(_T("%s: player %u could not take item %d; rc=%d, sqlcode=%d"), method, sourceid, serial, rc, sc);
       source_ack = GMsg_TakeItemAck::TAKE_ERROR;
       target_ack = GMsg_GiveItemAck::GIVE_NO;
-      LsUtil::HandleItemError(main_, method, rc, sc);
+      LsUtil::HandleItemError(method, rc, sc);
     }
   }
   // send ack to target (giver)
@@ -700,14 +701,14 @@ void LsRoomThread::handle_SMsg_ShowItem(LmSrvMesgBuf* msgbuf, LmConnection* conn
   // process
   lyra_id_t targetid = msg.TargetID(); // giver
   // get target player
-  LsPlayer* target = main_->PlayerSet()->GetPlayer(targetid);
+  LsPlayer* target = LsPlayerSet::Instance()->GetPlayer(targetid);
   // check
   if (!target) {
     TLOG_Warning(_T("%s: target player %u not in level"), method, targetid);
     return;
   }
   // just pass along to target
-  main_->OutputDispatch()->SendMessage(&msg, target->Connection());
+  LsOutputDispatch::Instance()->SendMessage(&msg, target->Connection());
 }
 
 ////
@@ -724,13 +725,13 @@ void LsRoomThread::handle_SMsg_LS_Login(LmSrvMesgBuf* msgbuf, LmConnection* conn
   ACCEPT_MSG(SMsg_LS_Login, false); // don't send error
   // get player
   lyra_id_t playerid = msg.PlayerID();
-  LsPlayer* player = main_->PlayerSet()->GetPlayer(playerid);
+  LsPlayer* player = LsPlayerSet::Instance()->GetPlayer(playerid);
   if (!player) {
     TLOG_Error(_T("%s: player %u not in player set"), method, playerid);
     return;
   }
   // get room
-  LsRoomState* room = main_->LevelState()->RoomState(player->RoomID());
+  LsRoomState* room = LsLevelState::Instance()->RoomState(player->RoomID());
   if (!room) {
     TLOG_Error(_T("%s: player %u in room %u, not in level"), method, playerid, player->RoomID());
     return;
@@ -797,10 +798,10 @@ void LsRoomThread::handle_SMsg_LS_Action_ComputeGroups(short room_id)
   if (room_id > 0)
 	  single_room = true;
 
-  for (int i = 0; i < main_->LevelDBC()->NumRooms(); ++i) {
+  for (int i = 0; i < LmLevelDBC::Instance()->NumRooms(); ++i) {
 	  if (single_room && (i != room_id))
 		  continue;
-    LsRoomState* room = main_->LevelState()->Room(i);
+    LsRoomState* room = LsLevelState::Instance()->Room(i);
     if (!room) {
       TLOG_Error(_T("%s: could not get room state for room number %d"), method, i);
       continue;
@@ -808,12 +809,12 @@ void LsRoomThread::handle_SMsg_LS_Action_ComputeGroups(short room_id)
     // only if room has somebody in it
     if (!room->IsEmpty()) {
       //TLOG_Debug(_T("%s: room %u is not empty; has %u occupants - computing groups"), method, i, room->PlayerList().size());
-      ComputeGroups(main_, room);
+      //ComputeGroups(room);
     }
   }
   timer.Stop();
   // if there are any players in the level
-  int num_players = main_->PlayerSet()->NumPlayers();
+  int num_players = LsPlayerSet::Instance()->NumPlayers();
   if (num_players > 0) {
     //TLOG_Debug(_T("%s: computing groups (%d players) took %lu usec"), method, num_players, timer.MicroSeconds());
   }
@@ -828,10 +829,10 @@ void LsRoomThread::handle_SMsg_LS_Action_GenerateItems()
   DEFMETHOD(LsRoomThread, handle_SMsg_LS_Action_GenerateItems);
   // TLOG_Debug(_T("%s: generating items"), method);
   // for each room in level
-  int numrooms = main_->LevelDBC()->NumRooms();
+  int numrooms = LmLevelDBC::Instance()->NumRooms();
   for (int i = 0; i < numrooms; ++i) {
     // generate items, send out messages
-    LsRoomState* room = main_->LevelState()->Room(i);
+    LsRoomState* room = LsLevelState::Instance()->Room(i);
     if (room) {
       if (room->CanAddItem())
 	perform_ItemGenerate(room);
@@ -852,10 +853,10 @@ void LsRoomThread::handle_SMsg_LS_Action_ReapItems()
   DEFMETHOD(LsRoomThread, handle_SMsg_LS_Action_ReapItems);
   // TLOG_Debug(_T("%s: reaping items"), method);
   // for each room in level
-  int numrooms = main_->LevelDBC()->NumRooms();
+  int numrooms = LmLevelDBC::Instance()->NumRooms();
   for (int i = 0; i < numrooms; ++i) {
     // reap items if there's no player in there, send out messages
-    LsRoomState* room = main_->LevelState()->Room(i);
+    LsRoomState* room = LsLevelState::Instance()->Room(i);
     if (room /* && (room->NumPlayers(LmPlayerDB::ACCT_PLAYER) == 0) */ ) {
       perform_ItemReap(room);
     }

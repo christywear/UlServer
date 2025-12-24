@@ -3,84 +3,572 @@
   "WorkspaceRootPath": "D:\\Ul_shenangians\\UlServer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\GameNet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\net\\GameNet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\game\\ServerHandlers.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\game\\ServerHandlers.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\game\\CommandRouter.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\game\\CommandRouter.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\protocol\\net\\GameNet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\protocol\\net\\GameNet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\protocol\\net\\PacketAssembler.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\protocol\\net\\PacketAssembler.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\protocol\\net\\AutoTransport.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\protocol\\net\\AutoTransport.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\protocol\\net\\EnetTransport.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\protocol\\net\\EnetTransport.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\PacketEnvelope.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\net\\PacketEnvelope.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\PacketAssembler.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\net\\PacketAssembler.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\BinaryWriter.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\net\\BinaryWriter.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\ITransport.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\net\\ITransport.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\game\\CommandContext.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\game\\CommandContext.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\Unified_Server\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\Unified_Server\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\protocol\\net\\SteamTransport.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\protocol\\net\\SteamTransport.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\SteamTransport.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\net\\SteamTransport.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\core\\LmThread.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\core\\LmThread.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\game\\ServerHandlers.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\game\\ServerHandlers.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\core\\LmThread.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\core\\LmThread.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\game\\verbs.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\game\\verbs.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\db\\LmItemDBC.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\db\\LmItemDBC.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\AutoTransport.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\net\\AutoTransport.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\db\\LmBillingDBC.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\db\\LmBillingDBC.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\BinaryReader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\net\\BinaryReader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\db\\LmPlayerDBC.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\db\\LmPlayerDBC.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\EnetTransport.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\net\\EnetTransport.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\db\\LmLevelDBC.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\db\\LmLevelDBC.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\NetTypes.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\net\\NetTypes.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\core\\LyraDefs.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\core\\LyraDefs.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\game\\LmItemHdr.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\game\\LmItemHdr.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\game\\LmItem.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\game\\LmItem.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\game\\LmPosition.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\game\\LmPosition.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\LmBit32.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\LmBit32.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\db\\LmGlobalDB.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\db\\LmGlobalDB.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsInputDispatch.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsInputDispatch.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsInputDispatch.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsInputDispatch.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsComputeGroups.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsComputeGroups.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsRoomThread3.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsRoomThread3.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsLevelThread.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsLevelThread.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsPlayer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsRoomState.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsRoomState.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsUtil.cpp||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsUtil.cpp||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsSignalThread.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsSignalThread.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsSignalThread.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsSignalThread.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerThread4.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsPlayerThread4.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\core\\md5.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\core\\md5.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\protocol\\GMsg\\GMsg_AgentLogin.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\protocol\\GMsg\\GMsg_AgentLogin.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\GMsg\\GMsg_AgentLogin.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\GMsg\\GMsg_AgentLogin.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsUtil.cpp||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsUtil.cpp||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\game\\LmLogFile.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\game\\LmLogFile.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsPlayerSet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsPlayerSet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsLevelState.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsLevelState.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerThreadSet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsPlayerThreadSet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsInputDispatch.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsInputDispatch.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsInputDispatch.h||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\gamed\\GsInputDispatch.h||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsRoomThread.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsRoomThread.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsCodexText.cpp||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsCodexText.cpp||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsOutputDispatch.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsOutputDispatch.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\game\\LmLog.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\game\\LmLog.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsRoomThread2.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsRoomThread2.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsRoomThread1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsRoomThread1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\db\\LmGlobalDB.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\db\\LmGlobalDB.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsCodexText.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsCodexText.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPositionThread.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsPositionThread.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerThread3.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsPlayerThread3.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerThread2.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsPlayerThread2.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerThread1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsPlayerThread1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsLevelSet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsLevelSet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsLevelSet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\gamed\\GsLevelSet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerThread.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsPlayerThread.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\game\\LmPlayerNameMap.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\game\\LmPlayerNameMap.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\game\\LmPlayerNameMap.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\game\\LmPlayerNameMap.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerSet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsPlayerSet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsPlayer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\gamed\\GsPlayer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsPlayerSet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\gamed\\GsPlayerSet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\game\\LmLogFile.cpp||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\game\\LmLogFile.cpp||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\db\\LmLevelDBC.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\db\\LmLevelDBC.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\db\\LmBillingDBC.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\db\\LmBillingDBC.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsNetworkOutput.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsNetworkOutput.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsNetworkInput.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsNetworkInput.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsMessageReader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsMessageReader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsForwardThread.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsForwardThread.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsPositionThread.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsPositionThread.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsOutputDispatch.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsOutputDispatch.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsNetworkOutput.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsNetworkOutput.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\db\\LmGuildDBC.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\db\\LmGuildDBC.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsNetworkInput.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsNetworkInput.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\protocol\\LmSocket.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\protocol\\LmSocket.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\LmSocket.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\LmSocket.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsMessageReader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsMessageReader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsPlayer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsPlayer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsPlayerSet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsPlayerSet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsPlayerList.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsPlayerList.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsGameThread.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\gamed\\GsGameThread.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsPlayer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsPlayer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\masterd\\MsServerInfo.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\masterd\\MsServerInfo.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsRoomState.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsRoomState.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsLevelState.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsLevelState.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsLevelSerials.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsLevelSerials.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsPlayerThreadSet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\gamed\\GsPlayerThreadSet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsPlayerThread.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\gamed\\GsPlayerThread.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsMain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsMain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsMain.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsMain.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\db\\LmPlayerDBC.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\db\\LmPlayerDBC.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\protocol\\LmConnectionSet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\protocol\\LmConnectionSet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\LmConnectionSet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\LmConnectionSet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsOutputDispatch.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\gamed\\GsOutputDispatch.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsLevelThread.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsLevelThread.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsLevelSerials.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsLevelSerials.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\game\\LmLog.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\game\\LmLog.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsMain.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\gamed\\GsMain.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\core\\LmThreadPool.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\core\\LmThreadPool.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\core\\LmThreadPool.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\core\\LmThreadPool.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\protocol\\LmMesgBufPool.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\protocol\\LmMesgBufPool.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\LmMesgBufPool.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\LmMesgBufPool.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\db\\LmServerDBC.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\db\\LmServerDBC.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\db\\LmServerDBC.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\db\\LmServerDBC.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\db\\LmItemDBC.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\db\\LmItemDBC.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\db\\LmItemGenDB.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\db\\LmItemGenDB.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\db\\LmGuildDBC.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\db\\LmGuildDBC.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsComputeGroups.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\leveld\\LsComputeGroups.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayer3.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsPlayer3.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayer1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsPlayer1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\protocol\\GMsg\\GMsg_Login.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\protocol\\GMsg\\GMsg_Login.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\protocol\\GMsg\\GMsg_ItemDescription.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\protocol\\GMsg\\GMsg_ItemDescription.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\protocol\\GMsg\\GMsg_CreateItem.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\protocol\\GMsg\\GMsg_CreateItem.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsMain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\server\\gamed\\GsMain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\masterd\\MsMain.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\masterd\\MsMain.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\core\\LmThreadMQ.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\core\\LmThreadMQ.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\core\\LmThreadMQ.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\core\\LmThreadMQ.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\game\\LmItemDefs.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\game\\LmItemDefs.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\protocol\\LmSockAddrInet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\protocol\\LmSockAddrInet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\LmMessageReader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\LmMessageReader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\LmConnection.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\LmConnection.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\db\\LmPlayerDBF.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\db\\LmPlayerDBF.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\core\\PThMutex.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\core\\PThMutex.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\RMsg\\RMsg_GotoRoom.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\RMsg\\RMsg_GotoRoom.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\protocol\\RMsg\\RMsg_GotoRoom.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\protocol\\RMsg\\RMsg_GotoRoom.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\core\\LmTimer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\core\\LmTimer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\protocol\\RMsg\\RMsg_LeaveRoom.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\protocol\\RMsg\\RMsg_LeaveRoom.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\protocol\\RMsg\\RMsg_LeaveRoom.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\protocol\\RMsg\\RMsg_LeaveRoom.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\protocol\\RMsg\\RMsg_ItemPickup.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\protocol\\RMsg\\RMsg_ItemPickup.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\protocol\\LmPeerUpdate.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\protocol\\LmPeerUpdate.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\game\\LmLogSyslog.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\game\\LmLogSyslog.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\core\\unix.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\core\\unix.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\src\\protocol\\LmSockType.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:src\\protocol\\LmSockType.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsUtil.h||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsUtil.h||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsMessageReader.h||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsMessageReader.h||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsNetworkOutput.h||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsNetworkOutput.h||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsMacros.h||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsMacros.h||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsOutputDispatch.h||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsOutputDispatch.h||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsPositionThread.h||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsPositionThread.h||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsForwardThread.h||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\gamed\\GsForwardThread.h||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsMacros.h||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\gamed\\GsMacros.h||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsUtil.h||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\gamed\\GsUtil.h||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsMessageReader.h||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\gamed\\GsMessageReader.h||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsNetworkInput.h||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\gamed\\GsNetworkInput.h||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsNetworkOutput.h||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\gamed\\GsNetworkOutput.h||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsPositionThread.h||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\gamed\\GsPositionThread.h||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsSignalThread.h||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\gamed\\GsSignalThread.h||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsRoomThread.h||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsRoomThread.h||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsSignalThread.h||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2D998841-FA52-414E-B974-1B08AC6C94D0}|Underlight_server.vcxproj|solutionrelative:include\\server\\leveld\\LsSignalThread.h||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -90,267 +578,1835 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CommandRouter.h",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\game\\CommandRouter.h",
-              "RelativeDocumentMoniker": "include\\game\\CommandRouter.h",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\game\\CommandRouter.h",
-              "RelativeToolTip": "include\\game\\CommandRouter.h",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAmwAYAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-17T11:42:21.369Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ITransport.h",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\ITransport.h",
-              "RelativeDocumentMoniker": "include\\protocol\\net\\ITransport.h",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\ITransport.h",
-              "RelativeToolTip": "include\\protocol\\net\\ITransport.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-17T11:07:47.353Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "NetTypes.h",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\NetTypes.h",
-              "RelativeDocumentMoniker": "include\\protocol\\net\\NetTypes.h",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\NetTypes.h",
-              "RelativeToolTip": "include\\protocol\\net\\NetTypes.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-17T10:41:06.111Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "ServerHandlers.h",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\game\\ServerHandlers.h",
-              "RelativeDocumentMoniker": "include\\game\\ServerHandlers.h",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\game\\ServerHandlers.h",
-              "RelativeToolTip": "include\\game\\ServerHandlers.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-17T10:23:18.402Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ServerHandlers.cpp",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\game\\ServerHandlers.cpp",
-              "RelativeDocumentMoniker": "src\\game\\ServerHandlers.cpp",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\game\\ServerHandlers.cpp",
-              "RelativeToolTip": "src\\game\\ServerHandlers.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-12-17T10:21:22.106Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "PacketAssembler.cpp",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\net\\PacketAssembler.cpp",
-              "RelativeDocumentMoniker": "src\\protocol\\net\\PacketAssembler.cpp",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\net\\PacketAssembler.cpp",
-              "RelativeToolTip": "src\\protocol\\net\\PacketAssembler.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-12-17T10:18:04.885Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "PacketAssembler.h",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\PacketAssembler.h",
-              "RelativeDocumentMoniker": "include\\protocol\\net\\PacketAssembler.h",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\PacketAssembler.h",
-              "RelativeToolTip": "include\\protocol\\net\\PacketAssembler.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-17T10:16:28.628Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "GameNet.h",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\GameNet.h",
-              "RelativeDocumentMoniker": "include\\protocol\\net\\GameNet.h",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\GameNet.h",
-              "RelativeToolTip": "include\\protocol\\net\\GameNet.h",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAAAUAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-17T10:14:05.737Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "GameNet.cpp",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\net\\GameNet.cpp",
-              "RelativeDocumentMoniker": "src\\protocol\\net\\GameNet.cpp",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\net\\GameNet.cpp",
-              "RelativeToolTip": "src\\protocol\\net\\GameNet.cpp",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAmwCEAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-12-17T10:14:40.936Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "EnetTransport.cpp",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\net\\EnetTransport.cpp",
-              "RelativeDocumentMoniker": "src\\protocol\\net\\EnetTransport.cpp",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\net\\EnetTransport.cpp",
-              "RelativeToolTip": "src\\protocol\\net\\EnetTransport.cpp",
-              "ViewState": "AgIAACkAAAAAAAAAAAAqwEMAAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-12-17T10:03:49.617Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "EnetTransport.h",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\EnetTransport.h",
-              "RelativeDocumentMoniker": "include\\protocol\\net\\EnetTransport.h",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\EnetTransport.h",
-              "RelativeToolTip": "include\\protocol\\net\\EnetTransport.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-17T10:01:44.169Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "BinaryWriter.h",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\BinaryWriter.h",
-              "RelativeDocumentMoniker": "include\\protocol\\net\\BinaryWriter.h",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\BinaryWriter.h",
-              "RelativeToolTip": "include\\protocol\\net\\BinaryWriter.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-17T10:01:07.905Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "BinaryReader.h",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\BinaryReader.h",
-              "RelativeDocumentMoniker": "include\\protocol\\net\\BinaryReader.h",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\BinaryReader.h",
-              "RelativeToolTip": "include\\protocol\\net\\BinaryReader.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-17T10:00:02.806Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
               "Title": "SteamTransport.cpp",
               "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\net\\SteamTransport.cpp",
               "RelativeDocumentMoniker": "src\\protocol\\net\\SteamTransport.cpp",
               "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\net\\SteamTransport.cpp",
               "RelativeToolTip": "src\\protocol\\net\\SteamTransport.cpp",
-              "ViewState": "AgIAACoAAAAAAAAAAAAqwEgAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-12-17T09:41:56.277Z",
+              "WhenOpened": "2025-12-24T16:25:04.865Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "PacketEnvelope.h",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\PacketEnvelope.h",
-              "RelativeDocumentMoniker": "include\\protocol\\net\\PacketEnvelope.h",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\PacketEnvelope.h",
-              "RelativeToolTip": "include\\protocol\\net\\PacketEnvelope.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-17T09:41:06.674Z",
+              "DocumentIndex": 2,
+              "Title": "LmThread.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\core\\LmThread.cpp",
+              "RelativeDocumentMoniker": "src\\core\\LmThread.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\core\\LmThread.cpp",
+              "RelativeToolTip": "src\\core\\LmThread.cpp",
+              "ViewState": "AgIAAAMBAAAAAAAAAAAUwBABAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T16:17:57.104Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "SteamTransport.h",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\SteamTransport.h",
-              "RelativeDocumentMoniker": "include\\protocol\\net\\SteamTransport.h",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\SteamTransport.h",
-              "RelativeToolTip": "include\\protocol\\net\\SteamTransport.h",
-              "ViewState": "AgIAABUAAAAAAAAAAAAqwB8AAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-17T09:39:11.665Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AutoTransport.cpp",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\net\\AutoTransport.cpp",
-              "RelativeDocumentMoniker": "src\\protocol\\net\\AutoTransport.cpp",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\net\\AutoTransport.cpp",
-              "RelativeToolTip": "src\\protocol\\net\\AutoTransport.cpp",
+              "DocumentIndex": 3,
+              "Title": "LmThread.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\core\\LmThread.h",
+              "RelativeDocumentMoniker": "include\\core\\LmThread.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\core\\LmThread.h",
+              "RelativeToolTip": "include\\core\\LmThread.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-12-17T09:29:36.902Z",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T16:17:47.144Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "AutoTransport.h",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\AutoTransport.h",
-              "RelativeDocumentMoniker": "include\\protocol\\net\\AutoTransport.h",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\net\\AutoTransport.h",
-              "RelativeToolTip": "include\\protocol\\net\\AutoTransport.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 9,
+              "Title": "LmItemHdr.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\game\\LmItemHdr.h",
+              "RelativeDocumentMoniker": "include\\game\\LmItemHdr.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\game\\LmItemHdr.h",
+              "RelativeToolTip": "include\\game\\LmItemHdr.h",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAAAHAAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-17T09:27:13.085Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "Verbs.h",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\game\\Verbs.h",
-              "RelativeDocumentMoniker": "include\\game\\Verbs.h",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\game\\Verbs.h",
-              "RelativeToolTip": "include\\game\\Verbs.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-17T09:26:04.256Z",
+              "WhenOpened": "2025-12-24T16:03:14.34Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
-              "Title": "CommandContext.h",
-              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\game\\CommandContext.h",
-              "RelativeDocumentMoniker": "include\\game\\CommandContext.h",
-              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\game\\CommandContext.h",
-              "RelativeToolTip": "include\\game\\CommandContext.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAACAAAAAAAAAA==",
+              "Title": "LmPosition.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\game\\LmPosition.h",
+              "RelativeDocumentMoniker": "include\\game\\LmPosition.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\game\\LmPosition.h",
+              "RelativeToolTip": "include\\game\\LmPosition.h",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAAAFcAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-17T09:23:53.215Z",
+              "WhenOpened": "2025-12-24T16:02:49.933Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "LmItem.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\game\\LmItem.h",
+              "RelativeDocumentMoniker": "include\\game\\LmItem.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\game\\LmItem.h",
+              "RelativeToolTip": "include\\game\\LmItem.h",
+              "ViewState": "AgIAAG8AAAAAAAAAAAAAAHoAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T16:02:02.66Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "LmBit32.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\LmBit32.h",
+              "RelativeDocumentMoniker": "include\\protocol\\LmBit32.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\LmBit32.h",
+              "RelativeToolTip": "include\\protocol\\LmBit32.h",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAADEAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T16:01:26.644Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "md5.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\core\\md5.h",
+              "RelativeDocumentMoniker": "include\\core\\md5.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\core\\md5.h",
+              "RelativeToolTip": "include\\core\\md5.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T15:10:34.266Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "GMsg_AgentLogin.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\GMsg\\GMsg_AgentLogin.cpp",
+              "RelativeDocumentMoniker": "src\\protocol\\GMsg\\GMsg_AgentLogin.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\GMsg\\GMsg_AgentLogin.cpp",
+              "RelativeToolTip": "src\\protocol\\GMsg\\GMsg_AgentLogin.cpp",
+              "ViewState": "AgIAAJkAAAAAAAAAAAAnwKEAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T15:02:28.522Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "GMsg_AgentLogin.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\GMsg\\GMsg_AgentLogin.h",
+              "RelativeDocumentMoniker": "include\\protocol\\GMsg\\GMsg_AgentLogin.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\GMsg\\GMsg_AgentLogin.h",
+              "RelativeToolTip": "include\\protocol\\GMsg\\GMsg_AgentLogin.h",
+              "ViewState": "AgIAACYAAAAAAAAAAAAnwC4AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T15:02:26.574Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\Unified_Server\\main.cpp",
+              "RelativeDocumentMoniker": "src\\server\\Unified_Server\\main.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\Unified_Server\\main.cpp",
+              "RelativeToolTip": "src\\server\\Unified_Server\\main.cpp",
+              "ViewState": "AgIAACwAAAAAAAAAAAAUwDEAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T14:24:44.782Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 141,
+              "Title": "LsSignalThread.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsSignalThread.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsSignalThread.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsSignalThread.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsSignalThread.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T14:09:50.635Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "LsSignalThread.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsSignalThread.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsSignalThread.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsSignalThread.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsSignalThread.cpp",
+              "ViewState": "AgIAALUAAAAAAAAAAAAnwL0AAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T14:09:35.236Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "LsRoomThread3.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsRoomThread3.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsRoomThread3.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsRoomThread3.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsRoomThread3.cpp",
+              "ViewState": "AgIAAM0AAAAAAAAAAAAnwNUAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T14:05:48.674Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "LsRoomThread2.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsRoomThread2.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsRoomThread2.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsRoomThread2.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsRoomThread2.cpp",
+              "ViewState": "AgIAADsDAAAAAAAAAAAIwEkDAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T14:03:19.015Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "LsRoomThread1.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsRoomThread1.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsRoomThread1.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsRoomThread1.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsRoomThread1.cpp",
+              "ViewState": "AgIAAOQBAAAAAAAAAAAAAOUBAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T14:01:50.15Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 140,
+              "Title": "LsRoomThread.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsRoomThread.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsRoomThread.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsRoomThread.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsRoomThread.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T13:55:00.143Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "LsRoomThread.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsRoomThread.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsRoomThread.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsRoomThread.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsRoomThread.cpp",
+              "ViewState": "AgIAAJIAAAAAAAAAAAAnwJoAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T13:54:29.175Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "LsCodexText.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsCodexText.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsCodexText.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsCodexText.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsCodexText.cpp",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAnwDcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T13:49:13.568Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "LsRoomState.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsRoomState.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsRoomState.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsRoomState.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsRoomState.cpp",
+              "ViewState": "AgIAADwAAAAAAAAAAAAnwEQAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T03:24:23.478Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "LsCodexText.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsCodexText.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsCodexText.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsCodexText.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsCodexText.h",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAACAAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:22:01.177Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 139,
+              "Title": "GsSignalThread.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsSignalThread.h",
+              "RelativeDocumentMoniker": "include\\server\\gamed\\GsSignalThread.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsSignalThread.h",
+              "RelativeToolTip": "include\\server\\gamed\\GsSignalThread.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T05:23:02.979Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "GsSignalThread.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsSignalThread.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsSignalThread.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsSignalThread.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsSignalThread.cpp",
+              "ViewState": "AgIAAK0AAAAAAAAAAAAnwLUAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T05:22:48.921Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 138,
+              "Title": "GsPositionThread.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsPositionThread.h",
+              "RelativeDocumentMoniker": "include\\server\\gamed\\GsPositionThread.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsPositionThread.h",
+              "RelativeToolTip": "include\\server\\gamed\\GsPositionThread.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T05:18:30.305Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "GsPositionThread.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPositionThread.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsPositionThread.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPositionThread.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsPositionThread.cpp",
+              "ViewState": "AgIAAOoBAAAAAAAAAAAgwPUBAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T05:18:14.234Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "GsPlayerThread4.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerThread4.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsPlayerThread4.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerThread4.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsPlayerThread4.cpp",
+              "ViewState": "AgIAAE4BAAAAAAAAAAAnwFYBAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T05:14:12.133Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "LmPlayerNameMap.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\game\\LmPlayerNameMap.h",
+              "RelativeDocumentMoniker": "include\\game\\LmPlayerNameMap.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\game\\LmPlayerNameMap.h",
+              "RelativeToolTip": "include\\game\\LmPlayerNameMap.h",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAABsAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T04:56:14.542Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "GsPlayerThread.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerThread.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsPlayerThread.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerThread.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsPlayerThread.cpp",
+              "ViewState": "AgIAAH4CAAAAAAAAAAAAAIYCAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T04:47:23.095Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 55,
+              "Title": "LmLogFile.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\game\\LmLogFile.cpp",
+              "RelativeDocumentMoniker": "src\\game\\LmLogFile.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\game\\LmLogFile.cpp",
+              "RelativeToolTip": "src\\game\\LmLogFile.cpp",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAEIAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T04:33:29.47Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "LmLogFile.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\game\\LmLogFile.h",
+              "RelativeDocumentMoniker": "include\\game\\LmLogFile.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\game\\LmLogFile.h",
+              "RelativeToolTip": "include\\game\\LmLogFile.h",
+              "ViewState": "AgIAABYAAAAAAAAAAAAnwB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T04:31:54.807Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "LmBillingDBC.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\db\\LmBillingDBC.cpp",
+              "RelativeDocumentMoniker": "src\\db\\LmBillingDBC.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\db\\LmBillingDBC.cpp",
+              "RelativeToolTip": "src\\db\\LmBillingDBC.cpp",
+              "ViewState": "AgIAABIAAAAAAAAAAAAlwBoAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T04:27:16.745Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 137,
+              "Title": "GsNetworkOutput.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsNetworkOutput.h",
+              "RelativeDocumentMoniker": "include\\server\\gamed\\GsNetworkOutput.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsNetworkOutput.h",
+              "RelativeToolTip": "include\\server\\gamed\\GsNetworkOutput.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T04:18:14.594Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 58,
+              "Title": "GsNetworkOutput.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsNetworkOutput.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsNetworkOutput.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsNetworkOutput.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsNetworkOutput.cpp",
+              "ViewState": "AgIAAKQAAAAAAAAAAAAjwKwAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T04:18:00.168Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 136,
+              "Title": "GsNetworkInput.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsNetworkInput.h",
+              "RelativeDocumentMoniker": "include\\server\\gamed\\GsNetworkInput.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsNetworkInput.h",
+              "RelativeToolTip": "include\\server\\gamed\\GsNetworkInput.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T04:16:13.884Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 59,
+              "Title": "GsNetworkInput.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsNetworkInput.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsNetworkInput.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsNetworkInput.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsNetworkInput.cpp",
+              "ViewState": "AgIAACwBAAAAAAAAAAAuwDMBAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T04:14:23.257Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 135,
+              "Title": "GsMessageReader.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsMessageReader.h",
+              "RelativeDocumentMoniker": "include\\server\\gamed\\GsMessageReader.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsMessageReader.h",
+              "RelativeToolTip": "include\\server\\gamed\\GsMessageReader.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T04:10:28.14Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "GsInputDispatch.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsInputDispatch.h",
+              "RelativeDocumentMoniker": "include\\server\\gamed\\GsInputDispatch.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsInputDispatch.h",
+              "RelativeToolTip": "include\\server\\gamed\\GsInputDispatch.h",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T04:07:07.095Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "GsInputDispatch.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsInputDispatch.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsInputDispatch.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsInputDispatch.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsInputDispatch.cpp",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAnwGoAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T04:06:01.795Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 60,
+              "Title": "GsMessageReader.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsMessageReader.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsMessageReader.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsMessageReader.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsMessageReader.cpp",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAuwFYAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-23T00:54:52.371Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 134,
+              "Title": "GsUtil.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsUtil.h",
+              "RelativeDocumentMoniker": "include\\server\\gamed\\GsUtil.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsUtil.h",
+              "RelativeToolTip": "include\\server\\gamed\\GsUtil.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T04:03:36.878Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "GsUtil.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsUtil.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsUtil.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsUtil.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsUtil.cpp",
+              "ViewState": "AgIAAOUBAAAAAAAAAAAnwPIBAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T04:03:04.086Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 133,
+              "Title": "GsMacros.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsMacros.h",
+              "RelativeDocumentMoniker": "include\\server\\gamed\\GsMacros.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsMacros.h",
+              "RelativeToolTip": "include\\server\\gamed\\GsMacros.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T04:02:53.118Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 132,
+              "Title": "GsForwardThread.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsForwardThread.h",
+              "RelativeDocumentMoniker": "include\\server\\gamed\\GsForwardThread.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsForwardThread.h",
+              "RelativeToolTip": "include\\server\\gamed\\GsForwardThread.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T04:01:37.024Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 61,
+              "Title": "GsForwardThread.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsForwardThread.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsForwardThread.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsForwardThread.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsForwardThread.cpp",
+              "ViewState": "AgIAAEMBAAAAAAAAAAAAwEYBAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T04:00:18.012Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 131,
+              "Title": "LsPositionThread.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsPositionThread.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsPositionThread.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsPositionThread.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsPositionThread.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T03:20:55.375Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 62,
+              "Title": "LsPositionThread.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsPositionThread.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsPositionThread.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsPositionThread.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsPositionThread.cpp",
+              "ViewState": "AgIAABMBAAAAAAAAAIAywBABAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T03:20:39.695Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 63,
+              "Title": "LsOutputDispatch.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsOutputDispatch.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsOutputDispatch.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsOutputDispatch.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsOutputDispatch.cpp",
+              "ViewState": "AgIAACkAAAAAAAAAAIAywDMAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T03:17:09.16Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 130,
+              "Title": "LsOutputDispatch.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsOutputDispatch.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsOutputDispatch.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsOutputDispatch.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsOutputDispatch.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T03:15:02.592Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 129,
+              "Title": "LsMacros.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsMacros.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsMacros.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsMacros.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsMacros.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T03:10:24.724Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 128,
+              "Title": "LsNetworkOutput.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsNetworkOutput.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsNetworkOutput.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsNetworkOutput.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsNetworkOutput.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T03:08:42.942Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 64,
+              "Title": "LsNetworkOutput.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsNetworkOutput.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsNetworkOutput.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsNetworkOutput.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsNetworkOutput.cpp",
+              "ViewState": "AgIAALQAAAAAAAAAAIAywL4AAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T03:08:15.994Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 68,
+              "Title": "LmSocket.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\LmSocket.h",
+              "RelativeDocumentMoniker": "include\\protocol\\LmSocket.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\LmSocket.h",
+              "RelativeToolTip": "include\\protocol\\LmSocket.h",
+              "ViewState": "AgIAACAAAAAAAAAAAAAAAC0AAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T02:57:25.818Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 67,
+              "Title": "LmSocket.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\LmSocket.cpp",
+              "RelativeDocumentMoniker": "src\\protocol\\LmSocket.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\LmSocket.cpp",
+              "RelativeToolTip": "src\\protocol\\LmSocket.cpp",
+              "ViewState": "AgIAACoAAAAAAAAAAAAuwD0AAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T02:57:16.689Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 66,
+              "Title": "LsNetworkInput.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsNetworkInput.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsNetworkInput.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsNetworkInput.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsNetworkInput.cpp",
+              "ViewState": "AgIAAEUBAAAAAAAAAAAewE8BAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T02:53:04.924Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 127,
+              "Title": "LsMessageReader.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsMessageReader.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsMessageReader.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsMessageReader.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsMessageReader.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T02:47:08.548Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 69,
+              "Title": "LsMessageReader.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsMessageReader.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsMessageReader.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsMessageReader.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsMessageReader.cpp",
+              "ViewState": "AgIAABcAAAAAAAAAAAAewCEAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T02:46:13.862Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "LsInputDispatch.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsInputDispatch.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsInputDispatch.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsInputDispatch.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsInputDispatch.cpp",
+              "ViewState": "AgIAADIAAAAAAAAAAAAnwDoAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-20T22:50:58.595Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "LsInputDispatch.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsInputDispatch.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsInputDispatch.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsInputDispatch.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsInputDispatch.h",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAnwCIAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T01:03:41.809Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 126,
+              "Title": "LsUtil.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsUtil.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsUtil.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsUtil.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsUtil.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T02:44:11.632Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "LsUtil.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsUtil.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsUtil.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsUtil.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsUtil.cpp",
+              "ViewState": "AgIAANkAAAAAAAAAAAAIwOIAAABXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T02:42:32.795Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 72,
+              "Title": "LsPlayerList.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsPlayerList.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsPlayerList.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsPlayerList.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsPlayerList.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T02:35:30.881Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 73,
+              "Title": "GsGameThread.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsGameThread.h",
+              "RelativeDocumentMoniker": "include\\server\\gamed\\GsGameThread.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsGameThread.h",
+              "RelativeToolTip": "include\\server\\gamed\\GsGameThread.h",
+              "ViewState": "AgIAAFsAAAAAAAAAAAAewGUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T02:15:49.94Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "LsPlayerSet.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsPlayerSet.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsPlayerSet.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsPlayerSet.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsPlayerSet.cpp",
+              "ViewState": "AgIAACoAAAAAAAAAAAAnwDIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T02:06:49.991Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 84,
+              "Title": "LmConnectionSet.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\LmConnectionSet.cpp",
+              "RelativeDocumentMoniker": "src\\protocol\\LmConnectionSet.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\LmConnectionSet.cpp",
+              "RelativeToolTip": "src\\protocol\\LmConnectionSet.cpp",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAADcAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T01:55:02.466Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "GsOutputDispatch.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsOutputDispatch.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsOutputDispatch.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsOutputDispatch.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsOutputDispatch.cpp",
+              "ViewState": "AgIAADgAAAAAAAAAAAAAADoAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T01:51:11.643Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 86,
+              "Title": "GsOutputDispatch.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsOutputDispatch.h",
+              "RelativeDocumentMoniker": "include\\server\\gamed\\GsOutputDispatch.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsOutputDispatch.h",
+              "RelativeToolTip": "include\\server\\gamed\\GsOutputDispatch.h",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAAB8AAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T01:49:38.375Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 87,
+              "Title": "LsLevelThread.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsLevelThread.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsLevelThread.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsLevelThread.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsLevelThread.h",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAACAAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T01:42:51.978Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "LmLog.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\game\\LmLog.cpp",
+              "RelativeDocumentMoniker": "src\\game\\LmLog.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\game\\LmLog.cpp",
+              "RelativeToolTip": "src\\game\\LmLog.cpp",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAACUAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T01:35:26.688Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 89,
+              "Title": "LmLog.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\game\\LmLog.h",
+              "RelativeDocumentMoniker": "include\\game\\LmLog.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\game\\LmLog.h",
+              "RelativeToolTip": "include\\game\\LmLog.h",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABcAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T01:31:08.872Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "LyraDefs.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\core\\LyraDefs.h",
+              "RelativeDocumentMoniker": "include\\core\\LyraDefs.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\core\\LyraDefs.h",
+              "RelativeToolTip": "include\\core\\LyraDefs.h",
+              "ViewState": "AgIAADoBAAAAAAAAAAAUwEMBAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T01:28:55.757Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 92,
+              "Title": "LmThreadPool.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\core\\LmThreadPool.h",
+              "RelativeDocumentMoniker": "include\\core\\LmThreadPool.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\core\\LmThreadPool.h",
+              "RelativeToolTip": "include\\core\\LmThreadPool.h",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAACAAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-24T01:18:52.287Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 91,
+              "Title": "LmThreadPool.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\core\\LmThreadPool.cpp",
+              "RelativeDocumentMoniker": "src\\core\\LmThreadPool.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\core\\LmThreadPool.cpp",
+              "RelativeToolTip": "src\\core\\LmThreadPool.cpp",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAqwFUAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T01:19:16.957Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 93,
+              "Title": "LmMesgBufPool.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\LmMesgBufPool.cpp",
+              "RelativeDocumentMoniker": "src\\protocol\\LmMesgBufPool.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\LmMesgBufPool.cpp",
+              "RelativeToolTip": "src\\protocol\\LmMesgBufPool.cpp",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAqwF8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T01:09:07.521Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 94,
+              "Title": "LmMesgBufPool.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\LmMesgBufPool.h",
+              "RelativeDocumentMoniker": "include\\protocol\\LmMesgBufPool.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\LmMesgBufPool.h",
+              "RelativeToolTip": "include\\protocol\\LmMesgBufPool.h",
+              "ViewState": "AgIAACwAAAAAAAAAAAAqwEAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:19:45.748Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 95,
+              "Title": "LmServerDBC.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\db\\LmServerDBC.cpp",
+              "RelativeDocumentMoniker": "src\\db\\LmServerDBC.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\db\\LmServerDBC.cpp",
+              "RelativeToolTip": "src\\db\\LmServerDBC.cpp",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAAAGkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-23T23:37:21.216Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "LsLevelThread.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsLevelThread.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsLevelThread.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsLevelThread.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsLevelThread.cpp",
+              "ViewState": "AgIAAP4AAAAAAAAAAAAnwAYBAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-23T23:34:00.08Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 80,
+              "Title": "GsPlayerThread.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsPlayerThread.h",
+              "RelativeDocumentMoniker": "include\\server\\gamed\\GsPlayerThread.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsPlayerThread.h",
+              "RelativeToolTip": "include\\server\\gamed\\GsPlayerThread.h",
+              "ViewState": "AgIAALsAAAAAAAAAAAAewMQAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-23T23:07:44.177Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "LsLevelState.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsLevelState.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsLevelState.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsLevelState.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsLevelState.cpp",
+              "ViewState": "AgIAAEkAAAAAAAAAAADwvzgAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-23T22:20:30.911Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "LsComputeGroups.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsComputeGroups.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsComputeGroups.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsComputeGroups.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsComputeGroups.h",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAIwBIAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-23T22:11:01.028Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 74,
+              "Title": "LsPlayer.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsPlayer.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsPlayer.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsPlayer.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsPlayer.cpp",
+              "ViewState": "AgIAAGEBAAAAAAAAAAAAAIgBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-23T22:07:36.109Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "GsPlayerThread3.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerThread3.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsPlayerThread3.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerThread3.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsPlayerThread3.cpp",
+              "ViewState": "AgIAAIoEAAAAAAAAAAAAAJYEAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-23T22:04:59.745Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "GsPlayerThread2.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerThread2.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsPlayerThread2.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerThread2.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsPlayerThread2.cpp",
+              "ViewState": "AgIAAPcDAAAAAAAAAAAAAP0DAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-23T22:04:56.27Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 101,
+              "Title": "GsPlayer3.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayer3.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsPlayer3.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayer3.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsPlayer3.cpp",
+              "ViewState": "AgIAAIUBAAAAAAAAAAAAAIUBAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-23T22:04:54.056Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 102,
+              "Title": "GsPlayer1.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayer1.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsPlayer1.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayer1.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsPlayer1.cpp",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAAAD4AAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-23T22:04:47.122Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 103,
+              "Title": "GMsg_Login.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\GMsg\\GMsg_Login.cpp",
+              "RelativeDocumentMoniker": "src\\protocol\\GMsg\\GMsg_Login.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\GMsg\\GMsg_Login.cpp",
+              "RelativeToolTip": "src\\protocol\\GMsg\\GMsg_Login.cpp",
+              "ViewState": "AgIAAIoAAAAAAAAAAAAAAIoAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-23T22:04:37.964Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 104,
+              "Title": "GMsg_ItemDescription.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\GMsg\\GMsg_ItemDescription.cpp",
+              "RelativeDocumentMoniker": "src\\protocol\\GMsg\\GMsg_ItemDescription.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\GMsg\\GMsg_ItemDescription.cpp",
+              "RelativeToolTip": "src\\protocol\\GMsg\\GMsg_ItemDescription.cpp",
+              "ViewState": "AgIAAI0AAAAAAAAAAAAAAI0AAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-23T22:04:37.173Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 105,
+              "Title": "GMsg_CreateItem.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\GMsg\\GMsg_CreateItem.cpp",
+              "RelativeDocumentMoniker": "src\\protocol\\GMsg\\GMsg_CreateItem.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\GMsg\\GMsg_CreateItem.cpp",
+              "RelativeToolTip": "src\\protocol\\GMsg\\GMsg_CreateItem.cpp",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAAAHUAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-23T22:04:35.72Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "GsPlayerThreadSet.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerThreadSet.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsPlayerThreadSet.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerThreadSet.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsPlayerThreadSet.cpp",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAnwH4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-23T01:06:18.611Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
+              "Title": "GsPlayerSet.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsPlayerSet.h",
+              "RelativeDocumentMoniker": "include\\server\\gamed\\GsPlayerSet.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsPlayerSet.h",
+              "RelativeToolTip": "include\\server\\gamed\\GsPlayerSet.h",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABUAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:21:22.355Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "GsPlayerSet.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerSet.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsPlayerSet.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerSet.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsPlayerSet.cpp",
+              "ViewState": "AgIAALMAAAAAAAAAAAAAALkAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-23T00:50:56.419Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "GsLevelSet.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsLevelSet.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsLevelSet.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsLevelSet.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsLevelSet.cpp",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAADcAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-23T00:56:12.635Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 88,
+              "Title": "LsLevelSerials.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsLevelSerials.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsLevelSerials.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsLevelSerials.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsLevelSerials.cpp",
+              "ViewState": "AgIAAI8AAAAAAAAAAIAwwJoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-20T22:51:58.468Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 100,
+              "Title": "LsComputeGroups.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsComputeGroups.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsComputeGroups.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsComputeGroups.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsComputeGroups.cpp",
+              "ViewState": "AgIAALEAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-20T22:50:19.592Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 90,
+              "Title": "GsMain.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsMain.h",
+              "RelativeDocumentMoniker": "include\\server\\gamed\\GsMain.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsMain.h",
+              "RelativeToolTip": "include\\server\\gamed\\GsMain.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T16:02:30.941Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 81,
+              "Title": "LsMain.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsMain.cpp",
+              "RelativeDocumentMoniker": "src\\server\\leveld\\LsMain.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\leveld\\LsMain.cpp",
+              "RelativeToolTip": "src\\server\\leveld\\LsMain.cpp",
+              "ViewState": "AgIAAIcEAAAAAAAAAAAawI8EAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-24T01:15:29.906Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 82,
+              "Title": "LsMain.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsMain.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsMain.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsMain.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsMain.h",
+              "ViewState": "AgIAAJ8AAAAAAAAAAAAqwGgAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T16:02:06.221Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 107,
+              "Title": "MsMain.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\masterd\\MsMain.h",
+              "RelativeDocumentMoniker": "include\\server\\masterd\\MsMain.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\masterd\\MsMain.h",
+              "RelativeToolTip": "include\\server\\masterd\\MsMain.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T16:01:50.067Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 75,
+              "Title": "MsServerInfo.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\masterd\\MsServerInfo.h",
+              "RelativeDocumentMoniker": "include\\server\\masterd\\MsServerInfo.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\masterd\\MsServerInfo.h",
+              "RelativeToolTip": "include\\server\\masterd\\MsServerInfo.h",
+              "ViewState": "AgIAACsAAAAAAAAAAAAewDUAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T16:01:07.47Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 108,
+              "Title": "LmThreadMQ.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\core\\LmThreadMQ.h",
+              "RelativeDocumentMoniker": "include\\core\\LmThreadMQ.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\core\\LmThreadMQ.h",
+              "RelativeToolTip": "include\\core\\LmThreadMQ.h",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAAAEYAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:47:41.103Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 71,
+              "Title": "LsPlayerSet.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsPlayerSet.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsPlayerSet.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsPlayerSet.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsPlayerSet.h",
+              "ViewState": "AgIAACAAAAAAAAAAAAAAACUAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:35:22.494Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 106,
+              "Title": "GsMain.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsMain.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsMain.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsMain.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsMain.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-17T15:25:16.134Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 111,
+              "Title": "LmSockAddrInet.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\LmSockAddrInet.cpp",
+              "RelativeDocumentMoniker": "src\\protocol\\LmSockAddrInet.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\LmSockAddrInet.cpp",
+              "RelativeToolTip": "src\\protocol\\LmSockAddrInet.cpp",
+              "ViewState": "AgIAAHAAAAAAAAAAAAAMwHwAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-17T15:24:31.339Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 76,
+              "Title": "LsRoomState.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsRoomState.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsRoomState.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsRoomState.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsRoomState.h",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAewFUAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:23:25.499Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 70,
+              "Title": "LsPlayer.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsPlayer.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsPlayer.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsPlayer.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsPlayer.h",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAjwFoAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:22:44.583Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 77,
+              "Title": "LsLevelState.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsLevelState.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsLevelState.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsLevelState.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsLevelState.h",
+              "ViewState": "AgIAADoAAAAAAAAAAAAewEQAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:22:26.741Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 78,
+              "Title": "LsLevelSerials.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsLevelSerials.h",
+              "RelativeDocumentMoniker": "include\\server\\leveld\\LsLevelSerials.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\leveld\\LsLevelSerials.h",
+              "RelativeToolTip": "include\\server\\leveld\\LsLevelSerials.h",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAewDkAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:22:14.294Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 79,
+              "Title": "GsPlayerThreadSet.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsPlayerThreadSet.h",
+              "RelativeDocumentMoniker": "include\\server\\gamed\\GsPlayerThreadSet.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsPlayerThreadSet.h",
+              "RelativeToolTip": "include\\server\\gamed\\GsPlayerThreadSet.h",
+              "ViewState": "AgIAACQAAAAAAAAAAAAewC4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:21:36.48Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "GsLevelSet.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsLevelSet.h",
+              "RelativeDocumentMoniker": "include\\server\\gamed\\GsLevelSet.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsLevelSet.h",
+              "RelativeToolTip": "include\\server\\gamed\\GsLevelSet.h",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAACEAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:20:29Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 112,
+              "Title": "LmMessageReader.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\LmMessageReader.h",
+              "RelativeDocumentMoniker": "include\\protocol\\LmMessageReader.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\LmMessageReader.h",
+              "RelativeToolTip": "include\\protocol\\LmMessageReader.h",
+              "ViewState": "AgIAADwAAAAAAAAAAAAAAEoAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:19:59.254Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 85,
+              "Title": "LmConnectionSet.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\LmConnectionSet.h",
+              "RelativeDocumentMoniker": "include\\protocol\\LmConnectionSet.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\LmConnectionSet.h",
+              "RelativeToolTip": "include\\protocol\\LmConnectionSet.h",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAACgAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:19:30.096Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 113,
+              "Title": "LmConnection.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\LmConnection.h",
+              "RelativeDocumentMoniker": "include\\protocol\\LmConnection.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\LmConnection.h",
+              "RelativeToolTip": "include\\protocol\\LmConnection.h",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAAAIgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:19:02.072Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 96,
+              "Title": "LmServerDBC.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\db\\LmServerDBC.h",
+              "RelativeDocumentMoniker": "include\\db\\LmServerDBC.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\db\\LmServerDBC.h",
+              "RelativeToolTip": "include\\db\\LmServerDBC.h",
+              "ViewState": "AgIAAJwAAAAAAAAAAAAAAGgAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:18:31.529Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 114,
+              "Title": "LmPlayerDBF.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\db\\LmPlayerDBF.h",
+              "RelativeDocumentMoniker": "include\\db\\LmPlayerDBF.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\db\\LmPlayerDBF.h",
+              "RelativeToolTip": "include\\db\\LmPlayerDBF.h",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:18:28.249Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 110,
+              "Title": "LmItemDefs.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\game\\LmItemDefs.cpp",
+              "RelativeDocumentMoniker": "src\\game\\LmItemDefs.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\game\\LmItemDefs.cpp",
+              "RelativeToolTip": "src\\game\\LmItemDefs.cpp",
+              "ViewState": "AgIAAGUDAAAAAAAAAAAcwG0DAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-17T14:41:06.624Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 83,
+              "Title": "LmPlayerDBC.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\db\\LmPlayerDBC.h",
+              "RelativeDocumentMoniker": "include\\db\\LmPlayerDBC.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\db\\LmPlayerDBC.h",
+              "RelativeToolTip": "include\\db\\LmPlayerDBC.h",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAADQAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:18:07.049Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 56,
+              "Title": "LmLevelDBC.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\db\\LmLevelDBC.h",
+              "RelativeDocumentMoniker": "include\\db\\LmLevelDBC.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\db\\LmLevelDBC.h",
+              "RelativeToolTip": "include\\db\\LmLevelDBC.h",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAAAC4AAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:17:54.752Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "LmLevelDBC.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\db\\LmLevelDBC.cpp",
+              "RelativeDocumentMoniker": "src\\db\\LmLevelDBC.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\db\\LmLevelDBC.cpp",
+              "RelativeToolTip": "src\\db\\LmLevelDBC.cpp",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAlwBMAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-23T23:24:42.101Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 98,
+              "Title": "LmItemGenDB.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\db\\LmItemGenDB.h",
+              "RelativeDocumentMoniker": "include\\db\\LmItemGenDB.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\db\\LmItemGenDB.h",
+              "RelativeToolTip": "include\\db\\LmItemGenDB.h",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:17:51.257Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 97,
+              "Title": "LmItemDBC.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\db\\LmItemDBC.h",
+              "RelativeDocumentMoniker": "include\\db\\LmItemDBC.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\db\\LmItemDBC.h",
+              "RelativeToolTip": "include\\db\\LmItemDBC.h",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAAADEAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:17:40.481Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "LmItemDBC.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\db\\LmItemDBC.cpp",
+              "RelativeDocumentMoniker": "src\\db\\LmItemDBC.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\db\\LmItemDBC.cpp",
+              "RelativeToolTip": "src\\db\\LmItemDBC.cpp",
+              "ViewState": "AgIAABAAAAAAAAAAAIAzwBkAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-23T23:16:39.033Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 99,
+              "Title": "LmGuildDBC.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\db\\LmGuildDBC.h",
+              "RelativeDocumentMoniker": "include\\db\\LmGuildDBC.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\db\\LmGuildDBC.h",
+              "RelativeToolTip": "include\\db\\LmGuildDBC.h",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAAC4AAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:17:27.024Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 65,
+              "Title": "LmGuildDBC.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\db\\LmGuildDBC.cpp",
+              "RelativeDocumentMoniker": "src\\db\\LmGuildDBC.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\db\\LmGuildDBC.cpp",
+              "RelativeToolTip": "src\\db\\LmGuildDBC.cpp",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAAAFMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-17T15:16:12.556Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "LmGlobalDB.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\db\\LmGlobalDB.h",
+              "RelativeDocumentMoniker": "include\\db\\LmGlobalDB.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\db\\LmGlobalDB.h",
+              "RelativeToolTip": "include\\db\\LmGlobalDB.h",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAIwDsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:17:18.513Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 57,
+              "Title": "LmBillingDBC.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\db\\LmBillingDBC.h",
+              "RelativeDocumentMoniker": "include\\db\\LmBillingDBC.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\db\\LmBillingDBC.h",
+              "RelativeToolTip": "include\\db\\LmBillingDBC.h",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAACcAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:17:03.339Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "GsPlayer.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsPlayer.h",
+              "RelativeDocumentMoniker": "include\\server\\gamed\\GsPlayer.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\server\\gamed\\GsPlayer.h",
+              "RelativeToolTip": "include\\server\\gamed\\GsPlayer.h",
+              "ViewState": "AgIAAFcBAAAAAAAAAAAAADsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:12:47.149Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 115,
+              "Title": "PThMutex.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\core\\PThMutex.h",
+              "RelativeDocumentMoniker": "include\\core\\PThMutex.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\core\\PThMutex.h",
+              "RelativeToolTip": "include\\core\\PThMutex.h",
+              "ViewState": "AgIAABsAAAAAAAAAAADwvzUAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:09:20.403Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 118,
+              "Title": "LmTimer.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\core\\LmTimer.h",
+              "RelativeDocumentMoniker": "include\\core\\LmTimer.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\core\\LmTimer.h",
+              "RelativeToolTip": "include\\core\\LmTimer.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:07:52.473Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "LmPlayerDBC.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\db\\LmPlayerDBC.cpp",
+              "RelativeDocumentMoniker": "src\\db\\LmPlayerDBC.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\db\\LmPlayerDBC.cpp",
+              "RelativeToolTip": "src\\db\\LmPlayerDBC.cpp",
+              "ViewState": "AgIAACQAAAAAAAAAAAAlwCwAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-17T15:06:51.157Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "LmGlobalDB.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\db\\LmGlobalDB.cpp",
+              "RelativeDocumentMoniker": "src\\db\\LmGlobalDB.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\db\\LmGlobalDB.cpp",
+              "RelativeToolTip": "src\\db\\LmGlobalDB.cpp",
+              "ViewState": "AgIAACAAAAAAAAAAAADwvywAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-17T15:06:32.329Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 116,
+              "Title": "RMsg_GotoRoom.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\RMsg\\RMsg_GotoRoom.h",
+              "RelativeDocumentMoniker": "include\\protocol\\RMsg\\RMsg_GotoRoom.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\RMsg\\RMsg_GotoRoom.h",
+              "RelativeToolTip": "include\\protocol\\RMsg\\RMsg_GotoRoom.h",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAlwBUAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:06:13.74Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 119,
+              "Title": "RMsg_LeaveRoom.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\RMsg\\RMsg_LeaveRoom.h",
+              "RelativeDocumentMoniker": "include\\protocol\\RMsg\\RMsg_LeaveRoom.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\protocol\\RMsg\\RMsg_LeaveRoom.h",
+              "RelativeToolTip": "include\\protocol\\RMsg\\RMsg_LeaveRoom.h",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T15:05:04.988Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "GsPlayer.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayer.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsPlayer.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayer.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsPlayer.cpp",
+              "ViewState": "AgIAAEEBAAAAAAAAAAAnwEkBAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-17T14:53:22.149Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 122,
+              "Title": "LmPeerUpdate.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\LmPeerUpdate.cpp",
+              "RelativeDocumentMoniker": "src\\protocol\\LmPeerUpdate.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\LmPeerUpdate.cpp",
+              "RelativeToolTip": "src\\protocol\\LmPeerUpdate.cpp",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABkAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-17T14:52:39.17Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 123,
+              "Title": "LmLogSyslog.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\game\\LmLogSyslog.cpp",
+              "RelativeDocumentMoniker": "src\\game\\LmLogSyslog.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\game\\LmLogSyslog.cpp",
+              "RelativeToolTip": "src\\game\\LmLogSyslog.cpp",
+              "ViewState": "AgIAABsAAAAAAAAAAAAlwCkAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-17T14:49:38.268Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 124,
+              "Title": "unix.h",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\include\\core\\unix.h",
+              "RelativeDocumentMoniker": "include\\core\\unix.h",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\include\\core\\unix.h",
+              "RelativeToolTip": "include\\core\\unix.h",
+              "ViewState": "AgIAAAIAAAAAAAAAAIAzwBAAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-12-17T14:49:13.666Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 109,
+              "Title": "LmThreadMQ.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\core\\LmThreadMQ.cpp",
+              "RelativeDocumentMoniker": "src\\core\\LmThreadMQ.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\core\\LmThreadMQ.cpp",
+              "RelativeToolTip": "src\\core\\LmThreadMQ.cpp",
+              "ViewState": "AgIAAGsAAAAAAAAAAAAcwIIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-17T14:47:51.573Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 120,
+              "Title": "RMsg_LeaveRoom.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\RMsg\\RMsg_LeaveRoom.cpp",
+              "RelativeDocumentMoniker": "src\\protocol\\RMsg\\RMsg_LeaveRoom.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\RMsg\\RMsg_LeaveRoom.cpp",
+              "RelativeToolTip": "src\\protocol\\RMsg\\RMsg_LeaveRoom.cpp",
+              "ViewState": "AgIAABMAAAAAAAAAAAAlwCAAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-17T14:47:09.793Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "LmPlayerNameMap.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\game\\LmPlayerNameMap.cpp",
+              "RelativeDocumentMoniker": "src\\game\\LmPlayerNameMap.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\game\\LmPlayerNameMap.cpp",
+              "RelativeToolTip": "src\\game\\LmPlayerNameMap.cpp",
+              "ViewState": "AgIAAHEAAAAAAAAAAADwv3kAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-17T14:38:10.939Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "GsPlayerThread1.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerThread1.cpp",
+              "RelativeDocumentMoniker": "src\\server\\gamed\\GsPlayerThread1.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\server\\gamed\\GsPlayerThread1.cpp",
+              "RelativeToolTip": "src\\server\\gamed\\GsPlayerThread1.cpp",
+              "ViewState": "AgIAADIHAAAAAAAAAAAAADgHAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-17T14:47:46.403Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 121,
+              "Title": "RMsg_ItemPickup.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\RMsg\\RMsg_ItemPickup.cpp",
+              "RelativeDocumentMoniker": "src\\protocol\\RMsg\\RMsg_ItemPickup.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\RMsg\\RMsg_ItemPickup.cpp",
+              "RelativeToolTip": "src\\protocol\\RMsg\\RMsg_ItemPickup.cpp",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABoAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-17T14:47:02.449Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 117,
+              "Title": "RMsg_GotoRoom.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\RMsg\\RMsg_GotoRoom.cpp",
+              "RelativeDocumentMoniker": "src\\protocol\\RMsg\\RMsg_GotoRoom.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\RMsg\\RMsg_GotoRoom.cpp",
+              "RelativeToolTip": "src\\protocol\\RMsg\\RMsg_GotoRoom.cpp",
+              "ViewState": "AgIAAFUAAAAAAAAAAAAlwGMAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-17T14:42:03.051Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 125,
+              "Title": "LmSockType.cpp",
+              "DocumentMoniker": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\LmSockType.cpp",
+              "RelativeDocumentMoniker": "src\\protocol\\LmSockType.cpp",
+              "ToolTip": "D:\\Ul_shenangians\\UlServer\\src\\protocol\\LmSockType.cpp",
+              "RelativeToolTip": "src\\protocol\\LmSockType.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-17T14:47:20.24Z"
             }
           ]
         }

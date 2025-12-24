@@ -71,7 +71,7 @@ bool GsPlayer::CanAcceptGoal(const LmGoalInfo& goalinfo) const
   
   if (goalinfo.Rank() == Guild::QUEST) {
 	  // can't accept the same quest twice
-	  if (main_->GuildDBC()->HasAcceptedQuest(db_.PlayerID(), goalinfo.GoalID()))
+	  if (LmGuildDBC::Instance()->HasAcceptedQuest(db_.PlayerID(), goalinfo.GoalID()))
 		  return false;
 	  return true;
   }

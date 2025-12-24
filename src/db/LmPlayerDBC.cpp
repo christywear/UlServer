@@ -18,7 +18,7 @@
 #include "../../include/DB/LmDatabase.h"
 #include "../../include/DB/LmGlobalDB.h"
 #include "../../include/DB/LmPlayerDBC.h"
-#include "../../include/Core/LmLocker.h"
+#include <Core/LmLocker.h>
 #include "../../include/Game/LmLog.h"
 #include "../../include/Core/LmTimer.h"
 #include "../../include/Core/LmFuncTimer.h"
@@ -30,15 +30,19 @@
 #include "../../include/Protocol/GMsg/GMsg_GrantPPoint.h"
 #include "../../include/Protocol/GMsg/GMsg_UsePPoint.h"
 #include "../../include/Protocol/GMsg/GMsg_PPointAck.h"
-#include "../../include/platform/win/MariaDB Connector C 64-bit/include/mysql.h"
+#include <third_party/MariaDB Connector C 64-bit/include/mysql.h>
 #include "../../include/game/LmStats.h"
+#include <core/LmThreadMQ.h>
+
+//initalize tracker to null
+LmPlayerDBC* LmPlayerDBC::s_instance = nullptr;
 
 const int FOCUS_INIT = 30;
 const int NORM_INIT = 10;
 const int MIN_TIME_FOR_COOLOFF = 60; // 1 minute min login time
 const int COOLOFF_TIME = 60*15; // 15 minutes (Seeker)
 
-unsigned int ATOI(char* value)
+inline inline unsigned int ATOI(char* value)
 {
   if (!value)
     return 0;
@@ -74,6 +78,8 @@ LmPlayerDBC::LmPlayerDBC(const TCHAR *dbuser, const TCHAR* dbpassword, const TCH
     last_ms_(0),
 	db_port_(dbport)
 {
+    //register instance
+    s_instance = this;
   lock_.Init();
   // copy to member variables
  _tcscpy(password_, dbpassword);
@@ -94,6 +100,8 @@ LmPlayerDBC::LmPlayerDBC(const TCHAR *dbuser, const TCHAR* dbpassword, const TCH
 LmPlayerDBC::~LmPlayerDBC()
 {
   Disconnect();
+  if (s_instance == this)
+      s_instance == nullptr;
 }
 
 ////

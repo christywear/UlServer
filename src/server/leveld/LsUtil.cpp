@@ -32,7 +32,7 @@
 #include "../../../include/Server/Leveld/LsPlayer.h"
 #include "../../../include/Server/Leveld/LsPlayerList.h"
 #include "../../../include/DB/LmItemDBC.h"
-
+#include <core/LmThreadPool.h>
 #ifndef WIN32
 #include <unistd.h>
 #endif
@@ -44,29 +44,29 @@ DECLARE_TheFileName;
 // SendInternalMessage
 ///
 
-void LsUtil::SendInternalMessage(LsMain* main, LmMesg& msg, LmThread* thr)
+void LsUtil::SendInternalMessage(LmMesg& msg, LmThread* thr)
 {
   DEFMETHOD(LsUtil, SendInternalMessage_1);
   DECLARE_TheLineNum;
   // allocate message buffer
-  LmSrvMesgBuf* mbuf = main->BufferPool()->AllocateBuffer(msg.MessageSize());
+  LmSrvMesgBuf* mbuf = LmMesgBufPool::Instance()->AllocateBuffer(msg.MessageSize());
   // read message into it
   mbuf->ReadMessage(msg);
   // send to thread, null connection
   thr->PassMessage(mbuf, 0);
 }
 
-int LsUtil::SendInternalMessage(LsMain* main, LmMesg& msg, int threadid)
+int LsUtil::SendInternalMessage(LmMesg& msg, int threadid)
 {
   DEFMETHOD(LsUtil, SendInternalMessage_2);
   DECLARE_TheLineNum;
   // look up target thread
-  LmThread* thr = main->ThreadPool()->GetThread(threadid);
+  LmThread* thr = LmThreadPool::Instance()->GetThread(threadid);
   if (!thr) {
-    main->Log()->Error(_T("%s: could not get thread for id %d"), method, threadid);
+    LmLog::Instance()->Error(_T("%s: could not get thread for id %d"), method, threadid);
     return -1;
   }
-  SendInternalMessage(main, msg, thr);
+  SendInternalMessage(msg, thr);
   // return successful
   return 0;
 }
@@ -75,31 +75,31 @@ int LsUtil::SendInternalMessage(LsMain* main, LmMesg& msg, int threadid)
 // BroadcastInternalMessage
 ////
 
-void LsUtil::BroadcastInternalMessage(LsMain* main, LmMesg& msg, int threadid, bool sendself)
+void LsUtil::BroadcastInternalMessage(LmMesg& msg, int threadid, bool sendself)
 {
   DEFMETHOD(LsUtil, BroadcastInternalMessage);
   DECLARE_TheLineNum;
   // get ids of all threads in server
   std::list<int> tids;
-  main->ThreadPool()->GetThreadIDs(tids);
+  LmThreadPool::Instance()->GetThreadIDs(tids);
   // if not sending to source thread, remove it from list
   if (!sendself) {
     remove(tids.begin(), tids.end(), threadid);
   }
   tids.unique();
   // allocate message buffer
-  LmSrvMesgBuf* mbuf = main->BufferPool()->AllocateBuffer(msg.MessageSize(), tids.size());
+  LmSrvMesgBuf* mbuf = LmMesgBufPool::Instance()->AllocateBuffer(msg.MessageSize(), tids.size());
   // read message into it
   mbuf->ReadMessage(msg);
   // send to each thread, from null connection (internal)
   for (std::list<int>::iterator i = tids.begin(); !(bool)(i == tids.end()); ++i) {
-    LmThread* thr = main->ThreadPool()->GetThread(*i);
+    LmThread* thr = LmThreadPool::Instance()->GetThread(*i);
     if (thr) {
       //main->Log()->Debug("%s: sending message[%p] to thread %d", method, mbuf, *i);
       thr->PassMessage(mbuf, 0);
     }
     else {
-      main->Log()->Error(_T("%s: threadid %d not found in pool?"), method, *i);
+      LmLog::Instance()->Error(_T("%s: threadid %d not found in pool?"), method, *i);
     }
   }
 }
@@ -108,7 +108,7 @@ void LsUtil::BroadcastInternalMessage(LsMain* main, LmMesg& msg, int threadid, b
 // Send_RMsg_Error - send through game server proxy
 ////
 
-void LsUtil::Send_RMsg_Error(LsMain* main, LsPlayer* player, int msgtype, const TCHAR* fmt, ...)
+void LsUtil::Send_RMsg_Error(LsPlayer* player, int msgtype, const TCHAR* fmt, ...)
 {
   DECLARE_TheLineNum;
   RMsg_Error msg;
@@ -120,51 +120,51 @@ void LsUtil::Send_RMsg_Error(LsMain* main, LsPlayer* player, int msgtype, const 
   va_end(args);
 
   msg.Init(msgtype, errstring);
-  LsUtil::Send_SMsg_Proxy(main, player, msg);
+  LsUtil::Send_SMsg_Proxy(player, msg);
 }
 
 ////
 // Send_RMsg_LoginAck
 ////
 
-void LsUtil::Send_RMsg_LevelLoginAck(LsMain* main, LsPlayer* player, int status, lyra_id_t roomid)
+void LsUtil::Send_RMsg_LevelLoginAck(LsPlayer* player, int status, lyra_id_t roomid)
 {
   DECLARE_TheLineNum;
   RMsg_LoginAck msg;
-  msg.Init(status, roomid, main->LevelDBC()->LevelID());
-  LsUtil::Send_SMsg_Proxy(main, player, msg);
+  msg.Init(status, roomid, LmLevelDBC::Instance()->LevelID());
+  LsUtil::Send_SMsg_Proxy(player, msg);
 }
 
 ////
 // Send_RMsg_RoomLoginAck
 ////
 
-void LsUtil::Send_RMsg_RoomLoginAck(LsMain* main, LsPlayer* player, short status, short num_neighbors)
+void LsUtil::Send_RMsg_RoomLoginAck(LsPlayer* player, short status, short num_neighbors)
 {
   DECLARE_TheLineNum;
   RMsg_RoomLoginAck msg;
   msg.Init(status, num_neighbors);
-  LsUtil::Send_SMsg_Proxy(main, player, msg);
+  LsUtil::Send_SMsg_Proxy(player, msg);
 }
 ////
 // Send_SMsg_Proxy - send message to player through game server
 ////
 
-void LsUtil::Send_SMsg_Proxy(LsMain* main, LmConnection* conn, lyra_id_t playerid, LmMesg& msg)
+void LsUtil::Send_SMsg_Proxy(LmConnection* conn, lyra_id_t playerid, LmMesg& msg)
 {
   DECLARE_TheLineNum;
   SMsg_Proxy msg_proxy;
   msg_proxy.Init(playerid, SMsg_Proxy::PROXY_FORWARD, msg);
-  main->OutputDispatch()->SendMessage(&msg_proxy, conn);
+  LsOutputDispatch::Instance()->SendMessage(&msg_proxy, conn);
 }
 
-void LsUtil::Send_SMsg_Proxy(LsMain* main, LsPlayer* player, LmMesg& msg)
+void LsUtil::Send_SMsg_Proxy(LsPlayer* player, LmMesg& msg)
 {
   DECLARE_TheLineNum;
-  LsUtil::Send_SMsg_Proxy(main, player->Connection(), player->PlayerID(), msg);
+  LsUtil::Send_SMsg_Proxy(player->Connection(), player->PlayerID(), msg);
 }
 
-void LsUtil::Send_SMsg_Proxy(LsMain* main, LsPlayerList& player_list, LmMesg& msg)
+void LsUtil::Send_SMsg_Proxy(LsPlayerList& player_list, LmMesg& msg)
 {
   DECLARE_TheLineNum;
   // unique the list, in case there are duplicates
@@ -175,7 +175,7 @@ void LsUtil::Send_SMsg_Proxy(LsMain* main, LsPlayerList& player_list, LmMesg& ms
   LsPlayerList::iterator i;
   for (i = player_list.begin(); !(bool)(i == player_list.end()); ++i) {
     LsPlayer* player = *i;
-    LsUtil::Send_SMsg_Proxy(main, player->Connection(), player->PlayerID(), msg);
+    LsUtil::Send_SMsg_Proxy(player->Connection(), player->PlayerID(), msg);
   }
 }
 
@@ -183,7 +183,7 @@ void LsUtil::Send_SMsg_Proxy(LsMain* main, LsPlayerList& player_list, LmMesg& ms
 // Send_SMsg_Error
 ////
 
-void LsUtil::Send_SMsg_Error(LsMain* main, LmConnection* conn, int msgtype, const TCHAR* fmt, ...)
+void LsUtil::Send_SMsg_Error(LmConnection* conn, int msgtype, const TCHAR* fmt, ...)
 {
   DECLARE_TheLineNum;
   SMsg_Error msg;
@@ -195,43 +195,43 @@ void LsUtil::Send_SMsg_Error(LsMain* main, LmConnection* conn, int msgtype, cons
   va_end(args);
 
   msg.Init(msgtype, errstring);
-  main->OutputDispatch()->SendMessage(&msg, conn);
+  LsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
 // HandleItemError - handle error returned from LmItemDBC
 ////
 
-void LsUtil::HandleItemError(LsMain* main, const TCHAR* calling_method, int rc, int sc)
+void LsUtil::HandleItemError(const TCHAR* calling_method, int rc, int sc)
 {
   static bool send_mail = true;
   switch (rc) {
   case 0:
     return;
   case LmItemDBC::MYSQL_ERROR: {
-    main->Log()->Error(_T("%s: itemdb fatal error encountered; sqlcode=%d"), calling_method, sc);
+    LmLog::Instance()->Error(_T("%s: itemdb fatal error encountered; sqlcode=%d"), calling_method, sc);
     if (send_mail) {
       // send mail to database admin
       TCHAR hname[256];
 // *** STRING LITERAL ***  
      _stprintf(hname, _T("(unknown)"));
       gethostname((char*)(hname), sizeof(hname));
-      LmUtil::SendMail(_T("leveld@underlight"), main->ServerDBC()->DatabaseAdminEmail(), _T("Underlight: database error"),
+      /*SendMail(_T("leveld@underlight"), _T("Underlight: database error"),
 		       _T("HostName: %s\n") _T("Server Info: level %d, pid %lu\n")  _T("Error: item database fatal error in method %s\n") _T("Reason: sqlcode %d\n"),
-		       hname, main->LevelDBC()->LevelID(), main->ServerPid(),
-		       calling_method, sc);
+		       hname,LmLevelDBC::Instance()->LevelID(), (unsigned long)_getpid(),
+		       calling_method, sc);*/
       send_mail = false; // only do this once
     }
     // shut down server
 #ifdef WIN32 
-	main->SetSIGTERM(true);
+	//main->SetSIGTERM(true); global shutdown temp nuked !Christy look at reimplimentation
 #else
     kill(getpid(), SIGTERM);
 #endif
   }
   break;
   default:
-    main->Log()->Error(_T("%s: itemdb unknown return code %d; sqlcode=%d"), calling_method, rc, sc);
+    LmLog::Instance()->Error(_T("%s: itemdb unknown return code %d; sqlcode=%d"), calling_method, rc, sc);
     break;
   }
 }

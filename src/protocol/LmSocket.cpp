@@ -35,6 +35,9 @@
 
 extern int errno;
 
+//init tracker
+LmSocket* LmSocket::s_instance = nullptr;
+
 ////
 // constructor
 ////
@@ -46,7 +49,7 @@ LmSocket::LmSocket()
     peer_computed_(false),
     has_shutdown_(false)
 {
-  // empty
+    s_instance = this;
 }
 
 ////
@@ -55,7 +58,8 @@ LmSocket::LmSocket()
 
 LmSocket::~LmSocket()
 {
-  // empty
+    if (s_instance == this)
+        s_instance == nullptr;
 }
 
 ////

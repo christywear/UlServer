@@ -22,7 +22,7 @@
 
 #include "../../include/Protocol/LmSockType.h"
 #include "../../include/Core/LyraDefs.h"
-
+#include <stdlib.h>
 
 // file-only functions
 static void init_predefined();

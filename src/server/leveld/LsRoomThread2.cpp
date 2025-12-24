@@ -60,10 +60,10 @@ void LsRoomThread::perform_Logout(LsPlayer* player, int how)
   }
 
   // notify players in room that player left, leave room
-  LsRoomState* room = main_->LevelState()->RoomState(roomid);
+  LsRoomState* room = LsLevelState::Instance()->RoomState(roomid);
   if (!room) {
     TLOG_Error(_T("%s: player %u, in room %u not found in level!"), method, playerid, roomid);
-    LsUtil::Send_RMsg_Error(main_, player, RMsg::LOGOUT, _T("room %u not in level"), roomid);
+    LsUtil::Send_RMsg_Error(player, RMsg::LOGOUT, _T("room %u not in level"), roomid);
     // NOTE: don't return, continue
   }
   else {
@@ -75,7 +75,7 @@ void LsRoomThread::perform_Logout(LsPlayer* player, int how)
   const LmIdSet& joiners = player->Joiners();
   for (int i = 0; i < joiners.Size(); ++i) {
     lyra_id_t joinid = joiners.Member(i);
-    LsPlayer* joiner = main_->PlayerSet()->GetPlayer(joinid);
+    LsPlayer* joiner = LsPlayerSet::Instance()->GetPlayer(joinid);
     if (!joiner) {
       TLOG_Warning(_T("%s: could not get joiner %u"), method, joinid);
       continue;
@@ -91,7 +91,7 @@ void LsRoomThread::perform_Logout(LsPlayer* player, int how)
     for (LsGiveTakeItemList::iterator it = give.begin(); !(bool)(it == give.end()); ++it) {
       lyra_id_t takerid = (*it).playerid;
       LmItem& item = (*it).item;
-      LsPlayer* taker = main_->PlayerSet()->GetPlayer(takerid);
+      LsPlayer* taker = LsPlayerSet::Instance()->GetPlayer(takerid);
       if (!taker) {
 	TLOG_Warning(_T("%s: could not get taker %u"), method, takerid);
 	continue;
@@ -107,7 +107,7 @@ void LsRoomThread::perform_Logout(LsPlayer* player, int how)
     for (LsGiveTakeItemList::iterator it = take.begin(); !(bool)(it == take.end()); ++it) {
       lyra_id_t giverid = (*it).playerid;
       LmItem& item = (*it).item;
-      LsPlayer* giver = main_->PlayerSet()->GetPlayer(giverid);
+      LsPlayer* giver = LsPlayerSet::Instance()->GetPlayer(giverid);
       if (!giver) {
 	TLOG_Warning(_T("%s: could not get giver %u"), method, giverid);
 	continue;
@@ -119,11 +119,11 @@ void LsRoomThread::perform_Logout(LsPlayer* player, int how)
   }
 
   // remove player from active player set
-  main_->PlayerSet()->RemovePlayer(player);
+  LsPlayerSet::Instance()->RemovePlayer(player);
 
   // clear player object
   // remove from realtime ID array
-  main_->LevelState()->FreeRealtimeID(player->RealtimeID());
+  LsLevelState::Instance()->FreeRealtimeID(player->RealtimeID());
   player->Logout();
 }
 
@@ -137,7 +137,7 @@ void LsRoomThread::perform_LeaveRoom(LsPlayer* player, LsRoomState* room, int ho
   // notify players in room that player left
   send_RMsg_LeaveRoom(player, room, how, lastx, lasty);
   // remove player from level
-  main_->LevelState()->RemovePlayer(player->PlayerID(), player->RealtimeID());
+  LsLevelState::Instance()->RemovePlayer(player->PlayerID(), player->RealtimeID());
 }
 
 ////
@@ -149,7 +149,7 @@ void LsRoomThread::perform_EnterRoom(LsPlayer* player, LsRoomState* room, int la
   DECLARE_TheLineNum;
 
   // ack room entry (if we do this after room entry, we are counted as a neighbor)
-  LsUtil::Send_RMsg_RoomLoginAck(main_, player, RMsg_RoomLoginAck::LOGIN_OK, room->NumPlayers());
+  LsUtil::Send_RMsg_RoomLoginAck(player, RMsg_RoomLoginAck::LOGIN_OK, room->NumPlayers());
 
   // add player to room
   room->AddPlayer(player);
@@ -160,13 +160,13 @@ void LsRoomThread::perform_EnterRoom(LsPlayer* player, LsRoomState* room, int la
   // recalculate groups for last room
   if ((last_room > 0) && (last_room != player->RoomID())) {
 	msg.Init(SMsg_LS_Action::ACTION_COMPUTE_GROUPS, last_room);
-	if (LsUtil::SendInternalMessage(main_, msg, LsMain::THREAD_ROOMSERVER) < 0) {
+	if (LsUtil::SendInternalMessage(msg, LsMain::THREAD_ROOMSERVER) < 0) {
 		TLOG_Error(_T("On enter room, could not send compute_groups message to room thread") );
 	}
   }
 
   msg.Init(SMsg_LS_Action::ACTION_COMPUTE_GROUPS, player->RoomID());
-  if (LsUtil::SendInternalMessage(main_, msg, LsMain::THREAD_ROOMSERVER) < 0) {
+  if (LsUtil::SendInternalMessage(msg, LsMain::THREAD_ROOMSERVER) < 0) {
 	TLOG_Error(_T("On enter room, could not send compute_groups message to room thread") );
   }
 #endif
@@ -202,7 +202,7 @@ void LsRoomThread::perform_Party_Leave(LsPlayer* player, int how, bool grant_xp)
   send_RMsg_Party_Leave(player, how);
   // if not the party leader, deal with giving xp to party's original leader (creator)
   if (leaderid != playerid) {
-    LsPlayer* leader = main_->PlayerSet()->GetPlayer(leaderid);
+    LsPlayer* leader = LsPlayerSet::Instance()->GetPlayer(leaderid);
     if (leader && (leaderid == creatorid)) { // leader is creator
       // get time player was in party
       int member_time = LmUtil::TimeSince(player->PartyJoinTime());
@@ -223,7 +223,7 @@ void LsRoomThread::perform_Party_Leave(LsPlayer* player, int how, bool grant_xp)
 	if (memberid == playerid) {
 	  continue;
 	}
-	LsPlayer* member = main_->PlayerSet()->GetPlayer(memberid);
+	LsPlayer* member = LsPlayerSet::Instance()->GetPlayer(memberid);
 	if (!member) {
 	  TLOG_Error(_T("%s: party member %u not in level!"), method, memberid);
 	  continue;
@@ -243,7 +243,7 @@ void LsRoomThread::perform_Party_Leave(LsPlayer* player, int how, bool grant_xp)
       continue;
     }
 
-    LsPlayer* member = main_->PlayerSet()->GetPlayer(memberid);
+    LsPlayer* member = LsPlayerSet::Instance()->GetPlayer(memberid);
     if (!member) {
       TLOG_Error(_T("%s: party member %u not in level!"), method, memberid);
       continue;
@@ -253,7 +253,7 @@ void LsRoomThread::perform_Party_Leave(LsPlayer* player, int how, bool grant_xp)
     {
         RMsg_PlayerMsg chmsg;
         chmsg.Init(playerid, memberid, RMsg_PlayerMsg::CHANNEL, 0, 0);
-        LsUtil::Send_SMsg_Proxy(main_, member, chmsg);
+        LsUtil::Send_SMsg_Proxy(member, chmsg);
     }
     // remove; if leader_left, then clear the party instead
     if (leader_left) {
@@ -299,7 +299,7 @@ void LsRoomThread::perform_ItemDestroy(LsRoomState* room, const LmItem& item)
   // notify all room members
   send_RMsg_ItemPickup(0, room, item);
   // put serial number back in free pool
-  main_->LevelState()->Serials().FreeSerial(item.Serial());
+  LsLevelState::Instance()->Serials().FreeSerial(item.Serial());
 }
 
 ////
@@ -355,16 +355,16 @@ void LsRoomThread::perform_ItemReap(LsRoomState* room)
       room->RemoveItem(item.Header());
       // if item has a description, destroy it
       if (item.FlagSet(LyraItem::FLAG_HASDESCRIPTION)) {
-	int rc = main_->ItemDBC()->DeleteItem(item.Serial());
-	int sc = main_->ItemDBC()->LastSQLCode();
+	int rc = LmItemDBC::Instance()->DeleteItem(item.Serial());
+	int sc = LmItemDBC::Instance()->LastSQLCode();
 	if (rc < 0) {
-	  LsUtil::HandleItemError(main_, method, rc, sc);
+	  LsUtil::HandleItemError(method, rc, sc);
 	  // continue
 	}
       }
       else {
 	// reclaim serial number for re-use
-	main_->LevelState()->Serials().FreeSerial(item.Serial());
+	LsLevelState::Instance()->Serials().FreeSerial(item.Serial());
       }
     }
     // send messages to room members
@@ -420,7 +420,7 @@ void LsRoomThread::perform_create_essence(LsPlayer* player, LsRoomState* room, l
   // item position
   LmPosition pos = player->Position();
   // create item header
-  int serial = main_->LevelState()->Serials().GetNextSerial();
+  int serial = LsLevelState::Instance()->Serials().GetNextSerial();
   LmItemHdr ihdr;
   ihdr.Init(0,0, serial);
   // TODO: set colors based on avatar color?
@@ -536,7 +536,7 @@ const LmPosition& LsRoomThread::get_random_neighbor_position(LsRoomState* room, 
 	unsigned int distance = LmRand::Generate(0, room->PlayerList().size() - 1);		
 	std::list<lyra_id_t>::const_iterator li = room->PlayerList().begin();
 	std::advance(li, distance);
-	LsPlayer* p = main_->PlayerSet()->GetPlayer((*li));
+	LsPlayer* p = LsPlayerSet::Instance()->GetPlayer((*li));
 	if(p && !p->Avatar().Hidden())
 		return p->Position();
 	else
@@ -561,7 +561,7 @@ void LsRoomThread::perform_create_soulessence(LsPlayer* player, LsRoomState* roo
   // item position
   LmPosition pos = player->Position();
   // create item header
-  int serial = main_->LevelState()->Serials().GetNextSerial();
+  int serial = LsLevelState::Instance()->Serials().GetNextSerial();
   LmItemHdr ihdr;
   ihdr.Init(0, 0, serial);
   // TODO: set colors based on avatar color?
@@ -622,7 +622,7 @@ void LsRoomThread::perform_spawn_mare_item(LsPlayer* player, LsRoomState* room, 
   // item position
   LmPosition pos = player->Position();
   // create item header
-  int serial = main_->LevelState()->Serials().GetNextSerial();
+  int serial = LsLevelState::Instance()->Serials().GetNextSerial();
   
   LmRoomItem roomitem;
   LmItem it; 
@@ -655,7 +655,7 @@ void LsRoomThread::compute_PlayerList(LsRoomState* room, LsPlayerList& player_li
   for (li = players.begin(); !(bool)(li == players.end()); ++li) {
     lyra_id_t targetid = (*li);
     if (playerid != targetid) {
-      LsPlayer* rplayer = main_->PlayerSet()->GetPlayer(targetid);
+      LsPlayer* rplayer = LsPlayerSet::Instance()->GetPlayer(targetid);
       if (!rplayer) {
 	TLOG_Warning(_T("compute_PlayerList: player %u not found in room"), targetid);
       }
@@ -677,7 +677,7 @@ void LsRoomThread::compute_PartyList(const LmParty& party, LsPlayerList& player_
   for (int i = 0; i < party.PartySize(); ++i) {
     lyra_id_t targetid = party.PlayerID(i);
     if (targetid != playerid) {
-      LsPlayer* rplayer = main_->PlayerSet()->GetPlayer(targetid);
+      LsPlayer* rplayer = LsPlayerSet::Instance()->GetPlayer(targetid);
       if (!rplayer) {
 	TLOG_Warning(_T("compute_PartyList: player %u not found in level"), targetid);
       }
@@ -701,10 +701,10 @@ void LsRoomThread::compute_RMsg_Speech_Speech(LsPlayer* player, LsPlayerList& ta
   lyra_id_t playerid = player->PlayerID();
   lyra_id_t roomid = player->RoomID();
   // get room state
-  LsRoomState* room = main_->LevelState()->RoomState(roomid);
+  LsRoomState* room = LsLevelState::Instance()->RoomState(roomid);
   if (!room) {
     TLOG_Error(_T("%s: player %u in room %u not in level"), method, playerid, roomid);
-    LsUtil::Send_RMsg_Error(main_, player, RMsg::SPEECH, _T("room %u not found in level"), roomid);
+    LsUtil::Send_RMsg_Error(player, RMsg::SPEECH, _T("room %u not found in level"), roomid);
     return;
   }
   // find players in room that are close enough to hear speech
@@ -716,13 +716,13 @@ void LsRoomThread::compute_RMsg_Speech_Speech(LsPlayer* player, LsPlayerList& ta
     if (playerid == targetid) {
       continue;
     }
-    LsPlayer* rplayer = main_->PlayerSet()->GetPlayer(targetid);
+    LsPlayer* rplayer = LsPlayerSet::Instance()->GetPlayer(targetid);
     if (!rplayer) {
       TLOG_Warning(_T("%s: player %u not found in room"), method, targetid);
     }
     else {
       if (player->AccountType() == LmPlayerDB::ACCT_ADMIN || rplayer->AccountType() == LmPlayerDB::ACCT_ADMIN 
-|| player->Position().DistanceXY2(rplayer->Position()) < LsMain::SPEECH_DIST2) {
+|| player->Position().DistanceXY2(rplayer->Position()) < SPEECH_DIST2) {
 	target_list.push_back(rplayer);
       } else {
      	mumble_list.push_back(rplayer); 
@@ -746,10 +746,10 @@ void LsRoomThread::compute_RMsg_Speech_Shout(LsPlayer* player, LsPlayerList& tar
   lyra_id_t playerid = player->PlayerID();
   lyra_id_t roomid = player->RoomID();
   // get room state
-  LsRoomState* room = main_->LevelState()->RoomState(roomid);
+  LsRoomState* room = LsLevelState::Instance()->RoomState(roomid);
   if (!room) {
     TLOG_Error(_T("%s: player %u in room %u not in level"), method, playerid, roomid);
-    LsUtil::Send_RMsg_Error(main_, player, RMsg::SPEECH, _T("room %u not found in level"), roomid);
+    LsUtil::Send_RMsg_Error(player, RMsg::SPEECH, _T("room %u not found in level"), roomid);
     return;
   }
   // get all players in room except source player
@@ -770,14 +770,14 @@ void LsRoomThread::compute_RMsg_Speech_Whisper(LsPlayer* player, LsPlayerList& t
   lyra_id_t roomid = player->RoomID();
   lyra_id_t playerid = player->PlayerID();
   // get room state
-  LsRoomState* room = main_->LevelState()->RoomState(roomid);
+  LsRoomState* room = LsLevelState::Instance()->RoomState(roomid);
   if (!room) {
     TLOG_Error(_T("%s: player %u in room %u, not found in level"), method, playerid, roomid);
-    LsUtil::Send_RMsg_Error(main_, player, RMsg::SPEECH, _T("room %u not found in level"), roomid);
+    LsUtil::Send_RMsg_Error(player, RMsg::SPEECH, _T("room %u not found in level"), roomid);
     return;
   }
   // find target player
-  LsPlayer* rplayer = main_->PlayerSet()->GetPlayer(msg.PlayerID());
+  LsPlayer* rplayer = LsPlayerSet::Instance()->GetPlayer(msg.PlayerID());
   if (!rplayer) {
     TLOG_Warning(_T("%s: target player %u not found in room"), method, msg.PlayerID());
     return;
@@ -797,10 +797,10 @@ void LsRoomThread::compute_RMsg_Speech_WhisperEmote(LsPlayer* player, LsPlayerLi
   lyra_id_t roomid = player->RoomID();
   lyra_id_t playerid = player->PlayerID();
   // get room state
-  LsRoomState* room = main_->LevelState()->RoomState(roomid);
+  LsRoomState* room = LsLevelState::Instance()->RoomState(roomid);
   if (!room) {
     TLOG_Error(_T("%s: player %u in room %u, not found in level"), method, playerid, roomid);
-    LsUtil::Send_RMsg_Error(main_, player, RMsg::SPEECH, _T("room %u not found in level"), roomid);
+    LsUtil::Send_RMsg_Error(player, RMsg::SPEECH, _T("room %u not found in level"), roomid);
     return;
   }
 
@@ -813,12 +813,12 @@ void LsRoomThread::compute_RMsg_Speech_WhisperEmote(LsPlayer* player, LsPlayerLi
     if (playerid == targetid) {
       continue;
     }
-    LsPlayer* rplayer = main_->PlayerSet()->GetPlayer(targetid);
+    LsPlayer* rplayer = LsPlayerSet::Instance()->GetPlayer(targetid);
     if (!rplayer) {
       TLOG_Warning(_T("%s: player %u not found in room"), method, targetid);
     }
     else {
-      if ((player->Position().DistanceXY2(rplayer->Position()) < LsMain::SPEECH_DIST2) &&
+      if ((player->Position().DistanceXY2(rplayer->Position()) < SPEECH_DIST2) &&
 		  (targetid != msg.PlayerID()))  {
 		target_list.push_back(rplayer);
       }
@@ -837,5 +837,5 @@ void LsRoomThread::compute_RMsg_Speech_GlobalShout(LsPlayer* /* player */, LsPla
 {
   DECLARE_TheLineNum;
   // get all players in level
-  main_->PlayerSet()->GetPlayerList(target_list);
+  LsPlayerSet::Instance()->GetPlayerList(target_list);
 }

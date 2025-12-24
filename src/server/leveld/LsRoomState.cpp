@@ -31,7 +31,7 @@
 #include "../../../include/Server/Leveld/LsPlayerSet.h"
 #include "../../../include/Server/Leveld/LsUtil.h"
 #include "../../../include/Server/Leveld/LsCodexText.h"
-
+#include <server/gamed/GsPlayerSet.h>
 #include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
@@ -40,8 +40,7 @@ DECLARE_TheFileName;
 ////
 
 LsRoomState::LsRoomState()
-  : main_(0),
-    db_(0),
+  : db_(0),
     itemgens_(0)
 {
   DECLARE_TheLineNum;
@@ -62,11 +61,10 @@ LsRoomState::~LsRoomState()
 // Init
 ////
 
-void LsRoomState::Init(LsMain* lsmain, const LmRoomDB* roomdb)
+void LsRoomState::Init(const LmRoomDB* roomdb)
 {
   DECLARE_TheLineNum;
   LmLocker mon(lock_); // lock object for method duration
-  main_ = lsmain;
   db_ = roomdb;
   int i;
 
@@ -164,16 +162,16 @@ int LsRoomState::LoadFromDB()
   DEFMETHOD(LsRoomState, LoadFromDB);
   LmLocker mon(lock_); // lock object for method duration
   // load room items
-  int rc = main_->ItemDBC()->GetRoomItems(main_->LevelDBC()->LevelID(), db_->RoomID(), items_);
-  int sqlcode = main_->ItemDBC()->LastSQLCode();
-  // int lt = main_->ItemDBC()->LastCallTime();
-  // main_->Log()->Debug(_T("%s: LmItemDBC::GetRoomItems took %d ms"), method, lt);
+  int rc = LmItemDBC::Instance()->GetRoomItems(LmLevelDBC::Instance()->LevelID(), db_->RoomID(), items_);
+  int sqlcode = LmItemDBC::Instance()->LastSQLCode();
+  // int lt = LmItemDBC::Instance()->LastCallTime();
+  // LmLog::Instance()->Debug(_T("%s: LmItemDBC::GetRoomItems took %d ms"), method, lt);
   if (rc < 0) {
-    main_->Log()->Warning(_T("%s: could not get room items; rc=%d, sql=%d"), method, rc, sqlcode);
-    LsUtil::HandleItemError(main_, method, rc, sqlcode);
+    LmLog::Instance()->Warning(_T("%s: could not get room items; rc=%d, sql=%d"), method, rc, sqlcode);
+    LsUtil::HandleItemError(method, rc, sqlcode);
     return -1;
   }
-  // main_->Log()->Debug(_T("%s: loaded %d room items"), method, items_.size());
+  // LmLog::Instance()->Debug(_T("%s: loaded %d room items"), method, items_.size());
   // loaded ok
   return 0;
 }
@@ -187,13 +185,13 @@ int LsRoomState::SaveToDB()
   DEFMETHOD(LsRoomState, SaveToDB);
   LmLocker mon(lock_); // lock object for method duration
   // save room items
-  int rc = main_->ItemDBC()->SaveRoomItems(main_->LevelDBC()->LevelID(), db_->RoomID(), items_);
-  int sc = main_->ItemDBC()->LastSQLCode();
-  // int lt = main_->ItemDBC()->LastCallTime();
-  // main_->Log()->Debug(_T("%s: LmItemDBC::SaveRoomItems took %d ms"), method, lt);
+  int rc = LmItemDBC::Instance()->SaveRoomItems(LmLevelDBC::Instance()->LevelID(), db_->RoomID(), items_);
+  int sc = LmItemDBC::Instance()->LastSQLCode();
+  // int lt = LmItemDBC::Instance()->LastCallTime();
+  // LmLog::Instance()->Debug(_T("%s: LmItemDBC::SaveRoomItems took %d ms"), method, lt);
   if (rc < 0) {
-    main_->Log()->Error(_T("%s: room %u: could not save room items; rc=%d, sqlcode=%d"), method, db_->RoomID(), rc, sc);
-    LsUtil::HandleItemError(main_, method, rc, sc);
+    LmLog::Instance()->Error(_T("%s: room %u: could not save room items; rc=%d, sqlcode=%d"), method, db_->RoomID(), rc, sc);
+    LsUtil::HandleItemError(method, rc, sc);
   }
   return 0;
 }
@@ -215,7 +213,7 @@ int LsRoomState::NumPlayers(int ptype) const
   // get each player, check their type
   for (std::list<lyra_id_t>::const_iterator i = players_.begin(); !(bool)(i == players_.end()); ++i) {
     lyra_id_t playerid = *i;
-    LsPlayer* player = main_->PlayerSet()->GetPlayer(playerid);
+    LsPlayer* player = LsPlayerSet::Instance()->GetPlayer(playerid);
     if (!player) {
       continue;
     }
@@ -449,7 +447,7 @@ void LsRoomState::GenerateItems(LmRoomItemList& generated)
     }
     if (ok_to_add) {
       // get serial
-      int serial = main_->LevelState()->Serials().GetNextSerial();
+      int serial = LsLevelState::Instance()->Serials().GetNextSerial();
       // create item if serial is valid
       if (serial != 0) {
 	LmRoomItem the_item = ig->Generate(serial);
@@ -460,12 +458,12 @@ void LsRoomState::GenerateItems(LmRoomItemList& generated)
 	if (the_item.Item().FlagSet(LyraItem::FLAG_HASDESCRIPTION)) {
 	  // get description
 	  TCHAR desc[Lyra::MAX_ITEMDESC];
-	  main_->CodexText()->CopyDescription(desc, sizeof(desc));
+	  LsCodexText::Instance()->CopyDescription(desc, sizeof(desc));
 	  // update db
-	  int rc = main_->ItemDBC()->SetItemDescription(serial, desc);
-	  int sc = main_->ItemDBC()->LastSQLCode();
+	  int rc = LmItemDBC::Instance()->SetItemDescription(serial, desc);
+	  int sc = LmItemDBC::Instance()->LastSQLCode();
 	  if (rc < 0) {
-	    LsUtil::HandleItemError(main_, method, rc, sc);
+	    LsUtil::HandleItemError(method, rc, sc);
 	    add_item = false;
 	    // continue
 	  }
@@ -490,7 +488,7 @@ void LsRoomState::Dump(FILE* f, int indent) const
   LmLocker mon(lock_); // lock object for method duration
   INDENT(indent, f);
  _ftprintf(f, _T("<LsRoomState[%p,%d]: main=[%p] db=[%p] roomid=%u>\n"), this, sizeof(LsRoomState),
-	  main_, db_, db_->RoomID());
+	  db_, db_->RoomID());
   indent++;
   // print players
   INDENT(indent, f);

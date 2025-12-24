@@ -14,6 +14,8 @@
 #include "../../include/Core/LyraDefs.h"
 #include "../../include/Game/LmLog.h"
 
+//init tracker
+LmLog* LmLog::s_instance = nullptr;
 
 ////
 // Constructor
@@ -23,7 +25,7 @@ LmLog::LmLog()
   : log_level_(0),
     log_opened_(false)
 {
-  // empty
+    s_instance = this;
 }
 
 ////
@@ -32,7 +34,8 @@ LmLog::LmLog()
 
 LmLog::~LmLog()
 {
-  // empty
+    if (s_instance == this)
+        s_instance == nullptr;
 }
 
 ////

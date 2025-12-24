@@ -30,7 +30,7 @@ class LsLevelThread : public LmThread {
 
 public:
 
-  LsLevelThread(LsMain* lsmain);
+  LsLevelThread();
   ~LsLevelThread();
 
   void Dump(FILE* f, int indent = 0) const;
@@ -87,7 +87,6 @@ private:
   void close_log();
   void register_handlers();
 
-  LsMain* main_;         // level server main object
 
   const LmLevelDBC* dbc_;  // level properties
   LsLevelState* state_;  // level state

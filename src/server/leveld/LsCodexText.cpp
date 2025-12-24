@@ -13,13 +13,16 @@
 #endif
 #include "../../../include/Server/Leveld/LsCodexText.h"
 #include "../../../include/Core/LmLocker.h"
-#include "../../../include/Server/Leveld/LsMain.h"
+
 #include "../../../include/DB/Gdbm.h"
 #include "../../../include/DB/LmGlobalDB.h"
 #include "../../../include/Core/LmRand.h"
 #include "../../../include/Game/LmLog.h"
 #include <algorithm>
 #include <random>
+//init s_instance
+LsCodexText* LsCodexText::s_instance = nullptr;
+
 // LsCodexTextImp definition
 class LsCodexTextImp : public std::vector<TCHAR*> {
 public:
@@ -51,9 +54,10 @@ static const int num_default_text = sizeof(default_text) / sizeof(TCHAR*);
 // Constructor
 ////
 
-LsCodexText::LsCodexText(LsMain* main)
-  : main_(main)
+LsCodexText::LsCodexText()
 {
+    //assign s_instance
+    s_instance = this;
   lock_.Init();
   imp_ = LmNEW(LsCodexTextImp());
 }
@@ -66,6 +70,9 @@ LsCodexText::~LsCodexText()
 {
   imp_->Erase();
   LmDELETE(imp_);
+  //murder instance
+  if (s_instance == this)
+      s_instance == nullptr;
 }
 
 ////
@@ -79,18 +86,18 @@ void LsCodexText::Load()
 
   // get database file (it's in the text directory)
   TCHAR dbname[FILENAME_MAX];
-  main_->GlobalDB()->GetTextFile(dbname, _T("codex.db"));
+  LmGlobalDB::Instance()->GetTextFile(dbname, _T("codex.db")); //christy look at global fix
   // open it up
   Gdbm db;
   if (db.Open(dbname, GDBM_READER) < 0) {
-    main_->Log()->Error(_T("%s: could not open codex database '%s'"), method, dbname);
+    LmLog::Instance()->Error(_T("%s: could not open codex database '%s'"), method, dbname);
     return;
   }
   // get number of lines in db
   int num_lines = 0;
   db.Fetch(_T("NumLines"), &num_lines);
   if (num_lines < 0) {
-    main_->Log()->Error(_T("%s: numlines = %d?"), method, num_lines);
+    LmLog::Instance()->Error(_T("%s: numlines = %d?"), method, num_lines);
     db.Close();
     return;
   }
@@ -153,7 +160,7 @@ void LsCodexText::Dump(FILE* f, int indent) const
   LmLocker mon(lock_); // lock object for method duration
   INDENT(indent, f);
  _ftprintf(f, _T("<LsCodexText[%p,%d]: main=[%p] imp=[%p] size=%d>\n"), this, sizeof(LsCodexText),
-	  main_, imp_, imp_->size());
+	  imp_, imp_->size());
   // print out items
   for (LsCodexTextImp::const_iterator i = imp_->begin(); i != imp_->end(); ++i) {
     INDENT(indent + 1, f);

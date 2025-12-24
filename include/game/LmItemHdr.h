@@ -110,7 +110,7 @@ private:
 
 // inline functions
 
-int operator==(const LmItemHdr& li, const LmItemHdr& ri)
+inline int operator==(const LmItemHdr& li, const LmItemHdr& ri)
 {
   return ((li.ItemHdr1() == ri.ItemHdr1()) && (li.ItemHdr2() == ri.ItemHdr2()) &&
 	  (li.Serial() == ri.Serial()));

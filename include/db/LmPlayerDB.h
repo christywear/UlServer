@@ -20,6 +20,7 @@
 #include "..\Game\LmArts.h"
 #include "..\Game\LmIdSet.h"
 #include "..\core\SharedConstants.h"
+#include <game/LmStats.h>
 
 // forward declarations
 

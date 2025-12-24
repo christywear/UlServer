@@ -15,7 +15,7 @@
 
 // class forward declarations
 
-class GsMain;
+
 class GsPlayer;
 class GsPlayerThread;
 
@@ -25,9 +25,10 @@ class GsPlayerThreadSet {
 
 public:
 
-  GsPlayerThreadSet(GsMain* gsmain);
+  GsPlayerThreadSet();
   ~GsPlayerThreadSet();
-
+  //public accessor
+  static GsPlayerThreadSet* Instance() { return s_instance; }
   void StartIdlePlayerThreads(int num_threads = 16);
 
   GsPlayerThread* GetPlayerThread();
@@ -36,16 +37,16 @@ public:
   void Dump(FILE* f, int indent = 0) const;
 
 private:
-
+	//private accessor
+	static GsPlayerThreadSet* s_instance;
   // not implemented
   GsPlayerThreadSet(const GsPlayerThreadSet&);
   //operator=(const GsPlayerThreadSet&);
 
   GsPlayerThread* start_player_thread();
 
-  GsMain* main_; // main object
 
-  PThMutex lock_;
+  mutable PThMutex lock_;
 
   // list of player threads
   typedef std::list<GsPlayerThread*> ps_t;

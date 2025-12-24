@@ -29,6 +29,9 @@ public:
   LmThreadPool();
   ~LmThreadPool();
 
+  //public accessor
+  static LmThreadPool* Instance() { return s_instance; }
+
   void AddThread(int id, LmThread* thread);
   void RemoveThread(int id, bool del = true);
   void RemoveThread(LmThread* thread, bool del = true);
@@ -40,7 +43,8 @@ public:
   void Dump(FILE* f, int indent = 0) const;
 
 private:
-
+	//private accessor
+	static LmThreadPool* s_instance;
   // not implemented
   LmThreadPool(const LmThreadPool&);
   //operator=(const LmThreadPool&);

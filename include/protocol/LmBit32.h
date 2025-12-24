@@ -47,7 +47,7 @@ private:
 
 };
 
-int operator==(const LmBit32& left, const LmBit32& right)
+inline int operator==(const LmBit32& left, const LmBit32& right)
 {
   return left.Value() == right.Value();
 }

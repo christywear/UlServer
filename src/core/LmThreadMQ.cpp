@@ -82,7 +82,7 @@ LmThreadMQItem LmThreadMQ::Deq()
   LmThreadMQItem qitem = q_.front();
   q_.pop_front();
   // unlock queue
-  lock_.UnLock();
+  lock_.Unlock();
   // return item
   return qitem;
 }

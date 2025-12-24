@@ -14,7 +14,7 @@
 #include <stdio.h>
 
 #include "GMsg.h"
-#include "..\Game\LmAvatar.h"
+#include <game/LmAvatar.h>
 
 // forward references
 

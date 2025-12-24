@@ -19,7 +19,7 @@
 
 // forward declarations
 
-class GsMain;
+
 
 // the class
 
@@ -27,7 +27,7 @@ class GsForwardThread : public LmThread {
 
 public:
 
-  GsForwardThread(GsMain* gsmain);
+  GsForwardThread();
   ~GsForwardThread();
 
   void Dump(FILE* f, int indent = 0) const;
@@ -59,7 +59,7 @@ private:
   lyra_id_t message_playerid(LmSrvMesgBuf* msgbuf);
   void forward_to_player_thread(lyra_id_t playerid, LmSrvMesgBuf* msgbuf, LmConnection* conn);
 
-  GsMain* main_;    // pointer to game server main object
+ 
 
   // LmLogFile logf_;  // thread log
 

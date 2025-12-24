@@ -1,3 +1,4 @@
+#if 0 old legacy code
 // Main.cpp  -*- C++ -*-
 // $Id: Main.cpp,v 1.8 1997-10-14 21:40:08-07 jason Exp $
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
@@ -97,3 +98,4 @@ int _tmain(int argc, TCHAR** argv)
 
   return 0;
 }
+#endif

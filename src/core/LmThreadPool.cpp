@@ -24,6 +24,9 @@
 #include "../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
+//init tracker
+LmThreadPool* LmThreadPool::s_instance = nullptr;
+
 ////
 // LmThreadPool::TP definition
 ////
@@ -54,6 +57,8 @@ LmThreadPool::TP::TP()
 LmThreadPool::LmThreadPool()
   : tp_(LmNEW(TP()))
 {
+    //register
+    s_instance = this;
   DECLARE_TheLineNum;
   // empty
 }
@@ -77,6 +82,8 @@ LmThreadPool::~LmThreadPool()
     LmDELETE(thr);
   }
   LmDELETE(tp_);
+  if (s_instance == this)
+      s_instance == nullptr;
 }
 
 ////

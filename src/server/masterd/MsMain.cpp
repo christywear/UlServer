@@ -1,3 +1,4 @@
+#if 0 old legacy code
 // MsMain.cpp  -*- C++ -*-
 // $Id: MsMain.cpp,v 1.25 1998-02-12 15:33:49-08 jason Exp $
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
@@ -597,3 +598,4 @@ bool MsMain::Restart() const
 {
     return restart_;
 }
+#endif

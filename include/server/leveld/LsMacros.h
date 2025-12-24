@@ -19,7 +19,7 @@
   { \
     if (conn) { \
       TLOG_Error(_T("%s: internal msg received from conn [%p] (%c,%u)!"), method, conn, conn->Type(), conn->ID()); \
-      LsUtil::Send_SMsg_Error(main_, conn, msg_type, _T("illegal message")); \
+      LsUtil::Send_SMsg_Error(conn,msg_type, _T("illegal message")); \
       return; \
     } \
   }
@@ -38,7 +38,7 @@
   { \
     if (conn->Type() != LmConnection::CT_UNKNOWN) { \
       TLOG_Error(_T("%s: conn [%p] (%c,%u) not unknown"), method, conn, conn->Type(), conn->ID()); \
-      LsUtil::Send_SMsg_Error(main_, conn, msg_type, _T("already logged in")); \
+      LsUtil::Send_SMsg_Error(conn, msg_type, _T("already logged in")); \
       return; \
     } \
   }
@@ -48,7 +48,7 @@
   { \
     if (conn->Type() != LmConnection::CT_GSRV) { \
       TLOG_Error(_T("%s: conn [%p] (%c, %u) not game server"), method, conn, conn->Type(), conn->ID()); \
-      LsUtil::Send_SMsg_Error(main_, conn, msg_type, _T("incorrect connection type")); \
+      LsUtil::Send_SMsg_Error(conn, msg_type, _T("incorrect connection type")); \
       return; \
     } \
   }
@@ -58,7 +58,7 @@
   { \
     if (conn->ID() != player_->PlayerID()) { \
       TLOG_Error(_T("%s: message from client id %u, not player %u"), method, conn->ID(), player_->PlayerID()); \
-      LsUtil::Send_SMsg_Error(main_, conn, msg_type, _T("id mismatch")); \
+      LsUtil::Send_SMsg_Error(conn, msg_type, _T("id mismatch")); \
       return; \
     } \
   }
@@ -69,7 +69,7 @@
   if (msg.Read(*msgbuf) < 0) { \
     TLOG_Error(_T("%s: could not read message, type %d, size %d"), method, msg_type, msg_size); \
     if (conn && se) { \
-      LsUtil::Send_SMsg_Error(main_, conn, msg_type, _T("corrupt ") #T _T(" message")); \
+      LsUtil::Send_SMsg_Error(conn, msg_type, _T("corrupt ") #T _T(" message")); \
     } \
     return; \
   }
@@ -91,7 +91,7 @@
   if (msg.Read(*msgbuf) < 0) { \
     TLOG_Error(_T("%s: could not read message, type %d, size %d"), method, msg_type, msg_size); \
     if (source && se) { \
-      LsUtil::Send_RMsg_Error(main_, source, msg_type, _T("corrupt ") #T _T(" message")); \
+      LsUtil::Send_RMsg_Error(source, msg_type, _T("corrupt ") #T _T(" message")); \
     } \
     return; \
   }

@@ -18,7 +18,6 @@
 
 #include "../../../include/Server/Leveld/LsLevelThread.h"
 #include "../../../include/Core/LyraDefs.h"
-#include "../../../include/Server/Leveld/LsMain.h"
 #include "../../../include/Protocol/LmConnection.h"
 #include "../../../include/DB/LmLevelDBC.h"
 #include "../../../include/DB/LmGlobalDB.h"
@@ -45,22 +44,23 @@
 #include "../../../include/Protocol/LmConnectionList.h"
 #include "../../../include/Server/Leveld/LsCodexText.h"
 #include "../../../include/DB/LmItemDBC.h"
-
+#include <protocol/LmMesgBufPool.h>
 #include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
+#include <server/gamed/GsOutputDispatch.h>
+
 DECLARE_TheFileName;
 
 ////
 // Constructor
 ////
 
-LsLevelThread::LsLevelThread(LsMain* lsmain)
-  : LmThread(lsmain->BufferPool(), lsmain->Log() /* &logf_*/ ),
-    main_(lsmain)
+LsLevelThread::LsLevelThread()
+  : LmThread(LmMesgBufPool::Instance(), LmLog::Instance() /* &logf_*/)
 {
   DECLARE_TheLineNum;
   // initialize members
-  dbc_ = main_->LevelDBC();
-  state_ = main_->LevelState();
+  dbc_ = LmLevelDBC::Instance();
+  state_ = LsLevelState::Instance();
   saved_to_disk_ = false;
   open_log();
   register_handlers();
@@ -96,7 +96,7 @@ void LsLevelThread::Dump(FILE* f, int indent) const
   DECLARE_TheLineNum;
   INDENT(indent, f);
  _ftprintf(f, _T("<LsLevelThread[%p,%d]: main=%p leveldb=%p levelstate=%p>\n"), this, sizeof(LsLevelThread),
-	  main_, dbc_, state_);
+	  dbc_, state_);
   LmThread::Dump(f, indent + 1);
 }
 
@@ -107,7 +107,7 @@ void LsLevelThread::Dump(FILE* f, int indent) const
 void LsLevelThread::open_log()
 {
   // logf_.Init("ls", "level", dbc_->LevelID());
-  // logf_.Open(main_->GlobalDB()->LogDir());
+  // logf_.Open(LmGlobalDB::Instance()->LogDir());
 }
 
 ////
@@ -176,7 +176,7 @@ void LsLevelThread::handle_SMsg_Ping(LmSrvMesgBuf* msgbuf, LmConnection* conn)
     // TLOG_Debug(_T("%s: ping (%d) from conn [%p] (%c,%d)"), method, msg.Nonce(), conn, conn->Type(), conn->ID());
     // return a pong
     msg.InitPong(msg.Nonce());
-    main_->OutputDispatch()->SendMessage(&msg, conn);
+    GsOutputDispatch::Instance()->SendMessage(&msg, conn);
   }
   else if (msg.PingType() == SMsg_Ping::PONG) {
     int dt = time(NULL) - msg.Nonce();
@@ -199,13 +199,13 @@ void LsLevelThread::handle_SMsg_UniverseBroadcast(LmSrvMesgBuf* msgbuf, LmConnec
 	ACCEPT_MSG(SMsg_UniverseBroadcast, true);
         //TLOG_Warning(_T("%s: got msg"), method);
 	LmConnectionList list;
-	main_->ConnectionSet()->GetConnectionList(list);
+	LmConnectionSet::Instance()->GetConnectionList(list);
 	for(LmConnectionList::iterator c = list.begin(); !(bool)(c == list.end()); ++c) {
 		LmConnection* conn2 = *c;
 		if(conn2->Type() != LmConnection::CT_GSRV)
 			continue;
 		//TLOG_Warning(_T("%s: dispatching to gamed"), method);
-		main_->OutputDispatch()->SendMessage(&msg, conn2);
+		GsOutputDispatch::Instance()->SendMessage(&msg, conn2);
 	}
 		
 }
@@ -240,13 +240,13 @@ void LsLevelThread::handle_SMsg_LevelLogin(LmSrvMesgBuf* msgbuf, LmConnection* c
     return;
   }
   // check that player isn't already in level
-  if (main_->PlayerSet()->IsInLevel(msg.PlayerID())) {
+  if (LsPlayerSet::Instance()->IsInLevel(msg.PlayerID())) {
     TLOG_Warning(_T("%s: player %u already in level"), method, msg.PlayerID());
     send_RMsg_LevelLoginAck(conn, msg.PlayerID(), RMsg_LoginAck::LOGIN_ALREADYIN, msg.RoomID());
     return;
   }
   // get player object from player set
-  LsPlayer* player = main_->PlayerSet()->AllocatePlayer(msg.PlayerID());
+  LsPlayer* player = LsPlayerSet::Instance()->AllocatePlayer(msg.PlayerID());
   if (!player) {
     TLOG_Error(_T("%s: player set is full!"), method);
     send_RMsg_LevelLoginAck(conn, msg.PlayerID(), RMsg_LoginAck::LOGIN_ROOMFULL, msg.RoomID());
@@ -260,11 +260,11 @@ void LsLevelThread::handle_SMsg_LevelLogin(LmSrvMesgBuf* msgbuf, LmConnection* c
   if ((msg.AccountType() == LmPlayerDB::ACCT_PLAYER) ||
 	  (msg.AccountType() == LmPlayerDB::ACCT_ADMIN && !msg.Avatar().Hidden()) ||
 	  (msg.AccountType() == LmPlayerDB::ACCT_PMARE))
-	main_->ItemDBC()->ChangeNumDreamers(main_->LevelNum(), 1);
+	LmItemDBC::Instance()->ChangeNumDreamers(player->GetLevelID(), 1);
 
   // send login acknowledge
   send_RMsg_LevelLoginAck(conn, msg.PlayerID(), RMsg_LoginAck::LOGIN_OK, msg.RoomID(),
-		     main_->SocketTCP()->SockName().IPAddress(), main_->ServerPort());
+		     LmSocket::Instance()->SockName().IPAddress(), GsConfig::ServerPort());
 
   player->SetRealtimeID(state_->GetRealtimeID(player->PlayerID()));
   TLOG_Debug(_T("%s: player(%u) '%s' logged in to room %d, rtid %d"), method, msg.PlayerID(), player->PlayerName(), msg.RoomID(), player->RealtimeID());
@@ -272,9 +272,9 @@ void LsLevelThread::handle_SMsg_LevelLogin(LmSrvMesgBuf* msgbuf, LmConnection* c
   // if player is newly awakened, alert those with the newly alert set 
   // notify room thread of new player
   bool alerts = false;
-  if (msg.NewlyAwakened() & !msg.Avatar().Hidden()) {
+  if (msg.NewlyAwakened() && !msg.Avatar().Hidden()) {
 	LsPlayerList players;
-	main_->PlayerSet()->GetPlayerList(players);
+	LsPlayerSet::Instance()->GetPlayerList(players);
 	for (LsPlayerList::iterator p = players.begin(); !(bool)(p == players.end()); ++p) {
 		alerts = (*p)->GetNewlyAlerts();
 	    if (alerts && ((*p)->PlayerID() != msg.PlayerID())) { // send alert message
@@ -286,9 +286,9 @@ void LsLevelThread::handle_SMsg_LevelLogin(LmSrvMesgBuf* msgbuf, LmConnection* c
 //	TLOG_Debug(_T("%s: logged in %s; id = %d"), method, msg.PlayerName(), main_->LevelNum());
 
 
-  if (main_->LevelNum() == 46) {  // send Dreamer's Cup entrance alerts
+  if (player->GetLevelID() == 46) {  // send Dreamer's Cup entrance alerts
 	LsPlayerList players;
-	main_->PlayerSet()->GetPlayerList(players);
+	LsPlayerSet::Instance()->GetPlayerList(players);
 	for (LsPlayerList::iterator p = players.begin(); !(bool)(p == players.end()); ++p) {
 	    if ((*p)->PlayerID() != msg.PlayerID()) { // send alert message
 //		    TLOG_Debug(_T("%s: sending cup summons for %s!"), method, msg.PlayerName());
@@ -301,9 +301,9 @@ void LsLevelThread::handle_SMsg_LevelLogin(LmSrvMesgBuf* msgbuf, LmConnection* c
   if (!alerts && !msg.Avatar().Hidden() && !msg.Hidden()) { // Don't send alert if NewlyAwakened msg already sent, or if GM INVIS or Mind Blanked
 	  const int guildlevels[NUM_GUILDS] = { 25,22,24,26,21,17,23,18 };
 	  for (int guild_id = 0; guild_id < NUM_GUILDS; guild_id++){
-		  if ((main_->LevelNum() == guildlevels[guild_id]) && (msg.Avatar().GuildID() != guild_id)) {
+		  if ((player->GetLevelID() == guildlevels[guild_id]) && (msg.Avatar().GuildID() != guild_id)) {
 			  LsPlayerList players;
-			  main_->PlayerSet()->GetPlayerList(players);
+			  LsPlayerSet::Instance()->GetPlayerList(players);
 			  alerts = true;
 
 			  for (LsPlayerList::iterator p = players.begin(); !(bool)(p == players.end()); ++p) {
@@ -325,7 +325,7 @@ void LsLevelThread::handle_SMsg_LevelLogin(LmSrvMesgBuf* msgbuf, LmConnection* c
 
   SMsg_LS_Login msg2;
   msg2.Init(msg.PlayerID());
-  if (LsUtil::SendInternalMessage(main_, msg2, LsMain::THREAD_ROOMSERVER) < 0) {
+  if (LsUtil::SendInternalMessage(msg2, THREAD_ROOMSERVER) < 0) {
     TLOG_Error(_T("%s: could not send login message to room thread"), method);
     // TODO: abort?
   }
@@ -363,14 +363,14 @@ void LsLevelThread::handle_SMsg_Login(LmSrvMesgBuf* msgbuf, LmConnection* conn)
   // accept message
   ACCEPT_MSG(SMsg_Login, true); // send error
   // check that connection's peer IP is a server IP
-  if (!main_->ServerDBC()->IsServerIP(conn->Socket().PeerName().IPAddress())) {
+  if (!LmServerDBC::Instance()->IsServerIP(conn->Socket().PeerName().IPAddress())) {
     TLOG_Warning(_T("%s: conn [%p] not a server; ip=%s"), method, conn, conn->Socket().PeerName().AddressString());
     return;
   }
   // process
   //  TLOG_Debug(_T("%s: logging in connection [%p] (%c,%u)"), method, conn, msg.ServerType(), msg.ID());
   // update connection type, message range
-  main_->ConnectionSet()->UpdateConnection(conn, msg.ServerType(), msg.ID());
+  LmConnectionSet::Instance()->UpdateConnection(conn, msg.ServerType(), msg.ID());
   conn->SetMessageRange(SMsg::MIN, SMsg::MAX);
 }
 
@@ -394,7 +394,7 @@ void LsLevelThread::handle_SMsg_Logout(LmSrvMesgBuf* msgbuf, LmConnection* conn)
     handle_SMsg_Logout_GSRV(conn);
   }
   // disconnect
-  main_->ConnectionSet()->RemoveConnection(conn);
+  LmConnectionSet::Instance()->RemoveConnection(conn);
 }
 
 ////
@@ -408,7 +408,7 @@ void LsLevelThread::handle_SMsg_Logout_GSRV(LmConnection* gsconn)
   DECLARE_TheLineNum;
   // get players
   LsPlayerList players;
-  main_->PlayerSet()->GetPlayerList(players);
+  LsPlayerSet::Instance()->GetPlayerList(players);
   for (LsPlayerList::iterator p = players.begin(); !(bool)(p == players.end()); ++p) {
     if ((*p)->Connection() != gsconn) { // not the same connection
       continue;
@@ -421,11 +421,11 @@ void LsLevelThread::handle_SMsg_Logout_GSRV(LmConnection* gsconn)
     SMsg_Proxy msg_proxy;
     msg_proxy.Init((*p)->PlayerID(), SMsg_Proxy::PROXY_PROCESS, msg_logout);
     // and then in a message buffer, so it can be dispatched
-    LmSrvMesgBuf* buf_proxy = main_->BufferPool()->AllocateBuffer(msg_proxy.MessageSize());
+    LmSrvMesgBuf* buf_proxy = LmMesgBufPool::Instance()->AllocateBuffer(msg_proxy.MessageSize());
     buf_proxy->ReadMessage(msg_proxy);
     // dispatch message as an internal message
-    if (main_->InputDispatch()->DispatchMessage(buf_proxy, 0) < 0) {
-      main_->BufferPool()->ReturnBuffer(buf_proxy);
+    if (LsInputDispatch::Instance()->DispatchMessage(buf_proxy, 0) < 0) {
+      LmMesgBufPool::Instance()->ReturnBuffer(buf_proxy);
       TLOG_Error(_T("%s: could not dispatch fake logout message!"), method);
       // TODO: abort?
     }
@@ -463,7 +463,7 @@ void LsLevelThread::handle_SMsg_GetServerStatus(LmSrvMesgBuf* msgbuf, LmConnecti
     break;
   default:
     TLOG_Warning(_T("%s: illegal request %d"), method, msg.Status());
-    LsUtil::Send_SMsg_Error(main_, conn, msg.MessageType(), _T("unknown status request %d"), msg.Status());
+    LsUtil::Send_SMsg_Error(conn, msg.MessageType(), _T("unknown status request %d"), msg.Status());
     break;
   }
 }
@@ -492,18 +492,20 @@ void LsLevelThread::handle_SMsg_DumpState(LmSrvMesgBuf* msgbuf, LmConnection* co
   //TLOG_Log(_T("%s: dumping state"), method);
   // open up a dumpfile
   TCHAR df[80];
- _stprintf(df, _T("ls_%u_dump.%lu"), main_->LevelDBC()->LevelID(), time(NULL));
+ _stprintf(df, _T("ls_%u_dump.%lu"), LmLevelDBC::Instance()->LevelID(), time(NULL));
   TCHAR dfname[FILENAME_MAX];
-  main_->GlobalDB()->GetDumpFile(dfname, df);
+  LmGlobalDB::Instance()->GetDumpFile(dfname, df);
   FILE* dumpf =_tfopen(dfname, _T("w"));
   if (!dumpf) {
     TLOG_Error(_T("%s: could not open dump file '%s'"), method, dfname);
     return;
   }
   // dump server state to it
+#ifndef win32
   main_->Dump(dumpf);
   fclose(dumpf);
   TLOG_Log(_T("%s: server state dumped to '%s'"), method, dfname);
+#endif
 
 }
 
@@ -532,7 +534,7 @@ void LsLevelThread::handle_SMsg_RotateLogs(LmSrvMesgBuf* msgbuf, LmConnection* c
   close_log();
   open_log();
   // rotate main logs
-  main_->RotateLogs();
+  //main_->RotateLogs();
 }
 
 ////
@@ -552,7 +554,7 @@ void LsLevelThread::handle_SMsg_ResetPort(LmSrvMesgBuf* msgbuf, LmConnection* co
   // accept message
   ACCEPT_MSG(SMsg_ResetPort, true); // send error
 
-  LsPlayer* player = main_->PlayerSet()->GetPlayer(msg.PlayerID());
+  LsPlayer* player = LsPlayerSet::Instance()->GetPlayer(msg.PlayerID());
   if (!player) {
     TLOG_Warning(_T("%s: got reset port message for player %u not in level"), method, msg.PlayerID());
     // nothing to send back
@@ -593,21 +595,21 @@ void LsLevelThread::handle_SMsg_LS_Action(LmSrvMesgBuf* msgbuf, LmConnection* co
     break;
   case SMsg_LS_Action::ACTION_SAVE_STATE_FILE:
     // TLOG_Debug(_T("%s: saving level state to disk"), method);
-	main_->LevelState()->SaveToDisk();
+	LsLevelState::Instance()->SaveToDisk();
 	saved_to_disk_ = true;
     // TLOG_Debug(_T("%s: level state saved"), method);
     break;
   case SMsg_LS_Action::ACTION_SAVE_STATE_DB:
     // TLOG_Debug(_T("%s: saving level state to database"), method);
-	  if (main_->LevelState()->SaveToDB() < 0) {
+	  if (LsLevelState::Instance()->SaveToDB() < 0) {
 		TLOG_Error(_T("%s: could not save level state to db; trying disk"), method);
-		if (0 == main_->LevelState()->SaveToDisk())
+		if (0 == LsLevelState::Instance()->SaveToDisk())
 			saved_to_disk_ = true;
 	  } else {
 		if (saved_to_disk_)
 		{ // if we saved to disk before, remove state file now
 			TCHAR statefile[FILENAME_MAX];
-			main_->GlobalDB()->GetLevelState(statefile, dbc_->LevelID());
+			LmGlobalDB::Instance()->GetLevelState(statefile, dbc_->LevelID());
 			_tunlink(statefile);
 			TLOG_Debug(_T("%s: level state saved to db; disk file removed"), method);
 		}
@@ -615,10 +617,10 @@ void LsLevelThread::handle_SMsg_LS_Action(LmSrvMesgBuf* msgbuf, LmConnection* co
 	  }
     break;
   case SMsg_LS_Action::ACTION_READCODEX:
-    main_->CodexText()->Load();
+    LsCodexText::Instance()->Load();
     break;
   case SMsg_LS_Action::ACTION_FREEBUFS: {
-    int oldbufs = main_->BufferPool()->FreeOldBuffers();
+    int oldbufs = LmMesgBufPool::Instance()->FreeOldBuffers();
     // TLOG_Debug(_T("%s: freed %d old buffers"), method, oldbufs);
   }
   break;
@@ -643,7 +645,7 @@ void LsLevelThread::handle_SMsg_LS_Action_Exit()
   SMsg_LS_Action msg;
   msg.Init(SMsg_LS_Action::ACTION_EXIT);
   // send to all server threads
-  LsUtil::BroadcastInternalMessage(main_, msg, LsMain::THREAD_LEVELSERVER);
+  LsUtil::BroadcastInternalMessage(msg, THREAD_LEVELSERVER);
   // need to send a signal to the signal thread to wake it up, otherwise it
   // may not get the message.  use SIGUSR2
   //sigsend(P_PID, P_MYID, SIGUSR2);
@@ -654,12 +656,12 @@ void LsLevelThread::handle_SMsg_LS_Action_Exit()
   pth_sleep(5);
 #endif
 
-  if (main_->LevelState()->SaveToDB() < 0) {
+  if (LsLevelState::Instance()->SaveToDB() < 0) {
   	// save level state (to disk and to database)
-		main_->LevelState()->SaveToDisk();
+		LsLevelState::Instance()->SaveToDisk();
   } else {
 	TCHAR statefile[FILENAME_MAX];
-	main_->GlobalDB()->GetLevelState(statefile, dbc_->LevelID());
+	LmGlobalDB::Instance()->GetLevelState(statefile, dbc_->LevelID());
 	_tunlink(statefile);
   }
 
@@ -676,8 +678,8 @@ void LsLevelThread::send_RMsg_LevelLoginAck(LmConnection* conn, lyra_id_t player
   DECLARE_TheLineNum;
   RMsg_LoginAck msg;
   TLOG_Debug( _T( "RMsg_LoginAck maxSize is %d" ), msg.MaxMessageSize() );
-  msg.Init(status, roomid, main_->LevelDBC()->LevelID());
-  LsUtil::Send_SMsg_Proxy(main_, conn, playerid, msg);
+  msg.Init(status, roomid, LmLevelDBC::Instance()->LevelID());
+  LsUtil::Send_SMsg_Proxy(conn, playerid, msg);
 }
 
 void LsLevelThread::send_RMsg_LevelLoginAck(LmConnection* conn, lyra_id_t playerid, int status, lyra_id_t roomid,
@@ -686,8 +688,8 @@ void LsLevelThread::send_RMsg_LevelLoginAck(LmConnection* conn, lyra_id_t player
   DECLARE_TheLineNum;
   RMsg_LoginAck msg;
   TLOG_Debug( _T( "RMsg_LoginAck maxSize is %d" ), msg.MaxMessageSize() );
-  msg.Init(status, roomid, main_->LevelDBC()->LevelID(), server_ip, server_port);
-  LsUtil::Send_SMsg_Proxy(main_, conn, playerid, msg);
+  msg.Init(status, roomid, LmLevelDBC::Instance()->LevelID(), server_ip, server_port);
+  LsUtil::Send_SMsg_Proxy(conn, playerid, msg);
 }
 
 void LsLevelThread::send_RMsg_NewlyAwakened(LmConnection* conn, lyra_id_t playerid, 
@@ -698,7 +700,7 @@ void LsLevelThread::send_RMsg_NewlyAwakened(LmConnection* conn, lyra_id_t player
   msg.Init();
   msg.SetPlayerName(newly_name);
   msg.SetLocation(roomid);
-  LsUtil::Send_SMsg_Proxy(main_, conn, playerid, msg);
+  LsUtil::Send_SMsg_Proxy(conn, playerid, msg);
 }
 
 void LsLevelThread::send_RMsg_CupSummons(LmConnection* conn, lyra_id_t playerid, 
@@ -708,7 +710,7 @@ void LsLevelThread::send_RMsg_CupSummons(LmConnection* conn, lyra_id_t playerid,
   RMsg_CupSummons msg;
   msg.Init();
   msg.SetPlayerName(name);
-  LsUtil::Send_SMsg_Proxy(main_, conn, playerid, msg);
+  LsUtil::Send_SMsg_Proxy(conn, playerid, msg);
 }
 
 
@@ -721,21 +723,27 @@ void LsLevelThread::send_SMsg_ServerStatus(LmConnection* conn)
   SMsg_ServerStatus msg;
   // get playerlist
   LsPlayerList plist;
-  main_->PlayerSet()->GetPlayerList(plist);
+  LsPlayerSet::Instance()->GetPlayerList(plist);
   // initialize message
-  msg.Init(main_->Uptime(), main_->PlayerSet()->NumLogins(), plist.size(),
-           main_->PlayerSet()->NumPlayers(LmPlayerDB::ACCT_PLAYER),
-           main_->PlayerSet()->NumPlayers(LmPlayerDB::ACCT_MONSTER),
-           main_->PlayerSet()->NumPlayers(LmPlayerDB::ACCT_ADMIN),
-           main_->PlayerSet()->MaxPlayers(), main_->ConnectionSet()->NumConnections(),
-           main_->ConnectionSet()->MaxConnections(), main_->ServerPid(), main_->ParentPid(), LmUtil::GetCPULoad());
+  /*msg.Init(msg.Uptime(), LsPlayerSet::Instance()->NumLogins(), plist.size(),
+           LsPlayerSet::Instance()->NumPlayers(LmPlayerDB::ACCT_PLAYER),
+           LsPlayerSet::Instance()->NumPlayers(LmPlayerDB::ACCT_MONSTER),
+           LsPlayerSet::Instance()->NumPlayers(LmPlayerDB::ACCT_ADMIN),
+           LsPlayerSet::Instance()->MaxPlayers(), LmConnectionSet::Instance()->NumConnections(),
+           LmConnectionSet::Instance()->MaxConnections(), main_->ServerPid(), main_->ParentPid(), LmUtil::GetCPULoad());*/
+  msg.Init(msg.Uptime(), LsPlayerSet::Instance()->NumLogins(), plist.size(),
+      LsPlayerSet::Instance()->NumPlayers(LmPlayerDB::ACCT_PLAYER),
+      LsPlayerSet::Instance()->NumPlayers(LmPlayerDB::ACCT_MONSTER),
+      LsPlayerSet::Instance()->NumPlayers(LmPlayerDB::ACCT_ADMIN),
+      LsPlayerSet::Instance()->MaxPlayers(), LmConnectionSet::Instance()->NumConnections(),
+      LmConnectionSet::Instance()->MaxConnections(), (unsigned long)_getpid(), (unsigned long)_getpid(), LmUtil::GetCPULoad());
   // copy playerids
   int pi = 0;
   for (LsPlayerList::iterator i = plist.begin(); !(bool)(i == plist.end()); ++i) {
     msg.SetPlayerID(pi, (*i)->PlayerID());
     ++pi;
   }
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  LsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -747,14 +755,14 @@ void LsLevelThread::send_SMsg_ConnStatus(LmConnection* conn)
   DEFMETHOD(LsLevelThread, send_SMsg_ConnStatus);
   SMsg_ConnStatus msg;
   LmConnectionList conn_list;
-  main_->ConnectionSet()->GetConnectionList(conn_list);
+  LmConnectionSet::Instance()->GetConnectionList(conn_list);
   msg.Init(conn_list.size());
   int i = 0;
   for (LmConnectionList::iterator c = conn_list.begin(); !(bool)(c == conn_list.end()); ++c, ++i) {
     LmConnection* conn2 = *c;
     msg.InitConnection(i, conn2);
   }
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  LsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -765,15 +773,15 @@ void LsLevelThread::send_SMsg_PlayerStatus(LmConnection* conn, lyra_id_t playeri
 {
   SMsg_PlayerStatus msg;
   // get player
-  LsPlayer* player = main_->PlayerSet()->GetPlayer(playerid);
+  LsPlayer* player = LsPlayerSet::Instance()->GetPlayer(playerid);
   if (player) {
-    msg.Init(player->PlayerID(), player->PlayerName(), main_->LevelDBC()->LevelID(), player->RoomID(),
+    msg.Init(player->PlayerID(), player->PlayerName(), LmLevelDBC::Instance()->LevelID(), player->RoomID(),
              player->PlayerUpdate().X(), player->PlayerUpdate().Y(), player->AccountType(),
 	     player->Online(), player->IPAddress(), player->IdleTime());
   }
   else {
     msg.Init(playerid, _T("(unknown)"), 0, 0, 0, 0, 'U', 0, INADDR_ANY, 0);
   }
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  LsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 

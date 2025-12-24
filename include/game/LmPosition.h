@@ -85,7 +85,7 @@ private:
 };
 
 
-int operator==(const LmPosition& p1, const LmPosition& p2)
+inline int operator==(const LmPosition& p1, const LmPosition& p2)
 {
   // only x, y, z count
   return (p1.X() == p2.X()) && (p1.Y() == p2.Y()) && (p1.Height() == p2.Height());

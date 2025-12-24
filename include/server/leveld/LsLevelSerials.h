@@ -54,7 +54,7 @@ private:
 
   int allocate_serials(int num_serials);
 
-  PThMutex lock_;    // object lock
+  mutable PThMutex lock_;    // object lock
   LsMain* main_;         // pointer to main object
   std::list<int> serials_;    // list of serial numbers
 

@@ -47,9 +47,8 @@ unsigned int last_signal_ = 0;
 // Constructor
 ////
 
-GsSignalThread::GsSignalThread(GsMain* gsmain)
-  : LmSignalThread(gsmain->BufferPool(), gsmain->Log() /* &logf_ */ ),
-    main_(gsmain)
+GsSignalThread::GsSignalThread()
+  : LmSignalThread(LmMesgBufPool::Instance(), LmLog::Instance() /* &logf_ */ )
 {
  
   DECLARE_TheLineNum;
@@ -74,8 +73,7 @@ void GsSignalThread::Dump(FILE* f, int indent) const
 {
   DECLARE_TheLineNum;
   INDENT(indent, f);
- _ftprintf(f, _T("<GsSignalThread[%p,%d]: main=[%p]>\n"), this, sizeof(GsSignalThread),
-	  main_);
+ _ftprintf(f, _T("<GsSignalThread[%p,%d]: main=[%p]>\n"), this, sizeof(GsSignalThread));
   LmSignalThread::Dump(f, indent + 1);
 }
 
@@ -181,5 +179,5 @@ void GsSignalThread::handle_SIGTERM(int sig)
   if (sig != SIGTERM) {
     return;
   }
-  main_->SetSIGTERM(true);
+  GsConfig::SetSigTerm(true);
 }

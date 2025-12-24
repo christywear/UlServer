@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 #include "..\core\LyraDefs.h"
-#include "mysql.h" //guessing need to include or define
+#include <third_party/MariaDB Connector C 64-bit/include/mysql.h>
 #include "..\core\PThMutex.h"
 #include "..\core\SharedConstants.h"
 
@@ -36,6 +36,8 @@ public:
   LmBillingDBC(const TCHAR *dbuser, const TCHAR *dbpassword, const TCHAR* dbserver, int dbport);
   ~LmBillingDBC();
 
+  //public accessor
+  static LmBillingDBC* Instance() { return s_instance; }
   int Connect();
   void Disconnect();
 
@@ -68,7 +70,8 @@ protected:
   int room_index(lyra_id_t roomid) const;
 
 private:
-
+	//private accessor
+	static LmBillingDBC* s_instance;
   // not implemented
   LmBillingDBC(const LmBillingDBC&);
   //operator=(const LmBillingDBC&);
@@ -77,7 +80,7 @@ private:
   MYSQL mysql_;
 
   bool connected_;
-  PThMutex lock_;
+  mutable PThMutex lock_;
   long last_sql_code_;
   LmLog* log_;
 

@@ -20,6 +20,8 @@ public:
   LmLog();
   virtual ~LmLog();
 
+  //public accessor
+  static LmLog* Instance() { return s_instance; }
   void SetLogLevel(int level);
   int LogLevel() const;
   bool LogOpened() const;
@@ -58,7 +60,8 @@ protected:
   virtual void WriteLogEntry(const TCHAR* prefix, const TCHAR* fmt, va_list args) = 0;
 
 private:
-
+	//private static accessor
+	static LmLog* s_instance;
   // methods/operations not implemented
   LmLog(const LmLog&);
   //operator=(const LmLog&);

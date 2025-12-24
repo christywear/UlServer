@@ -99,7 +99,7 @@ private:
   void close_log();
   void register_handlers();
 
-  GsMain* main_;    // game server main object
+ 
 
   // LmLogFile logf_;  // game thread log
 

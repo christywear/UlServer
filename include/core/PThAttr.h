@@ -1,69 +1,41 @@
-#ifdef UL_POSIX
-// PThAttr.h  -*- C++ -*-
-// $Id: PThAttr.h,v 1.7 1997-07-08 13:58:37-07 jason Exp $
-// Copyright 1996-1997 Lyra LLC, All rights reserved.
-//
-// PThAttr: POSIX thread attribute wrapper class
-
+﻿// include/core/PThAttr.h
 #ifndef INCLUDED_PThAttr
 #define INCLUDED_PThAttr
 
-#ifdef __GNUC__
-#pragma interface
-#endif
+#include "../platform/Platform.h"
 
-#include "LyraDefs.h"
-
-// class declarations
-
+#if defined(UL_WINDOWS) || defined(_WIN32)
+    // 🛡️ WINDOWS: Dummy Implementation
+    // std::thread doesn't need these attributes in the same way
 class PThAttr {
-
 public:
+    PThAttr() {}
+    ~PThAttr() {}
 
-  PThAttr();
-  ~PThAttr();
-
-  // API methods
-  int Init();
-  // scope is meaningless with pTh user sthreads
-  // int GetScope(int* contentionscope) 
-  // int SetScope(int contentionscope); const;
-  //  int SetDetachState(int detachstate);
-  //  int GetDetachState(int* detachstate) const;
-  int SetJoinable(int joinable); // true = 1, false = 0
-  int GetJoinable(int *joinable) const;
-  int SetStackSize(unsigned int stacksize);
-  int GetStackSize(unsigned int* stacksize) const;
-  //  int SetName(char* threadname);
-  //  int GetName(char* threadname);
-  //int SetStackAddr(void* stackaddr);
-  //int GetStackAddr(void** stackaddr) const;
-  //  int SetSchedParam(const struct sched_param* param);
-  //  int GetSchedParam(struct sched_param* param) const;
-  //  int SetSchedPolicy(int policy);
-  //  int GetSchedPolicy(int* policy) const;
-  //  int SetInheritSched(int inheritsched);
-  //  int GetInheritSched(int* inheritsched) const;
-
-private:
-
-  // operations/methods not implemented
-  PThAttr(const PThAttr&);
-  //operator=(const PThAttr&);
-
-  // the attribute object
-  //  pth_attr_t attr_;
-
-#ifdef WIN32
-  pthread_attr_t attr_;
-#else
-  pth_attr_t attr_;
-#endif
-
-  // friend classes
-  friend class PTh;
-
+    void Init() {}
+    // All these do nothing on Windows now, preventing errors
+    void SetStackSize(int size) { /* Ignored */ }
+    void SetJoinable(bool joinable) { /* Ignored */ }
+    void SetDetachState(int state) { /* Ignored */ }
+    void SetScope(int scope) { /* Ignored */ }
 };
 
-#endif /* INCLUDED_PThAttr */
+#else
+    // 🐧 LINUX: Legacy Definition
+#include <pthread.h>
+class PThAttr {
+public:
+    PThAttr();
+    ~PThAttr();
+    void Init();
+    void SetStackSize(int size);
+    void SetJoinable(bool joinable);
+    void SetDetachState(int state);
+    void SetScope(int scope);
+    pthread_attr_t* Attr() { return &attr_; }
+private:
+    pthread_attr_t attr_;
+};
 #endif
+
+#endif // INCLUDED_PThAttr

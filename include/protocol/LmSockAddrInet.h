@@ -13,7 +13,6 @@
 
 #include <stdio.h>
 #ifdef WIN32
-#include "unix.h"
 #include <winsock.h>
 typedef int socklen_t;
 #else /* !WIN32 */

@@ -38,9 +38,8 @@
 // Constructor
 ////
 
-GsForwardThread::GsForwardThread(GsMain* gsmain)
-  : LmThread(gsmain->BufferPool(), gsmain->Log() /* &logf_ */ ),
-    main_(gsmain)
+GsForwardThread::GsForwardThread()
+  : LmThread(LmMesgBufPool::Instance(), LmLog::Instance() /* &logf_ */ )
 {
   register_handlers();
 }
@@ -71,7 +70,7 @@ void GsForwardThread::Run()
 void GsForwardThread::Dump(FILE* f, int indent) const
 {
   INDENT(indent, f);
- _ftprintf(f, _T("<GsForwardThread[%p,%d]: main=[%p]>\n"), this, sizeof(GsForwardThread), main_);
+ _ftprintf(f, _T("<GsForwardThread[%p,%d]: main=[%p]>\n"), this, sizeof(GsForwardThread));
   LmThread::Dump(f, indent + 1);
 }
 
@@ -82,7 +81,7 @@ void GsForwardThread::Dump(FILE* f, int indent) const
 void GsForwardThread::open_log()
 {
   // logf_.Init(_T("gs"), _T("fwd"), main_->ServerPort());
-  // logf_.Open(main_->GlobalDB()->LogDir());
+  // logf_.Open(LmGlobalDB::Instance()->LogDir());
 }
 
 ////
@@ -182,7 +181,7 @@ void GsForwardThread::forward_to_player_thread(lyra_id_t playerid, LmSrvMesgBuf*
 {
   DEFMETHOD(GsForwardThread, forward_to_player_thread);
   // get target thread
-  LmThread* thread = main_->ThreadPool()->GetThread(playerid);
+  LmThread* thread = LmThreadPool::Instance()->GetThread(playerid);
   if (!thread) {
     TLOG_Error(_T("%s: could not find thread for player %u, message type %u, size %u"), method, playerid, 	msgbuf->Header().MessageType(), msgbuf->Header().MessageSize());
 	if (msgbuf->Header().MessageType() == SMsg::PROXY) { // log more info for proxy
@@ -191,7 +190,7 @@ void GsForwardThread::forward_to_player_thread(lyra_id_t playerid, LmSrvMesgBuf*
 //			TLOG_Error(_T("%s: proxy message enclosed type %u, enclosed message size %u"), method, msg.EnclosedMessageType(), msg.EnclosedMessageSize());
 			if (msg.EnclosedMessageType() == RMsg::PLAYERMSG) {
 				// get new message buffer
-				LmSrvMesgBuf* mbuf = main_->BufferPool()->AllocateBuffer(msg.EnclosedMessageSize());
+				LmSrvMesgBuf* mbuf = LmMesgBufPool::Instance()->AllocateBuffer(msg.EnclosedMessageSize());
 				// copy message data into buffer (message data is in network order already)
 				LmMesgHdr mhdr;
 				mhdr.Init(msg.EnclosedMessageType(), msg.EnclosedMessageSize());
@@ -305,7 +304,7 @@ void GsForwardThread::handle_SMsg_Ping(LmSrvMesgBuf* msgbuf, LmConnection* conn)
     // TLOG_Debug(_T("%s: ping (%d) from conn [%p] (%c,%d)", method, msg.Nonce(), conn, conn->Type(), conn->ID());
     // return a pong
     msg.InitPong(msg.Nonce());
-    main_->OutputDispatch()->SendMessage(&msg, conn);
+    GsOutputDispatch::Instance()->SendMessage(&msg, conn);
   }
   else if (msg.PingType() == SMsg_Ping::PONG) {
     int dt = time(NULL) - msg.Nonce();

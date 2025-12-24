@@ -16,7 +16,6 @@
 
 #include "../../../include/Server/Leveld/LsInputDispatch.h"
 #include "../../../include/Core/LyraDefs.h"
-#include "../../../include/Server/Leveld/LsMain.h"
 #include "../../../include/Protocol/LmSrvMesgBuf.h"
 #include "../../../include/Protocol/LmConnection.h"
 #include "../../../include/Server/Leveld/LsPlayer.h"
@@ -25,15 +24,21 @@
 #include "../../../include/Protocol/RMsg/RMsg.h"
 #include "../../../include/Protocol/SMsg/SMsg.h"
 #include "../../../include/Protocol/LyraMessage.h"
+#include "../../../include/Protocol/LmMesgBufPool.h"
+#include <core/LmThreadPool.h>
+#include <server/leveld/LsInputDispatch.h>
+
+//init tracker
+LsInputDispatch* LsInputDispatch::s_instance = nullptr;
 
 ////
 // Constructor
 ////
 
-LsInputDispatch::LsInputDispatch(LsMain* lsmain)
-  : LmDispatch(lsmain->BufferPool()),
-    main_(lsmain)
+LsInputDispatch::LsInputDispatch()
+  : LmDispatch(LmMesgBufPool::Instance())
 {
+    s_instance = this;
   initialize_table();
 }
 
@@ -43,7 +48,8 @@ LsInputDispatch::LsInputDispatch(LsMain* lsmain)
 
 LsInputDispatch::~LsInputDispatch()
 {
-  // empty
+    if (s_instance == this)
+        s_instance == nullptr;
 }
 
 ////
@@ -60,11 +66,11 @@ LmThread* LsInputDispatch::ComputeTarget(LmSrvMesgBuf* mbuf, LmConnection* /* co
   // case on dispatch target
   switch (target) {
   case DT_LEVEL: {  // level thread
-    return main_->ThreadPool()->GetThread(LsMain::THREAD_LEVELSERVER);
+    return LmThreadPool::Instance()->GetThread(THREAD_LEVELSERVER);  //LmThreadPool
   }
   break;
   case DT_ROOM: {  // room thread
-    return main_->ThreadPool()->GetThread(LsMain::THREAD_ROOMSERVER);
+    return LmThreadPool::Instance()->GetThread(THREAD_ROOMSERVER);
   }
   break;
   default:
@@ -81,7 +87,7 @@ LmThread* LsInputDispatch::ComputeTarget(LmSrvMesgBuf* mbuf, LmConnection* /* co
 void LsInputDispatch::Dump(FILE* f, int indent) const
 {
   INDENT(indent, f);
- _ftprintf(f, _T("<LsInputDispatch[%p,%d]: main=[%p]>\n"), this, sizeof(LsInputDispatch), main_);
+ _ftprintf(f, _T("<LsInputDispatch[%p,%d]: main=[%p]>\n"), this, sizeof(LsInputDispatch));
   // base class
   LmDispatch::Dump(f, indent + 1);
 }

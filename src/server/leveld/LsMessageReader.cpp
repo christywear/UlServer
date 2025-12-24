@@ -30,9 +30,8 @@
 // Constructor
 ////
 
-LsMessageReader::LsMessageReader(LsMain* lsmain, LmLog* log)
-  : LmMessageReader(lsmain->InputDispatch(), lsmain->BufferPool(), log),
-    main_(lsmain)
+LsMessageReader::LsMessageReader(LmLog* log)
+  : LmMessageReader(LsInputDispatch::Instance(), LmMesgBufPool::Instance(), log)
 {
   // empty
 }

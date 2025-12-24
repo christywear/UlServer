@@ -13,9 +13,11 @@
 #include "../../include/Core/LmFuncTimer.h"
 #include "../../include/DB/LmRoomDB.h"
 #include "../../include/DB/LmLevelDBC.h"
-#include "../../include/platform/win/MariaDB Connector C 64-bit/include/mysql.h"
+#include <third_party/MariaDB Connector C 64-bit/include/mysql.h>
 
-unsigned int ATOI(char* value)
+LmLevelDBC* LmLevelDBC::s_instance = nullptr;
+
+inline inline unsigned int ATOI(char* value)
 {
   if (!value)
     return 0;
@@ -58,6 +60,7 @@ LmLevelDBC::LmLevelDBC(const TCHAR *dbuser, const TCHAR* dbpassword, const TCHAR
     rooms_(0),
 	db_port_(dbport)
 {
+    s_instance = this;
   lock_.Init();
   // copy to member variables
  _tcscpy(password_, dbpassword);
@@ -81,6 +84,8 @@ LmLevelDBC::~LmLevelDBC()
 {
   Disconnect();
   LmDELETEARRAY(rooms_);
+  if (s_instance == this)
+      s_instance == nullptr;
 }
 
 ////

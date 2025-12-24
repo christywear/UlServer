@@ -14,7 +14,6 @@
 #include "../../../include/Core/LyraDefs.h"
 #include "../../../include/Core/PThMutex.h"
 #include "../../../include/DB/LmDatabase.h"
-#include "../../../include/Server/Leveld/LsMain.h"
 #include "../../../include/DB/LmPlayerDB.h"
 #include "../../../include/DB/LmGlobalDB.h"
 #include "../../../include/Protocol/LmSocket.h"
@@ -68,7 +67,7 @@ LsPlayer::~LsPlayer()
 // Login
 ////
 
-int LsPlayer::Login(LsMain* /* lsmain */, lyra_id_t playerid)
+int LsPlayer::Login(lyra_id_t playerid)
 {
   DEFMETHOD(LsPlayer, Login);
   DECLARE_TheLineNum;

@@ -25,9 +25,11 @@ class GsOutputDispatch : public LmDispatch {
 
 public:
 
-  GsOutputDispatch(GsMain* gsmain);
+  GsOutputDispatch();
   ~GsOutputDispatch();
 
+  //public accessor
+  static GsOutputDispatch* Instance() { return s_instance; }
   int SendMessage(LmMesg* msg, LmConnection* conn);
   int SendMessage(LmSrvMesgBuf* mbuf, LmConnection* conn);
 
@@ -38,8 +40,9 @@ protected:
   LmThread* ComputeTarget(LmSrvMesgBuf* mbuf, LmConnection* conn);
 
 private:
-
-  GsMain* main_;
+	//private accessor
+	static GsOutputDispatch* s_instance;
+  
 
 };
 

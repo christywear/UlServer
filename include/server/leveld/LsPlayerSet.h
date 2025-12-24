@@ -30,10 +30,12 @@ class LsPlayerSet {
 
 public:
 
-  LsPlayerSet(LsMain* lsmain);
+  LsPlayerSet();
   ~LsPlayerSet();
-
+  //public accessor
+  static LsPlayerSet* Instance() { return s_instance; }
   bool IsInLevel(lyra_id_t playerid) const;
+  int GetLevelID(lyra_id_t palyerid) const;
   int NumPlayers() const;
   int NumPlayers(int acct_type) const;
   int MaxPlayers() const;
@@ -47,14 +49,15 @@ public:
   void Dump(FILE* f, int indent = 0) const;
 
 private:
-
+	//private accessor
+	static LsPlayerSet* s_instance;
   // not implemented
   LsPlayerSet(const LsPlayerSet&);
   //operator=(const LsPlayerSet&);
 
-  LsMain* main_;
 
-  PThMutex lock_;    // object lock
+
+  mutable PThMutex lock_;    // object lock
 
   // LsPlayerList active_;  // player objects in use
 

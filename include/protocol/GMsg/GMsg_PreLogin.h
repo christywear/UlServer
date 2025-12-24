@@ -13,8 +13,8 @@
 
 #include <stdio.h>
 
-#include "LyraDefs.h"
-#include "LmMesg.h"
+#include <include/core/LyraDefs.h>
+#include <include/protocol/LmMesg.h>
 #include "GMsg.h"
 
 // forward references

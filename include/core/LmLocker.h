@@ -1,40 +1,36 @@
-// LmLocker.h  -*- C++ -*-
-// $Id: LmLocker.h,v 1.5 1997-07-30 16:45:48-07 jason Exp $
-// Copyright 1996-1997 Lyra LLC, All rights reserved. 
-//
-// object-locking class
-
+﻿// include/core/LmLocker.h
 #ifndef INCLUDED_LmLocker
 #define INCLUDED_LmLocker
 
-#ifdef __GNUC__
-#pragma interface
-#endif
-#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
-#include "LyraDefs.h"
 #include "PThMutex.h"
 
-// the class
-
+#if defined(UL_WINDOWS) || defined(_WIN32)
+    // 🛡️ WINDOWS: Simple Scope Guard
 class LmLocker {
-
 public:
+    // Lock on creation
+    LmLocker(PThMutex& mutex) : m_mutex(mutex) {
+        m_mutex.Lock();
+    }
 
-  LmLocker(PThMutex& m);
-  LmLocker(const PThMutex& m);
-  ~LmLocker();
-
-  void UnLock(); // explicitly unlock mutex
+    // Unlock on destruction (scope exit)
+    ~LmLocker() {
+        m_mutex.Unlock();
+    }
 
 private:
-
-  PThMutex& m_;
-  bool locked_;
-
+    PThMutex& m_mutex;
 };
 
-#ifdef USE_INLINE
-#include "LmLocker.i"
+#else
+    // 🐧 LINUX: Legacy Definition
+class LmLocker {
+public:
+    LmLocker(PThMutex& mutex);
+    ~LmLocker();
+private:
+    PThMutex* mutex_;
+};
 #endif
 
-#endif /* INCLUDED_LmLocker */
+#endif // INCLUDED_LmLocker

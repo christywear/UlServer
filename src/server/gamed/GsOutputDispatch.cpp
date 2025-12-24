@@ -26,15 +26,17 @@
 #include "../../../include/Protocol/LmSrvMesgBuf.h"
 #include "../../../include/Protocol/LmMesgBufPool.h"
 
+//init tracker
+GsOutputDispatch* GsOutputDispatch::s_instance = nullptr;
+
 ////
 // Constructor
 ////
 
-GsOutputDispatch::GsOutputDispatch(GsMain* gsmain)
-  : LmDispatch(gsmain->BufferPool()),
-    main_(gsmain)
+GsOutputDispatch::GsOutputDispatch()
+  : LmDispatch(LmMesgBufPool::Instance())
 {
-  // empty
+    s_instance = this;
 }
 
 ////
@@ -43,7 +45,8 @@ GsOutputDispatch::GsOutputDispatch(GsMain* gsmain)
 
 GsOutputDispatch::~GsOutputDispatch()
 {
-  // empty
+    if (s_instance == this)
+        s_instance == nullptr;
 }
 
 ////
@@ -53,7 +56,7 @@ GsOutputDispatch::~GsOutputDispatch()
 int GsOutputDispatch::SendMessage(LmMesg* msg, LmConnection* conn)
 {
   // put message in a buffer
-  LmSrvMesgBuf* mbuf = main_->BufferPool()->AllocateBuffer(msg->MessageSize());
+  LmSrvMesgBuf* mbuf = LmMesgBufPool::Instance()->AllocateBuffer(msg->MessageSize());
   mbuf->ReadMessage(*msg);
   // send it
   return SendMessage(mbuf, conn);
@@ -66,7 +69,7 @@ int GsOutputDispatch::SendMessage(LmSrvMesgBuf* mbuf, LmConnection* conn)
   out_msg.Init(conn, mbuf);
   // dispatch it
   if (DispatchMessage(&out_msg, 0) < 0) {
-    main_->BufferPool()->ReturnBuffer(mbuf);
+    LmMesgBufPool::Instance()->ReturnBuffer(mbuf);
     return -1;
   }
   return 0;
@@ -79,7 +82,7 @@ int GsOutputDispatch::SendMessage(LmSrvMesgBuf* mbuf, LmConnection* conn)
 LmThread* GsOutputDispatch::ComputeTarget(LmSrvMesgBuf* /* mbuf */, LmConnection* /* conn*/)
 {
   // output goes to network output thread, always
-  return main_->ThreadPool()->GetThread(GsMain::THREAD_NETOUTPUT);
+  return LmThreadPool::Instance()->GetThread(THREAD_NETOUTPUT);
 }
 
 ////
@@ -89,6 +92,6 @@ LmThread* GsOutputDispatch::ComputeTarget(LmSrvMesgBuf* /* mbuf */, LmConnection
 void GsOutputDispatch::Dump(FILE* f, int indent) const
 {
   INDENT(indent, f);
- _ftprintf(f, _T("<GsOutputDispatch[%p,%d]: main=[%p]>\n"), this, sizeof(GsOutputDispatch), main_);
+ _ftprintf(f, _T("<GsOutputDispatch[%p,%d]: main=[%p]>\n"), this, sizeof(GsOutputDispatch));
   LmDispatch::Dump(f, indent + 1);
 }

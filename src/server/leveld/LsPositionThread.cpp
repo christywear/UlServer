@@ -40,15 +40,14 @@
 #include "../../../include/Protocol/SMsg/SMsg_LS_Action.h"
 #include "../../../include/Server/Leveld/LsUtil.h"
 #include "../../../include/Server/Leveld/LsMacros.h"
-
+#include <protocol/LmMesgBufPool.h>
 ////
 // Constructor
 ////
 
-LsPositionThread::LsPositionThread(LsMain* lsmain)
-  : LmThread(lsmain->BufferPool(), lsmain->Log() /* &logf_ */),
-    main_(lsmain),
-    usock_(lsmain->SocketUDP()),
+LsPositionThread::LsPositionThread()
+  : LmThread(LmMesgBufPool::Instance(),LmLog::Instance() /* &logf_ */),
+    usock_(LmSocket::Instance()),
     msgbuf_(0)
 {
   // message buffer must be large enough for an RMsg_Update message
@@ -178,8 +177,7 @@ void LsPositionThread::HandleUDP()
 void LsPositionThread::Dump(FILE* f, int indent) const
 {
   INDENT(indent, f);
- _ftprintf(f, _T("<LsPositionThread[%p,%d]: main=[%p] usock=[%p]>\n"), this, sizeof(LsPositionThread),
-	  main_, usock_);
+ _ftprintf(f, _T("<LsPositionThread[%p,%d]: main=[%p] usock=[%p]>\n"), this, sizeof(LsPositionThread), usock_);
   msgbuf_->Dump(f, indent + 1);
   LmThread::Dump(f, indent + 1);
 }
@@ -190,8 +188,8 @@ void LsPositionThread::Dump(FILE* f, int indent) const
 
 void LsPositionThread::open_log()
 {
-  // logf_.Init("ls", "pos", main_->LevelDBC()->LevelID());
-  // logf_.Open(main_->GlobalDB()->LogDir());
+  // logf_.Init("ls", "pos", LmLevelDBC::Instance()->LevelID());
+  // logf_.Open(LmGlobalDB::Instance()->LogDir());
 }
 
 ////
@@ -272,7 +270,7 @@ void LsPositionThread::handle_RMsg_Update(LmSrvMesgBuf* msgbuf, LmSockAddrInet& 
   }
   lyra_id_t playerid = msg.PlayerID();
   // check that message came from player in the game
-  LsPlayer* player = main_->PlayerSet()->GetPlayer(playerid);
+  LsPlayer* player = LsPlayerSet::Instance()->GetPlayer(playerid);
   if (!player) {
     TLOG_Warning(_T("%s: update from player %u, not in game"), method, playerid);
     return;

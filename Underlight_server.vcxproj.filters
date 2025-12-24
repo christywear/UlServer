@@ -61,17 +61,11 @@
     <Filter Include="Header Files\Platform\Windows">
       <UniqueIdentifier>{01f0fdbd-958c-4ee5-86f7-a70b94425fee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Platform\Windows\FTP_Addin">
-      <UniqueIdentifier>{ef0aff94-1996-48ea-8c93-6a9fca056c33}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Platform\Windows\win_stubs">
       <UniqueIdentifier>{0d028514-62af-4f68-ac32-ba6b2dc8069b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Platform\Windows\Underlight_Server_proj_files">
       <UniqueIdentifier>{2d0d98c7-18e1-422c-98a8-201b72b67b4e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Platform\Windows\FTP_Addin\res">
-      <UniqueIdentifier>{d9f0660a-601c-43d1-ad30-9ddbbe5614c8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Protocol_Networking\GMsg">
       <UniqueIdentifier>{6cd38e0e-9152-44cf-868d-a1ac51b07af6}</UniqueIdentifier>
@@ -94,14 +88,8 @@
     <Filter Include="Source Files\Platform\Windows">
       <UniqueIdentifier>{d2fc3bfb-4748-4d2f-902e-eacd262d650a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Platform\Windows\FTP_Addin">
-      <UniqueIdentifier>{3bc42c8b-16b6-4dee-b99a-6db4500b0ac9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Platform\Windows\Win_Stubs">
       <UniqueIdentifier>{b6487c6f-ba0a-4e91-ba24-3895db945a23}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Platform\Windows\FTP_Addin\res">
-      <UniqueIdentifier>{94a5faed-7feb-48dc-83cb-1c17d82fd1d5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Protocol_Networking\RMsg">
       <UniqueIdentifier>{4edf78c9-40a7-49aa-b0d1-62a53364a814}</UniqueIdentifier>
@@ -118,9 +106,6 @@
     <Filter Include="Source Files\Protocol_Networking\GMsg">
       <UniqueIdentifier>{da6c8df7-eca0-4452-953b-c06fb3629f7a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\FTP_Addin">
-      <UniqueIdentifier>{4aabcae7-0ba4-4239-8d29-6d2c1187c353}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Server\Leveld">
       <UniqueIdentifier>{3b5eab50-62c8-4da0-a083-f2e5eeb3bf81}</UniqueIdentifier>
     </Filter>
@@ -132,6 +117,12 @@
     </Filter>
     <Filter Include="Header Files\Protocol_Networking\net">
       <UniqueIdentifier>{8a0d94f4-e0ec-4636-b041-3987fc7895d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Server\Unified_Server">
+      <UniqueIdentifier>{e778a9c5-d7ef-4438-9b6f-ed13eecc75b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server\Unified_Server">
+      <UniqueIdentifier>{ab33df76-41d5-46bd-a3fc-da754c77d96b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -311,24 +302,6 @@
     </ClInclude>
     <ClInclude Include="include\game\LmXPTable.h">
       <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="include\platform\win\ftp_addin\Commands.h">
-      <Filter>Header Files\Platform\Windows\FTP_Addin</Filter>
-    </ClInclude>
-    <ClInclude Include="include\platform\win\ftp_addin\DSAddIn.h">
-      <Filter>Header Files\Platform\Windows\FTP_Addin</Filter>
-    </ClInclude>
-    <ClInclude Include="include\platform\win\ftp_addin\FTPAddIn.h">
-      <Filter>Header Files\Platform\Windows\FTP_Addin</Filter>
-    </ClInclude>
-    <ClInclude Include="include\platform\win\ftp_addin\FTPAddInTypes.h">
-      <Filter>Header Files\Platform\Windows\FTP_Addin</Filter>
-    </ClInclude>
-    <ClInclude Include="include\platform\win\ftp_addin\Resource.h">
-      <Filter>Header Files\Platform\Windows\FTP_Addin</Filter>
-    </ClInclude>
-    <ClInclude Include="include\platform\win\ftp_addin\StdAfx.h">
-      <Filter>Header Files\Platform\Windows\FTP_Addin</Filter>
     </ClInclude>
     <ClInclude Include="include\protocol\LmBit32.h">
       <Filter>Header Files\Protocol_Networking</Filter>
@@ -906,9 +879,6 @@
     <ClInclude Include="include\core\md5global.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="include\platform\Platform.h">
-      <Filter>Header Files\Platform</Filter>
-    </ClInclude>
     <ClInclude Include="include\protocol\net\AutoTransport.h">
       <Filter>Header Files\Protocol_Networking\net</Filter>
     </ClInclude>
@@ -950,6 +920,18 @@
     </ClInclude>
     <ClInclude Include="include\game\CommandRouter.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\platform\Platform.h">
+      <Filter>Header Files\Server\Unified_Server</Filter>
+    </ClInclude>
+    <ClInclude Include="include\platform\win\win_stubs\pthread.h">
+      <Filter>Header Files\Platform\Windows\win_stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\platform\win\win_stubs\uninstd.h">
+      <Filter>Header Files\Platform\Windows\win_stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\platform\win\win_stubs\unix.h">
+      <Filter>Header Files\Platform\Windows\win_stubs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1670,63 +1652,6 @@
     <ClCompile Include="src\server\masterd\MsServerInfo.cpp">
       <Filter>Source Files\Server\Masterd</Filter>
     </ClCompile>
-    <ClCompile Include="src\tools\check_level.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tools\check_serverdb.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tools\dump_item.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tools\dump_state.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tools\dump_item2.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tools\fix_ghost.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tools\gdbm_clean.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tools\gen_item.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tools\get_hostid.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tools\get_server_status.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tools\get_server_status2.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tools\ping_servers.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tools\print_xp.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tools\rotate_logs.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tools\save_player.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="src\platform\win\ftp_addin\Commands.cpp">
-      <Filter>Source Files\Platform\Windows\FTP_Addin</Filter>
-    </ClCompile>
-    <ClCompile Include="src\platform\win\ftp_addin\DSAddIn.cpp">
-      <Filter>Source Files\Platform\Windows\FTP_Addin</Filter>
-    </ClCompile>
-    <ClCompile Include="src\platform\win\ftp_addin\FTPAddIn.cpp">
-      <Filter>Source Files\Platform\Windows\FTP_Addin</Filter>
-    </ClCompile>
-    <ClCompile Include="src\platform\win\ftp_addin\StdAfx.cpp">
-      <Filter>Source Files\Platform\Windows\FTP_Addin</Filter>
-    </ClCompile>
     <ClCompile Include="src\protocol\net\EnetTransport.cpp">
       <Filter>Source Files\Protocol_Networking\net</Filter>
     </ClCompile>
@@ -1745,28 +1670,15 @@
     <ClCompile Include="src\protocol\net\PacketAssembler.cpp">
       <Filter>Source Files\Protocol_Networking\net</Filter>
     </ClCompile>
+    <ClCompile Include="src\server\Unified_Server\main.cpp">
+      <Filter>Source Files\Server\Unified_Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
     <None Include="LICENSE" />
     <None Include="README.md" />
-    <None Include="src\platform\win\ftp_addin\res\FTPAddIn.rc2">
-      <Filter>Resource Files\FTP_Addin</Filter>
-    </None>
-    <None Include="src\platform\win\ftp_addin\FTPAddIn.def">
-      <Filter>Resource Files\FTP_Addin</Filter>
-    </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Midl Include="src\platform\win\ftp_addin\FTPAddIn.odl">
-      <Filter>Resource Files\FTP_Addin</Filter>
-    </Midl>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="src\platform\win\ftp_addin\FTPAddIn.rc">
-      <Filter>Resource Files\FTP_Addin</Filter>
-    </ResourceCompile>
   </ItemGroup>
 </Project>

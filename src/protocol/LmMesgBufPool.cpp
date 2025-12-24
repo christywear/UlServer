@@ -20,6 +20,9 @@
 #include "../../include/Core/PThMutex.h"
 #include "../../include/Core/LmLocker.h"
 
+//init tracker
+LmMesgBufPool* LmMesgBufPool::s_instance = nullptr;
+
 ////
 // constructor
 ////
@@ -29,6 +32,8 @@ LmMesgBufPool::LmMesgBufPool(int maxsparebufs)
     num_allocated_(0),
     num_returned_(0)
 {
+    //register instance
+    s_instance = this;
   lock_.Init();
 }
 
@@ -39,6 +44,8 @@ LmMesgBufPool::LmMesgBufPool(int maxsparebufs)
 LmMesgBufPool::~LmMesgBufPool()
 {
   LmDELETE(imp_);
+  if (s_instance == this)
+      s_instance == nullptr;
 }
 
 ////

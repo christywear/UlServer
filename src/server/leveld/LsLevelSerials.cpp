@@ -1,3 +1,4 @@
+
 // LsLevelSerials.cpp  -*- C++ -*-
 // $Id: LsLevelSerials.cpp,v 1.7 1998-05-11 11:11:43-07 jason Exp jason $
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
@@ -13,6 +14,8 @@
 #include "../../../include/DB/LmItemDBC.h"
 #include "../../../include/Game/LmLogFile.h"
 #include "../../../include/Server/Leveld/LsUtil.h"
+#include <game/LmLog.h>
+
 
 ////
 // Constructor
@@ -49,7 +52,7 @@ void LsLevelSerials::LoadFromDisk(LmDatabase& db)
 {
   LmLocker mon(lock_); // lock object during method duration
   // fields: NumSerials, Serial_*
-  LmDatabaseKey key(_T("Level"), _T(""), main_->LevelDBC()->LevelID(), 0);
+  LmDatabaseKey key(_T("Level"), _T(""), LmLevelDBC::Instance()->LevelID(), 0);
   // get number of serials
   int num_serials;
   DBFETCH_I(_T("NumSerials"), num_serials);
@@ -79,7 +82,7 @@ void LsLevelSerials::SaveToDisk(LmDatabase& db)
 // const int NULL = 0;
   LmLocker mon(lock_); // lock object during method duration
   // fields: NumSerials, Serial_*
-  LmDatabaseKey key(_T("Level"), _T(""), main_->LevelDBC()->LevelID(), 0 );
+  LmDatabaseKey key(_T("Level"), _T(""), LmLevelDBC::Instance()->LevelID(), 0 ); 
 // store simple fields
   DBSTORE(_T("NumSerials"), (long int)serials_.size());
   // save serial numbers
@@ -107,13 +110,13 @@ int LsLevelSerials::LoadFromDB()
   LmLocker mon(lock_); // lock object during method duration
   // get free serials
   int serials[Lyra::MAX_ROOMITEMS];
-  int rc = main_->ItemDBC()->GetLevelItems(main_->LevelDBC()->LevelID(), serials);
-  int sqlcode = main_->ItemDBC()->LastSQLCode();
-  // int lt = main_->ItemDBC()->LastCallTime();
-  // main_->Log()->Debug(_T("%s: LmItemDBC::GetLevelItems took %d ms"), method, lt);
+  int rc = LmItemDBC::Instance()->GetLevelItems(LmLevelDBC::Instance()->LevelID(), serials); 
+  int sqlcode = LmItemDBC::Instance()->LastSQLCode(); 
+  // int lt = LmItemDBC::Instance()->LastCallTime();
+  // LmLog::Instance()->Debug(_T("%s: LmItemDBC::GetLevelItems took %d ms"), method, lt);
   if (rc < 0) {
-    main_->Log()->Warning(_T("%s: could not get free serials; rc=%d, sql=%d"), method, rc, sqlcode);
-    LsUtil::HandleItemError(main_, method, rc, sqlcode);
+    LmLog::Instance()->Warning(_T("%s: could not get free serials; rc=%d, sql=%d"), method, rc, sqlcode); 
+    LsUtil::HandleItemError(method, rc, sqlcode);
     return -1;
   }
   // copy into serial list
@@ -146,13 +149,13 @@ int LsLevelSerials::SaveToDB()
     for (int i = 0; i < num_to_delete; ++i) {
       int serial = serials_.front();
       serials_.pop_front();
-      int rc = main_->ItemDBC()->DeleteItem(serial);
-      int sqlcode = main_->ItemDBC()->LastSQLCode();
-      // int lt = main_->ItemDBC()->LastCallTime();
-      // main_->Log()->Debug(_T("%s: LmItemDBC::DeleteItem took %d ms"), method, lt);
+      int rc = LmItemDBC::Instance()->DeleteItem(serial); 
+      int sqlcode = LmItemDBC::Instance()->LastSQLCode(); 
+      // int lt = LmItemDBC::Instance()->LastCallTime();
+      // LmLog::Instance()->Debug(_T("%s: LmItemDBC::DeleteItem took %d ms"), method, lt);
       if (rc < 0) {
-	main_->Log()->Error(_T("%s: could not delete item %u; rc=%d, sql=%d"), method, serial, rc, sqlcode);
-	LsUtil::HandleItemError(main_, method, rc, sqlcode);
+	LmLog::Instance()->Error(_T("%s: could not delete item %u; rc=%d, sql=%d"), method, serial, rc, sqlcode); 
+	LsUtil::HandleItemError(method, rc, sqlcode);
 	// return -1;
       }
     }
@@ -160,13 +163,13 @@ int LsLevelSerials::SaveToDB()
   // save free serials (room 0)
   for (std::list<int>::iterator i = serials_.begin(); !(bool)(i == serials_.end()); ++i) {
     int serial = *i;
-    int rc = main_->ItemDBC()->UpdateItemOwnership(serial, LmItemDBC::OWNER_ROOM, main_->LevelDBC()->LevelID(), 0);
-    int sqlcode = main_->ItemDBC()->LastSQLCode();
-    // int lt = main_->ItemDBC()->LastCallTime();
-    // main_->Log()->Debug(_T("%s: LmItemDBC::UpdateItemOwnership took %d ms"), method, lt);
+    int rc = LmItemDBC::Instance()->UpdateItemOwnership(serial, LmItemDBC::OWNER_ROOM, LmLevelDBC::Instance()->LevelID(), 0); 
+    int sqlcode = LmItemDBC::Instance()->LastSQLCode();
+    // int lt = LmItemDBC::Instance()->LastCallTime();
+    // LmLog::Instance()->Debug(_T("%s: LmItemDBC::UpdateItemOwnership took %d ms"), method, lt);
     if (rc < 0) {
-      main_->Log()->Error(_T("%s: could not set item %u owner; rc=%d, sql=%d"), method, serial, rc, sqlcode);
-      LsUtil::HandleItemError(main_, method, rc, sqlcode);
+      LmLog::Instance()->Error(_T("%s: could not set item %u owner; rc=%d, sql=%d"), method, serial, rc, sqlcode); 
+      LsUtil::HandleItemError(method, rc, sqlcode);
       return -1;
     }
   }
@@ -196,7 +199,7 @@ int LsLevelSerials::GetNextSerial()
   if (serials_.size() < SERIAL_LOW) {
     int num_to_get = SERIAL_HIGH - serials_.size();
     if (allocate_serials(num_to_get) < 0) {
-      main_->Log()->Error(_T("%s: could not get %d serial numbers"), method, num_to_get);
+      LmLog::Instance()->Error(_T("%s: could not get %d serial numbers"), method, num_to_get); //christy look at global fix
       // TODO: set some shutdown flag or something?
       return 0; // doh!
     }
@@ -218,7 +221,7 @@ void LsLevelSerials::Dump(FILE* f, int indent) const
   LmLocker mon(lock_); // lock object during method
   INDENT(indent, f);
  _ftprintf(f, _T("<LsLevelSerials[%p,%d]: main=[%p] serials=%d>\n"),
-	  this, sizeof(LsLevelSerials), main_, serials_.size());
+	  this, sizeof(LsLevelSerials), serials_.size());
   INDENT(indent + 1, f);
  _ftprintf(f, _T("serials: "));
   for (std::list<int>::const_iterator i = serials_.begin(); !(bool)(i == serials_.end()); ++i) {
@@ -240,13 +243,13 @@ int LsLevelSerials::allocate_serials(int num_serials)
   if (num_serials > SERIAL_MAX) {
     num_serials = SERIAL_MAX;
   }
-  int rc = main_->ItemDBC()->AllocateLevelItems(main_->LevelDBC()->LevelID(), num_serials, serials);
-  int sqlcode = main_->ItemDBC()->LastSQLCode();
-  // int lt = main_->ItemDBC()->LastCallTime();
-  // main_->Log()->Debug(_T("%s: LmItemDBC::AllocateLevelItems took %d ms"), method, lt);
+  int rc = LmItemDBC::Instance()->AllocateLevelItems(LmLevelDBC::Instance()->LevelID(), num_serials, serials);
+  int sqlcode = LmItemDBC::Instance()->LastSQLCode(); 
+  // int lt = LmItemDBC::Instance()->LastCallTime();
+  // LmLog::Instance()->Debug(_T("%s: LmItemDBC::AllocateLevelItems took %d ms"), method, lt);
   if (rc < 0) {
-    main_->Log()->Warning(_T("%s: could not allocate %d new serials; rc=%d, sql=%d"), method, num_serials, rc, sqlcode);
-    LsUtil::HandleItemError(main_, method, rc, sqlcode);
+    LmLog::Instance()->Warning(_T("%s: could not allocate %d new serials; rc=%d, sql=%d"), method, num_serials, rc, sqlcode);
+    LsUtil::HandleItemError(method, rc, sqlcode);
     return -1;
   }
   // copy into list
@@ -255,6 +258,6 @@ int LsLevelSerials::allocate_serials(int num_serials)
       serials_.push_back(serials[i]);
     }
   }
-  main_->Log()->Debug(_T("%s: total number of serials is now %d"), method, serials_.size());
+  LmLog::Instance()->Debug(_T("%s: total number of serials is now %d"), method, serials_.size());
   return 0;
 }

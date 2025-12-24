@@ -35,6 +35,9 @@ public:
   LsLevelState(LsMain* lsmain);
   ~LsLevelState();
 
+  //public accessor
+  static LsLevelState* Instance() { return s_instance; }
+
   void Init(void);
 
   int LoadFromDisk();
@@ -56,7 +59,8 @@ public:
   void FreeRealtimeID(short realtime_id);
 
 private:
-
+	//private accessor
+	static LsLevelState* s_instance;
   // not implemented
   //LsLeveState(const LsLevelState&);
   //operator=(const LsLevelState&);
@@ -65,7 +69,7 @@ private:
   LsMain* main_;
   const LmLevelDBC* dbc_;
 
-  PThMutex lock_;
+  mutable PThMutex lock_;
 
   // state of included rooms
   int num_rooms_;

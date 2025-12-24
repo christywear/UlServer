@@ -18,9 +18,12 @@
 #include "../../include/Core/LmFuncTimer.h"
 #include "../../include/DB/LmPlayerDBC.h"
 #include "../../include/Protocol/GMsg/GMsg_SenseDreamersAck.h"
-#include "../../include/platform/win/MariaDB Connector C 64-bit/include/mysql.h"
+#include <third_party/MariaDB Connector C 64-bit/include/mysql.h>
 
-unsigned int ATOI(char* value)
+// Initialize the tracker to null
+LmItemDBC* LmItemDBC::s_instance = nullptr;
+
+inline unsigned int ATOI(char* value)
 {
   if (!value)
     return 0;
@@ -66,6 +69,7 @@ LmItemDBC::LmItemDBC(const TCHAR *dbuser, const TCHAR* dbpassword, const TCHAR* 
     last_ms_(0),
 	db_port_(dbport)
 {
+    s_instance = this;
   lock_.Init();
   // copy to member variables
  _tcscpy(password_, dbpassword);
@@ -87,6 +91,8 @@ LmItemDBC::LmItemDBC(const TCHAR *dbuser, const TCHAR* dbpassword, const TCHAR* 
 LmItemDBC::~LmItemDBC()
 {
   Disconnect();
+  if (s_instance == this) 
+      s_instance == nullptr;
 }
 
 ////

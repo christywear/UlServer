@@ -14,7 +14,7 @@
 #include <stdio.h>
 
 #include "GMsg.h"
-#include "..\Core\LnMD5.h"
+#include <core/LnMD5.h>
 
 // forward references
 

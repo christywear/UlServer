@@ -11,7 +11,7 @@
 #pragma interface
 #endif
 
-#include "..\Core\LyraDefs.h"
+#include <include/core/LyraDefs.h>
 #include "..\LmMesg.h" //for inheretance includes
 
 ////

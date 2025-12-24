@@ -27,7 +27,8 @@ public:
 
   LmLogFile();
   virtual ~LmLogFile();
-
+  //public accessor
+  static LmLogFile* Instance() { return s_instance; }
   void Init(const TCHAR* prefix, const TCHAR* suffix = _T(""), int instance = 0, pid_t pid = 0);
   int Open(const TCHAR* directory);
   void UseStream(FILE* stream);
@@ -41,7 +42,8 @@ protected:
   virtual void WriteLogEntry(const TCHAR* prefix, const TCHAR* fmt, va_list args);
 
 private:
-
+    //private accessor
+    static LmLogFile* s_instance;
   // methods/operations not implemented
   LmLogFile(const LmLogFile&);
   //  operator=(const LmLogFile&);

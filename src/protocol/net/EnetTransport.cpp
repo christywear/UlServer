@@ -48,29 +48,41 @@ void EnetTransport::poll() {
     ENetEvent event;
     while (enet_host_service(server_, &event, 0) > 0) {
         switch (event.type) {
-        case ENET_EVENT_TYPE_CONNECT:
-            // Give them a temporary ID or wait for login
-            // For now, let's just store them!
-            uint32_t temporaryId = (uint32_t)event.peer->address.host;
-            peers_[temporaryId] = event.peer;
-            std::cout << "🌐 ENet: Peer " << temporaryId << " connected!" << std::endl;
-            break;
 
-        case ENET_EVENT_TYPE_RECEIVE:
+        case ENET_EVENT_TYPE_CONNECT: { // 👈 ADDED OPENING BRACE
+            // We use the pointer address as the unique PlayerId for now
+            // This ensures the ID matches what we use in 'send' and 'receive'
+            PlayerId id = (PlayerId)event.peer;
+
+            peers_[id] = event.peer;
+
+            std::cout << "🌐 ENet: Peer connected! ID: " << id
+                << " (IP: " << event.peer->address.host << ")" << std::endl;
+            break;
+        } // 👈 ADDED CLOSING BRACE
+
+        case ENET_EVENT_TYPE_RECEIVE: { // Good practice to brace this too
             if (onData_) {
-                // Map event.peer to your PlayerId system
-                PlayerId pid = reinterpret_cast<uintptr_t>(event.peer);
+                // Use the SAME casting logic as Connect so IDs match
+                PlayerId pid = (PlayerId)event.peer;
+
+                // Pass data up to GameNet
                 onData_(pid, event.packet->data, event.packet->dataLength);
             }
 
             // 🧹 CRITICAL CLEANUP!
             enet_packet_destroy(event.packet);
-            break; // 🛑 STOP the fall-through!
-
-        case ENET_EVENT_TYPE_DISCONNECT:
-            // Clean up so we don't try to send to a ghost! 👻
-            // peers_.erase(someId);
             break;
+        }
+
+        case ENET_EVENT_TYPE_DISCONNECT: {
+            PlayerId pid = (PlayerId)event.peer;
+            std::cout << "🔌 ENet: Peer " << pid << " disconnected." << std::endl;
+
+            // Remove them from the map so send() doesn't crash later
+            peers_.erase(pid);
+            break;
+        }
 
         default:
             break;

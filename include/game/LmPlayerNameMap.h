@@ -25,7 +25,7 @@ public:
 
   LmPlayerNameMap(LmPlayerDBC* playerdb);
   ~LmPlayerNameMap();
-
+  static LmPlayerNameMap* Instance() { return s_instance; }
   // fetch player name/id given other
   lyra_id_t PlayerID(const TCHAR* playername);
   const TCHAR* PlayerName(lyra_id_t playerid);
@@ -35,7 +35,8 @@ public:
   void Dump(FILE* f, int indent = 0) const;
 
 private:
-
+	//private accessor
+	static LmPlayerNameMap* s_instance;
   // not implemented
   LmPlayerNameMap(const LmPlayerNameMap&);
   //operator=(const LmPlayerNameMap&);
@@ -44,7 +45,7 @@ private:
   const TCHAR* lookup_playername(lyra_id_t playerid);
   void add_mapping(lyra_id_t playerid, const TCHAR* playername);
 
-  PThMutex lock_;
+  mutable PThMutex lock_;
   LmPlayerDBC* playerdb_;
   LmPlayerNameMapImp* imp_;  // private implementation
   TCHAR tmp[80];              // temporary string

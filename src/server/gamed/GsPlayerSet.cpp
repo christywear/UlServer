@@ -1,4 +1,4 @@
-// GsPlayerSet.cpp  -*- C++ -*-
+﻿// GsPlayerSet.cpp  -*- C++ -*-
 // $Id: GsPlayerSet.cpp,v 1.25 1998/02/12 23:33:31 jason Exp $
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
 //
@@ -27,6 +27,8 @@
 #include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
+//init tracker
+GsPlayerSet* GsPlayerSet::s_instance = nullptr;
 ////
 // GsPlayerSetImp implementation
 ////
@@ -40,22 +42,37 @@ public std::unordered_map< lyra_id_t, GsPlayer*, std::hash<lyra_id_t>, std::equa
 // Constructor
 ////
 
-GsPlayerSet::GsPlayerSet(GsMain* gsmain)
-  : main_(gsmain),
-    imp_(LmNEW(GsPlayerSetImp())),
-    max_players_(gsmain->MaxPlayers() + GsMain::EXTRA_PLAYERS),
+GsPlayerSet::GsPlayerSet()
+  : imp_(LmNEW(GsPlayerSetImp())),
     total_logins_(0),
     max_loggedin_(0)
 {
-  DECLARE_TheLineNum;
+    //register
+    s_instance = this;
+    DECLARE_TheLineNum;
   // allocate array of GsPlayer objects
   players_ = LmNEW(GsPlayer[max_players_]);
-  for (int i = 0; i < max_players_; ++i) {
-    players_[i].SetMain(gsmain);
-  }
   lock_.Init();
 }
 
+////
+// GetPlayerList (Overload): returns only players in a specific room
+////
+void GsPlayerSet::GetPlayerList(GsPlayerList& plist, lyra_id_t roomID) const
+{
+    DECLARE_TheLineNum;
+    LmLocker mon(lock_); // 🔒 Thread safety is crucial here
+
+    // Iterate through the unordered_map
+    for (GsPlayerSetImp::iterator i = imp_->begin(); i != imp_->end(); ++i) {
+        GsPlayer* p = (*i).second;
+
+        // 🔍 THE FILTER: Only add if they match the room
+        if (p->ReturnRoomID() == roomID) {
+            plist.push_back(p);
+        }
+    }
+}
 ////
 // Destructor
 ////
@@ -65,6 +82,8 @@ GsPlayerSet::~GsPlayerSet()
   DECLARE_TheLineNum;
   LmDELETE(imp_);
   LmDELETEARRAY(players_);
+  if (s_instance == this)
+      s_instance == nullptr;
 }
 
 ////
@@ -109,7 +128,7 @@ GsPlayer* GsPlayerSet::GetPlayer(lyra_id_t playerid) const
   if (i != imp_->end()) {
     retval = (*i).second;
   }
-  // main_->Log()->Debug(_T("GsPlayerSet::GetPlayer: %u -> [%p]"), playerid, retval);
+  // LmLog::Instance()->Debug(_T("GsPlayerSet::GetPlayer: %u -> [%p]"), playerid, retval);
   return retval;
 }
 
@@ -144,7 +163,7 @@ GsPlayer* GsPlayerSet::AllocatePlayer(lyra_id_t playerid)
       break;
     }
   }
-  //  main_->Log()->Debug(_T("GsPlayerSet::AllocatePlayer: %u -> [%p]"), playerid, player);
+  //  LmLog::Instance()->Debug(_T("GsPlayerSet::AllocatePlayer: %u -> [%p]"), playerid, player);
   if (imp_->size() > max_loggedin_) {
     max_loggedin_ = imp_->size();
   }
@@ -163,20 +182,20 @@ void GsPlayerSet::RemovePlayer(GsPlayer* player, bool save)
   GsPlayerSetImp::iterator i = imp_->find(player->PlayerID());
   if (i != imp_->end()) {
     imp_->erase(i);
-    main_->Log()->Debug(_T("%s: player %u removed from player set; %d logins, %d players left"), method, 
-		player->PlayerID(), main_->NumLogins(), this->NumPlayers());
+    LmLog::Instance()->Debug(_T("%s: player %u removed from player set; %d logins, %d players left"), method, 
+		player->PlayerID(), NumLogins(), this->NumPlayers());
     player->Logout(save);
   }
   else {
-    main_->Log()->Warning(_T("%s: player %u not found in set"), method, player->PlayerID());
+    LmLog::Instance()->Warning(_T("%s: player %u not found in set"), method, player->PlayerID());
   }
 //  if ((main_->NumLogins() >= GsMain::CLOSING_THRESHHOLD) &&
 //	  (0 == this->NumPlayers()))
 //  {  // if gamed is ready and the last player leaves, exit
  // 	SMsg_GS_Action smsg;
 ///	smsg.Init(SMsg_GS_Action::ACTION_EXIT);
- //   GsUtil::SendInternalMessage(main_, smsg, GsMain::THREAD_GAMESERVER);
-  //  main_->Log()->Debug(_T("%s: last player has left game; shutting down"), method);
+ //   GsUtil::SendInternalMessage(smsg, GsMain::THREAD_GAMESERVER);
+  //  LmLog::Instance()->Debug(_T("%s: last player has left game; shutting down"), method);
   //}
 }
 
@@ -190,8 +209,7 @@ void GsPlayerSet::Dump(FILE* f, int indent) const
   LmLocker mon(lock_); // lock object for method duration
   INDENT(indent, f);
  _ftprintf(f, _T("<GsPlayerSet[%p,%d]: main=[%p] players=[%p] active=%d/%d logins=%d (%d max)>\n"),
-	  this, sizeof(GsPlayerSet), main_,
-	  players_, imp_->size(), max_players_, total_logins_, max_loggedin_);
+	  this, sizeof(GsPlayerSet), players_, imp_->size(), max_players_, total_logins_, max_loggedin_);
   for (GsPlayerSetImp::iterator i = imp_->begin(); i != imp_->end(); ++i) {
     GsPlayer* player = (*i).second;
     player->Dump(f, indent + 1);

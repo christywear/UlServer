@@ -14,8 +14,8 @@
 #include <stdio.h>
 
 #include "GMsg.h"
-#include "..\Game\LmItemHdr.h"
-#include "..\Game\LmItem.h"
+#include <game/LmItemHdr.h>
+#include <game/LmItem.h>
 
 // message class
 

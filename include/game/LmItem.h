@@ -120,7 +120,7 @@ private:
 
 };
 
-int operator==(const LmItem& left, const LmItem& right)
+inline int operator==(const LmItem& left, const LmItem& right)
 {
   // items are equivalent if their headers are equal
   return (left.Header() == right.Header());

@@ -22,7 +22,7 @@
 #include <string.h>
 
 #include "../../../include/Protocol/SMsg/SMsg_GS_Action.h"
-#include "../../../include/Protocol/SMsg/LyraDefs.h"
+#include <include/core/LyraDefs.h>
 #include "../../../include/Protocol/SMsg/SMsg.h"
 
 ////

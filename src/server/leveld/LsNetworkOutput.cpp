@@ -39,9 +39,8 @@ DECLARE_TheFileName;
 // Constructor
 ////
 
-LsNetworkOutput::LsNetworkOutput(LsMain* lsmain)
-  : LmNetworkOutput(lsmain->ConnectionSet(), lsmain->BufferPool(), lsmain->Log() /* &logf_ */),
-    main_(lsmain)
+LsNetworkOutput::LsNetworkOutput()
+  : LmNetworkOutput(LmConnectionSet::Instance(), LmMesgBufPool::Instance(), LmLog::Instance() /* &logf_ */)
 {
   DECLARE_TheLineNum;
   open_log();
@@ -66,7 +65,7 @@ void LsNetworkOutput::Dump(FILE* f, int indent) const
 {
   DECLARE_TheLineNum;
   INDENT(indent, f);
- _ftprintf(f, _T("<LsNetworkOutput[%p,%d]: main=%p>\n"), this, sizeof(LsNetworkOutput), main_);
+ _ftprintf(f, _T("<LsNetworkOutput[%p,%d]: main=%p>\n"), this, sizeof(LsNetworkOutput));
   LmNetworkOutput::Dump(f, indent + 1);
 }
 
@@ -76,8 +75,8 @@ void LsNetworkOutput::Dump(FILE* f, int indent) const
 
 void LsNetworkOutput::open_log()
 {
-  // logf_.Init("ls", "out", main_->LevelDBC()->LevelID());
-  // logf_.Open(main_->GlobalDB()->LogDir());
+  // logf_.Init("ls", "out", LmLevelDBC::Instance()->LevelID());
+  // logf_.Open(LmGlobalDB::Instance()->LogDir());
 }
 
 ////
@@ -160,12 +159,12 @@ void LsNetworkOutput::handle_SMsg_LS_Action_Exit()
   DECLARE_TheLineNum;
   // get connection list
   LmConnectionList conn_list;
-  main_->ConnectionSet()->GetConnectionList(conn_list);
+  LmConnectionSet::Instance()->GetConnectionList(conn_list);
   // send logout message to all connections
   SMsg_Logout msg;
   msg.Init();
   // (since thread is exiting, can't put SendMesg messages in its queue, they'll be ignored
-  LmSrvMesgBuf* mbuf = main_->BufferPool()->AllocateBuffer(msg.MessageSize());
+  LmSrvMesgBuf* mbuf = LmMesgBufPool::Instance()->AllocateBuffer(msg.MessageSize());
   mbuf->ReadMessage(msg);
   for (LmConnectionList::iterator i = conn_list.begin(); !(bool)(i == conn_list.end()); ++i) {
     LmConnection* conn = *i;
@@ -175,7 +174,7 @@ void LsNetworkOutput::handle_SMsg_LS_Action_Exit()
     }
     SendMessage(mbuf, conn);
   }
-  main_->BufferPool()->ReturnBuffer(mbuf);
+  LmMesgBufPool::Instance()->ReturnBuffer(mbuf);
 }
 
 ////
@@ -188,7 +187,7 @@ void LsNetworkOutput::handle_SMsg_LS_Action_Ping()
   DECLARE_TheLineNum;
   // get connection list
   LmConnectionList conn_list;
-  main_->ConnectionSet()->GetConnectionList(conn_list);
+  LmConnectionSet::Instance()->GetConnectionList(conn_list);
   // send message to any game server connections
   SMsg_Ping msg;
   msg.InitPing(time(NULL));
@@ -199,7 +198,7 @@ void LsNetworkOutput::handle_SMsg_LS_Action_Ping()
       continue;
     }
     if (conn->Type() == LmConnection::CT_GSRV) {
-      main_->OutputDispatch()->SendMessage(&msg, conn);
+      LsOutputDispatch::Instance()->SendMessage(&msg, conn);
     }
   }
 }

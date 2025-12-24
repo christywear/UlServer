@@ -29,7 +29,6 @@
 
 // class forward declarations
 
-class LsMain;
 class LmConnection;
 class RmRemotePlayer;
 class LmUpdateSetImp;
@@ -65,7 +64,7 @@ public:
   LsPlayer();
   ~LsPlayer();
 
-  int Login(LsMain* lsmain, lyra_id_t playerid);
+  int Login(lyra_id_t playerid);
   void Init(LmConnection* conn, const TCHAR* playername, int acct_type, lyra_id_t roomid,
 	    const LmPeerUpdate& update, unsigned long client_addr, int servport, const LmAvatar& avatar,
 	    const TCHAR* description, bool newly_alert, bool newly_awakened);
@@ -89,6 +88,8 @@ public:
 
   // locking selectors
   lyra_id_t RoomID() const;
+  int GetLevelID() const { return level_id_; }
+  void SetLevelID(int id) { level_id_ = id; }
   const LmPosition& Position() const;
   const LmPeerUpdate& LastUpdate() const;
   const LmParty& Party() const;
@@ -166,7 +167,7 @@ private:
   void set_party(const LmParty& party);
   void set_update(const LmPeerUpdate& update);
 
-  PThMutex lock_;
+  mutable PThMutex lock_;
 
   bool in_use_;
 
@@ -177,7 +178,7 @@ private:
   TCHAR playername_[Lyra::PLAYERNAME_MAX];
   int acct_type_;
   time_t login_time_;
-
+  int level_id_; //player obj has their loc 
   lyra_id_t roomid_;
   time_t last_pos_update_;
   LmParty party_, party2_;
@@ -190,7 +191,7 @@ private:
   bool stationary_;
 //  bool tcp_only_;
 
-  PThMutex u_lock_; // update mutex
+  mutable PThMutex u_lock_; // update mutex
   LmPosition pos_;
   LmPeerUpdate last_update_;
   

@@ -23,6 +23,7 @@
 
 #include "../../include/Protocol/LmPeerUpdate.h"
 #include "../../include/Core/LyraDefs.h"
+#include <core/SharedConstants.h>
 
 // default object
 const LmPeerUpdate LmPeerUpdate::DEFAULT_INSTANCE;

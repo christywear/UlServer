@@ -26,7 +26,7 @@
 
 // class forward declarations
 
-class GsMain;
+
 class LmConnection;
 class RmRemotePlayer;
 class LmLevelDBC;
@@ -58,7 +58,6 @@ public:
   GsPlayer();
   ~GsPlayer();
 
-  void SetMain(GsMain* gsmain);
 
   int Login(lyra_id_t playerid, int pmare_type, bool first_login=false);
   void Init(LmConnection* conn, int serv_port, LmLog* log, bool firewall, short tcp_only);
@@ -256,11 +255,10 @@ private:
   int save_to_file() const;
   int save_to_db(bool force);
 
-  GsMain* main_;               // main object
 
   bool idle_null_connection_;   // if we've had a null connection on an idle check
 
-  PThMutex lock_;          // mutex to protect object from multiple accesses
+  mutable PThMutex lock_;          // mutex to protect object from multiple accesses
 
   LmLog* log_;                 // log file
 
@@ -323,7 +321,7 @@ private:
 
   //  mpath_addr_t mpaddr_;        // MPADDR for player
 
-  PThMutex u_lock_;        // lock for update variables
+  mutable PThMutex u_lock_;        // lock for update variables
   LmPeerUpdate update_;        // last position update received from client
   time_t last_update_;         // time of last received position update
   bool weapon_bad_;            // flag indicating last weapon check failed
@@ -332,7 +330,7 @@ private:
   time_t last_mod_100_update_;  // time of last update where (update num)%100 = 0
   int num_too_fast_updates_;	   // # of times the player has sent > 10 updates in 1 sec
 
-  PThMutex n_lock_;        // lock for neighbor variables
+  mutable PThMutex n_lock_;        // lock for neighbor variables
   int num_neighbors_;          // number of neighbors
   lyra_id_t nb_[Lyra::ROOMPEOPLE_MAX]; // neighbors
 

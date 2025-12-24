@@ -1,3 +1,4 @@
+#if 0 // lets see who or how this is used.
 // LsComputeGroups.cpp  -*- C++ -*-
 // $Id: LsComputeGroups.cpp,v 1.15 1998-02-12 15:33:40-08 jason Exp $
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
@@ -12,7 +13,6 @@
 #include <algorithm>
 #include "../../../include/Server/Leveld/LsComputeGroups.h"
 #include "../../../include/Core/LyraDefs.h"
-#include "../../../include/Server/Leveld/LsMain.h"
 #include "../../../include/Server/Leveld/LsRoomState.h"
 #include "../../../include/Server/Leveld/LsPlayer.h"
 #include "../../../include/Server/Leveld/LsPlayerSet.h"
@@ -112,7 +112,7 @@ void ComputeGroups(LsMain* main, LsRoomState* room)
     return;
   }
   // get player objects
-  LsPlayerList players;
+  LsPlayerList players; //christy look at db global fix
   main->PlayerSet()->GetPlayerList(players, room->DB()->RoomID());
 
   // wipe out everybody's group information and copy party information into local group
@@ -178,3 +178,4 @@ static int cg_dist_t_cmp(const void *d1, const void *d2)
 {
   return ((cg_dist_t*) d1)->distance - ((cg_dist_t*) d2)->distance;
 }
+#endif

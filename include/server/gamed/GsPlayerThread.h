@@ -19,7 +19,7 @@
 
 // forward declarations
 
-class GsMain;
+
 class GsPlayer;
 class LmItem;
 class LmItemHdr;
@@ -39,7 +39,7 @@ class GsPlayerThread : public LmThread {
 
 public:
 
-  GsPlayerThread(GsMain* gsmain);
+  GsPlayerThread();
   ~GsPlayerThread();
 
   void Dump(FILE* f, int indent = 0) const;
@@ -195,7 +195,6 @@ private:
   void close_log();
   void register_handlers();
   
-  GsMain* main_;      // pointer to game server main object
   GsPlayer* player_;  // pointer to player object for this thread
   int num_uses_;      // number of uses this thread has had
   int num_save_sigs_; // number of times thread has been told to save player state

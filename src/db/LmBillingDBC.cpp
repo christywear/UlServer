@@ -18,10 +18,13 @@
 #include "../../include/Protocol/LmSockAddrInet.h"
 #include "../../include/DB/LmBillingDBC.h"
 #ifdef UL_WINDOWS
-#include "../../include/platform/win/MariaDB Connector C 64-bit/include/mysql.h"
+#include <third_party/MariaDB Connector C 64-bit/include/mysql.h>
 #endif
 
-inline unsigned int ATOI(char* value)
+//init instance
+LmBillingDBC* LmBillingDBC::s_instance = nullptr;
+
+inline inline unsigned int ATOI(char* value)
 {
   if (!value)
     return 0;
@@ -56,6 +59,8 @@ LmBillingDBC::LmBillingDBC(const TCHAR *dbuser, const TCHAR* dbpassword, const T
     last_ms_(0),
 	db_port_(dbport)
 {
+	//assign instance
+	s_instance = this;
   lock_.Init();
   // copy to member variables
  _tcscpy(password_, dbpassword);
@@ -77,6 +82,8 @@ LmBillingDBC::LmBillingDBC(const TCHAR *dbuser, const TCHAR* dbpassword, const T
 LmBillingDBC::~LmBillingDBC()
 {
   Disconnect();
+  if (s_instance == this)
+	  s_instance == nullptr;
 }
 
 

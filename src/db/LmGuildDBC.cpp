@@ -16,10 +16,11 @@
 #include "../../include/Game/LmGoalInfo.h"
 #include "../../include/Core/LmTimer.h"
 #include "../../include/Core/LmFuncTimer.h"
-#include "../../include/platform/win/MariaDB Connector C 64-bit/include/mysql.h"
+#include <third_party/MariaDB Connector C 64-bit/include/mysql.h>
 
+LmGuildDBC* LmGuildDBC::s_instance = nullptr;
 
-unsigned int ATOI(char* value)
+inline unsigned int ATOI(char* value)
 {
   if (!value)
     return 0;
@@ -58,6 +59,7 @@ LmGuildDBC::LmGuildDBC(const TCHAR *dbuser, const TCHAR* dbpassword, const TCHAR
     last_ms_(0),
 	db_port_(dbport)
 {
+  s_instance = this; // Capture the instance when it's created
   lock_.Init();
   // copy to member variables
  _tcscpy(password_, dbpassword);
@@ -79,6 +81,8 @@ LmGuildDBC::LmGuildDBC(const TCHAR *dbuser, const TCHAR* dbpassword, const TCHAR
 LmGuildDBC::~LmGuildDBC()
 {
   Disconnect();
+  if (s_instance == this)
+      s_instance == nullptr;
 }
 
 ////

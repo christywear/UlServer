@@ -50,10 +50,8 @@ DECLARE_TheFileName;
 // Constructor
 ////
 
-LsSignalThread::LsSignalThread(LsMain* lsmain)
-  : LmSignalThread(lsmain->BufferPool(), lsmain->Log() /* &logf_ */),
-    main_(lsmain),
-    msgbuf_(0)
+LsSignalThread::LsSignalThread()
+  : LmSignalThread(LmMesgBufPool::Instance(), LmLog::Instance() /* &logf_ */), msgbuf_(0)
 
 {
   DECLARE_TheLineNum;
@@ -80,7 +78,7 @@ void LsSignalThread::Dump(FILE* f, int indent) const
 {
   DECLARE_TheLineNum;
   INDENT(indent, f);
- _ftprintf(f, _T("<LsSignalThread[%p,%d]: main=[%p] >\n"), this, sizeof(LsSignalThread),	  main_);
+ _ftprintf(f, _T("<LsSignalThread[%p,%d]: main=[%p] >\n"), this, sizeof(LsSignalThread));
   msgbuf_->Dump(f, indent + 1);
   LmSignalThread::Dump(f, indent + 1);
 }
@@ -189,7 +187,7 @@ void LsSignalThread::handle_SIGTERM(int sig)
   if (sig != SIGTERM) {
     return;
   }
-  main_->SetSIGTERM(true);
+  GsConfig::SetSigTerm(true);
 }
 
 

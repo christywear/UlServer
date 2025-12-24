@@ -1,3 +1,4 @@
+#if 0 old legacy code
 // LsMain.cpp  -*- C++ -*-
 // $Id: LsMain.cpp,v 1.50 1998-05-11 11:11:43-07 jason Exp jason $
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
@@ -1178,3 +1179,4 @@ LsCodexText* LsMain::CodexText() const
 {
     return ctext_;
 }
+#endif

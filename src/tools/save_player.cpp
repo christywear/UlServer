@@ -3,7 +3,7 @@
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
 //
 // read a player db file and save to db, if the db file is newer
-
+#if 0 legacy or script for linux or both.. disabling for now
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -73,7 +73,6 @@ int _tmain(int argc, TCHAR** argv)
   int sc = pdbc.LastSQLCode();
 
   // get player's last login time from database
-
   int last_login = pdbc.GetLastLoginTime(playerid);
 
   if (last_login < 0) {
@@ -88,18 +87,18 @@ int _tmain(int argc, TCHAR** argv)
     rc = pdbc.SavePlayer(playerdb);
     sc = pdbc.LastSQLCode();
     if (rc < 0) {
-     _tprintf(_T("error: could not save player db; rc=%d, sqlcode=%d\n"), rc, sc);
+     _tprintf(("error: could not save player db; rc=%d, sqlcode=%d\n"), rc, sc);
       exit(1);
     }
-   _tprintf(_T("player %u: database saved\n"), playerid);
+   _tprintf(("player %u: database saved\n"), playerid);
     // save inventory
     rc = idbc.SavePlayerInventory(playerid, playerdb.Inventory());
     sc = idbc.LastSQLCode();
     if (rc < 0) {
-     _tprintf(_T("error: could not save player inventory; rc=%d, sqlcode=%d\n"), rc, sc);
+     _tprintf(("error: could not save player inventory; rc=%d, sqlcode=%d\n"), rc, sc);
       exit(1);
     }
-   _tprintf(_T("player %u: inventory saved\n"), playerid);
+   _tprintf(("player %u: inventory saved\n"), playerid);
   }
 
   // disconnect from databases
@@ -109,7 +108,8 @@ int _tmain(int argc, TCHAR** argv)
   // remove player db file
   _tunlink(infile);
 
-  pth_kill();
+  //pth_kill();
 
   return 0;
 }
+#endif

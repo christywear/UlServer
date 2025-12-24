@@ -1,6 +1,18 @@
-// Platform.h  (very lightweight, no heavy includes)
+﻿// Platform.h  (very lightweight, no heavy includes)
 #pragma once
 
+// 🛡️ WIN32 LEAN AND MEAN: Prevents windows.h from including old winsock.h
+#if defined(_WIN32) || defined(WIN32)
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+
+// Force latest Winsock
+#include <winsock2.h>
+#include <windows.h> 
+#endif
+
+// ... (Rest of your Platform.h code) ...
 // Normalize Windows detection
 #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(win32)
 #ifndef UL_WINDOWS
@@ -37,3 +49,20 @@
 // #if defined(__APPLE__)
 //   #define UL_MACOS 1
 // #endif
+
+#if defined(UL_WINDOWS)
+    // 🛡️ The "Missing Types" Shield for Windows 11
+#include <process.h> 
+
+typedef int pid_t;        // Windows uses ints for PIDs, POSIX wants pid_t
+typedef int ssize_t;      // Commonly used in old networking code
+
+// Legacy Underlight often uses these case-insensitive string helpers
+#define strcasecmp _stricmp
+#define strncasecmp _strnicmp
+#endif
+
+#if defined(UL_POSIX)
+#include <sys/types.h>
+#include <unistd.h>
+#endif

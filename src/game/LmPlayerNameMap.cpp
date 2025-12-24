@@ -1,4 +1,4 @@
-// LmPlayerNameMap.cpp  -*- C++ -*-
+﻿// LmPlayerNameMap.cpp  -*- C++ -*-
 // $Id: LmPlayerNameMap.cpp,v 1.9 1997-11-06 18:20:59-08 jason Exp $
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
 //
@@ -25,26 +25,49 @@
 #include "../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
+// init s_instance
+LmPlayerNameMap* LmPlayerNameMap::s_instance = nullptr;
+
 ////
 // LmPlayerNameMapImp definition
 ////
 
-struct string_equal {
-  bool operator()(const TCHAR* s1, const TCHAR* s2) const {
+// 🛠️ FIX 1: Create a "Less Than" comparator for std::map sorting
+struct string_less {
+    bool operator()(const TCHAR* s1, const TCHAR* s2) const {
 #ifdef WIN32
-	  return _tcsicmp(s1, s2) == 0;
+        // Returns true if s1 comes BEFORE s2 (Case Insensitive)
+        return _tcsicmp(s1, s2) < 0;
 #else
-    return strcasecmp(s1, s2) == 0; // case-insensitive version
+        return strcasecmp(s1, s2) < 0;
 #endif
-  };
+    };
 };
 
-#ifdef _UNICODE // use regular map
-// map from playerid to name
-typedef std::map<int, const TCHAR*, int> id2name_t;
-// map from name to playerid
-typedef std::map<const TCHAR*, int, string_equal> name2id_t;
+// Keep string_equal for the legacy/hash_map path if needed
+struct string_equal {
+    bool operator()(const TCHAR* s1, const TCHAR* s2) const {
+#ifdef WIN32
+        return _tcsicmp(s1, s2) == 0;
 #else
+        return strcasecmp(s1, s2) == 0;
+#endif
+    };
+};
+
+#if defined(_UNICODE) || defined(UNICODE) // use regular map
+// map from playerid to name
+// 🛠️ FIX 2: Remove the ", int" at the end! 
+// std::map automatically uses std::less<int> for sorting IDs.
+typedef std::map<int, const TCHAR*> id2name_t;
+
+// map from name to playerid
+// 🛠️ FIX 3: Use 'string_less' instead of 'string_equal'
+// Maps MUST be sorted!
+typedef std::map<const TCHAR*, int, string_less> name2id_t;
+
+#else
+// ... (Legacy hash_map code remains here) ...
 // map from playerid to name
 typedef std::unordered_map<int, const TCHAR*, std::tr1::hash<int>, std::equal_to<int>> id2name_t;
 // map from name to playerid
@@ -52,8 +75,8 @@ typedef std::unordered_map<const TCHAR*, int, std::tr1::hash<const TCHAR*>, stri
 #endif
 
 struct LmPlayerNameMapImp {
-  id2name_t id2name;
-  name2id_t name2id;
+    id2name_t id2name;
+    name2id_t name2id;
 };
 
 
@@ -65,6 +88,8 @@ LmPlayerNameMap::LmPlayerNameMap(LmPlayerDBC* playerdb)
   : playerdb_(playerdb),
     imp_(LmNEW(LmPlayerNameMapImp()))
 {
+    //assign s_instance;
+    s_instance = this;
   DECLARE_TheLineNum;
   lock_.Init();
 }
@@ -76,6 +101,7 @@ LmPlayerNameMap::LmPlayerNameMap(LmPlayerDBC* playerdb)
 
 LmPlayerNameMap::~LmPlayerNameMap()
 {
+
   DECLARE_TheLineNum;
 
   // delete each name from each map
@@ -91,6 +117,9 @@ LmPlayerNameMap::~LmPlayerNameMap()
  
   // delete the imp object
   LmDELETE(imp_);
+
+  if (s_instance == this)
+      s_instance == nullptr;
 }
 
 

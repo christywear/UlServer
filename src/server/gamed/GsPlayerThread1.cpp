@@ -67,18 +67,18 @@ void GsPlayerThread::handle_GMsg_Ping(LmSrvMesgBuf* msgbuf, LmConnection* conn)
   switch (msg.PingType()) {
     case GMsg_Ping::PING_PLAYER_DB: {
       // perform some player db op, ignoring any results/error
-      main_->PlayerDBC()->GetLoginStatus(player_->PlayerID());
+      LmPlayerDBC::Instance()->GetLoginStatus(player_->PlayerID());
     }
     break;
     case GMsg_Ping::PING_ITEM_DB: {
       // perform some item db op, ignoring any results/error
       LmInventory inv;
-      main_->ItemDBC()->GetPlayerInventory(player_->PlayerID(), inv);
+      LmItemDBC::Instance()->GetPlayerInventory(player_->PlayerID(), inv);
     }
     break;
     case GMsg_Ping::PING_GUILD_DB: {
       // perform some guild db op, ignoring any results/error
-      main_->GuildDBC()->InAcceptees(666, player_->PlayerID());
+      LmGuildDBC::Instance()->InAcceptees(666, player_->PlayerID());
     }
     break;
     case GMsg_Ping::PING_PLAYER_THREAD:
@@ -87,7 +87,7 @@ void GsPlayerThread::handle_GMsg_Ping(LmSrvMesgBuf* msgbuf, LmConnection* conn)
       break;
   }
   // send ping back
-  main_->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -107,7 +107,7 @@ void GsPlayerThread::handle_GMsg_GetPlayerName(LmSrvMesgBuf* msgbuf, LmConnectio
   // accept message
   ACCEPT_MSG(GMsg_GetPlayerName, true); // send error
   // look up player
-  const TCHAR* pname = main_->PlayerNameMap()->PlayerName(msg.PlayerID());
+  const TCHAR* pname = LmPlayerNameMap::Instance()->PlayerName(msg.PlayerID());
   if (pname == 0) {
     send_GMsg_RcvPlayerName(conn, 0, _T("unknown"), msg.RequestID());
   }
@@ -143,7 +143,7 @@ void GsPlayerThread::handle_GMsg_GrantPPoint(LmSrvMesgBuf* msgbuf, LmConnection*
       (player_->DB().AccountType() != LmPlayerDB::ACCT_ADMIN)) {
     retval = GMsg_PPointAck::UNKNOWN_ERR;
   } else { 
-      retval = main_->PlayerDBC()->GrantPP(player_->PlayerID(), msg.PlayerID(), (wchar_t*)(msg.Why()), player_->DB().AccountType());
+      retval = LmPlayerDBC::Instance()->GrantPP(player_->PlayerID(), msg.PlayerID(), (wchar_t*)(msg.Why()), player_->DB().AccountType());
   }
   
   send_GMsg_PPointAck(conn, GMsg_PPointAck::GRANT_ACK, retval);
@@ -155,10 +155,10 @@ void GsPlayerThread::handle_GMsg_GrantPPoint(LmSrvMesgBuf* msgbuf, LmConnection*
 	player_->SetPPPool(reward_pool);
 	send_RMsg_PlayerMsg_GrantPPoint(msg.PlayerID());
   if (player_->DB ().AccountType () == LmPlayerDB::ACCT_ADMIN) {
-    SECLOG(-4, _T("%s: player %u is a GM and granted PP to player %u for reason %s"), method,
+    LmLogFile::Instance()->Security(-4, _T("%s: player %u is a GM and granted PP to player %u for reason %s"), method,
 	      player_->PlayerID(), msg.PlayerID(), (char*)msg.Why());
   } else {
-	  SECLOG(-4, _T("%s: player %u: granted PP to player %u for reason %s"), method,
+	  LmLogFile::Instance()->Security(-4, _T("%s: player %u: granted PP to player %u for reason %s"), method,
 	      player_->PlayerID(), msg.PlayerID(), (char*)msg.Why());
   }
 
@@ -244,7 +244,7 @@ void GsPlayerThread::handle_GMsg_UsePPoint(LmSrvMesgBuf* msgbuf, LmConnection* c
       if (player_->ChangeSkill(art_id, skill, true)) {
 		// get actual skill level
 		skill = player_->DB().Arts().Skill(art_id);
-		SECLOG(-4, _T("%s: player %u: trained in art %d, skill %d -> %d, by %d personality points"), method,
+		LmLogFile::Instance()->Security(-4, _T("%s: player %u: trained in art %d, skill %d -> %d, by %d personality points"), method,
 	       player_->PlayerID(), art_id, old_skill, skill, cost);
 		// if we've just gotten ordained, we get a quest XP pool
 		if ((art_id == Arts::TRAIN) && (old_skill == 0)) {
@@ -253,7 +253,7 @@ void GsPlayerThread::handle_GMsg_UsePPoint(LmSrvMesgBuf* msgbuf, LmConnection* c
       }
       else {
 	// log unsuccessful train
-		SECLOG(-4, _T("%s: player %u: unsuccessful tried to train with pps in art %d, skill %d -> %d, cost %u"), method,
+		LmLogFile::Instance()->Security(-4, _T("%s: player %u: unsuccessful tried to train with pps in art %d, skill %d -> %d, cost %u"), method,
 	       player_->PlayerID(), art_id, old_skill, skill, cost);
 		// set skill to 0, so client knows an attempt was made
 			send_GMsg_PPointAck(conn, GMsg_PPointAck::USE_ACK, GMsg_PPointAck::USE_CANT_TRAIN);
@@ -283,7 +283,7 @@ void GsPlayerThread::handle_GMsg_UsePPoint(LmSrvMesgBuf* msgbuf, LmConnection* c
 		player_->AdvanceToNextSphere(msg_stat);
 		if (msg_stat.NumChanges() > 0) {
 		int new_sphere = player_->DB().Stats().Sphere();
-			SECLOG(-3, _T("%s: player %u: used %d ppoints to advance to sphere %d"), method,
+			LmLogFile::Instance()->Security(-3, _T("%s: player %u: used %d ppoints to advance to sphere %d"), method,
 			player_->PlayerID(), cost, old_sphere +1);
 			main_->OutputDispatch()->SendMessage(&msg_stat, player_->Connection());
 		}
@@ -313,15 +313,15 @@ void GsPlayerThread::handle_GMsg_UsePPoint(LmSrvMesgBuf* msgbuf, LmConnection* c
 		send_GMsg_PPointAck(conn, GMsg_PPointAck::USE_ACK, GMsg_PPointAck::USE_NOT_ENOUGH);
 		return;
 	}
-	SECLOG(-1, _T("%s: player %u using PPs to buy pmare credit"), method, player_->PlayerID());
- 	main_->BillingDBC()->AddPMareCredit(player_->PlayerID(), creds);
+	LmLogFile::Instance()->Security(-1, _T("%s: player %u using PPs to buy pmare credit"), method, player_->PlayerID());
+ 	LmBillingDBC::Instance()->AddPMareCredit(player_->PlayerID(), creds);
 	break;
   }
   case GMsg_UsePPoint::STAT_INCREASE: { // stat
 	    int stat = msg.Var1();
 	    if(stat == Stats::DREAMSOUL)
 	    {
-		SECLOG( -3, _T("%s: player %u trying to imp dreamsoul but dreamsoul is disabled!"), method, player_->PlayerID());
+		LmLogFile::Instance()->Security( -3, _T("%s: player %u trying to imp dreamsoul but dreamsoul is disabled!"), method, player_->PlayerID());
 		send_GMsg_PPointAck( conn, GMsg_PPointAck::USE_ACK, GMsg_PPointAck::UNKNOWN_ERR );
 		return;
 	   }
@@ -338,7 +338,7 @@ void GsPlayerThread::handle_GMsg_UsePPoint(LmSrvMesgBuf* msgbuf, LmConnection* c
 		}
 		// success!
 		player_->ChangeMaxStat(stat, curstat + 1);
-		SECLOG(-3, _T("%s: player %u: used %d pponts to increase stat %d to %d"), method,
+		LmLogFile::Instance()->Security(-3, _T("%s: player %u: used %d pponts to increase stat %d to %d"), method,
 	       player_->PlayerID(), cost, stat, curstat + 1);
 		break;
 	}
@@ -349,7 +349,7 @@ void GsPlayerThread::handle_GMsg_UsePPoint(LmSrvMesgBuf* msgbuf, LmConnection* c
   // if we get here, were were successful!
   int new_pp = pps - cost;
   player_->SetPPoints(new_pp);
-  main_->PlayerDBC()->UsePP(player_->DB().PlayerID(), cost, msg.How(), msg.Var1(), msg.Var2(), msg.Var3());
+  LmPlayerDBC::Instance()->UsePP(player_->DB().PlayerID(), cost, msg.How(), msg.Var1(), msg.Var2(), msg.Var3());
   send_GMsg_PPointAck(conn, GMsg_PPointAck::USE_ACK, GMsg_PPointAck::USE_OK);
 
   return;	
@@ -384,19 +384,19 @@ void GsPlayerThread::handle_GMsg_Logout(LmSrvMesgBuf* msgbuf, LmConnection* conn
   TLOG_Debug(_T("%s: player logging out, status %c"), method, msg.Status());
   // log deaths/kills if any
   if ((player_->NumKills() > 0) || (player_->NumDeaths() > 0)) {
-    SECLOG(-3, _T("%s: player %u: kills=%d deaths=%d"), method, playerid, player_->NumKills(), player_->NumDeaths());
+    LmLogFile::Instance()->Security(-3, _T("%s: player %u: kills=%d deaths=%d"), method, playerid, player_->NumKills(), player_->NumDeaths());
   }
   // check if player has fired a weapon, but was never hit
   //  if (player_->HasFired() && !player_->BeenHit()) {
-    //    SECLOG(1, _T("%s: player %u: (warning) fired a weapon while online, but was never hit"), method, playerid);
+    //    LmLogFile::Instance()->Security(1, _T("%s: player %u: (warning) fired a weapon while online, but was never hit"), method, playerid);
   //  }
   // check if player was hit, but dreamsoul never decreased
   if (player_->BeenHit() && !player_->DreamsoulDecreased()) {
-    SECLOG(1, _T("%s: player %u: (warning) was hit but DS never decreased"), method, playerid);
+    LmLogFile::Instance()->Security(1, _T("%s: player %u: (warning) was hit but DS never decreased"), method, playerid);
   }
   // check if player failed any weapon checks
   if (player_->NumWeaponChecksFailed() > 0) {
-    SECLOG(1, _T("%s: player %u: failed %d weapon checks"), method, playerid, player_->NumWeaponChecksFailed());
+    LmLogFile::Instance()->Security(1, _T("%s: player %u: failed %d weapon checks"), method, playerid, player_->NumWeaponChecksFailed());
   }
   // log connection statistics
   int time_online = player_->Online();
@@ -404,7 +404,7 @@ void GsPlayerThread::handle_GMsg_Logout(LmSrvMesgBuf* msgbuf, LmConnection* conn
 	  time_online = 1;
   int num_updates = player_->NumUpdates();
   if (conn) {
-    SECLOG(-1, _T("%s: player %u: TCP: in=%d/%d (%d/%d per sec) out=%d/%d (%d/%d per sec), UDP: updates=%d (%f per sec)"), method,
+    LmLogFile::Instance()->Security(-1, _T("%s: player %u: TCP: in=%d/%d (%d/%d per sec) out=%d/%d (%d/%d per sec), UDP: updates=%d (%f per sec)"), method,
   	   playerid, conn->MessagesIn(), conn->BytesIn(), conn->MessagesInRate(), conn->BytesInRate(),
 	   conn->MessagesOut(), conn->BytesOut(), conn->MessagesOutRate(), conn->BytesOutRate(), 
 	   num_updates, (float)((float)num_updates/(float)time_online));
@@ -413,12 +413,12 @@ void GsPlayerThread::handle_GMsg_Logout(LmSrvMesgBuf* msgbuf, LmConnection* conn
   perform_logout(msg);
   // NOTE: player_ no longer valid at this point
   // log the logout
-	  SECLOG(-1, _T("%s: player %u: logged out of game, status %c, %d seconds online"), method,
+	  LmLogFile::Instance()->Security(-1, _T("%s: player %u: logged out of game, status %c, %d seconds online"), method,
 	 playerid, msg.Status(), time_online);
   // signal game thread that player is logged out
   //SMsg_GS_Logout smsg;
   //smsg.Init(playerid, online, msg.Status());
-  //GsUtil::SendInternalMessage(main_, smsg, GsMain::THREAD_GAMESERVER);
+  //GsUtil::SendInternalMessage(smsg, GsMain::THREAD_GAMESERVER);
 }
 
 ////
@@ -438,7 +438,7 @@ void GsPlayerThread::handle_GMsg_LocateAvatar(LmSrvMesgBuf* msgbuf, LmConnection
   ACCEPT_MSG(GMsg_LocateAvatar, true); // send error
   // TODO: check that player has LOCATEAVATAR art? (everyone has it, though)
   // if there is more than one player to look up, only use the database (no level server)
-  // main_->Log()->Log("%s: Received LocateAvatar message!", method);
+  // LmLog::Instance()->Log("%s: Received LocateAvatar message!", method);
   if (msg.NumPlayers() > 1) {
     perform_locateavatar_group(msg);
     return;
@@ -450,8 +450,8 @@ void GsPlayerThread::handle_GMsg_LocateAvatar(LmSrvMesgBuf* msgbuf, LmConnection
     return;
   }
   // look up playerid; if not found, return status  
-  lyra_id_t targetid = main_->PlayerNameMap()->PlayerID(playername);
-  // main_->Log()->Log("%s: Locate player %s returned ID %d", method, playername, targetid);
+  lyra_id_t targetid = LmPlayerNameMap::Instance()->PlayerID(playername);
+  // LmLog::Instance()->Log("%s: Locate player %s returned ID %d", method, playername, targetid);
   if (targetid == Lyra::ID_UNKNOWN) {
     send_GMsg_LocateAvatarAck(conn, playername, GMsg_LocateAvatarAck::LOCATE_PLAYERNOTFOUND, 0, 0);
     return;
@@ -461,7 +461,7 @@ void GsPlayerThread::handle_GMsg_LocateAvatar(LmSrvMesgBuf* msgbuf, LmConnection
     perform_locateavatar(targetid, playername);
     return;
   }
-  // main_->Log()->Log("%s: Sending Locate request for %d to level server", method, targetid);
+  // LmLog::Instance()->Log("%s: Sending Locate request for %d to level server", method, targetid);
   // send request to level server for player info; result dealt with in handle_SMsg_LocateAvatar
   send_SMsg_LocateAvatar(player_->LevelConnection(), targetid);
 }
@@ -649,10 +649,10 @@ void GsPlayerThread::handle_GMsg_GetItemDescription(LmSrvMesgBuf* msgbuf, LmConn
   LmItem item = ((class LmInventory&)player_->DB().Inventory()).Item(hdr);
   // get description from database
   TCHAR desc[Lyra::MAX_ITEMDESC];
-  int rc = main_->ItemDBC()->GetItemDescription(hdr.Serial(), desc);
-  int sc = main_->ItemDBC()->LastSQLCode();
+  int rc = LmItemDBC::Instance()->GetItemDescription(hdr.Serial(), desc);
+  int sc = LmItemDBC::Instance()->LastSQLCode();
   if (rc < 0) {
-    GsUtil::HandleItemError(main_, method, rc, sc);
+    GsUtil::HandleItemError(method, rc, sc);
     return;
   }
   // get creator name (scrolls only)
@@ -663,7 +663,7 @@ void GsPlayerThread::handle_GMsg_GetItemDescription(LmSrvMesgBuf* msgbuf, LmConn
     memcpy(&scroll, item.StateField(0), sizeof(scroll));
     lyra_id_t creatorid = scroll.creatorid();
     if (creatorid != 0) { // generated codexes
-      creator = main_->PlayerNameMap()->PlayerName(creatorid);
+      creator = LmPlayerNameMap::Instance()->PlayerName(creatorid);
       if (!creator) {
 	// *** STRING LITERAL ***
 	creator = _T("The Dream itself");
@@ -671,7 +671,7 @@ void GsPlayerThread::handle_GMsg_GetItemDescription(LmSrvMesgBuf* msgbuf, LmConn
     }
     lyra_id_t targetid = scroll.targetid();
     if (targetid != 0) { 
-      target = main_->PlayerNameMap()->PlayerName(targetid);
+      target = LmPlayerNameMap::Instance()->PlayerName(targetid);
       if (!target) {
 		target = _T("");
       }
@@ -796,7 +796,7 @@ void GsPlayerThread::handle_GMsg_CreateItem(LmSrvMesgBuf* msgbuf, LmConnection* 
   }
   // check if player is allowed to create given item
   if (!player_->CanCreateItem(item)) {
-    SECLOG(6, _T("%s: player %u: not allowed to create item: %s"), method, player_->PlayerID(), itemstr);
+    LmLogFile::Instance()->Security(6, _T("%s: player %u: not allowed to create item: %s"), method, player_->PlayerID(), itemstr);
     send_GMsg_ItemPickup(conn, item, GMsg_ItemPickup::PICKUP_ERRORCREATE);
     return;
   }
@@ -804,14 +804,14 @@ void GsPlayerThread::handle_GMsg_CreateItem(LmSrvMesgBuf* msgbuf, LmConnection* 
 
   // create item in database
   int serial = 0;
-  int rc = main_->ItemDBC()->CreateItem(player_->PlayerID(), item, serial, msg.Description());
-  int sqlcode = main_->ItemDBC()->LastSQLCode();
-  // int lt = main_->ItemDBC()->LastCallTime();
-  // main_->Log()->Debug(_T("%s: LmItemDBC::CreateItem took %d ms"), method, lt);
+  int rc = LmItemDBC::Instance()->CreateItem(player_->PlayerID(), item, serial, msg.Description());
+  int sqlcode = LmItemDBC::Instance()->LastSQLCode();
+  // int lt = LmItemDBC::Instance()->LastCallTime();
+  // LmLog::Instance()->Debug(_T("%s: LmItemDBC::CreateItem took %d ms"), method, lt);
   if ((rc < 0) || (serial == 0)) {
     TLOG_Error(_T("%s: could not create item; serial=%d, rc=%d, sql=%d"), method, serial, rc, sqlcode);
     send_GMsg_ItemPickup(conn, item, GMsg_ItemPickup::PICKUP_ERRORCREATE);
-    GsUtil::HandleItemError(main_, method, rc, sqlcode);
+    GsUtil::HandleItemError(method, rc, sqlcode);
     return;
   }
   // update serial
@@ -820,12 +820,12 @@ void GsPlayerThread::handle_GMsg_CreateItem(LmSrvMesgBuf* msgbuf, LmConnection* 
   // log creation
   item.UnParse(itemstr, sizeof(itemstr));
   
-  const TCHAR* creator_name = main_->PlayerNameMap()->PlayerName(player_->PlayerID());
+  const TCHAR* creator_name = LmPlayerNameMap::Instance()->PlayerName(player_->PlayerID());
 
   if (msg.Description ())
-    SECLOG(-6, _T("%s: player %u, %s: created item: %s with text: %s"), method, player_->PlayerID(), creator_name, itemstr, msg.Description ());
+    LmLogFile::Instance()->Security(-6, _T("%s: player %u, %s: created item: %s with text: %s"), method, player_->PlayerID(), creator_name, itemstr, msg.Description ());
   else
-    SECLOG (-6, _T("%s: player %u, %s: created item: %s with NULL text"), method, player_->PlayerID(), creator_name, itemstr);
+    LmLogFile::Instance()->Security (-6, _T("%s: player %u, %s: created item: %s with NULL text"), method, player_->PlayerID(), creator_name, itemstr);
   // add to player's inventory
   player_->AddItem(item);
   // send ack
@@ -851,7 +851,7 @@ void GsPlayerThread::handle_GMsg_DestroyItem(LmSrvMesgBuf* msgbuf, LmConnection*
   LmItemHdr hdr = msg.ItemHeader();
   // check that player has item
   if (!player_->DB().Inventory().HasItem(hdr)) {
-    SECLOG(6, _T("%s: player %u: cannot destroy item [%u/%u/%u], not in inventory"), method,
+    LmLogFile::Instance()->Security(6, _T("%s: player %u: cannot destroy item [%u/%u/%u], not in inventory"), method,
 	   player_->PlayerID(), hdr.ItemHdr1(), hdr.ItemHdr2(), hdr.Serial());
     send_GMsg_ItemDrop(conn, hdr, GMsg_ItemDrop::DROP_ERROR);
     return;
@@ -862,22 +862,22 @@ void GsPlayerThread::handle_GMsg_DestroyItem(LmSrvMesgBuf* msgbuf, LmConnection*
   item.UnParse(itemstr, sizeof(itemstr));
   // check that item can be destroyed
   if (!player_->CanDestroyItem(hdr)) {
-    SECLOG(6, _T("%s: player %u: cannot destroy item: %s"), method, player_->PlayerID(), itemstr);
+    LmLogFile::Instance()->Security(6, _T("%s: player %u: cannot destroy item: %s"), method, player_->PlayerID(), itemstr);
     send_GMsg_ItemDrop(conn, hdr, GMsg_ItemDrop::DROP_ERROR);
     return;
   }
   // remove from database
-  int rc = main_->ItemDBC()->DeleteItem(hdr.Serial());
-  int sqlcode = main_->ItemDBC()->LastSQLCode();
-  // int lt = main_->ItemDBC()->LastCallTime();
-  // main_->Log()->Debug(_T("%s: LmItemDBC::DeleteItem took %d ms"), method, lt);
+  int rc = LmItemDBC::Instance()->DeleteItem(hdr.Serial());
+  int sqlcode = LmItemDBC::Instance()->LastSQLCode();
+  // int lt = LmItemDBC::Instance()->LastCallTime();
+  // LmLog::Instance()->Debug(_T("%s: LmItemDBC::DeleteItem took %d ms"), method, lt);
   if (rc < 0) {
     TLOG_Warning(_T("%s: item %d could not be deleted from database"), method, hdr.Serial());
     send_GMsg_ItemDrop(conn, hdr, GMsg_ItemDrop::DROP_ERROR);
-    GsUtil::HandleItemError(main_, method, rc, sqlcode);
+    GsUtil::HandleItemError(method, rc, sqlcode);
     return;
   }
-  SECLOG(-6, _T("%s: player %u: destroyed item: %s"), method, player_->PlayerID(), itemstr);
+  LmLogFile::Instance()->Security(-6, _T("%s: player %u: destroyed item: %s"), method, player_->PlayerID(), itemstr);
   // remove from inventory
   player_->RemoveItem(hdr);
   // send ack to client
@@ -908,7 +908,7 @@ void GsPlayerThread::handle_GMsg_UpdateItem(LmSrvMesgBuf* msgbuf, LmConnection* 
     TCHAR oitemstr[80];
     oitem.UnParse(oitemstr, sizeof(oitemstr));
     item.UnParse(itemstr, sizeof(itemstr));
-    SECLOG(6, _T("%s: player %u: cannot update item: old: %s  new: %s"), method,
+    LmLogFile::Instance()->Security(6, _T("%s: player %u: cannot update item: old: %s  new: %s"), method,
 	   player_->PlayerID(), oitemstr, itemstr);
     return;
   }
@@ -973,7 +973,7 @@ void GsPlayerThread::handle_GMsg_ChangeStat(LmSrvMesgBuf* msgbuf, LmConnection* 
       int old_skill = player_->DB().Arts().Skill(stat);
       update_ok = player_->ChangeSkill(stat, value);
       if (update_ok) { // && (old_skill != value)) {
-	SECLOG(-4, _T("%s: player %u: art %d skill %d -> %d"), method, player_->PlayerID(), stat, old_skill, value);
+	LmLogFile::Instance()->Security(-4, _T("%s: player %u: art %d skill %d -> %d"), method, player_->PlayerID(), stat, old_skill, value);
       }
     }
     break;
@@ -987,7 +987,7 @@ void GsPlayerThread::handle_GMsg_ChangeStat(LmSrvMesgBuf* msgbuf, LmConnection* 
     }
     // log unsuccessful update requests
     if (!update_ok) {
-      SECLOG(4, _T("%s: player %u: illegal update: req=%d stat=%d val=%d"), method,
+      LmLogFile::Instance()->Security(4, _T("%s: player %u: illegal update: req=%d stat=%d val=%d"), method,
 	     player_->PlayerID(), req_type, stat, value);
     }
     // add update to S->C message?
@@ -1000,7 +1000,7 @@ void GsPlayerThread::handle_GMsg_ChangeStat(LmSrvMesgBuf* msgbuf, LmConnection* 
   out_msg.SetNumChanges(updates_made);
   // send acknowledges for successful updates back to client
   if (updates_made > 0) {
-    main_->OutputDispatch()->SendMessage(&out_msg, conn);
+    GsOutputDispatch::Instance()->SendMessage(&out_msg, conn);
   }
 }
 
@@ -1030,37 +1030,37 @@ void GsPlayerThread::handle_GMsg_GotoLevel(LmSrvMesgBuf* msgbuf, LmConnection* c
   // check that player can goto the level, either via a return, portal, or entry
   // (also checks that target level/room exist)
   if (!player_->CanGotoLevel(levelid, roomid) &&
-      !main_->LevelSet()->CanGoto(player_->LevelID(), player_->RoomID(), levelid, roomid)) {
-    SECLOG(1, _T("%s: player %u: illegal entry into level %u room %u from level %u room %u"), method,
+      !GsLevelSet::Instance()->CanGoto(player_->LevelID(), player_->RoomID(), levelid, roomid)) {
+    LmLogFile::Instance()->Security(1, _T("%s: player %u: illegal entry into level %u room %u from level %u room %u"), method,
 	   player_->PlayerID(), levelid, roomid, player_->LevelID(), player_->RoomID());
     // TODO: eventually don't continue
-    // GsUtil::Send_RMsg_LoginAck(main_, conn, RMsg_LoginAck::LOGIN_LEVELNOTFOUND, msg.RoomID(), msg.LevelID());
+    // GsUtil::Send_RMsg_LoginAck(conn, RMsg_LoginAck::LOGIN_LEVELNOTFOUND, msg.RoomID(), msg.LevelID());
     // return;
   }
   // player isn't in level until the end
   player_->SetInLevel(false);
   // look up level database, store in db cache
-  const LmLevelDBC* ldb = main_->LevelSet()->LevelDBC(levelid);
+  const LmLevelDBC* ldb = GsLevelSet::Instance()->LevelDBC(levelid);
   if (!ldb) {
     TLOG_Warning(_T("%s: could not find level %u"), method, levelid);
-    GsUtil::Send_RMsg_LevelLoginAck(main_, conn, RMsg_LoginAck::LOGIN_LEVELNOTFOUND, roomid, levelid);
+    GsUtil::Send_RMsg_LevelLoginAck(conn, RMsg_LoginAck::LOGIN_LEVELNOTFOUND, roomid, levelid);
     return;
   }
   // check that room is in level
   if (!ldb->ContainsRoom(roomid)) {
     TLOG_Warning(_T("%s: could not find room %u in level %u"), method, roomid, levelid);
-    GsUtil::Send_RMsg_LevelLoginAck(main_, conn, RMsg_LoginAck::LOGIN_ROOMNOTFOUND, roomid, levelid);
+    GsUtil::Send_RMsg_LevelLoginAck(conn, RMsg_LoginAck::LOGIN_ROOMNOTFOUND, roomid, levelid);
     return;
   }
   // connect to level server
-  LmConnection* lsconn = GsUtil::ConnectToLevelServer(main_, ldb);
+  LmConnection* lsconn = GsUtil::ConnectToLevelServer(ldb);
   if (!lsconn) {
     TLOG_Error(_T("%s: could not connect to level %u server"), method, levelid);
-    GsUtil::Send_RMsg_LevelLoginAck(main_, conn, RMsg_LoginAck::LOGIN_SERVERDOWN, roomid, levelid);
+    GsUtil::Send_RMsg_LevelLoginAck(conn, RMsg_LoginAck::LOGIN_SERVERDOWN, roomid, levelid);
     return;
   }
   // log movement
-  //  SECLOG(-1, _T("%s: player %u: entering level %u, room %u"), method, player_->PlayerID(), levelid, roomid);
+  //  LmLogFile::Instance()->Security(-1, _T("%s: player %u: entering level %u, room %u"), method, player_->PlayerID(), levelid, roomid);
   player_->ReceivedUpdate(msg.PeerUpdate()); // so timeout doesn't happen immediately
   player_->GotoLevel(lsconn, ldb, roomid);
   player_->SetInLevel(true);
@@ -1081,13 +1081,13 @@ void GsPlayerThread::handle_GMsg_GotoLevel(LmSrvMesgBuf* msgbuf, LmConnection* c
 	player_->SetNewlyNeedsAnnounce(false);
     }
   }
-  int rc = main_->PlayerDBC()->UpdateLocation(player_->PlayerID(), levelid, roomid);
-  int sc = main_->PlayerDBC()->LastSQLCode();
-  // int lt = main_->PlayerDBC()->LastCallTime();
-  // main_->Log()->Debug(_T("%s: LmPlayerDBC::UpdateLocation took %d ms"), method, lt);
+  int rc = LmPlayerDBC::Instance()->UpdateLocation(player_->PlayerID(), levelid, roomid);
+  int sc = LmPlayerDBC::Instance()->LastSQLCode();
+  // int lt = LmPlayerDBC::Instance()->LastCallTime();
+  // LmLog::Instance()->Debug(_T("%s: LmPlayerDBC::UpdateLocation took %d ms"), method, lt);
   if (rc < 0) {
-    main_->Log()->Error(_T("%s: could not update player location; rc=%d, sqlcode=%d"), method, rc, sc);
-    //    GsUtil::HandlePlayerError(main_, method, rc, sc);
+    LmLog::Instance()->Error(_T("%s: could not update player location; rc=%d, sqlcode=%d"), method, rc, sc);
+    //    GsUtil::HandlePlayerError(method, rc, sc);
   }
 }
 
@@ -1097,10 +1097,10 @@ void GsPlayerThread::handle_GMsg_GotoLevel(LmSrvMesgBuf* msgbuf, LmConnection* c
 LmConnection* GsPlayerThread::connectToBcastLevelD()
 {
 	const int BROADCAST_LEVELD = 20; // Thresh
-	const LmLevelDBC* ldb = main_->LevelSet()->LevelDBC(BROADCAST_LEVELD);
+	const LmLevelDBC* ldb = GsLevelSet::Instance()->LevelDBC(BROADCAST_LEVELD);
 	if(!ldb)
 		return NULL;
-	return GsUtil::ConnectToLevelServer(main_, ldb);
+	return GsUtil::ConnectToLevelServer(ldb);
 }
 
 ////
@@ -1122,7 +1122,7 @@ void GsPlayerThread::handle_GMsg_DestroyRoomItem(LmSrvMesgBuf* msgbuf, LmConnect
   LmItemHdr hdr = msg.ItemHeader();
   // check if item can actually be destroyed
   if (msg.ItemHeader().FlagSet(LyraItem::FLAG_NOREAP) && player_->DB().AccountType() != LmPlayerDB::ACCT_ADMIN) {
-    SECLOG(6, _T("%s: player %u: trying to destroy non-reapable room item %d"), method, player_->PlayerID(), hdr.Serial());
+    LmLogFile::Instance()->Security(6, _T("%s: player %u: trying to destroy non-reapable room item %d"), method, player_->PlayerID(), hdr.Serial());
     return;
   }
   // check if player is in level
@@ -1155,25 +1155,25 @@ void GsPlayerThread::handle_GMsg_GetLevelPlayers(LmSrvMesgBuf* msgbuf, LmConnect
   TLOG_Debug(_T("%s: level=%u"), method, msg.LevelID());
   // check that player is anything other than a normal player
   if (player_->DB().AccountType() == LmPlayerDB::ACCT_PLAYER) {
-    SECLOG(5, _T("%s: player %u: attempted getlevelplayers"), method, player_->PlayerID());
+    LmLogFile::Instance()->Security(5, _T("%s: player %u: attempted getlevelplayers"), method, player_->PlayerID());
     return;
   }
   // check that player is anything other than a normal player
   if (player_->DB().AccountType() == LmPlayerDB::ACCT_PMARE) {
-    SECLOG(5, _T("%s: pmare %u: attempted getlevelplayers"), method, player_->PlayerID());
+    LmLogFile::Instance()->Security(5, _T("%s: pmare %u: attempted getlevelplayers"), method, player_->PlayerID());
     return;
   }
   // connect to level server
-  const LmLevelDBC* ldb = main_->LevelSet()->LevelDBC(msg.LevelID());
+  const LmLevelDBC* ldb = GsLevelSet::Instance()->LevelDBC(msg.LevelID());
   if (!ldb) {
     TLOG_Error(_T("%s: could not open level database for level %u"), method, msg.LevelID());
-    GsUtil::Send_Error(main_, conn, msg_type, _T("level %u database not found"), msg.LevelID());
+    GsUtil::Send_Error(conn, msg_type, _T("level %u database not found"), msg.LevelID());
     return;
   }
-  LmConnection* lsconn = GsUtil::ConnectToLevelServer(main_, ldb);
+  LmConnection* lsconn = GsUtil::ConnectToLevelServer(ldb);
   if (!lsconn) {
     TLOG_Error(_T("%s: could not connect to level server %u"), method, msg.LevelID());
-    GsUtil::Send_Error(main_, conn, msg_type, _T("level %u server connect error"), msg.LevelID());
+    GsUtil::Send_Error(conn, msg_type, _T("level %u server connect error"), msg.LevelID());
     return;
   }
   // send request to level server
@@ -1209,7 +1209,7 @@ void GsPlayerThread::handle_GMsg_ChangeAvatar(LmSrvMesgBuf* msgbuf, LmConnection
     case 3: reason = _T("teacher"); break;
     default: reason = _T("unknown"); break;
     }
-    SECLOG(1, _T("%s: player %u: illegal avatar change; reason(%d): illegal %s"), method, player_->PlayerID(), av_rc, reason);
+    LmLogFile::Instance()->Security(1, _T("%s: player %u: illegal avatar change; reason(%d): illegal %s"), method, player_->PlayerID(), av_rc, reason);
     // continue along, since avatar was fixed
   }
   // if connected to level server, send RMsg_ChangeAvatar
@@ -1314,8 +1314,8 @@ void GsPlayerThread::handle_GMsg_Goal_DeleteReport(const GMsg_Goal& gmsg)
   lyra_id_t reportid = gmsg.ID();
   TLOG_Debug(_T("%s: player deleting report %u"), method, reportid);
   // report deletion routine checks creator id
-  int rc = main_->GuildDBC()->DeleteReport(player_->PlayerID(), gmsg);
-  int sqlcode = main_->GuildDBC()->LastSQLCode();
+  int rc = LmGuildDBC::Instance()->DeleteReport(player_->PlayerID(), gmsg);
+  int sqlcode = LmGuildDBC::Instance()->LastSQLCode();
   if (rc < 0) {
     guild_error(rc, sqlcode, GMsg_Goal::DELETE_REPORT_ERROR, reportid);
     return;
@@ -1349,18 +1349,18 @@ void GsPlayerThread::handle_GMsg_Goal_AcceptGoal(const GMsg_Goal& gmsg)
   //goalinfo.Dump(TLOG_Stream(), 1); TLOG_FlushLog();
   // check that player is allowed to accept this goal
   if (!player_->CanAcceptGoal(goalinfo)) {
-    SECLOG(7, _T("%s: player %u: not allowed to accept goal %u"), method, player_->PlayerID(), goalid);
+    LmLogFile::Instance()->Security(7, _T("%s: player %u: not allowed to accept goal %u"), method, player_->PlayerID(), goalid);
     send_GMsg_Goal(player_->Connection(), GMsg_Goal::ACCEPT_GOAL_ERROR, goalid);
     return;
   }
   // update database
-  int rc = main_->GuildDBC()->AcceptGoal(player_->PlayerID(), gmsg);
-  int sqlcode = main_->GuildDBC()->LastSQLCode();
+  int rc = LmGuildDBC::Instance()->AcceptGoal(player_->PlayerID(), gmsg);
+  int sqlcode = LmGuildDBC::Instance()->LastSQLCode();
   if (rc < 0) {
     guild_error(rc, sqlcode, GMsg_Goal::ACCEPT_GOAL_ERROR, goalid);
     return;
   }
-  SECLOG(-7, _T("%s: player %u: accepted goal %u"), method, player_->PlayerID(), goalid);
+  LmLogFile::Instance()->Security(-7, _T("%s: player %u: accepted goal %u"), method, player_->PlayerID(), goalid);
   // goal accepted
   send_GMsg_Goal(player_->Connection(), GMsg_Goal::ACCEPT_GOAL_ACK, goalid);
   // update player database
@@ -1384,8 +1384,8 @@ void GsPlayerThread::handle_GMsg_Goal_RemoveGoal(const GMsg_Goal& gmsg)
   // goal removed - update player database
   player_->RemoveGoal(goalid);
   // update database
-  int rc = main_->GuildDBC()->RemoveGoal(player_->PlayerID(), gmsg);
-  int sqlcode = main_->GuildDBC()->LastSQLCode();
+  int rc = LmGuildDBC::Instance()->RemoveGoal(player_->PlayerID(), gmsg);
+  int sqlcode = LmGuildDBC::Instance()->LastSQLCode();
   if (rc < 0) {
     guild_error(rc, sqlcode, GMsg_Goal::ACCEPT_GOAL_ERROR, goalid);
     return;
@@ -1424,18 +1424,18 @@ void GsPlayerThread::handle_GMsg_Goal_Vote(const GMsg_Goal& gmsg)
   //goalinfo.Dump(TLOG_Stream(), 1); TLOG_FlushLog();
   // check that player can vote on this goal (guild/rank)
   if (!player_->CanVoteOnGoal(goalinfo)) {
-    SECLOG(7, _T("%s: player %u: not allowed to vote on goal %u"), method, player_->PlayerID(), goalid);
+    LmLogFile::Instance()->Security(7, _T("%s: player %u: not allowed to vote on goal %u"), method, player_->PlayerID(), goalid);
     send_GMsg_Goal(player_->Connection(), GMsg_Goal::VOTE_ERROR, goalid);
     return;
   }
   // update database
-  int rc = main_->GuildDBC()->VoteGoal(player_->PlayerID(), vote, gmsg);
-  int sqlcode = main_->GuildDBC()->LastSQLCode();
+  int rc = LmGuildDBC::Instance()->VoteGoal(player_->PlayerID(), vote, gmsg);
+  int sqlcode = LmGuildDBC::Instance()->LastSQLCode();
   if (rc < 0) {
     guild_error(rc, sqlcode, GMsg_Goal::VOTE_ERROR, goalid);
     return;
   }
-  SECLOG(-7, _T("%s: player %u: voted %d on goal %u"), method, player_->PlayerID(), vote, goalid);
+  LmLogFile::Instance()->Security(-7, _T("%s: player %u: voted %d on goal %u"), method, player_->PlayerID(), vote, goalid);
   // vote accepted
   send_GMsg_Goal(player_->Connection(), GMsg_Goal::VOTE_ACK, goalid);
 }
@@ -1458,20 +1458,20 @@ void GsPlayerThread::handle_GMsg_Goal_ExpireGoal(const GMsg_Goal& gmsg)
   // check that player can expire goal (must be goal creator)
   if (player_->DB().AccountType() != LmPlayerDB::ACCT_ADMIN) {
 	  if (player_->PlayerID() != goalinfo.CreatorID()) {
-	    SECLOG(7, _T("%s: player %u: not allowed to expire goal %u"), method, player_->PlayerID(), goalid);
+	    LmLogFile::Instance()->Security(7, _T("%s: player %u: not allowed to expire goal %u"), method, player_->PlayerID(), goalid);
 	    send_GMsg_Goal(player_->Connection(), GMsg_Goal::EXPIRE_GOAL_ERROR, goalid);
 	    return;
 	}
   }
 
   // update database
-  int rc = main_->GuildDBC()->ExpireGoal(player_->PlayerID(), gmsg);
-  int sqlcode = main_->GuildDBC()->LastSQLCode();
+  int rc = LmGuildDBC::Instance()->ExpireGoal(player_->PlayerID(), gmsg);
+  int sqlcode = LmGuildDBC::Instance()->LastSQLCode();
   if (rc < 0) {
     guild_error(rc, sqlcode, GMsg_Goal::EXPIRE_GOAL_ERROR, goalid);
     return;
   }
-  SECLOG(-7, _T("%s: player %u: expired goal %u"), method, player_->PlayerID(), goalid);
+  LmLogFile::Instance()->Security(-7, _T("%s: player %u: expired goal %u"), method, player_->PlayerID(), goalid);
   // goal expired
   send_GMsg_Goal(player_->Connection(), GMsg_Goal::EXPIRE_GOAL_ACK, goalid);
 }
@@ -1493,18 +1493,18 @@ void GsPlayerThread::handle_GMsg_Goal_CompleteGoal(const GMsg_Goal& gmsg)
   //goalinfo.Dump(TLOG_Stream(), 1); TLOG_FlushLog();
   // check that player can complete goal (must be goal creator)
   if (player_->PlayerID() != goalinfo.CreatorID()) {
-    SECLOG(7, _T("%s: player %u: not allowed to complete goal %u"), method, player_->PlayerID(), goalid);
+    LmLogFile::Instance()->Security(7, _T("%s: player %u: not allowed to complete goal %u"), method, player_->PlayerID(), goalid);
     send_GMsg_Goal(player_->Connection(), GMsg_Goal::COMPLETE_GOAL_ERROR, goalid);
     return;
   }
   // update database
-  int rc = main_->GuildDBC()->CompleteGoal(player_->PlayerID(), gmsg);
-  int sqlcode = main_->GuildDBC()->LastSQLCode();
+  int rc = LmGuildDBC::Instance()->CompleteGoal(player_->PlayerID(), gmsg);
+  int sqlcode = LmGuildDBC::Instance()->LastSQLCode();
   if (rc < 0) {
     guild_error(rc, sqlcode, GMsg_Goal::COMPLETE_GOAL_ERROR, goalid);
     return;
   }
-  SECLOG(-7, _T("%s: player %u: marked goal %u as complete"), method, player_->PlayerID(), goalid);
+  LmLogFile::Instance()->Security(-7, _T("%s: player %u: marked goal %u as complete"), method, player_->PlayerID(), goalid);
   // goal completed
   send_GMsg_Goal(player_->Connection(), GMsg_Goal::COMPLETE_GOAL_ACK, goalid);
 }
@@ -1525,8 +1525,8 @@ void GsPlayerThread::handle_GMsg_Goal_CompleteQuest(const GMsg_Goal& gmsg)
   }
   // get from database
   GMsg_RcvGoalDetails detailmsg;
-  int rc = main_->GuildDBC()->GetGoalDetails(goalid, detailmsg);
-  int sqlcode = main_->GuildDBC()->LastSQLCode();
+  int rc = LmGuildDBC::Instance()->GetGoalDetails(goalid, detailmsg);
+  int sqlcode = LmGuildDBC::Instance()->LastSQLCode();
   if (rc < 0) {
 	send_GMsg_Goal(player_->Connection(), GMsg_Goal::COMPLETE_QUEST_ERROR, goalid);
     return;
@@ -1537,7 +1537,7 @@ void GsPlayerThread::handle_GMsg_Goal_CompleteQuest(const GMsg_Goal& gmsg)
 
   // Quest must be in the goalbook to be completed
   if (!player_->DB().GoalBook().HasMember(goalid)) { 
-	SECLOG(-7, _T("%s: player %u: trying to complete unaccepted quest %u"), method, player_->PlayerID(), goalid);
+	LmLogFile::Instance()->Security(-7, _T("%s: player %u: trying to complete unaccepted quest %u"), method, player_->PlayerID(), goalid);
 	send_GMsg_Goal(player_->Connection(), GMsg_Goal::COMPLETE_QUEST_ERROR, goalid);
 	return;
   }
@@ -1560,10 +1560,10 @@ void GsPlayerThread::handle_GMsg_Goal_CompleteQuest(const GMsg_Goal& gmsg)
   }
 
   adjust_xp(detailmsg.QuestXP(), _T("Completed quest"), goalid, true);
-  main_->GuildDBC()->CompleteQuest(player_->PlayerID(), goalid);
+  LmGuildDBC::Instance()->CompleteQuest(player_->PlayerID(), goalid);
 
   // update database
-  SECLOG(-7, _T("%s: player %u: completed talisman quest %u; gained %u XP"), method, player_->PlayerID(), detailmsg.QuestXP(), goalid);
+  LmLogFile::Instance()->Security(-7, _T("%s: player %u: completed talisman quest %u; gained %u XP"), method, player_->PlayerID(), detailmsg.QuestXP(), goalid);
   // goal completed
   send_GMsg_Goal(player_->Connection(), GMsg_Goal::COMPLETE_QUEST_ACK, goalid);
 }
@@ -1585,8 +1585,8 @@ void GsPlayerThread::handle_GMsg_Goal_DoesHaveCodex(const GMsg_Goal& gmsg)
   }
   // get from database
   GMsg_RcvGoalDetails detailmsg;
-  int rc = main_->GuildDBC()->GetGoalDetails(goalid, detailmsg);
-  int sqlcode = main_->GuildDBC()->LastSQLCode();
+  int rc = LmGuildDBC::Instance()->GetGoalDetails(goalid, detailmsg);
+  int sqlcode = LmGuildDBC::Instance()->LastSQLCode();
   if (rc < 0) {
 	send_GMsg_Goal(player_->Connection(), (int)GMsg_Goal::DOES_HAVE_CODEX_ERROR, (lyra_id_t)0);
     return;
@@ -1612,7 +1612,7 @@ void GsPlayerThread::handle_GMsg_Goal_DoesHaveCodex(const GMsg_Goal& gmsg)
 		if (scroll.creatorid() == player_->DB().PlayerID())
 			continue;
 
-		main_->ItemDBC()->GetItemDescription(item.Header().Serial(), buffer);
+		LmItemDBC::Instance()->GetItemDescription(item.Header().Serial(), buffer);
 
 		TCHAR* keyword;
 		TCHAR* descrip = (TCHAR*)detailmsg.Keywords();
@@ -1638,9 +1638,9 @@ void GsPlayerThread::handle_GMsg_Goal_DoesHaveCodex(const GMsg_Goal& gmsg)
 	send_GMsg_Goal(player_->Connection(), GMsg_Goal::DOES_HAVE_CODEX_ERROR, goalid);
   else {  // has completed it
 	adjust_xp(detailmsg.QuestXP(), _T("Completed quest"), goalid, true);
-	main_->GuildDBC()->CompleteQuest(player_->PlayerID(), goalid);
+	LmGuildDBC::Instance()->CompleteQuest(player_->PlayerID(), goalid);
 	// update database
-	SECLOG(-7, _T("%s: player %u: completed codex quest %u; gained %u XP"), method, player_->PlayerID(), detailmsg.QuestXP(), goalid);
+	LmLogFile::Instance()->Security(-7, _T("%s: player %u: completed codex quest %u; gained %u XP"), method, player_->PlayerID(), detailmsg.QuestXP(), goalid);
 	send_GMsg_Goal(player_->Connection(), GMsg_Goal::DOES_HAVE_CODEX_ACK, goalid);
   }
 }
@@ -1664,20 +1664,20 @@ void GsPlayerThread::handle_GMsg_Goal_GetGoalText(const GMsg_Goal& gmsg)
   //goalinfo.Dump(TLOG_Stream(), 1); TLOG_FlushLog();
   // check if player can read goal text
   if (!player_->CanGetGoalText(goalinfo)) {
-    SECLOG(7, _T("%s: player %u: not allowed to read goal %u text"), method, player_->PlayerID(), goalid);
+    LmLogFile::Instance()->Security(7, _T("%s: player %u: not allowed to read goal %u text"), method, player_->PlayerID(), goalid);
     send_GMsg_Goal(player_->Connection(), GMsg_Goal::GOAL_NOTFOUND, goalid);
     return;
   }
   // get goal text from database
   GMsg_RcvGoalText msg;
-  int rc = main_->GuildDBC()->GetGoalText(goalid, msg);
-  int sqlcode = main_->GuildDBC()->LastSQLCode();
+  int rc = LmGuildDBC::Instance()->GetGoalText(goalid, msg);
+  int sqlcode = LmGuildDBC::Instance()->LastSQLCode();
   if (rc < 0) {
     guild_error(rc, sqlcode, GMsg_Goal::GOAL_NOTFOUND, goalid);
     return;
   }
   // fill in creator name
-  const TCHAR* creator_name = main_->PlayerNameMap()->PlayerName(msg.CreatorID());
+  const TCHAR* creator_name = LmPlayerNameMap::Instance()->PlayerName(msg.CreatorID());
   if (!creator_name) {
     TLOG_Warning(_T("%s: goal %u creator %u(%d) not in player database"), method, goalid, msg.CreatorID(), msg.CreatorID());
 	// *** STRING LITERAL ***
@@ -1686,7 +1686,7 @@ void GsPlayerThread::handle_GMsg_Goal_GetGoalText(const GMsg_Goal& gmsg)
   msg.SetCreator(creator_name);
   // send to player
   //TLOG_Debug(_T("%s: result message:"), method); msg.Dump(TLOG_Stream(), 1); TLOG_FlushLog();
-  main_->OutputDispatch()->SendMessage(&msg, player_->Connection());
+  GsOutputDispatch::Instance()->SendMessage(&msg, player_->Connection());
 }
 
 ////
@@ -1706,14 +1706,14 @@ void GsPlayerThread::handle_GMsg_Goal_GetGoalDetails(const GMsg_Goal& gmsg)
   //goalinfo.Dump(TLOG_Stream(), 1); TLOG_FlushLog();
   // check that player can read goal details
   if (!player_->CanGetGoalDetails(goalinfo)) {
-    SECLOG(7, _T("%s: player %u: not allowed to read goal %u details"), method, player_->PlayerID(), goalid);
+    LmLogFile::Instance()->Security(7, _T("%s: player %u: not allowed to read goal %u details"), method, player_->PlayerID(), goalid);
     send_GMsg_Goal(player_->Connection(), GMsg_Goal::GOAL_NOTFOUND, goalid);
     return;
   }
   // get from database
   GMsg_RcvGoalDetails msg;
-  int rc = main_->GuildDBC()->GetGoalDetails(goalid, msg);
-  int sqlcode = main_->GuildDBC()->LastSQLCode();
+  int rc = LmGuildDBC::Instance()->GetGoalDetails(goalid, msg);
+  int sqlcode = LmGuildDBC::Instance()->LastSQLCode();
   if (rc < 0) {
     guild_error(rc, sqlcode, GMsg_Goal::GOAL_NOTFOUND, goalid);
     return;
@@ -1732,7 +1732,7 @@ void GsPlayerThread::handle_GMsg_Goal_GetGoalDetails(const GMsg_Goal& gmsg)
   msg.SetNumAcceptees(num_acceptees);
   // fill in acceptee list
   for (int i = 0; i < num_acceptees; ++i) {
-    const TCHAR* acc_name = main_->PlayerNameMap()->PlayerName(msg.AccepteeID(i));
+    const TCHAR* acc_name = LmPlayerNameMap::Instance()->PlayerName(msg.AccepteeID(i));
     if (!acc_name) {
       TLOG_Warning(_T("%s: goal %u acceptee/voter %u not in player database"), method, goalid, msg.AccepteeID(i));
 	// *** STRING LITERAL ***
@@ -1742,7 +1742,7 @@ void GsPlayerThread::handle_GMsg_Goal_GetGoalDetails(const GMsg_Goal& gmsg)
   }
   // send to player
   // msg.Dump(((LmLogFile*)Log())->Stream());
-  main_->OutputDispatch()->SendMessage(&msg, player_->Connection());
+  GsOutputDispatch::Instance()->SendMessage(&msg, player_->Connection());
 }
 
 ////
@@ -1756,8 +1756,8 @@ void GsPlayerThread::handle_GMsg_Goal_GetReportText(const GMsg_Goal& gmsg)
   TLOG_Debug(_T("%s: player getting report text for report %u"), method, reportid);
   // get from database
   GMsg_RcvReportText msg;
-  int rc = main_->GuildDBC()->GetReportText(reportid, msg);
-  int sqlcode = main_->GuildDBC()->LastSQLCode();
+  int rc = LmGuildDBC::Instance()->GetReportText(reportid, msg);
+  int sqlcode = LmGuildDBC::Instance()->LastSQLCode();
   if (rc < 0) {
     guild_error(rc, sqlcode, GMsg_Goal::REPORT_NOTFOUND, reportid);
     return;
@@ -1766,20 +1766,20 @@ void GsPlayerThread::handle_GMsg_Goal_GetReportText(const GMsg_Goal& gmsg)
   // NOTE: no longer valid with guardian-managed goals
   // check if player is creator or recipient
   if ((msg.RecipientID() != player_->PlayerID()) && (msg.CreatorID() != player_->PlayerID())) {
-    SECLOG(7, _T("%s: player %u: not allowed to read report %u text"), method, player_->PlayerID(), reportid);
+    LmLogFile::Instance()->Security(7, _T("%s: player %u: not allowed to read report %u text"), method, player_->PlayerID(), reportid);
     send_GMsg_Goal(player_->Connection(), GMsg_Goal::REPORT_NOTFOUND, reportid);
     return;
   }
 #endif
   // fill in creator/recipient names
-  const TCHAR* creator_name = main_->PlayerNameMap()->PlayerName(msg.CreatorID());
+  const TCHAR* creator_name = LmPlayerNameMap::Instance()->PlayerName(msg.CreatorID());
   if (!creator_name) {
     TLOG_Warning(_T("%s: report %u creator %u not in player database"), method, reportid, msg.CreatorID());
 	// *** STRING LITERAL ***
     creator_name = _T("(unknown)");
   }
   msg.SetCreator(creator_name);
-  const TCHAR* rec_name = main_->PlayerNameMap()->PlayerName(msg.RecipientID());
+  const TCHAR* rec_name = LmPlayerNameMap::Instance()->PlayerName(msg.RecipientID());
   if (!rec_name) {
     TLOG_Warning(_T("%s: report %u target %u not in player database"), method, reportid, msg.RecipientID());
 	// *** STRING LITERAL ***
@@ -1788,7 +1788,7 @@ void GsPlayerThread::handle_GMsg_Goal_GetReportText(const GMsg_Goal& gmsg)
   msg.SetRecipient(rec_name);
   // send to player
   //TLOG_Debug(_T("%s: message dump:"), method); msg.Dump(TLOG_Stream(), 1); TLOG_FlushLog();
-  main_->OutputDispatch()->SendMessage(&msg, player_->Connection());
+  GsOutputDispatch::Instance()->SendMessage(&msg, player_->Connection());
   // special handling for when report recipient is reading - remove xp, mark as read
   if (player_->PlayerID() == msg.RecipientID()) {
     // if there was XP awarded, add to player's XP and remove from database (in opposite order)
@@ -1796,8 +1796,8 @@ void GsPlayerThread::handle_GMsg_Goal_GetReportText(const GMsg_Goal& gmsg)
       // check if player is 1 xp away from next sphere, don't award xp in that case
       if (!player_->DB().PeggedBelowSphere()) { 
 	// remove xp from report
-	rc = main_->GuildDBC()->RemoveReportXP(reportid);
-	sqlcode = main_->GuildDBC()->LastSQLCode();
+	rc = LmGuildDBC::Instance()->RemoveReportXP(reportid);
+	sqlcode = LmGuildDBC::Instance()->LastSQLCode();
 	if (rc < 0) {
 	  TLOG_Error(_T("%s: could not remove xp from report %u; rc=%d, sc=%d"), method, reportid, rc, sqlcode);
 	  return;
@@ -1809,8 +1809,8 @@ void GsPlayerThread::handle_GMsg_Goal_GetReportText(const GMsg_Goal& gmsg)
     // if report has not been flagged as read, and it's recipient is doing the reading, mark it
     if (!(msg.Flags() & Guild::REPORT_READ)) {
       int new_flags = msg.Flags() | Guild::REPORT_READ;
-      rc = main_->GuildDBC()->SetReportFlags(reportid, new_flags);
-      sqlcode = main_->GuildDBC()->LastSQLCode();
+      rc = LmGuildDBC::Instance()->SetReportFlags(reportid, new_flags);
+      sqlcode = LmGuildDBC::Instance()->LastSQLCode();
       if (rc < 0) {
 	TLOG_Error(_T("%s: could not set flags for report %u; rc=%d, sc=%d"), method, reportid, rc, sqlcode);
       }
@@ -1834,8 +1834,8 @@ void GsPlayerThread::handle_GMsg_Goal_GetGoalbookHeaders(const GMsg_Goal& /* gms
     TLOG_Debug(_T("%s: getting goalbook header for goal %u"), method, goalid);
     GMsg_RcvGoalbookHdr msg;
     // get from database
-    int rc = main_->GuildDBC()->GetGoalbookHeader(goalid, msg);
-    int sqlcode = main_->GuildDBC()->LastSQLCode();
+    int rc = LmGuildDBC::Instance()->GetGoalbookHeader(goalid, msg);
+    int sqlcode = LmGuildDBC::Instance()->LastSQLCode();
     if (rc < 0) {
       // if data error, goal not found, so remove from goalbook and continue
       if (rc == LmGuildDBC::MYSQL_NODATA) {
@@ -1846,7 +1846,7 @@ void GsPlayerThread::handle_GMsg_Goal_GetGoalbookHeaders(const GMsg_Goal& /* gms
     }
     else {
       //TLOG_Debug(_T("%s: returned goalbook header:"), method); msg.Dump(TLOG_Stream(), 1); TLOG_FlushLog();
-      main_->OutputDispatch()->SendMessage(&msg, player_->Connection());
+      GsOutputDispatch::Instance()->SendMessage(&msg, player_->Connection());
     }
   }
 }
@@ -1870,7 +1870,7 @@ void GsPlayerThread::handle_GMsg_GetGoalHdrs(LmSrvMesgBuf* msgbuf, LmConnection*
   //TLOG_Debug(_T("%s: message dump:"), method); msg.Dump(TLOG_Stream(), 1); TLOG_FlushLog();
   // check if player is allowed to request the goal headers
   if (!player_->CanGetGoalHeaders(msg.Guild(), msg.LevelNum())) {
-    SECLOG(7, _T("%s: player %u: not allowed to get headers; guild=%d rank=%d"), method,
+    LmLogFile::Instance()->Security(7, _T("%s: player %u: not allowed to get headers; guild=%d rank=%d"), method,
 	   player_->PlayerID(), msg.Guild(), msg.LevelNum());
     return;
   }
@@ -1903,8 +1903,8 @@ void GsPlayerThread::handle_GMsg_GetGoalHdrs(LmSrvMesgBuf* msgbuf, LmConnection*
   if (msg.LevelNum() < player_->DB().Stats().GuildRank(msg.Guild())) {
     // requesting from lower-rank goal posting board, send hirank
     // read from database
-    rc = main_->GuildDBC()->HirankGoalHeaders(msg, player_->PlayerID(), goal_id, goal_summary, goal_status, hirank);
-    sqlcode = main_->GuildDBC()->LastSQLCode();
+    rc = LmGuildDBC::Instance()->HirankGoalHeaders(msg, player_->PlayerID(), goal_id, goal_summary, goal_status, hirank);
+    sqlcode = LmGuildDBC::Instance()->LastSQLCode();
     if (rc < 0) {
       TLOG_Warning(_T("%s: could not get hirank goal headers; rc=%d sql=%d"), method, rc, sqlcode);
       guild_error(rc, sqlcode, -1, -1);
@@ -1917,9 +1917,9 @@ void GsPlayerThread::handle_GMsg_GetGoalHdrs(LmSrvMesgBuf* msgbuf, LmConnection*
     int sphere = player_->DB().Stats().Sphere(); // TODO: fill this in correctly
     int focus_stat = player_->DB().Stats().FocusStat();
     // read from database
-    rc = main_->GuildDBC()->GoalHeaders(msg, sphere, focus_stat, goal_id, goal_summary, 
+    rc = LmGuildDBC::Instance()->GoalHeaders(msg, sphere, focus_stat, goal_id, goal_summary, 
 		player_->PlayerID(), player_->DB().GoalBook());
-    sqlcode = main_->GuildDBC()->LastSQLCode();
+    sqlcode = LmGuildDBC::Instance()->LastSQLCode();
     if (rc < 0) {
       TLOG_Warning(_T("%s: could not get goal headers; rc=%d sql=%d"), method, rc, sqlcode);
       guild_error(rc, sqlcode, -1, -1);
@@ -1934,8 +1934,8 @@ void GsPlayerThread::handle_GMsg_GetGoalHdrs(LmSrvMesgBuf* msgbuf, LmConnection*
     TLOG_Debug(_T("%s: sending session %d, goal %u - '%s'"), method, msg.SessionID(), goal_id[i], goal_summary[i]);
     // if goal status indicates a voting goal, then check if player was in voters
     if ((goal_status[i] >= Guild::GOAL_PENDING_VOTE) && (goal_status[i] <= Guild::GOAL_RULER_FAILED)) {
-      int rc2 = main_->GuildDBC()->InVoters(goal_id[i], player_->DB().PlayerID());
-      sqlcode = main_->GuildDBC()->LastSQLCode();
+      int rc2 = LmGuildDBC::Instance()->InVoters(goal_id[i], player_->DB().PlayerID());
+      sqlcode = LmGuildDBC::Instance()->LastSQLCode();
       if (rc2 < 0) {
 	TLOG_Warning(_T("%s: could not get voter info; rc=%d sql=%d"), method, rc2, sqlcode);
 	// ignore errors
@@ -1948,8 +1948,8 @@ void GsPlayerThread::handle_GMsg_GetGoalHdrs(LmSrvMesgBuf* msgbuf, LmConnection*
   }
 
   lyra_id_t goal_id_dgh[10];
-  rc = main_->GuildDBC()->DetailGoalHeaders(msg.Guild(), msg.LevelNum(), msg.LastGoal(), player_->PlayerID(), goal_id_dgh, hirank);
-  sqlcode = main_->GuildDBC()->LastSQLCode();
+  rc = LmGuildDBC::Instance()->DetailGoalHeaders(msg.Guild(), msg.LevelNum(), msg.LastGoal(), player_->PlayerID(), goal_id_dgh, hirank);
+  sqlcode = LmGuildDBC::Instance()->LastSQLCode();
   if (rc < 0) {
     TLOG_Warning(_T("%s: could not get report goals; rc=%d sql=%d"), method, rc, sqlcode);
     guild_error(rc, sqlcode, -1, -1);
@@ -1992,7 +1992,7 @@ void GsPlayerThread::handle_GMsg_GetReportHdrs(LmSrvMesgBuf* msgbuf, LmConnectio
     //goalinfo.Dump(TLOG_Stream(), 1); TLOG_FlushLog();
     // check that player can get report headers for this goal
     if (!player_->CanGetReportHeaders(goalinfo)) {
-      SECLOG(7, _T("%s: player %u: not allowed to read goal %u reports"), method, player_->PlayerID(), msg.GoalID());
+      LmLogFile::Instance()->Security(7, _T("%s: player %u: not allowed to read goal %u reports"), method, player_->PlayerID(), msg.GoalID());
       send_GMsg_Goal(player_->Connection(), GMsg_Goal::GOAL_NOTFOUND, msg.GoalID());
       return;
     }
@@ -2012,8 +2012,8 @@ void GsPlayerThread::handle_GMsg_GetReportHdrs(LmSrvMesgBuf* msgbuf, LmConnectio
     hirank = 1;
 
   // read from database
-  int rc = main_->GuildDBC()->ReportHeaders(msg, player_->PlayerID(), report_id, goal_id, report_summary, flags, hirank);
-  int sqlcode = main_->GuildDBC()->LastSQLCode();
+  int rc = LmGuildDBC::Instance()->ReportHeaders(msg, player_->PlayerID(), report_id, goal_id, report_summary, flags, hirank);
+  int sqlcode = LmGuildDBC::Instance()->LastSQLCode();
   if (rc < 0) {
     TLOG_Warning(_T("%s: could not get report headers; rc=%d sql=%d"), method, rc, sqlcode);
     guild_error(rc, sqlcode, -1, -1);
@@ -2029,8 +2029,8 @@ void GsPlayerThread::handle_GMsg_GetReportHdrs(LmSrvMesgBuf* msgbuf, LmConnectio
 
   // now get the list of all goal headers we can detail or read reports on
   if ((hirank > 0) && (msg.GoalID() == 0)) {
-    int rc = main_->GuildDBC()->DetailGoalHeaders(msg.Guild(), msg.LevelNum(), msg.LastReport(), player_->PlayerID(), goal_id, hirank);
-    int sqlcode = main_->GuildDBC()->LastSQLCode();
+    int rc = LmGuildDBC::Instance()->DetailGoalHeaders(msg.Guild(), msg.LevelNum(), msg.LastReport(), player_->PlayerID(), goal_id, hirank);
+    int sqlcode = LmGuildDBC::Instance()->LastSQLCode();
     if (rc < 0) {
       TLOG_Warning(_T("%s: could not get report goals; rc=%d sql=%d"), method, rc, sqlcode);
       guild_error(rc, sqlcode, -1, -1);
@@ -2071,7 +2071,7 @@ void GsPlayerThread::handle_GMsg_PostGoal(LmSrvMesgBuf* msgbuf, LmConnection* co
   //case RMsg_Speech::REPORT_QUEST: // eliminated unnecessary double sending of text
 //    msg.RemoveNewlines();
   if (msg.Level() == Guild::QUEST) {
-    SECLOG(-2, _T("%s: player %u posted quest; stat: %d sphere: %d summary: %s text: %s"), 
+    LmLogFile::Instance()->Security(-2, _T("%s: player %u posted quest; stat: %d sphere: %d summary: %s text: %s"), 
 		method, player_->PlayerID(), msg.SugStat(), msg.SugSphere(), msg.Summary(), msg.GoalText());
 	   //msg.SpeechText());
   }
@@ -2087,7 +2087,7 @@ void GsPlayerThread::handle_GMsg_PostGoal(LmSrvMesgBuf* msgbuf, LmConnection* co
 //    Log()->FlushLog();
     // check if player can update this goal
     if (!player_->CanUpdateGoal(goalinfo)) {
-      SECLOG(7, _T("%s: player %u: not allowed to update mission %u"), method,
+      LmLogFile::Instance()->Security(7, _T("%s: player %u: not allowed to update mission %u"), method,
 	     player_->PlayerID(), msg.GoalID());
       send_GMsg_Goal(player_->Connection(), GMsg_Goal::GOAL_NOTFOUND, 0);
       return;
@@ -2095,8 +2095,8 @@ void GsPlayerThread::handle_GMsg_PostGoal(LmSrvMesgBuf* msgbuf, LmConnection* co
     // update goal in db
 	//TLOG_Debug(_T("%s: player %u updating goal %u in database"), method, player_->PlayerID(), msg.GoalID());
     //Log()->FlushLog();
-    rc = main_->GuildDBC()->UpdateMission(player_->PlayerID(), msg);
-    sc = main_->GuildDBC()->LastSQLCode();
+    rc = LmGuildDBC::Instance()->UpdateMission(player_->PlayerID(), msg);
+    sc = LmGuildDBC::Instance()->LastSQLCode();
     if (rc < 0) {
       TLOG_Error(_T("%s: could not update mission; rc=%d sqlcode=%d"), method, rc, sc);
       guild_error(rc, sc, GMsg_Goal::GOAL_NOTFOUND, 0);
@@ -2111,7 +2111,7 @@ void GsPlayerThread::handle_GMsg_PostGoal(LmSrvMesgBuf* msgbuf, LmConnection* co
 	//	msg.Guild(), msg.Level());
     //Log()->FlushLog();
     if (!player_->CanPostGoal(msg.Guild(), msg.Level(), msg.QuestXP()*msg.MaxAccepted())) {
-      SECLOG(7, _T("%s: player %u: not allowed to post goal; guild=%d rank=%d questxp=%d"), method,
+      LmLogFile::Instance()->Security(7, _T("%s: player %u: not allowed to post goal; guild=%d rank=%d questxp=%d"), method,
 	     player_->PlayerID(), msg.Guild(), msg.Level(), msg.QuestXP());
       send_GMsg_Goal(player_->Connection(), GMsg_Goal::POSTGOAL_ERROR, 0);
       return;
@@ -2120,8 +2120,8 @@ void GsPlayerThread::handle_GMsg_PostGoal(LmSrvMesgBuf* msgbuf, LmConnection* co
     if ((msg.Level() == Guild::INITIATE) || 
 		(msg.Level() == Guild::QUEST))
 	{
-      rc = main_->GuildDBC()->PostMission(player_->PlayerID(), msg);
-      sc = main_->GuildDBC()->LastSQLCode();
+      rc = LmGuildDBC::Instance()->PostMission(player_->PlayerID(), msg);
+      sc = LmGuildDBC::Instance()->LastSQLCode();
       if (rc < 0) {
 	TLOG_Error(_T("%s: could not post mission; rc=%d sqlcode=%d"), method, rc, sc);
 	guild_error(rc, sc, GMsg_Goal::POSTGOAL_ERROR, 0);
@@ -2133,8 +2133,8 @@ void GsPlayerThread::handle_GMsg_PostGoal(LmSrvMesgBuf* msgbuf, LmConnection* co
 
     }
     else if (msg.Level() == Guild::KNIGHT) {
-      rc = main_->GuildDBC()->PostGoal(player_->PlayerID(), msg);
-      sc = main_->GuildDBC()->LastSQLCode();
+      rc = LmGuildDBC::Instance()->PostGoal(player_->PlayerID(), msg);
+      sc = LmGuildDBC::Instance()->LastSQLCode();
       if (rc < 0) {
 	TLOG_Error(_T("%s: could not post goal; rc=%d sqlcode=%d"), method, rc, sc);
 	guild_error(rc, sc, GMsg_Goal::POSTGOAL_ERROR, 0);
@@ -2153,19 +2153,19 @@ void GsPlayerThread::handle_GMsg_PostGoal(LmSrvMesgBuf* msgbuf, LmConnection* co
   // goal posted/updated OK
   // TLOG_Debug(_T("%s: player posted goal"), method);
   if (msg.GoalID() != Lyra::ID_UNKNOWN) {
-    SECLOG(-7, _T("%s: player %u: posted goal of rank %d in guild %d"), method,
+    LmLogFile::Instance()->Security(-7, _T("%s: player %u: posted goal of rank %d in guild %d"), method,
 	   player_->PlayerID(), msg.Level(), msg.Guild());
     // send message so client knows it is OK to get details, etc.
     send_GMsg_RcvReportGoals(player_->Connection(), msg.GoalID());
   }
   else {
-    SECLOG(-7, _T("%s: player %u: updated goal %u"), method, player_->PlayerID(), msg.GoalID());
+    LmLogFile::Instance()->Security(-7, _T("%s: player %u: updated goal %u"), method, player_->PlayerID(), msg.GoalID());
   }
 
   // if Quest XP awarded, remove from pool
   if (msg.QuestXP() > 0) {
     player_->PostQuest(msg.QuestXP()*msg.MaxAccepted());
-    // int rc = main_->PlayerDBC()->AddOfflineXP(recipient, msg.AwardXP());
+    // int rc = LmPlayerDBC::Instance()->AddOfflineXP(recipient, msg.AwardXP());
   }
 
   send_GMsg_Goal(player_->Connection(), GMsg_Goal::POSTGOAL_ACK, 0);
@@ -2196,18 +2196,18 @@ void GsPlayerThread::handle_GMsg_PostReport(LmSrvMesgBuf* msgbuf, LmConnection* 
   }
   //goalinfo.Dump(TLOG_Stream(), 1); TLOG_FlushLog();
   // get recipient id from message
-  lyra_id_t recipient = main_->PlayerNameMap()->PlayerID(msg.Recipient());
+  lyra_id_t recipient = LmPlayerNameMap::Instance()->PlayerID(msg.Recipient());
   if (recipient == Lyra::ID_UNKNOWN) {
     TLOG_Warning(_T("%s: report recipient '%s' not in database"), method, msg.Recipient());
     send_GMsg_Goal(player_->Connection(), GMsg_Goal::POSTREPORT_ERROR, 0);
     return;
   }
   // determine if source/target are in acceptee list
-  bool source_in_acceptees = (bool)(main_->GuildDBC()->InAcceptees(msg.GoalID(), player_->PlayerID()));
-  bool target_in_acceptees = (bool)(main_->GuildDBC()->InAcceptees(msg.GoalID(), recipient));
+  bool source_in_acceptees = (bool)(LmGuildDBC::Instance()->InAcceptees(msg.GoalID(), player_->PlayerID()));
+  bool target_in_acceptees = (bool)(LmGuildDBC::Instance()->InAcceptees(msg.GoalID(), recipient));
   // check that player can post this report
   if (!player_->CanPostReport(goalinfo, msg.AwardXP(), source_in_acceptees, recipient, target_in_acceptees)) {
-    SECLOG(7, _T("%s: player %u: not allowed to post report to player %u for goal %u, awardxp %d"), method,
+    LmLogFile::Instance()->Security(7, _T("%s: player %u: not allowed to post report to player %u for goal %u, awardxp %d"), method,
 	   player_->PlayerID(), recipient, msg.GoalID(), msg.AwardXP());
     send_GMsg_Goal(player_->Connection(), GMsg_Goal::POSTREPORT_ERROR, 0);
     return;
@@ -2216,14 +2216,14 @@ void GsPlayerThread::handle_GMsg_PostReport(LmSrvMesgBuf* msgbuf, LmConnection* 
   // NOTE: no longer valid with guardian-managed goals
   // further check: that player is either goal creator, or in list of acceptees
   if ((player_->PlayerID() != goalinfo.CreatorID()) && !source_in_acceptees) {
-    SECLOG(7, _T("%s: player %u: not goal creator/acceptee for goal %u"), method, player_->PlayerID(), msg.GoalID());
+    LmLogFile::Instance()->Security(7, _T("%s: player %u: not goal creator/acceptee for goal %u"), method, player_->PlayerID(), msg.GoalID());
     send_GMsg_Goal(player_->Connection(), GMsg_Goal::POSTREPORT_ERROR, 0);
     return;
   }
 #endif
   // put in database
-  int rc = main_->GuildDBC()->PostReport(player_->PlayerID(), recipient, msg);
-  int sqlcode = main_->GuildDBC()->LastSQLCode();
+  int rc = LmGuildDBC::Instance()->PostReport(player_->PlayerID(), recipient, msg);
+  int sqlcode = LmGuildDBC::Instance()->LastSQLCode();
   if (rc < 0) {
     TLOG_Error(_T("%s: could not post report; rc=%d sqlcode=%d"), method, rc, sqlcode);
     guild_error(rc, sqlcode, GMsg_Goal::POSTREPORT_ERROR, 0);
@@ -2232,7 +2232,7 @@ void GsPlayerThread::handle_GMsg_PostReport(LmSrvMesgBuf* msgbuf, LmConnection* 
   // if XP awarded, remove from pool
   if (msg.AwardXP() > 0) {
     player_->PostReport(goalinfo.Guild(), msg.AwardXP(), recipient);
-    // int rc = main_->PlayerDBC()->AddOfflineXP(recipient, msg.AwardXP());
+    // int rc = LmPlayerDBC::Instance()->AddOfflineXP(recipient, msg.AwardXP());
   }
   // report posted
   send_GMsg_Goal(player_->Connection(), GMsg_Goal::POSTREPORT_ACK, 0);

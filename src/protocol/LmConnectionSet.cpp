@@ -25,6 +25,9 @@
 #include "../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
+//init tracker
+LmConnectionSet* LmConnectionSet::s_instance = nullptr;
+
 ////
 // Constructor
 ////
@@ -34,6 +37,7 @@ LmConnectionSet::LmConnectionSet(int setsize)
     conns_(LmNEW(LmConnection[setsize])),
     imp_(LmNEW(LmConnectionSetImp()))
 {
+    s_instance = this;
   DECLARE_TheLineNum;
   lock_.Init();
 }
@@ -48,6 +52,8 @@ LmConnectionSet::~LmConnectionSet()
   // TODO: close all first?
   LmDELETE(imp_);
   LmDELETEARRAY(conns_);
+  if (s_instance == this)
+      s_instance == nullptr;
 }
 
 ////

@@ -3,7 +3,7 @@
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
 //
 // implementation
-
+#if 0 //taking care of legacy code to make single server
 extern int h_errno;
 
 #include "../../../include/platform/Platform.h" //temp fix for old style legacy defines
@@ -216,7 +216,13 @@ int GsMain::Init(const TCHAR* root_dir, int max_players, const char* next_ip_add
   bdbc_->SetLog(log_);
 
   // seed random number generator
+#ifdef _WIN32
+#include <process.h> // Required for _getpid
+  LmRand::InitSeed(_getpid());
+#else
+#include <unistd.h> // Required for getpid on Linux
   LmRand::InitSeed(getpid());
+#endif
 
   _tcscpy((wchar_t*)(next_ip_), (wchar_t*)next_ip_address);
   next_port_ = next_server_port;
@@ -386,7 +392,7 @@ int GsMain::Go()
   // cleanup
   remove_pidfile();
 
-  log_->Debug(_T("%s: game server pid %d shutting down"), method, getpid());
+ // log_->Debug(_T("%s: game server pid %d shutting down"), method, getpid());
 // GAMED_POINTER
 #if 0
   if (this->IsActiveServer()) {
@@ -1061,3 +1067,4 @@ void GsMain::SetNumLogins(int num_logins)
 {
     num_logins_ = num_logins;
 }
+#endif

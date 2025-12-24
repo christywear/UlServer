@@ -239,7 +239,6 @@ short GsPlayer::PPMultiplier(int art_id)
 ////
 
 GsPlayer::GsPlayer()
-  : main_(0)
 {
   lock_.Init();
   u_lock_.Init();
@@ -268,13 +267,13 @@ int GsPlayer::Login(lyra_id_t playerid, int pmare_type, bool first_login)
 {
   DEFMETHOD(GsPlayer, Login);
   // load the player info from the player database
-  int rc = main_->PlayerDBC()->LoadPlayer(playerid, db_, pmare_type);
-  int sc = main_->PlayerDBC()->LastSQLCode();
-  int lt = main_->PlayerDBC()->LastCallTime();
-  //  main_->Log()->Debug(_T("%s: LmPlayerDBC::LoadPlayer took %d ms"), method, lt);
+  int rc = LmPlayerDBC::Instance()->LoadPlayer(playerid, db_, pmare_type);
+  int sc = LmPlayerDBC::Instance()->LastSQLCode();
+  int lt = LmPlayerDBC::Instance()->LastCallTime();
+  //  LmLog::Instance()->Debug(_T("%s: LmPlayerDBC::LoadPlayer took %d ms"), method, lt);
   if (rc < 0) {
-    main_->Log()->Error(_T("%s: could not load player %u; rc=%d, sqlcode=%d"), method, playerid, rc, sc);
-    GsUtil::HandlePlayerError(main_, method, rc, sc, false);
+    LmLog::Instance()->Error(_T("%s: could not load player %u; rc=%d, sqlcode=%d"), method, playerid, rc, sc);
+    GsUtil::HandlePlayerError(method, rc, sc, false);
     return -1;
   }
 
@@ -289,19 +288,19 @@ int GsPlayer::Login(lyra_id_t playerid, int pmare_type, bool first_login)
 
   // load the inventory from the item database
   db_.Inventory().RemoveAll();
-  rc = main_->ItemDBC()->GetPlayerInventory(db_.PlayerID(), db_.Inventory());
-  sc = main_->ItemDBC()->LastSQLCode();
-  lt = main_->ItemDBC()->LastCallTime();
-  //  main_->Log()->Debug(_T("%s: LmItemDBC::GetPlayerInventory took %d ms"), method, lt);
+  rc = LmItemDBC::Instance()->GetPlayerInventory(db_.PlayerID(), db_.Inventory());
+  sc = LmItemDBC::Instance()->LastSQLCode();
+  lt = LmItemDBC::Instance()->LastCallTime();
+  //  LmLog::Instance()->Debug(_T("%s: LmItemDBC::GetPlayerInventory took %d ms"), method, lt);
   if (rc < 0) {
-    main_->Log()->Error(_T("%s: could not load player %u inventory; rc=%d, sqlcode=%d"), method, playerid, rc, sc);
-    GsUtil::HandleItemError(main_, method, rc, sc);
+    LmLog::Instance()->Error(_T("%s: could not load player %u inventory; rc=%d, sqlcode=%d"), method, playerid, rc, sc);
+    GsUtil::HandleItemError(method, rc, sc);
     return -1;
   }
   // check the avatar
   int av_rc = db_.FixAvatar(true);
   if (av_rc != 0) {
-    main_->Log()->Warning(_T("%s: illegal player %u avatar; reason=%d"), method, playerid, av_rc);
+    LmLog::Instance()->Warning(_T("%s: illegal player %u avatar; reason=%d"), method, playerid, av_rc);
   }
 
   // TEMP: destroy items that have obsolete bitmaps/missiles
@@ -317,10 +316,10 @@ int GsPlayer::Login(lyra_id_t playerid, int pmare_type, bool first_login)
     }
 
     if (to_destroy.size() > 0) {
-      //      main_->Log()->Debug(_T("%s: items to be destroyed: %d"), method, to_destroy.size());
+      //      LmLog::Instance()->Debug(_T("%s: items to be destroyed: %d"), method, to_destroy.size());
 		for (std::list<LmItem>::iterator pitem = to_destroy.begin(); (bool)!(pitem == to_destroy.end()); ++pitem) {
 	LmItem item = *pitem;
-	main_->ItemDBC()->DeleteItem(item.Serial());
+	LmItemDBC::Instance()->DeleteItem(item.Serial());
 	db_.Inventory().RemoveItem(item.Header());
       }
     }
@@ -328,14 +327,14 @@ int GsPlayer::Login(lyra_id_t playerid, int pmare_type, bool first_login)
 
 
   // log player in
-  rc = main_->PlayerDBC()->Login(playerid, pmare_type, db_.PMareBilling(),
-	  (wchar_t*)(main_->HostIP()), main_->ServerPort(), first_login);
-  sc = main_->PlayerDBC()->LastSQLCode();
-  lt = main_->PlayerDBC()->LastCallTime();
-  //  main_->Log()->Debug(_T("%s: LmPlayerDBC::Login took %d ms"), method, lt);
+  rc = LmPlayerDBC::Instance()->Login(playerid, pmare_type, db_.PMareBilling(),
+	  (wchar_t*)(GsConfig::HostIP()), GsConfig::ServerPort(), first_login);
+  sc = LmPlayerDBC::Instance()->LastSQLCode();
+  lt = LmPlayerDBC::Instance()->LastCallTime();
+  //  LmLog::Instance()->Debug(_T("%s: LmPlayerDBC::Login took %d ms"), method, lt);
   if (rc < 0) {
-    main_->Log()->Error(_T("%s: could not log player %u in; rc=%d, sqlcode=%d"), method, playerid, rc, sc);
-    GsUtil::HandlePlayerError(main_, method, rc, sc, false);
+    LmLog::Instance()->Error(_T("%s: could not log player %u in; rc=%d, sqlcode=%d"), method, playerid, rc, sc);
+    GsUtil::HandlePlayerError(method, rc, sc, false);
     return -1;
   }
   // update login time
@@ -343,19 +342,19 @@ int GsPlayer::Login(lyra_id_t playerid, int pmare_type, bool first_login)
   // set current avatar from database
   avatar_ = db_.Avatar();
   bool is_primary = false;
-  rc = main_->BillingDBC()->IsPrimary(playerid, &is_primary);
-  sc = main_->PlayerDBC()->LastSQLCode();
-  lt = main_->PlayerDBC()->LastCallTime();
+  rc = LmBillingDBC::Instance()->IsPrimary(playerid, &is_primary);
+  sc = LmPlayerDBC::Instance()->LastSQLCode();
+  lt = LmPlayerDBC::Instance()->LastCallTime();
   if (rc < 0) {
-    main_->Log()->Error(_T("%s: could not retrieve primary status for %u; rc=%d, sqlcode=%d"), method, playerid, rc, sc);
-    //GsUtil::HandlePlayerError(main_, method, rc, sc, false);
+    LmLog::Instance()->Error(_T("%s: could not retrieve primary status for %u; rc=%d, sqlcode=%d"), method, playerid, rc, sc);
+    //GsUtil::HandlePlayerError(method, rc, sc, false);
     //return -1;
   }
 
-  main_->Log()->Debug(_T("%s: %u is_primary is %d"), method, playerid, is_primary);
+  LmLog::Instance()->Debug(_T("%s: %u is_primary is %d"), method, playerid, is_primary);
   if(is_primary && db_.AccountType() == LmPlayerDB::ACCT_PLAYER) {
-  	main_->PlayerDBC()->NewlyNeedsAnnounce(playerid, &newly_announce);
-	main_->Log()->Debug(_T("%s: %u newly_announce=%d"), method, playerid, newly_announce);
+  	LmPlayerDBC::Instance()->NewlyNeedsAnnounce(playerid, &newly_announce);
+	LmLog::Instance()->Debug(_T("%s: %u newly_announce=%d"), method, playerid, newly_announce);
   } 
   // set login time
   time(&login_time_);
@@ -388,11 +387,11 @@ void GsPlayer::Logout(bool save)
 	else
 		modified_time_online = num_seconds_online;
 
-    rc = main_->BillingDBC()->LogoutPMare(db_.PlayerID(), modified_time_online, db_.PMareBilling(), db_.BillingID());
+    rc = LmBillingDBC::Instance()->LogoutPMare(db_.PlayerID(), modified_time_online, db_.PMareBilling(), db_.BillingID());
     if (rc < 1) {
-      main_->Log()->Error(_T("%s: could not properly logout pmare %u, %u seconds online; rc=%d"), method, db_.PlayerID(), rc, num_seconds_online);
-	  GsUtil::HandlePlayerError(main_, method, rc, sc, false);
-	  main_->Log()->Debug(_T("%s: PMare %s logged out; %u seconds online"), method, db_.PlayerName(), num_seconds_online);
+      LmLog::Instance()->Error(_T("%s: could not properly logout pmare %u, %u seconds online; rc=%d"), method, db_.PlayerID(), rc, num_seconds_online);
+	  GsUtil::HandlePlayerError(method, rc, sc, false);
+	  LmLog::Instance()->Debug(_T("%s: PMare %s logged out; %u seconds online"), method, db_.PlayerName(), num_seconds_online);
 	}
   }
 
@@ -403,26 +402,26 @@ void GsPlayer::Logout(bool save)
 
     // save to database
     if (save_to_db(true) < 0) {
-      main_->Log()->Error(_T("%s: could not store player information to database"), method);
+      LmLog::Instance()->Error(_T("%s: could not store player information to database"), method);
 	  // save to local file instead
 	  if (save_to_file() < 0) {
-	    main_->Log()->Error(_T("%s: could not store player information to local file"), method);
+	    LmLog::Instance()->Error(_T("%s: could not store player information to local file"), method);
 	  }
 	}
   }
   // log player out
-  rc = main_->PlayerDBC()->Logout(db_.PlayerID(), online);
-  sc = main_->PlayerDBC()->LastSQLCode();
-  lt = main_->PlayerDBC()->LastCallTime();
-  //  main_->Log()->Debug(_T("%s: LmPlayerDBC::Logout for player %u took %d ms"), method, db_.PlayerID(), lt);
+  rc = LmPlayerDBC::Instance()->Logout(db_.PlayerID(), online);
+  sc = LmPlayerDBC::Instance()->LastSQLCode();
+  lt = LmPlayerDBC::Instance()->LastCallTime();
+  //  LmLog::Instance()->Debug(_T("%s: LmPlayerDBC::Logout for player %u took %d ms"), method, db_.PlayerID(), lt);
   if (rc < 0) {
-    main_->Log()->Error(_T("%s: could not log player out; rc=%d, sqlcode=%d"), method, rc, sc);
-    GsUtil::HandlePlayerError(main_, method, rc, sc, false);
+    LmLog::Instance()->Error(_T("%s: could not log player out; rc=%d, sqlcode=%d"), method, rc, sc);
+    GsUtil::HandlePlayerError(method, rc, sc, false);
   }
 
-  //  main_->Log()->Debug(_T("%s: Database updated, local file removed for player %u"), method, db_.PlayerID());
+  //  LmLog::Instance()->Debug(_T("%s: Database updated, local file removed for player %u"), method, db_.PlayerID());
   clear_information();
-  //  main_->Log()->Debug(_T("%s: Cleared information"), method);
+  //  LmLog::Instance()->Debug(_T("%s: Cleared information"), method);
 }
 
 ////
@@ -523,14 +522,14 @@ int GsPlayer::IdleTime()
     // or return a huge idle value if it's true to force a timeout
     // and a reap of the connection
     //    if (idle_null_connection_) {
-    //main_->Log()->Debug(_T("%s: player %u has idle null twice - ghosted?"), method, db_.PlayerID());
+    //LmLog::Instance()->Debug(_T("%s: player %u has idle null twice - ghosted?"), method, db_.PlayerID());
     //return (GsNetworkInput::PLAYER_TIMEOUT*10);
     //} else {
-    //  main_->Log()->Debug(_T("%s: player %u has idle null once - ghosted?"), method, db_.PlayerID());
+    //  LmLog::Instance()->Debug(_T("%s: player %u has idle null once - ghosted?"), method, db_.PlayerID());
     //  idle_null_connection_ = true;
     //}
 
-    main_->Log()->Debug(_T("%s: player %u has idle null - ghosted?"), method, db_.PlayerID());
+    LmLog::Instance()->Debug(_T("%s: player %u has idle null - ghosted?"), method, db_.PlayerID());
     return (GsNetworkInput::PLAYER_TIMEOUT*10);
     }
 
@@ -579,14 +578,14 @@ int GsPlayer::CheckAndReceiveUpdate(LmPeerUpdate& update)
 		  if ((last_update_ - last_mod_100_update_) < 10) {
 			num_too_fast_updates_++;
 			if (num_too_fast_updates_ == 50) {
-				SECLOG(6, _T("Speed hacker! Player %d caused 50 potential cheats to be logged - logging his cheats turned off for the duration of the session!"),
+				LmLogFile::Instance()->Security(6, _T("Speed hacker! Player %d caused 50 potential cheats to be logged - logging his cheats turned off for the duration of the session!"),
 					db_.PlayerID(), (last_update_ - last_mod_100_update_));
 			} else if (num_too_fast_updates_ < 50)
-				SECLOG(6, _T("Potential speed hack - Player %d sent 100 updates in %d seconds!"),
+				LmLogFile::Instance()->Security(6, _T("Potential speed hack - Player %d sent 100 updates in %d seconds!"),
 					db_.PlayerID(), (last_update_ - last_mod_100_update_));
 			//if (num_too_fast_updates_ == 1)
 				    // then boot the person from the game
-			//		GsUtil::FakeLogout(main_, this);
+			//		GsUtil::FakeLogout(this);
 		  }
 	  }
 
@@ -594,7 +593,7 @@ int GsPlayer::CheckAndReceiveUpdate(LmPeerUpdate& update)
   }
 
   // compute distance since last update
-  //main_->Log()->Debug(_T("Update for player %u : %d, %d \n"), db_.PlayerID(), update.X(), update_.Y());
+  //LmLog::Instance()->Debug(_T("Update for player %u : %d, %d \n"), db_.PlayerID(), update.X(), update_.Y());
 
   int dist = SQUARE(update.X() - update_.X()) + SQUARE(update.Y() - update_.Y());
   // admin/monster -- no checking or distance computation, no checking for firing or being hit
@@ -1404,16 +1403,16 @@ int GsPlayer::save_to_file() const
   }
   TCHAR pfile_tmp[FILENAME_MAX];
   TCHAR pfile[FILENAME_MAX];
-  main_->GlobalDB()->GetPlayerFile(pfile, db_.PlayerID());
+  LmGlobalDB::Instance()->GetPlayerFile(pfile, db_.PlayerID());
  _stprintf(pfile_tmp, _T("%s.tmp"), pfile);
   // write to temporary file, and if save succeeds rename it
   LmDatabase db;
   if (db.Open(pfile_tmp, GDBM_NEWDB) < 0) {
-    main_->Log()->Error(_T("%s: could not open '%s' for player database"), method, pfile_tmp);
+    LmLog::Instance()->Error(_T("%s: could not open '%s' for player database"), method, pfile_tmp);
     return -1;
   }
     if (LmPlayerDBF::SaveToFile(db, db_) < 0) {
-      main_->Log()->Error(_T("%s: could not save player database"), method);
+      LmLog::Instance()->Error(_T("%s: could not save player database"), method);
       db.Close();
       _tunlink(pfile_tmp);
       return -1;
@@ -1421,11 +1420,11 @@ int GsPlayer::save_to_file() const
   db.Close();
   // rename temp file
   if (_trename(pfile_tmp, pfile) < 0) {
-    main_->Log()->Error(_T("%s: could not rename '%s' to '%s'"), method, pfile_tmp, pfile);
+    LmLog::Instance()->Error(_T("%s: could not rename '%s' to '%s'"), method, pfile_tmp, pfile);
     _tunlink(pfile_tmp);
     return -1;
   }
-  main_->Log()->Debug(_T("%s: saved player %u info to disk"), method, db_.PlayerID());
+  LmLog::Instance()->Debug(_T("%s: saved player %u info to disk"), method, db_.PlayerID());
 
   return 0;
 }
@@ -1444,28 +1443,28 @@ int GsPlayer::save_to_db(bool force)
   int retval = 0;
   // save to database
   db_.SetLevelID(this->LevelID());
-  int rc = main_->PlayerDBC()->SavePlayer(db_, true);
-  int sc = main_->PlayerDBC()->LastSQLCode();
-  int lt = main_->PlayerDBC()->LastCallTime();
-  //main_->Log()->Debug(_T("%s: LmPlayerDBC::SavePlayer took %d ms"), method, lt);
+  int rc = LmPlayerDBC::Instance()->SavePlayer(db_, true);
+  int sc = LmPlayerDBC::Instance()->LastSQLCode();
+  int lt = LmPlayerDBC::Instance()->LastCallTime();
+  //LmLog::Instance()->Debug(_T("%s: LmPlayerDBC::SavePlayer took %d ms"), method, lt);
   if (rc < 0) {
-    main_->Log()->Error(_T("%s: could not save player; rc=%d, sqlcode=%d"), method, rc, sc);
-    GsUtil::HandlePlayerError(main_, method, rc, sc, false);
+    LmLog::Instance()->Error(_T("%s: could not save player; rc=%d, sqlcode=%d"), method, rc, sc);
+    GsUtil::HandlePlayerError(method, rc, sc, false);
     retval = -1;
   }
   // store inventory
-  rc = main_->ItemDBC()->SavePlayerInventory(db_.PlayerID(), ((class LmInventory&)db_.Inventory()));
-  sc = main_->ItemDBC()->LastSQLCode();
-  lt = main_->ItemDBC()->LastCallTime();
-  main_->Log()->Debug(_T("%s: LmItemDBC::SavePlayerInventory took %d ms"), method, lt);
+  rc = LmItemDBC::Instance()->SavePlayerInventory(db_.PlayerID(), ((class LmInventory&)db_.Inventory()));
+  sc = LmItemDBC::Instance()->LastSQLCode();
+  lt = LmItemDBC::Instance()->LastCallTime();
+  LmLog::Instance()->Debug(_T("%s: LmItemDBC::SavePlayerInventory took %d ms"), method, lt);
   if (rc < 0) {
-    main_->Log()->Error(_T("%s: could not store inventory; rc=%d, sqlcode=%d"), method, rc, sc);
-    GsUtil::HandleItemError(main_, method, rc, sc);
+    LmLog::Instance()->Error(_T("%s: could not store inventory; rc=%d, sqlcode=%d"), method, rc, sc);
+    GsUtil::HandleItemError(method, rc, sc);
     retval = -1;
   }
   // unlink state file
   TCHAR pfile[FILENAME_MAX];
-  main_->GlobalDB()->GetPlayerFile(pfile, db_.PlayerID());
+  LmGlobalDB::Instance()->GetPlayerFile(pfile, db_.PlayerID());
   _tunlink(pfile);
 
   return retval;
@@ -1484,7 +1483,7 @@ bool GsPlayer::CanSelfTrain(int art, TCHAR* names_buffer)
   // must have art ready to be trained
 
 	if ((art == Arts::NONE) || (art > NUM_ARTS)) {
-		main_->Log()->Debug(_T("%s: player %u: self training with illegal art number %d"), method, db_.PlayerID(), art);
+		LmLog::Instance()->Debug(_T("%s: player %u: self training with illegal art number %d"), method, db_.PlayerID(), art);
 		return false;
 	}
 
@@ -1547,7 +1546,7 @@ bool GsPlayer::CanSelfTrain(int art, TCHAR* names_buffer)
 	have_tokens++;
 	creators.push_back(support.creator_id());
 	// log use (disabled due to inability to store full player id)
-	//_tcscat(names_buffer, main_->PlayerNameMap()->PlayerName((lyra_id_t)support.creator_id()));
+	//_tcscat(names_buffer, LmPlayerNameMap::Instance()->PlayerName((lyra_id_t)support.creator_id()));
       }
     }
   }
@@ -1555,14 +1554,14 @@ bool GsPlayer::CanSelfTrain(int art, TCHAR* names_buffer)
 
   // have enough tokens?
   if (have_tokens < num_required_tokens) {
-	main_->Log()->Debug(_T("%s: self training failed; player has only %d of %d tokens"), method, have_tokens, num_required_tokens);
+	LmLog::Instance()->Debug(_T("%s: self training failed; player has only %d of %d tokens"), method, have_tokens, num_required_tokens);
     return false;
   }
   // and, each one must come from a different person
   creators.sort();
   creators.unique();
   if (creators.size() < num_required_tokens) {
-	main_->Log()->Debug(_T("%s: self training failed; player has only %d of %d UNIQUE tokens"), method, have_tokens, num_required_tokens);
+	LmLog::Instance()->Debug(_T("%s: self training failed; player has only %d of %d UNIQUE tokens"), method, have_tokens, num_required_tokens);
     return false;
   }
   // ok - log use
@@ -1570,10 +1569,7 @@ bool GsPlayer::CanSelfTrain(int art, TCHAR* names_buffer)
   return true;
 }
 
-void GsPlayer::SetMain(GsMain* gsmain)
-{
-    main_ = gsmain;
-}
+
 
 lyra_id_t GsPlayer::PlayerID() const
 {

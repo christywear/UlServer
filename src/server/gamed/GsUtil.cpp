@@ -53,26 +53,26 @@ DECLARE_TheFileName;
 // SendInternalMessage
 ///
 
-void GsUtil::SendInternalMessage(GsMain* main, LmMesg& msg, LmThread* thr)
+void GsUtil::SendInternalMessage(LmMesg& msg, LmThread* thr)
 {
   DECLARE_TheLineNum;
   // allocate message buffer
-  LmSrvMesgBuf* mbuf = main->BufferPool()->AllocateBuffer(msg.MessageSize());
+  LmSrvMesgBuf* mbuf = LmMesgBufPool::Instance()->AllocateBuffer(msg.MessageSize());
   // read message into it
   mbuf->ReadMessage(msg);
   // send to thread, null connection
   thr->PassMessage(mbuf, 0);
 }
 
-int GsUtil::SendInternalMessage(GsMain* main, LmMesg& msg, int threadid)
+int GsUtil::SendInternalMessage(LmMesg& msg, int threadid)
 {
   DECLARE_TheLineNum;
   // look up targett hread
-  LmThread* thr = main->ThreadPool()->GetThread(threadid);
+  LmThread* thr = LmThreadPool::Instance()->GetThread(threadid);
   if (!thr) {
     return -1;
   }
-  SendInternalMessage(main, msg, thr);
+  SendInternalMessage(msg, thr);
   // return successful
   return 0;
 }
@@ -81,13 +81,13 @@ int GsUtil::SendInternalMessage(GsMain* main, LmMesg& msg, int threadid)
 // BroadcastInternalMessage
 ////
 
-void GsUtil::BroadcastInternalMessage(GsMain* main, LmMesg& msg, int threadid, bool sendself)
+void GsUtil::BroadcastInternalMessage(LmMesg& msg, int threadid, bool sendself)
 {
   DEFMETHOD(GsUtil, BroadcastInternalMessage);
   DECLARE_TheLineNum;
   // get ids of all threads in server
   std::list<int> tids;
-  main->ThreadPool()->GetThreadIDs(tids);
+  LmThreadPool::Instance()->GetThreadIDs(tids);
   // if not sending to source thread, remove it from list
   if (!sendself) {
     remove(tids.begin(), tids.end(), threadid);
@@ -95,18 +95,18 @@ void GsUtil::BroadcastInternalMessage(GsMain* main, LmMesg& msg, int threadid, b
   tids.sort();
   tids.unique();
   // allocate message buffer
-  LmSrvMesgBuf* mbuf = main->BufferPool()->AllocateBuffer(msg.MessageSize(), tids.size());
+  LmSrvMesgBuf* mbuf = LmMesgBufPool::Instance()->AllocateBuffer(msg.MessageSize(), tids.size());
   // read message into it
   mbuf->ReadMessage(msg);
   // send to each thread, from null connection (internal)
   for (std::list<int>::iterator i = tids.begin(); !(bool)(i == tids.end()); ++i) {
-    LmThread* thr = main->ThreadPool()->GetThread(*i);
+    LmThread* thr = LmThreadPool::Instance()->GetThread(*i);
     if (thr) {
       // main->Log()->Debug("%s: sending message[%p] to thread %d", method, mbuf, *i);
       thr->PassMessage(mbuf, 0);
     }
     else {
-      main->Log()->Error(_T("%s: threadid %d not found in pool?"), method, *i);
+      LmLog::Instance()->Error(_T("%s: threadid %d not found in pool?"), method, *i);
     }
   }
 }
@@ -115,16 +115,16 @@ void GsUtil::BroadcastInternalMessage(GsMain* main, LmMesg& msg, int threadid, b
 // BroadcastInternalMessagePlayers - broadcast message to all running player threads
 ////
 
-void GsUtil::BroadcastInternalMessagePlayers(GsMain* main, LmMesg& msg)
+void GsUtil::BroadcastInternalMessagePlayers(LmMesg& msg)
 {
   DEFMETHOD(GsUtil, BroadcastInternalMessagePlayers);
   // get ids of all threads in server
   std::list<int> tids;
-  main->ThreadPool()->GetThreadIDs(tids);
+  LmThreadPool::Instance()->GetThreadIDs(tids);
   tids.sort();
   tids.unique();
   // allocate message buffer
-  LmSrvMesgBuf* mbuf = main->BufferPool()->AllocateBuffer(msg.MessageSize(), tids.size());
+  LmSrvMesgBuf* mbuf = LmMesgBufPool::Instance()->AllocateBuffer(msg.MessageSize(), tids.size());
   // read message into it
   mbuf->ReadMessage(msg);
   // send to each thread whose id is > 0 (player threads), from null connection (internal)
@@ -132,13 +132,13 @@ void GsUtil::BroadcastInternalMessagePlayers(GsMain* main, LmMesg& msg)
     if ((*i) <= 0) {
       continue;
     }
-    LmThread* thr = main->ThreadPool()->GetThread(*i);
+    LmThread* thr = LmThreadPool::Instance()->GetThread(*i);
     if (thr) {
       // main->Log()->Debug("%s: sending message[%p] to thread %d", method, mbuf, *i);
       thr->PassMessage(mbuf, 0);
     }
     else {
-      main->Log()->Error(_T("%s: threadid %d not found in pool?"), method, *i);
+      LmLog::Instance()->Error(_T("%s: threadid %d not found in pool?"), method, *i);
     }
   }
 }
@@ -148,7 +148,7 @@ void GsUtil::BroadcastInternalMessagePlayers(GsMain* main, LmMesg& msg)
 //   appropriate kind of error message
 ////
 
-void GsUtil::Send_Error(GsMain* main, LmConnection* conn, int msgtype, const TCHAR* fmt, ...)
+void GsUtil::Send_Error(LmConnection* conn, int msgtype, const TCHAR* fmt, ...)
 {
   DECLARE_TheLineNum;
   if (conn->Type() == LmConnection::CT_CLIENT) {
@@ -162,7 +162,7 @@ void GsUtil::Send_Error(GsMain* main, LmConnection* conn, int msgtype, const TCH
     va_end(args);
 
     msg.Init(msgtype, errstring);
-    main->OutputDispatch()->SendMessage(&msg, conn);
+    GsOutputDispatch::Instance()->SendMessage(&msg, conn);
   }
   else {
     // otherwise, send SMsg_Error
@@ -175,7 +175,7 @@ void GsUtil::Send_Error(GsMain* main, LmConnection* conn, int msgtype, const TCH
     va_end(args);
     
     msg.Init(msgtype, errstring);
-    main->OutputDispatch()->SendMessage(&msg, conn);
+    GsOutputDispatch::Instance()->SendMessage(&msg, conn);
   }
 }
 
@@ -183,7 +183,7 @@ void GsUtil::Send_Error(GsMain* main, LmConnection* conn, int msgtype, const TCH
 // Send_GMsg_Error
 ////
 
-void GsUtil::Send_GMsg_Error(GsMain* main, LmConnection* conn, int msgtype, const TCHAR* fmt, ...)
+void GsUtil::Send_GMsg_Error(LmConnection* conn, int msgtype, const TCHAR* fmt, ...)
 {
   DECLARE_TheLineNum;
   GMsg_Error msg;
@@ -195,14 +195,14 @@ void GsUtil::Send_GMsg_Error(GsMain* main, LmConnection* conn, int msgtype, cons
   va_end(args);
 
   msg.Init(msgtype, errstring);
-  main->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
 // Send_SMsg_Error
 ////
 
-void GsUtil::Send_SMsg_Error(GsMain* main, LmConnection* conn, int msgtype, const TCHAR* fmt, ...)
+void GsUtil::Send_SMsg_Error(LmConnection* conn, int msgtype, const TCHAR* fmt, ...)
 {
   DECLARE_TheLineNum;
   SMsg_Error msg;
@@ -214,7 +214,7 @@ void GsUtil::Send_SMsg_Error(GsMain* main, LmConnection* conn, int msgtype, cons
   va_end(args);
 
   msg.Init(msgtype, errstring);
-  main->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -222,12 +222,12 @@ void GsUtil::Send_SMsg_Error(GsMain* main, LmConnection* conn, int msgtype, cons
 //  going to the new room
 ////
 
-void GsUtil::Send_RMsg_RoomLoginAck(GsMain* main, LmConnection* conn, int status)
+void GsUtil::Send_RMsg_RoomLoginAck(LmConnection* conn, int status)
 {
   DECLARE_TheLineNum;
   RMsg_RoomLoginAck msg;
   msg.Init(status, 0);
-  main->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 ////
@@ -235,12 +235,12 @@ void GsUtil::Send_RMsg_RoomLoginAck(GsMain* main, LmConnection* conn, int status
 //  going to a new level
 ////
 
-void GsUtil::Send_RMsg_LevelLoginAck(GsMain* main, LmConnection* conn, int status, lyra_id_t roomid, lyra_id_t levelid)
+void GsUtil::Send_RMsg_LevelLoginAck(LmConnection* conn, int status, lyra_id_t roomid, lyra_id_t levelid)
 {
   DECLARE_TheLineNum;
   RMsg_LoginAck msg;
   msg.Init(status, roomid, levelid);
-  main->OutputDispatch()->SendMessage(&msg, conn);
+  GsOutputDispatch::Instance()->SendMessage(&msg, conn);
 }
 
 
@@ -249,7 +249,7 @@ void GsUtil::Send_RMsg_LevelLoginAck(GsMain* main, LmConnection* conn, int statu
 // FakeLogout - fake a logout message from the given connection/player, dispatch it
 ////
 
-void GsUtil::FakeLogout(GsMain* main, LmConnection* conn)
+void GsUtil::FakeLogout(LmConnection* conn)
 {
   DEFMETHOD(GsUtil, FakeLogout_1);
   DECLARE_TheLineNum;
@@ -262,35 +262,35 @@ void GsUtil::FakeLogout(GsMain* main, LmConnection* conn)
     // client
     GMsg_Logout msg;
     msg.Init(GMsg_Logout::LOGOUT_FAKE);
-    mbuf = main->BufferPool()->AllocateBuffer(msg.MessageSize());
+    mbuf = LmMesgBufPool::Instance()->AllocateBuffer(msg.MessageSize());
     mbuf->ReadMessage(msg);
   }
   else {
     // unknown, or other server
     SMsg_Logout msg;
-    mbuf = main->BufferPool()->AllocateBuffer(msg.MessageSize());
+    mbuf = LmMesgBufPool::Instance()->AllocateBuffer(msg.MessageSize());
     mbuf->ReadMessage(msg);
   }
 
   // dispatch it
-  if (main->InputDispatch()->DispatchMessage(mbuf, conn) < 0) {
+  if (GsInputDispatch::Instance()->DispatchMessage(mbuf, conn) < 0) {
     //main->Log()->Error(_T("%s: could not dispatch fake logout message for conn [%p]"), method, conn);
     // return message buffer
-    main->BufferPool()->ReturnBuffer(mbuf);
+    LmMesgBufPool::Instance()->ReturnBuffer(mbuf);
     // if player, remove from player set
     if (is_player) {
-      GsPlayer* player = main->PlayerSet()->GetPlayer(conn->ID());
+      GsPlayer* player = GsPlayerSet::Instance()->GetPlayer(conn->ID());
       if (player) {
-	main->PlayerSet()->RemovePlayer(player);
+	GsPlayerSet::Instance()->RemovePlayer(player);
       }
     }
     // couldn't dispatch message, so close ourselves
-	main->ConnectionSet()->RemoveConnection(conn); //*****
+	LmConnectionSet::Instance()->RemoveConnection(conn); //*****
 //	conn->Disable();
   }
 }
 
-void GsUtil::FakeLogout(GsMain* main, GsPlayer* player)
+void GsUtil::FakeLogout(GsPlayer* player)
 {
   DEFMETHOD(GsUtil, FakeLogout_2);
   DECLARE_TheLineNum;
@@ -302,27 +302,27 @@ void GsUtil::FakeLogout(GsMain* main, GsPlayer* player)
   LmSrvMesgBuf* mbuf;
   GMsg_Logout msg;
   msg.Init(GMsg_Logout::LOGOUT_FAKE);
-  mbuf = main->BufferPool()->AllocateBuffer(msg.MessageSize());
+  mbuf = LmMesgBufPool::Instance()->AllocateBuffer(msg.MessageSize());
   mbuf->ReadMessage(msg);
   // get the player's thread
-  LmThread* pthr = main->ThreadPool()->GetThread(playerid);
+  LmThread* pthr = LmThreadPool::Instance()->GetThread(playerid);
 
   // close connection only if id's match
   if (conn && (conn->Type() == LmConnection::CT_CLIENT) && (conn->ID() == playerid)) {
-	main->ConnectionSet()->RemoveConnection(conn); //*****
+	LmConnectionSet::Instance()->RemoveConnection(conn); //*****
 //	conn->Disable();
   }
 
   if (!pthr) {
-    main->Log()->Warning(_T("%s: could not get thread for player %u"), method, playerid);
+    LmLog::Instance()->Warning(_T("%s: could not get thread for player %u"), method, playerid);
     // do the best we can to remove player
-    main->BufferPool()->ReturnBuffer(mbuf);
-    main->PlayerSet()->RemovePlayer(player);
+    LmMesgBufPool::Instance()->ReturnBuffer(mbuf);
+    GsPlayerSet::Instance()->RemovePlayer(player);
   }
   else {
     // fake a logout message from the "null" connection, since player's connection may not be 
     // active or actually correspond to the player (due to some race condition)
-    main->Log()->Debug(_T("%s: faking logout message from the null connection for player %u"), method, playerid);
+    LmLog::Instance()->Debug(_T("%s: faking logout message from the null connection for player %u"), method, playerid);
     pthr->PassMessage(mbuf, 0);
 
   }
@@ -332,7 +332,7 @@ void GsUtil::FakeLogout(GsMain* main, GsPlayer* player)
 // ConnectToLevelServer
 ////
 
-LmConnection* GsUtil::ConnectToLevelServer(GsMain* main, const LmLevelDBC* ldb)
+LmConnection* GsUtil::ConnectToLevelServer(const LmLevelDBC* ldb)
 {
   DEFMETHOD(GsUtil, ConnectToLevelServer);
   static PThMutex lock; // lock for this method
@@ -345,21 +345,21 @@ LmConnection* GsUtil::ConnectToLevelServer(GsMain* main, const LmLevelDBC* ldb)
   LmLocker mon(lock); // lock during method duration
   // check level
   if (!ldb) {
-    main->Log()->Error(_T("%s: null level!"), method);
+    LmLog::Instance()->Error(_T("%s: null level!"), method);
     return 0;
   }
   lyra_id_t levelid = ldb->LevelID();
   // main->Log()->Debug("%s: connecting to level %u", method, levelid);
   // look up connection
-  LmConnection* conn = main->ConnectionSet()->GetConnection(LmConnection::CT_LSRV, levelid);
+  LmConnection* conn = LmConnectionSet::Instance()->GetConnection(LmConnection::CT_LSRV, levelid);
   // if there is no existing connection
   if (!conn) {
     // main->Log()->Debug("%s: making new connection", method);
     // determine ip and port
-    unsigned long level_ip = main->ServerDBC()->LevelServerIP(levelid);
-    int port = main->ServerDBC()->LevelServerPort(levelid);
+    unsigned long level_ip = LmServerDBC::Instance()->LevelServerIP(levelid);
+    int port = LmServerDBC::Instance()->LevelServerPort(levelid);
     if ((level_ip == 0) || (port == 0)) {
-      main->Log()->Error(_T("%s: could not find IP/port for level %u (ip=%lu, port=%d)"), method, levelid, level_ip, port);
+      LmLog::Instance()->Error(_T("%s: could not find IP/port for level %u (ip=%lu, port=%d)"), method, levelid, level_ip, port);
       return 0;
     }
     // create new socket, connect to level server
@@ -368,26 +368,26 @@ LmConnection* GsUtil::ConnectToLevelServer(GsMain* main, const LmLevelDBC* ldb)
     LmSocket sock;
     sock.Socket(LmSockType::Inet_Stream());
     if (sock.Connect(saddr) < 0) {
-      main->Log()->Error(_T("%s: could not connect to level server: %s"), method, strerror(errno));
+      LmLog::Instance()->Error(_T("%s: could not connect to level server: %s"), method, strerror(errno));
       return 0;
     }
     // add socket to set of connections
-    conn = main->ConnectionSet()->AllocateConnection(sock);
+    conn = LmConnectionSet::Instance()->AllocateConnection(sock);
     if (!conn) {
-      main->Log()->Error(_T("%s: could not allocate connection"), method);
+      LmLog::Instance()->Error(_T("%s: could not allocate connection"), method);
       sock.Close();
       return 0;
     }
     // change connection type
     conn->SetMessageRange(SMsg::MIN, SMsg::MAX);
-    main->ConnectionSet()->UpdateConnection(conn, LmConnection::CT_LSRV, levelid);
+    LmConnectionSet::Instance()->UpdateConnection(conn, LmConnection::CT_LSRV, levelid);
     //conn->Dump(main->Log()->Stream(), 2);
     // server login
     // main->Log()->Debug("%s: logging into level %d", method, levelid);
     SMsg_Login msg;
-    msg.Init(LmConnection::CT_GSRV, main->ServerPort());
-    if (main->OutputDispatch()->SendMessage(&msg, conn) < 0) {
-      main->Log()->Error(_T("%s: could not send server login message"), method);
+    msg.Init(LmConnection::CT_GSRV, GsConfig::ServerPort());
+    if (GsOutputDispatch::Instance()->SendMessage(&msg, conn) < 0) {
+      LmLog::Instance()->Error(_T("%s: could not send server login message"), method);
       // TODO: remove from connection set?
     }
   }
@@ -429,38 +429,38 @@ int GsUtil::NightmareXP(int mare_index)
 // HandleItemError - handle error returned from LmItemDBC
 ////
 
-void GsUtil::HandleItemError(GsMain* main, const TCHAR* calling_method, int rc, int sc)
+void GsUtil::HandleItemError(const TCHAR* calling_method, int rc, int sc)
 {
   static bool send_mail = true;
   switch (rc) {
   case 0:
     return;
   case LmItemDBC::MYSQL_ERROR: {
-    main->Log()->Error(_T("%s: itemdb fatal error encountered; sqlcode=%d"), calling_method, sc);
+    LmLog::Instance()->Error(_T("%s: itemdb fatal error encountered; sqlcode=%d"), calling_method, sc);
     if (send_mail) {
       // send mail to database admin
       TCHAR hname[256];
 	// *** STRING LITERAL ***
      _stprintf(hname, _T("(unknown)"));
       gethostname((char*)hname, sizeof(hname));
-      LmUtil::SendMail(_T("gamed@underlight"), main->ServerDBC()->DatabaseAdminEmail(), _T("Underlight: database error"),
+      LmUtil::SendMail(_T("gamed@underlight"), LmServerDBC::Instance()->DatabaseAdminEmail(), _T("Underlight: database error"),
 		       _T("HostName: %s\n")
 		       _T("Server Info: port %d, pid %lu\n")
 		       _T("Error: item database fatal error in method %s\n")
 		       _T("Reason: sqlcode %d\n"),
-		       hname, main->ServerPort(), main->ServerPid(),
+		       hname, GsConfig::ServerPort(), (unsigned long)_getpid(),
 		       calling_method, sc);
       send_mail = false; // only send mail once, since we are restarting anyway
     }
 #ifdef WIN32 
-	main->SetSIGTERM(true);
+    GsConfig::SetSigTerm(true);
 #else
     kill(getpid(), SIGTERM);
 #endif
   }
   break;
   default:
-    main->Log()->Error(_T("%s: itemdb unknown return code %d; sqlcode=%d"), calling_method, rc, sc);
+    LmLog::Instance()->Error(_T("%s: itemdb unknown return code %d; sqlcode=%d"), calling_method, rc, sc);
     break;
   }
 }
@@ -469,7 +469,7 @@ void GsUtil::HandleItemError(GsMain* main, const TCHAR* calling_method, int rc, 
 // HandlePlayerError - handle error returned from LmPlayerDBC
 ////
 
-void GsUtil::HandlePlayerError(GsMain* main, const TCHAR* calling_method, 
+void GsUtil::HandlePlayerError(const TCHAR* calling_method, 
 								int rc, int sc, bool exit)
 {
   static bool send_mail = true;
@@ -477,26 +477,26 @@ void GsUtil::HandlePlayerError(GsMain* main, const TCHAR* calling_method,
   case 0:
     return;
   case LmPlayerDBC::MYSQL_ERROR: { 
-    main->Log()->Error(_T("%s: playerdb fatal error encountered; sqlcode=%d"), calling_method, sc);
+    LmLog::Instance()->Error(_T("%s: playerdb fatal error encountered; sqlcode=%d"), calling_method, sc);
     if (send_mail) {
       // send mail to database admin
       TCHAR hname[256];
 	  	// *** STRING LITERAL ***
      _stprintf(hname, _T("(unknown)"));
       gethostname((char*)hname, sizeof(hname));
-      LmUtil::SendMail(_T("gamed@underlight"), main->ServerDBC()->DatabaseAdminEmail(), _T("Underlight: database error"),
+      LmUtil::SendMail(_T("gamed@underlight"), LmServerDBC::Instance()->DatabaseAdminEmail(), _T("Underlight: database error"),
 		       _T("HostName: %s\n")
 		       _T("Server Info: port %d, pid %lu\n")
 		       _T("Error: player database fatal error in method %s\n")
 		       _T("Reason: sqlcode %d\n"),
-		       hname, main->ServerPort(), main->ServerPid(),
+		       hname, GsConfig::ServerPort(), (unsigned long)_getpid(),
 		       calling_method, sc);
       send_mail = false; // only do this once
     } 
 // shut down server
 	if (exit) {
 #ifdef WIN32 
-		main->SetSIGTERM(true);
+        GsConfig::SetSigTerm(true);
 #else
 		kill(getpid(), SIGTERM);
 #endif
@@ -504,7 +504,7 @@ void GsUtil::HandlePlayerError(GsMain* main, const TCHAR* calling_method,
   }
   break;
   default:
-    main->Log()->Error(_T("%s: playerdb unknown return code %d; sqlcode=%d"), calling_method, rc, sc);
+    LmLog::Instance()->Error(_T("%s: playerdb unknown return code %d; sqlcode=%d"), calling_method, rc, sc);
     break;
   }
 }

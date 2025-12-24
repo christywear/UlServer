@@ -14,8 +14,8 @@
 #include <stdio.h>
 
 #include "GMsg.h"
-#include "..\Game\LmItemHdr.h"
-#include "..\Game\LmPosition.h"
+#include <game/LmItemHdr.h>
+#include <game/LmPosition.h>
 
 // forward references
 

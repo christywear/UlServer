@@ -96,14 +96,14 @@ void GsPlayerThread::handle_SMsg_LocateAvatar(LmSrvMesgBuf* msgbuf, LmConnection
   // accept message
   ACCEPT_MSG(SMsg_LocateAvatar, true); // send error
   // process
-  const TCHAR* pname = main_->PlayerNameMap()->PlayerName(msg.PlayerID());
+  const TCHAR* pname = LmPlayerNameMap::Instance()->PlayerName(msg.PlayerID());
   if (!pname) {
     TLOG_Warning(_T("%s: player %u not found?"), method, msg.PlayerID());
     return;
   }
   // check if player was found in level
    if (msg.RoomID() == Lyra::ID_UNKNOWN) { // not found
-    main_->Log()->Log(_T("%s: unable to find player %u in level so calling perform_locateavatar"), method, msg.PlayerID());
+    LmLog::Instance()->Log(_T("%s: unable to find player %u in level so calling perform_locateavatar"), method, msg.PlayerID());
     perform_locateavatar(msg.PlayerID(), pname);
     return;
      }
@@ -328,9 +328,9 @@ void GsPlayerThread::handle_SMsg_GS_Login(LmSrvMesgBuf* msgbuf, LmConnection* co
   lyra_id_t playerid = msg.PlayerID();
   TLOG_Debug(_T("%s: playerid=%u"), method, playerid);
   // get player object
-  GsPlayer* player = main_->PlayerSet()->GetPlayer(playerid);
+  GsPlayer* player = GsPlayerSet::Instance()->GetPlayer(playerid);
   if (!player) {
-    main_->Log()->Error(_T("GsPlayerThread::%s: could not get player %u!"), method, playerid);
+    LmLog::Instance()->Error(_T("GsPlayerThread::%s: could not get player %u!"), method, playerid);
     return;
   }
   // open log file, initialize
@@ -348,10 +348,10 @@ void GsPlayerThread::handle_SMsg_GS_Login(LmSrvMesgBuf* msgbuf, LmConnection* co
       adjust_xp(xpdelta, _T("house activities"), 0, true);
     }
     else { // xpdelta is positive, but player cannot gain, do not grant it; put back into database
-      int rc = main_->PlayerDBC()->AddOfflineXP(playerid, xpdelta);
-      int sc = main_->PlayerDBC()->LastSQLCode();
+      int rc = LmPlayerDBC::Instance()->AddOfflineXP(playerid, xpdelta);
+      int sc = LmPlayerDBC::Instance()->LastSQLCode();
       if (rc < 0) {
-	GsUtil::HandlePlayerError(main_, method, rc, sc, false);
+	GsUtil::HandlePlayerError(method, rc, sc, false);
       }
     }
   }
@@ -389,12 +389,12 @@ void GsPlayerThread::handle_SMsg_GS_Action(LmSrvMesgBuf* msgbuf, LmConnection* c
       TLOG_Log(_T("%s: player %u thread running"), method, player_->PlayerID());
     }
     else {
-      main_->Log()->Error(_T("GsPlayerThread::%s: received heartbeat message, player is null"), method);
+      LmLog::Instance()->Error(_T("GsPlayerThread::%s: received heartbeat message, player is null"), method);
       // remove self from thread pool, don't delete, put back into spare thread set
       TLOG_Debug(_T("%s: removing self from thread pool for player due to heartbeat but null player"), method);
 
-      main_->ThreadPool()->RemoveThread(this, false);
-      main_->PlayerThreadSet()->ReturnPlayerThread(this);
+      LmThreadPool::Instance()->RemoveThread(this, false);
+      GsPlayerThreadSet::Instance()->ReturnPlayerThread(this);
     }
     break;
     //  case SMsg_GS_Action::ACTION_ROTATELOG:
@@ -404,7 +404,7 @@ void GsPlayerThread::handle_SMsg_GS_Action(LmSrvMesgBuf* msgbuf, LmConnection* c
     //      open_log();
     //}
     //else {
-    //main_->Log()->Error(_T("GsPlayerThread::%s: received logrotate message, player is null"), method);
+    //LmLog::Instance()->Error(_T("GsPlayerThread::%s: received logrotate message, player is null"), method);
       // remove self from thread pool, don't delete, put back into spare thread set
     //main_->ThreadPool()->RemoveThread(this, false);
     //main_->PlayerThreadSet()->ReturnPlayerThread(this);
@@ -423,12 +423,12 @@ void GsPlayerThread::handle_SMsg_GS_Action(LmSrvMesgBuf* msgbuf, LmConnection* c
       //}
     }
     else {
-      main_->Log()->Error(_T("GsPlayerThread::%s: received saveplayer message, player is null"), method);
+      LmLog::Instance()->Error(_T("GsPlayerThread::%s: received saveplayer message, player is null"), method);
       // remove self from thread pool, don't delete, put back into spare thread set
       TLOG_Debug(_T("%s: removing self from thread pool  due to save player but null player"), method);
 
-      main_->ThreadPool()->RemoveThread(this, false);
-      main_->PlayerThreadSet()->ReturnPlayerThread(this);
+      LmThreadPool::Instance()->RemoveThread(this, false);
+      GsPlayerThreadSet::Instance()->ReturnPlayerThread(this);
     }
     break;
   default:
@@ -461,7 +461,7 @@ void GsPlayerThread::handle_SMsg_Proxy(LmSrvMesgBuf* msgbuf, LmConnection* conn)
     return;
   }
   // get new message buffer
-  LmSrvMesgBuf* mbuf = main_->BufferPool()->AllocateBuffer(msg.EnclosedMessageSize());
+  LmSrvMesgBuf* mbuf = LmMesgBufPool::Instance()->AllocateBuffer(msg.EnclosedMessageSize());
   // copy message data into buffer (message data is in network order already)
   LmMesgHdr mhdr;
   mhdr.Init(msg.EnclosedMessageType(), msg.EnclosedMessageSize());
@@ -477,7 +477,7 @@ void GsPlayerThread::handle_SMsg_Proxy(LmSrvMesgBuf* msgbuf, LmConnection* conn)
 	player_->SaveSummonInfo(false);
   default:
     // no specific handling, forward along to player
-    main_->OutputDispatch()->SendMessage(mbuf, player_->Connection());
+    GsOutputDispatch::Instance()->SendMessage(mbuf, player_->Connection());
     break;
   }
 }
@@ -583,7 +583,7 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
 	  int newpp = player_->DB().Stats().PP()+1;
 	  player_->SetPPoints(newpp);
 	  // second logging unnecessary
-	  //SECLOG(5, _T("%s: player %u: granted a personality point by player %u"), method, player_->PlayerID(), msg.SenderID());
+	  //LmLogFile::Instance()->Security(5, _T("%s: player %u: granted a personality point by player %u"), method, player_->PlayerID(), msg.SenderID());
 	  //send_RMsg_PlayerMsg_GrantPPoint(msg.SenderID());
 	}
 	break;
@@ -592,7 +592,7 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
   // player was reduced to dreamsoul
   case RMsg_PlayerMsg::FINGER_OF_DEATH: {   // not used, not used
     // log it
-    SECLOG(5, _T("%s: player %u: given FINGER_OF_DEATH by player %u"), method, player_->PlayerID(), msg.SenderID());
+    LmLogFile::Instance()->Security(5, _T("%s: player %u: given FINGER_OF_DEATH by player %u"), method, player_->PlayerID(), msg.SenderID());
   }
   break;
 
@@ -604,55 +604,55 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
 #if 0
 	GMsg_Goal gmsg;
     gmsg.Init(1, 0);
-	main_->GuildDBC()->DeleteReport(2141, gmsg);
+	LmGuildDBC::Instance()->DeleteReport(2141, gmsg);
     gmsg.Init(2, 0);
-	main_->GuildDBC()->RemoveGoal(2141, gmsg);
+	LmGuildDBC::Instance()->RemoveGoal(2141, gmsg);
     gmsg.Init(3, 0);
-	main_->GuildDBC()->ExpireGoal(2141, gmsg);
+	LmGuildDBC::Instance()->ExpireGoal(2141, gmsg);
 	  // BMP DEBUGGING CODE END
 #endif
 
 
-    SECLOG(5, _T("%s: player %u: BOOTed by player %u"), method, player_->PlayerID(), msg.SenderID());
-    GsUtil::FakeLogout(main_, player_);
+    LmLogFile::Instance()->Security(5, _T("%s: player %u: BOOTed by player %u"), method, player_->PlayerID(), msg.SenderID());
+    GsUtil::FakeLogout(player_);
   }
   break;
 
   // player was permanently locked out of game
   case RMsg_PlayerMsg::TERMINATE: {         // not used, not used
     // modify player record, set account status to locked out and killer id to person who locked them out
-    int rc = main_->PlayerDBC()->LockPlayerOut(player_->PlayerID(), msg.SenderID());
+    int rc = LmPlayerDBC::Instance()->LockPlayerOut(player_->PlayerID(), msg.SenderID());
     if (rc < 0) {
       TLOG_Warning(_T("%s: player %u could not TERMINATE player %u and update acct_type"), method, msg.SenderID(), player_->PlayerID());
-      GsUtil::HandlePlayerError(main_, method, rc, 0, false);
+      GsUtil::HandlePlayerError(method, rc, 0, false);
     } else {
-      rc = main_->BillingDBC()->DisablePlayer(player_->PlayerID());
+      rc = LmBillingDBC::Instance()->DisablePlayer(player_->PlayerID());
       if (rc < 0) {
 	TLOG_Warning(_T("%s: player %u could not TERMINATE player and disable account in billing system %u"), method, msg.SenderID(), player_->PlayerID());
-	GsUtil::HandlePlayerError(main_, method, rc, 0, false);
+	GsUtil::HandlePlayerError(method, rc, 0, false);
       } else {
-	SECLOG(5, _T("%s: player %u: TERMINATEd by player %u"), method, player_->PlayerID(), msg.SenderID());
+	LmLogFile::Instance()->Security(5, _T("%s: player %u: TERMINATEd by player %u"), method, player_->PlayerID(), msg.SenderID());
       }
     }
     // then boot the person from the game
-    GsUtil::FakeLogout(main_, player_);
+    GsUtil::FakeLogout(player_);
   }
   break;
 
   // player was temporarily locked out of game
   case RMsg_PlayerMsg::SUSPEND: {         // num_days, not used
     // modify player record, set account status to locked out and killer id to person who locked them out
-    int rc = main_->PlayerDBC()->SuspendPlayer(player_->PlayerID(), msg.SenderID(), msg.State1());
-    int sc = main_->PlayerDBC()->LastSQLCode();
+    int rc = LmPlayerDBC::Instance()->SuspendPlayer(player_->PlayerID(), msg.SenderID(), msg.State1());
+    int sc = LmPlayerDBC::Instance()->LastSQLCode();
     if (rc < 0) {
       TLOG_Warning(_T("%s: player %u could not SUSPEND player %u"), method, msg.SenderID(), player_->PlayerID());
-      GsUtil::HandlePlayerError(main_, method, rc, sc, false);
+      GsUtil::HandlePlayerError(method, rc, sc, false);
     }
     else {
-      SECLOG(5, _T("%s: player %u: SUSPENDEd by player %u for %u days"), method, player_->PlayerID(), msg.SenderID(), msg.State1());
+      LmLogFile::Instance()->Security(5, _T("%s: player %u: SUSPENDEd by player %u for %u days"), method, player_->PlayerID(), msg.SenderID(), msg.State1());
     }
     // then boot the person from the game
-    GsUtil::FakeLogout(main_, player_);
+    GsUtil::FakeLogout(player_);
   }
   break;
 
@@ -678,13 +678,13 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
 		skill = player_->DB().Arts().Skill(art);
 		int target = player_->PlayerID();
 		int origin = msg.SenderID();
-		SECLOG(-4, _T("%s: player %u: trained in art %d, skill %d -> %d, by player %u"), method,
+		LmLogFile::Instance()->Security(-4, _T("%s: player %u: trained in art %d, skill %d -> %d, by player %u"), method,
 	       target, art, old_skill, skill, origin);
-		int rc = main_->PlayerDBC()->LogQuest(origin, target, art, skill);
-		int sc = main_->PlayerDBC()->LastSQLCode();
+		int rc = LmPlayerDBC::Instance()->LogQuest(origin, target, art, skill);
+		int sc = LmPlayerDBC::Instance()->LastSQLCode();
 		if (rc < 0) {
 			TLOG_Warning(_T("%s: FAILED to log train and quest to DB for player %u training art %d to skill %d to player %u"), method, origin, art, skill, target);
-			GsUtil::HandlePlayerError(main_, method, rc, sc, false);
+			GsUtil::HandlePlayerError(method, rc, sc, false);
 		}
 		// put actual skill back into message being sent to client
 		msg.SetState2(skill);
@@ -695,7 +695,7 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
       }
       else {
 	// log unsuccessful train
-	SECLOG(-4, _T("%s: player %u: unsuccessful train in art %d, skill %d -> %d, by player %u"), method,
+	LmLogFile::Instance()->Security(-4, _T("%s: player %u: unsuccessful train in art %d, skill %d -> %d, by player %u"), method,
 	       player_->PlayerID(), art, old_skill, skill, msg.SenderID());
 	// set skill to 0, so client knows an attempt was made
 	msg.SetState2(0);
@@ -703,7 +703,7 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
     }
     else {
       // log unsuccessful train
-      SECLOG(4, _T("%s: player %u: unsuccessful train in art %d, skill %d by player %u"), method, player_->PlayerID(), art, skill, msg.SenderID());
+      LmLogFile::Instance()->Security(4, _T("%s: player %u: unsuccessful train in art %d, skill %d by player %u"), method, player_->PlayerID(), art, skill, msg.SenderID());
       // set skill to 0, so client knows an attempt was made
       msg.SetState2(0);
     }
@@ -722,15 +722,15 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
       player_->AdvanceToNextSphere(msg_stat);
       if (msg_stat.NumChanges() > 0) {
 	int new_sphere = player_->DB().Stats().Sphere();
-	SECLOG(-3, _T("%s: player %u: leveltrained sphere %d -> %d by player %u"), method,
+	LmLogFile::Instance()->Security(-3, _T("%s: player %u: leveltrained sphere %d -> %d by player %u"), method,
 	       player_->PlayerID(), old_sphere, new_sphere, msg.SenderID());
-	int rc = main_->PlayerDBC()->LogQuest(msg.SenderID(), player_->PlayerID(), Arts::LEVELTRAIN, new_sphere);
-	int sc = main_->PlayerDBC()->LastSQLCode();
+	int rc = LmPlayerDBC::Instance()->LogQuest(msg.SenderID(), player_->PlayerID(), Arts::LEVELTRAIN, new_sphere);
+	int sc = LmPlayerDBC::Instance()->LastSQLCode();
 	if (rc < 0) {
 		TLOG_Warning(_T("%s: FAILED to log sphere and quest to DB for player %u sphering player %u to sphere %d"), method, msg.SenderID(), player_->PlayerID(), new_sphere);
-			GsUtil::HandlePlayerError(main_, method, rc, sc, false);
+			GsUtil::HandlePlayerError(method, rc, sc, false);
 		}
-	main_->OutputDispatch()->SendMessage(&msg_stat, player_->Connection());
+	GsOutputDispatch::Instance()->SendMessage(&msg_stat, player_->Connection());
 	msg.SetState1(1); // succeeded
       }
       else {
@@ -738,7 +738,7 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
       }
     }
     else {
-      SECLOG(-3, _T("%s: player %u: could not be leveltrained to sphere %d by player %u"), method,
+      LmLogFile::Instance()->Security(-3, _T("%s: player %u: could not be leveltrained to sphere %d by player %u"), method,
 	     player_->PlayerID(), old_sphere + 1, msg.SenderID());
     }
   }
@@ -749,29 +749,29 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
     int guild = msg.State1();
     int tokens = msg.State2();
     if (player_->CanBeDemoted(guild, tokens)) {
-      SECLOG(-7, _T("%s: player %u: demoted in guild %d by player %u"), method, player_->PlayerID(), guild, msg.SenderID());
+      LmLogFile::Instance()->Security(-7, _T("%s: player %u: demoted in guild %d by player %u"), method, player_->PlayerID(), guild, msg.SenderID());
       // update database
       int used = 0;
 	  GMsg_ChangeStat changemsg;
       int new_rank = player_->Demote(guild, used, changemsg);
 	  if (changemsg.NumChanges() > 0) {
-		   main_->OutputDispatch()->SendMessage(&changemsg, player_->Connection());
+		   GsOutputDispatch::Instance()->SendMessage(&changemsg, player_->Connection());
 	  }
 
       // make entry in initiator's xp journal if they were booted from the guild entirely
       lyra_id_t initiator = player_->DB().Initiator(guild);
       if ((initiator != Lyra::ID_UNKNOWN) && (new_rank < Guild::INITIATE)) {
 	int xp_loss = 10000; // lose 10K xp
-	int rc = main_->PlayerDBC()->ModifyXPJournal(initiator, guild, -xp_loss);
-	int sc = main_->PlayerDBC()->LastSQLCode();
-	// int lt = main_->PlayerDBC()->LastCallTime();
-	// main_->Log()->Debug(_T("%s: LmPlayerDBC::ModifyXPJournal took %d ms"), method, lt);
+	int rc = LmPlayerDBC::Instance()->ModifyXPJournal(initiator, guild, -xp_loss);
+	int sc = LmPlayerDBC::Instance()->LastSQLCode();
+	// int lt = LmPlayerDBC::Instance()->LastCallTime();
+	// LmLog::Instance()->Debug(_T("%s: LmPlayerDBC::ModifyXPJournal took %d ms"), method, lt);
 	if (rc < 0) {
 	  TLOG_Warning(_T("%s: could not modify xp journal for player %u"), method, initiator);
-	  GsUtil::HandlePlayerError(main_, method, rc, sc, false);
+	  GsUtil::HandlePlayerError(method, rc, sc, false);
 	}
 	else {
-	  SECLOG(-3, _T("%s: player %u: docked %d xp (in journal) due to underling %u leaving guild %d"), method,
+	  LmLogFile::Instance()->Security(-3, _T("%s: player %u: docked %d xp (in journal) due to underling %u leaving guild %d"), method,
 		 initiator, xp_loss, player_->PlayerID(), guild);
 	}
       }
@@ -781,7 +781,7 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
       send_SMsg_Proxy(player_->LevelConnection(), msg_ack);
     }
     else {
-      SECLOG(7, _T("%s: player %u: could not be demoted in guild %d by player %u"), method,
+      LmLogFile::Instance()->Security(7, _T("%s: player %u: could not be demoted in guild %d by player %u"), method,
 	     player_->PlayerID(), guild, msg.SenderID());
       int needed = player_->TokensToDemote(guild);
       // create, send fail to source
@@ -826,7 +826,7 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
     }
 
     adjust_offline_xp(xp_adj, _T("anon rp grant from GM"), msg.SenderID(), true);
-	SECLOG(-3, _T("%s: player %u: change of %d in offline xp due to RP XP grant from GM %u"), method,
+	LmLogFile::Instance()->Security(-3, _T("%s: player %u: change of %d in offline xp due to RP XP grant from GM %u"), method,
 	 player_->DB().PlayerID(), xp_adj, msg.SenderID());
 
     send_to_player = false; // don't send to client
@@ -847,22 +847,22 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
     int art = msg.State1();
 	// this cast is necessary because VC++ is confused by overloaded const/non-const selectors
     ((class LmArts&)(player_->DB().Arts())).SetSkill(art, 0);
-    int rc = main_->PlayerDBC()->DeleteArt(player_->PlayerID(), art);
-    int sc = main_->PlayerDBC()->LastSQLCode();
+    int rc = LmPlayerDBC::Instance()->DeleteArt(player_->PlayerID(), art);
+    int sc = LmPlayerDBC::Instance()->LastSQLCode();
     if (rc < 0) {
-      GsUtil::HandlePlayerError(main_, method, rc, sc, false);
+      GsUtil::HandlePlayerError(method, rc, sc, false);
     }
     else {
-      SECLOG(-4, _T("%s: player %u: untrained in art %d by player %u"), method, player_->PlayerID(), art, msg.SenderID());
+      LmLogFile::Instance()->Security(-4, _T("%s: player %u: untrained in art %d by player %u"), method, player_->PlayerID(), art, msg.SenderID());
     }
   }
   break;
 
   case RMsg_PlayerMsg::TEHTHUS_OBLIVION: {       // not used, not used
-      SECLOG(-8, _T("%s: Tehthu was killed by player %u"), method, msg.SenderID());
+      LmLogFile::Instance()->Security(-8, _T("%s: Tehthu was killed by player %u"), method, msg.SenderID());
       // update database with account type, and killer id
-      int rc = main_->PlayerDBC()->SetKiller(player_->PlayerID(), msg.SenderID());
-      int sc = main_->PlayerDBC()->LastSQLCode();
+      int rc = LmPlayerDBC::Instance()->SetKiller(player_->PlayerID(), msg.SenderID());
+      int sc = LmPlayerDBC::Instance()->LastSQLCode();
   }
   break;
 
@@ -871,21 +871,21 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
   case RMsg_PlayerMsg::DREAMSTRIKE: {       // success, not used
     int success = msg.State1();
     if (success) {
-      SECLOG(-8, _T("%s: player %u: was dreamstruck by player %u"), method, player_->PlayerID(), msg.SenderID());
+      LmLogFile::Instance()->Security(-8, _T("%s: player %u: was dreamstruck by player %u"), method, player_->PlayerID(), msg.SenderID());
       // update database with account type, and killer id
-      int rc = main_->PlayerDBC()->SetKiller(player_->PlayerID(), msg.SenderID());
-      int sc = main_->PlayerDBC()->LastSQLCode();
-      // int lt = main_->PlayerDBC()->LastCallTime();
-      // main_->Log()->Debug(_T("%s: LmPlayerDBC::SetKiller took %d ms"), method, lt);
+      int rc = LmPlayerDBC::Instance()->SetKiller(player_->PlayerID(), msg.SenderID());
+      int sc = LmPlayerDBC::Instance()->LastSQLCode();
+      // int lt = LmPlayerDBC::Instance()->LastCallTime();
+      // LmLog::Instance()->Debug(_T("%s: LmPlayerDBC::SetKiller took %d ms"), method, lt);
       if (rc < 0) {
 	TLOG_Warning(_T("%s: could not set killer of player %u; rc=%d, sqlcode=%d"), method, player_->PlayerID(), rc, sc);
-	GsUtil::HandlePlayerError(main_, method, rc, sc, false);
+	GsUtil::HandlePlayerError(method, rc, sc, false);
       }
       // disconnect
-      // GsUtil::FakeLogout(main_, player_);
+      // GsUtil::FakeLogout(player_);
     }
     else {
-      SECLOG(-8, _T("%s: player %u: avoided being dreamstruck by player %u"), method, player_->PlayerID(), msg.SenderID());
+      LmLogFile::Instance()->Security(-8, _T("%s: player %u: avoided being dreamstruck by player %u"), method, player_->PlayerID(), msg.SenderID());
     }
   }
   break;
@@ -894,10 +894,10 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
   case RMsg_PlayerMsg::DREAMSTRIKE_ACK: {   // success, not used
     int success = msg.State1();
     if (success) {
-      SECLOG(-8, _T("%s: player %u: dreamstrike of player %u succeeded"), method, player_->PlayerID(), msg.SenderID());
+      LmLogFile::Instance()->Security(-8, _T("%s: player %u: dreamstrike of player %u succeeded"), method, player_->PlayerID(), msg.SenderID());
     }
     else {
-      SECLOG(-8, _T("%s: player %u: dreamstrike of player %u failed"), method, player_->PlayerID(), msg.SenderID());
+      LmLogFile::Instance()->Security(-8, _T("%s: player %u: dreamstrike of player %u failed"), method, player_->PlayerID(), msg.SenderID());
     }
     // send ack to player, in either case
     send_RMsg_PlayerMsg_DreamStrikeAck(success, msg.ReceiverID());
@@ -934,16 +934,16 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
       lyra_id_t initiator = player_->DB().Initiator(guild);
       if (initiator != Lyra::ID_UNKNOWN) {
 	int xp_gain = 2500; // divide by 2
-	int rc = main_->PlayerDBC()->ModifyXPJournal(initiator, guild, xp_gain);
-	int sc = main_->PlayerDBC()->LastSQLCode();
-	// int lt = main_->PlayerDBC()->LastCallTime();
-	// main_->Log()->Debug(_T("%s: LmPlayerDBC::ModifyXPJournal took %d ms"), method, lt);
+	int rc = LmPlayerDBC::Instance()->ModifyXPJournal(initiator, guild, xp_gain);
+	int sc = LmPlayerDBC::Instance()->LastSQLCode();
+	// int lt = LmPlayerDBC::Instance()->LastCallTime();
+	// LmLog::Instance()->Debug(_T("%s: LmPlayerDBC::ModifyXPJournal took %d ms"), method, lt);
 	if (rc < 0) {
 	  TLOG_Warning(_T("%s: could not modify player %u xp journal; rc=%d, sqlcode=%d"), method, initiator, rc, sc);
-	  GsUtil::HandlePlayerError(main_, method, rc, sc, false);
+	  GsUtil::HandlePlayerError(method, rc, sc, false);
 	}
 	else {
-	  SECLOG(-3, _T("%s: player %u: granted %d xp (in journal) due to underling %u initiating player %u in guild %d"),
+	  LmLogFile::Instance()->Security(-3, _T("%s: player %u: granted %d xp (in journal) due to underling %u initiating player %u in guild %d"),
 		 method, initiator, xp_gain, player_->PlayerID(), msg.SenderID(), guild);
 	}
       }
@@ -961,7 +961,7 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
 	// send_to_player = false; // don't send to client
       }
       else { // can be knighted; you're knighted
-	SECLOG(-7, _T("%s: player %u: knighted in guild %d by player %u"), method,
+	LmLogFile::Instance()->Security(-7, _T("%s: player %u: knighted in guild %d by player %u"), method,
 	       player_->PlayerID(), guild, msg.SenderID());
 	player_->ChangeGuildRank(guild, Guild::KNIGHT);
 	// add XP for being knighted
@@ -981,7 +981,7 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
     bool channelkill = msg.MsgType() == RMsg_PlayerMsg::CHANNELKILL;
     int orbit = msg.State1();
     int party_size = msg.State2();
-    SECLOG(-7, _T("%s: channelkill/partykill, orbit=%u, party_size=%u, sender=%u, receiver=%u"),
+    LmLogFile::Instance()->Security(-7, _T("%s: channelkill/partykill, orbit=%u, party_size=%u, sender=%u, receiver=%u"),
         method, orbit, party_size, msg.SenderID(), msg.ReceiverID());
     // determine total # of shares, and number of shares we get
     int all_shares = party_size + 1;
@@ -993,7 +993,7 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
     double multiplier = 1.0;
     if(channelkill)
     {
-        SECLOG(-7, _T("%s: received channelkill, all_shares is: %u"), method, all_shares);
+        LmLogFile::Instance()->Security(-7, _T("%s: received channelkill, all_shares is: %u"), method, all_shares);
         multiplier = 0.5 + (0.05 * (all_shares / 10));
         all_shares %= 10;
     }
@@ -1030,7 +1030,7 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
 
     // TLOG_Debug(_T("%s: party kill: xp=%d shares=%d/%d"), method, xp_adj, my_shares, all_shares);
     xp_adj = party_size % 10 == 9 ? 0 : my_shares * (xp_adj / all_shares); // divide up among party members
-    SECLOG(-7, _T("%s: channelkill/partykill, xp_adj=%u"), method, xp_adj);
+    LmLogFile::Instance()->Security(-7, _T("%s: channelkill/partykill, xp_adj=%u"), method, xp_adj);
     if(xp_adj != 0)
     {
         xp_adj = (int) ((double)xp_adj * multiplier);
@@ -1119,13 +1119,13 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
   case RMsg_PlayerMsg::SUMMON_PRIME: {       // success, not used
     int success = msg.State2();
     if (success) {
-      SECLOG(-8, _T("%s: player %u: summoned House Prime for House %u"), method, player_->PlayerID(), msg.State1());
+      LmLogFile::Instance()->Security(-8, _T("%s: player %u: summoned House Prime for House %u"), method, player_->PlayerID(), msg.State1());
       // nuke 5% of their XP
 	  int xp_adj = - (int) ((double) player_->DB().Stats().XP() * 0.05); // lose up to 5%
       adjust_xp(xp_adj, _T("summoned house prime"), msg.SenderID(), true);
     }
     else {
-      SECLOG(-8, _T("%s: player %u: failed at summoning House Prime for House %u"), method, player_->PlayerID(), msg.State1());
+      LmLogFile::Instance()->Security(-8, _T("%s: player %u: failed at summoning House Prime for House %u"), method, player_->PlayerID(), msg.State1());
     }
   }
   break;
@@ -1135,7 +1135,7 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
 	  lyra_id_t levelid = 0;
 	  lyra_id_t roomid = 0;
 	  int acct_type = 0;
-	  SECLOG(-8, _T("%s: player %u attempting to Rally player %u to %i; %i - %u saving SummonInfo to true!"), method, msg.SenderID(), msg.ReceiverID(), msg.State1(), msg.State2(), player_->PlayerID());
+	  LmLogFile::Instance()->Security(-8, _T("%s: player %u attempting to Rally player %u to %i; %i - %u saving SummonInfo to true!"), method, msg.SenderID(), msg.ReceiverID(), msg.State1(), msg.State2(), player_->PlayerID());
 	  player_->SaveSummonInfo(true);
 
   }
@@ -1143,7 +1143,7 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
 
   case RMsg_PlayerMsg::SUMMON: {             // x-coord, y-coord, level-id
 			  
-		SECLOG(-8, _T("%s: player %u attempting to Summon player %u to %i; %i; %u; %i"), method, msg.SenderID(), msg.ReceiverID(), msg.State1(), msg.State2(), msg.State3());
+		LmLogFile::Instance()->Security(-8, _T("%s: player %u attempting to Summon player %u to %i; %i; %u; %i"), method, msg.SenderID(), msg.ReceiverID(), msg.State1(), msg.State2(), msg.State3());
 		player_->SaveSummonInfo(true);
 	 
 	}
@@ -1172,6 +1172,6 @@ void GsPlayerThread::handle_SMsg_Proxy_RMsg_PlayerMsg(LmSrvMesgBuf* msgbuf)
   if (send_to_player) {
     // message may have been modified, so re-read into buffer
     msgbuf->ReadMessage(msg);
-    main_->OutputDispatch()->SendMessage(msgbuf, player_->Connection());
+    GsOutputDispatch::Instance()->SendMessage(msgbuf, player_->Connection());
   }
 }

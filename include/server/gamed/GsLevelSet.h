@@ -19,7 +19,7 @@
 
 // class forward declarations
 
-class GsMain;
+
 class LmLevelDBC;
 
 // the class
@@ -28,9 +28,10 @@ class GsLevelSet {
 
 public:
 
-  GsLevelSet(GsMain* gsmain);
+  GsLevelSet();
   ~GsLevelSet();
-
+  //public accessor
+  static GsLevelSet* Instance() { return s_instance; }
   const LmLevelDBC* LevelDBC(lyra_id_t levelid);
 
   bool CanGoto(lyra_id_t from_levelid, lyra_id_t from_roomid, lyra_id_t to_levelid, lyra_id_t to_roomid);
@@ -38,7 +39,8 @@ public:
   void Dump(FILE* f, int indent = 0) const;
 
 private:
-
+	//private accessor
+	static GsLevelSet* s_instance;
   // not implemented
   GsLevelSet(const GsLevelSet&);
   //operator=(const GsLevelSet&);
@@ -46,9 +48,8 @@ private:
   LmLevelDBC* get_level(lyra_id_t levelid);
   LmLevelDBC* load_level(lyra_id_t levelid) const;
 
-  GsMain* main_;
 
-  PThMutex lock_;
+  mutable PThMutex lock_;
   typedef std::list<LmLevelDBC*> llist_t;
   llist_t levels_;
 

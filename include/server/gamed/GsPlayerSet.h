@@ -20,7 +20,6 @@
 // class forward declarations
 
 class GsPlayer;
-class GsMain;
 class GsPlayerList;
 class GsPlayerSetImp;
 
@@ -30,9 +29,10 @@ class GsPlayerSet {
 
 public:
 
-  GsPlayerSet(GsMain* gsmain);
+  GsPlayerSet();
   ~GsPlayerSet();
-
+  //public accessor
+  static GsPlayerSet* Instance() { return s_instance; }
   bool IsInGame(lyra_id_t playerid) const;
   int NumPlayers() const;
   int MaxPlayers() const;
@@ -41,19 +41,21 @@ public:
 
   GsPlayer* GetPlayer(lyra_id_t playerid) const;
   void GetPlayerList(GsPlayerList& plist) const;
+  void GetPlayerList(GsPlayerList& plist, lyra_id_t roomID) const;
   GsPlayer* AllocatePlayer(lyra_id_t playerid);
   void RemovePlayer(GsPlayer* player, bool save = true);
 
   void Dump(FILE* f, int indent = 0) const;
 
 private:
-
+	//private accessor
+	static GsPlayerSet* s_instance;
   // not implemented
   GsPlayerSet(const GsPlayerSet&);
   //operator=(const GsPlayerSet&);
 
-  GsMain* main_;
-  PThMutex lock_;
+ 
+  mutable PThMutex lock_;
   GsPlayer* players_;
   int max_players_;
   int total_logins_;

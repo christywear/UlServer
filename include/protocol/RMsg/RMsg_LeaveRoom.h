@@ -12,6 +12,8 @@
 #endif
 
 #include <stdio.h>
+#include <include/core/LyraDefs.h>
+#include <protocol/LmMesg.h>
 
 // forward references
 

@@ -72,7 +72,7 @@ private:
   LmDispatch* dispatch_;
 
   LmConnection* conn_;
-  PThMutex conn_lock_;
+  mutable PThMutex conn_lock_;
 };
 
 #endif /* INCLUDED_LmMessageReader */

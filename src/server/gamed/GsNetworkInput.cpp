@@ -48,15 +48,14 @@ DECLARE_TheFileName;
 // Constructor
 ////
 
-GsNetworkInput::GsNetworkInput(GsMain* gsmain)
-  : LmNetworkInput(gsmain->InputDispatch(), gsmain->ConnectionSet(), gsmain->BufferPool(),
-		   gsmain->Log() /* &logf_ */ ),
-    main_(gsmain)
+GsNetworkInput::GsNetworkInput()
+  : LmNetworkInput(GsInputDispatch::Instance(), LmConnectionSet::Instance(), LmMesgBufPool::Instance(),
+		   LmLog::Instance() /* &logf_ */ )
 {
   DECLARE_TheLineNum;
   open_log();
   register_message_handlers();
-  AddListener(main_->SocketTCP());
+  AddListener(LmSocket::Instance());
   StartIdleReaders(6);
 }
 
@@ -102,7 +101,7 @@ LmMessageReader* GsNetworkInput::StartReader()
 {
   DEFMETHOD(GsNetworkInput, StartReader);
   DECLARE_TheLineNum;
-  GsMessageReader* thr = LmNEW(GsMessageReader(main_, Log()));
+  GsMessageReader* thr = LmNEW(GsMessageReader(Log()));
   PThAttr attr;
   attr.Init();
   attr.SetStackSize(131072);
@@ -124,7 +123,7 @@ void GsNetworkInput::Dump(FILE* f, int indent) const
 {
   DECLARE_TheLineNum;
   INDENT(indent, f);
- _ftprintf(f, _T("<GsNetworkInput[%p,%d]: main=[%p]>\n"), this, sizeof(GsNetworkInput), main_);
+ _ftprintf(f, _T("<GsNetworkInput[%p,%d]: main=[%p]>\n"), this, sizeof(GsNetworkInput));
   LmNetworkInput::Dump(f, indent + 1);
 }
 
@@ -135,7 +134,7 @@ void GsNetworkInput::Dump(FILE* f, int indent) const
 void GsNetworkInput::open_log()
 {
   // logf_.Init("gs", "in", main_->ServerPort());
-  // logf_.Open(main_->GlobalDB()->LogDir());
+  // logf_.Open(LmGlobalDB::Instance()->LogDir());
 }
 
 ////
@@ -222,7 +221,7 @@ void GsNetworkInput::handle_SMsg_GS_Action_CheckIdlePlayers()
 //  TLOG_Debug(_T("%s: checking idle players"), method);
   // get list of players
   GsPlayerList plist;
-  main_->PlayerSet()->GetPlayerList(plist);
+  GsPlayerSet::Instance()->GetPlayerList(plist);
   for (GsPlayerList::iterator i = plist.begin(); !(bool)(i == plist.end()); ++i) {
     GsPlayer* player = *i;
     LmConnection* conn = player->Connection();
@@ -233,7 +232,7 @@ void GsNetworkInput::handle_SMsg_GS_Action_CheckIdlePlayers()
     if (!conn) {
       TLOG_Warning(_T("%s: null connection for player %u [%p]"), method, player->PlayerID(), player);
       // log them out
-      GsUtil::FakeLogout(main_, player);
+      GsUtil::FakeLogout(player);
       continue;
     }
     // only make these checks if player has been online for a bit,  else a 
@@ -243,14 +242,14 @@ void GsNetworkInput::handle_SMsg_GS_Action_CheckIdlePlayers()
       if (conn->Type() != LmConnection::CT_CLIENT) {
 	TLOG_Warning(_T("%s: conn type %c != client for player %u"), method, conn->Type(), player->PlayerID());
 	// log them out
-	GsUtil::FakeLogout(main_, player);
+	GsUtil::FakeLogout(player);
 	continue;
       }
       // check that connection id matches player id
       if (conn->ID() != player->PlayerID()) {
 	TLOG_Warning(_T("%s: conn id %u != player id %u"), method, conn->ID(), player->PlayerID());
 	// log them out
-	GsUtil::FakeLogout(main_, player);
+	GsUtil::FakeLogout(player);
 	continue;
       }
     }
@@ -259,14 +258,14 @@ void GsNetworkInput::handle_SMsg_GS_Action_CheckIdlePlayers()
        (idle_time > AGENT_TIMEOUT))    { 
       TLOG_Debug(_T("%s: idle timeout for agent %u (%p) (ghosted?)"), method, player->PlayerID(), player);
       // log them out
-      GsUtil::FakeLogout(main_, player);
+      GsUtil::FakeLogout(player);
       continue;
     }
    if ((player->DB().AccountType() != LmPlayerDB::ACCT_MONSTER) &&
        (idle_time > PLAYER_TIMEOUT))   { 
       TLOG_Debug(_T("%s: idle timeout for player %u (%p) (ghosted?)"), method, player->PlayerID(), player);
       // log them out
-      GsUtil::FakeLogout(main_, player);
+      GsUtil::FakeLogout(player);
       continue;
     }
 
@@ -284,17 +283,17 @@ void GsNetworkInput::handle_SMsg_GS_Action_CheckIdleClients()
   //TLOG_Debug(_T("%s: checking idle clients"), method);
   // get list of clients
   LmConnectionList conn_list;
-  main_->ConnectionSet()->GetConnectionList(conn_list);
+  LmConnectionSet::Instance()->GetConnectionList(conn_list);
   //TLOG_Debug(_T("%s: checking idle clients - number of connections: %d"), method, conn_list.size());
   // check each non-player client
   for (LmConnectionList::iterator i = conn_list.begin(); !(bool)(i == conn_list.end()); ++i) {
     LmConnection* conn = *i;
 
 	if (!conn) 
-		main_->ConnectionSet()->RemoveConnection(conn);
+		LmConnectionSet::Instance()->RemoveConnection(conn);
 
     // check if connection is a client, and that player is live
-    if ((conn->Type() == LmConnection::CT_CLIENT) && (conn->ID() > 0) && (main_->PlayerSet()->IsInGame(conn->ID()))) 
+    if ((conn->Type() == LmConnection::CT_CLIENT) && (conn->ID() > 0) && (GsPlayerSet::Instance()->IsInGame(conn->ID()))) 
       continue;
    
     // check if connection is a level server (which never are timed out)
@@ -306,7 +305,7 @@ void GsNetworkInput::handle_SMsg_GS_Action_CheckIdleClients()
 
     // check if last incoming message was past the idle timeout
 	if (conn->IdleIn() > CLIENT_TIMEOUT) {
-			main_->ConnectionSet()->RemoveConnection(conn); 
+			LmConnectionSet::Instance()->RemoveConnection(conn); 
 	}
   }
 }
@@ -330,7 +329,7 @@ void GsNetworkInput::handle_SMsg_GS_Action_CheckMessageThreads()
     if (thr->IsRunning() && (LmUtil::TimeSince(thr->StartTime()) > MSG_THREAD_TIMEOUT)) {
       TLOG_Debug(_T("%s: reader thread %p timed out"), method, thr);
       thr->Cancel();
-      GsUtil::FakeLogout(main_, (*i).conn);
+      GsUtil::FakeLogout((*i).conn);
     }
   }
 #endif

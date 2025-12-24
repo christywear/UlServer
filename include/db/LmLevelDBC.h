@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 #include "..\core\LyraDefs.h"
-#include "mysql.h"
+#include <third_party/MariaDB Connector C 64-bit/include/mysql.h>
 #include "..\core\PThMutex.h"
 #include "..\core\SharedConstants.h"
 
@@ -43,6 +43,8 @@ public:
   LmLevelDBC(const TCHAR *dbuser, const TCHAR *dbpassword, const TCHAR* dbserver, int dbport);
   ~LmLevelDBC();
 
+  //public accessor (The "Address")
+  static LmLevelDBC* Instance() { return s_instance; }
   int Connect();
   void Disconnect();
 
@@ -78,6 +80,9 @@ protected:
 
 private:
 
+    // 1. The hidden static pointer to the real object
+    static LmLevelDBC* s_instance;
+
   // not implemented
   LmLevelDBC(const LmLevelDBC&);
   //operator=(const LmLevelDBC&);
@@ -93,7 +98,7 @@ private:
   LmRoomDB* rooms_;
 
   bool connected_;
-  PThMutex lock_;
+  mutable PThMutex lock_;
   long last_sql_code_;
   LmLog* log_;
 

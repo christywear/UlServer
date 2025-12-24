@@ -18,7 +18,6 @@
 
 // class forward declarations
 
-class LsMain;
 class LmSrvMesgBuf;
 class LmMesg;
 class LmConnection;
@@ -35,7 +34,7 @@ public:
 
 public:
 
-  LsSignalThread(LsMain* lsmain);
+  LsSignalThread();
   ~LsSignalThread();
 
   int last_signal_;
@@ -64,7 +63,7 @@ private:
   void register_message_handlers();
   void register_signal_handlers();
 
-  LsMain* main_;
+ 
 
   LmSrvMesgBuf* msgbuf_;  // buffer used for sending player updates
 

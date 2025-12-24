@@ -20,7 +20,7 @@
 
 // class forward declarations
 
-class GsMain;
+
 class LmSockAddrInet;
 class LmPeerUpdate;
 
@@ -30,7 +30,7 @@ class GsPositionThread : public LmThread {
 
 public:
 
-  GsPositionThread(GsMain* gsmain);
+  GsPositionThread();
   ~GsPositionThread();
 
   void Dump(FILE* f, int indent = 0) const;
@@ -64,7 +64,7 @@ private:
   void close_log();
   void register_message_handlers();
 
-  GsMain* main_;
+  
 
   LmSocket* usock_;       // UDP socket to read messages from
   LmSrvMesgBuf* msgbuf_;  // buffer used to read in UDP messages

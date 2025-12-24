@@ -1,53 +1,54 @@
-#ifdef UL_POSIX
-// PThMutex.h  -*- C++ -*-
-// $Id: PThMutex.h,v 1.8 1997-07-08 13:58:37-07 jason Exp $
-// Copyright 1996-1997 Lyra LLC, All rights reserved.
-//
-// PThMutex: C++ wrapper for POSIX mutexes
-
+﻿// include/core/PThMutex.h
 #ifndef INCLUDED_PThMutex
 #define INCLUDED_PThMutex
 
-#ifdef __GNUC__
-#pragma interface
-#endif
+#include "../platform/Platform.h"
+// ❌ REMOVED: #include <core/LmLocker.h> (Prevents circular dependency)
 
-#include "LyraDefs.h"
+#if defined(UL_WINDOWS) || defined(_WIN32)
+#include <mutex>
 
-// PThMutex class
-
+// 🛡️ WINDOWS: Modern C++ Implementation
 class PThMutex {
-
 public:
+    PThMutex() {}
+    ~PThMutex() {}
 
-  PThMutex();
-  ~PThMutex();
+    void Init() { /* Auto-inits */ }
 
-  // API methods
-  int Init();
-  int Lock();
-  int TryLock();
-  int UnLock();
+    void Lock() {
+        m_mutex.lock();
+    }
+
+    void Unlock() {
+        // 🤫 Tell VS Analyzer to ignore "Caller failing to hold lock" warning
+#pragma warning( push )
+#pragma warning( disable : 26110 )
+        m_mutex.unlock();
+#pragma warning( pop )
+    }
+
+    // 🛠️ FIX: Alias for legacy code using "UnLock"
+    void UnLock() { Unlock(); }
 
 private:
-
-  // operations/methods not implemented
-  PThMutex(const PThMutex&);
-  //operator=(const PThMutex&);
-
-  // the mutex object
-  //  pth_mutex_t mutex_;
-  
-#ifdef WIN32
-  pthread_mutex_t mutex_;
-#else
-  pth_mutex_t mutex_;
-#endif
-
-  // friend classes
-  friend class PThCond;
-
+    std::recursive_mutex m_mutex;
 };
 
-#endif /* INCLUDED_PThMutex */
+#else
+    // 🐧 LINUX: Keep Original Logic
+#include <pthread.h>
+class PThMutex {
+public:
+    PThMutex();
+    ~PThMutex();
+    void Init();
+    void Lock();
+    void Unlock();
+    void UnLock(); // Ensure linux side matches if needed
+private:
+    pthread_mutex_t mutex_;
+};
 #endif
+
+#endif // INCLUDED_PThMutex

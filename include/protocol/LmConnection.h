@@ -134,7 +134,7 @@ private:
   time_t challenge_time_;   // have sent challenge, waiting on response; this is the time it was issued
 
   bool msg_read_;         // message currently being read?
-  PThMutex mr_lock_;  // lock for above
+  mutable PThMutex mr_lock_;  // lock for above
 
 };
 

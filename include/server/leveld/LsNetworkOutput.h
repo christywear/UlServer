@@ -19,7 +19,7 @@
 
 // class forward declarations
 
-class LsMain;
+
 
 // class declarations
 
@@ -27,7 +27,7 @@ class LsNetworkOutput : public LmNetworkOutput {
 
 public:
 
-  LsNetworkOutput(LsMain* lsmain);
+  LsNetworkOutput();
   ~LsNetworkOutput();
 
   void Dump(FILE* f, int indent = 0) const;
@@ -49,7 +49,7 @@ private:
   void close_log();
   void register_message_handlers();
 
-  LsMain* main_;
+
 
   // LmLogFile logf_;
 

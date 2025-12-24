@@ -38,7 +38,8 @@ public:
 
   LmMesgBufPool(int maxsparebufs = MAX_SPAREBUFS);
   ~LmMesgBufPool();
-
+  //public assessor
+  static LmMesgBufPool* Instance() { return s_instance; }
   LmSrvMesgBuf* AllocateBuffer(int msize = DEFAULT_MSGSIZE, int use_count = 1);
   void ReturnBuffer(LmSrvMesgBuf* pbuf);
   int FreeOldBuffers(int age = DEFAULT_REAPAGE);
@@ -46,13 +47,14 @@ public:
   void Dump(FILE* f, int indent = 0) const;
 
 private:
-
+    //private assessor
+    static LmMesgBufPool* s_instance;
   // not implemented
   LmMesgBufPool(const LmMesgBufPool&);
   //operator=(const LmMesgBufPool&);
 
   LmMesgBufPoolImp* imp_;
-  PThMutex lock_;
+  mutable PThMutex lock_;
   
   int num_allocated_; // total # of calls to AllocateBuffer()
   int num_returned_;  // total # of calls to ReturnBuffer()

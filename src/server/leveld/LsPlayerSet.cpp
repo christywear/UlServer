@@ -27,6 +27,9 @@
 #include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
 
+//init tracker
+LsPlayerSet* LsPlayerSet::s_instance = nullptr;
+
 ////
 // LsPlayerSetImp implementation
 ////
@@ -40,13 +43,14 @@ class LsPlayerSetImp :
 // Constructor
 ////
 
-LsPlayerSet::LsPlayerSet(LsMain* lsmain)
-  : main_(lsmain),
+LsPlayerSet::LsPlayerSet()
+  :
     imp_(LmNEW(LsPlayerSetImp())),
     logins_(0),
     max_logins_(0),
-    max_players_(lsmain->LevelDBC()->MaxPlayers())
+    max_players_(LmLevelDBC::Instance()->MaxPlayers())
 {
+    s_instance = this;
   DECLARE_TheLineNum;
   lock_.Init();
 }
@@ -67,6 +71,8 @@ LsPlayerSet::~LsPlayerSet()
     LmDELETE(player);
   }
   LmDELETE(imp_);
+  if (s_instance == this)
+      s_instance == nullptr;
 }
 
 ////
@@ -157,7 +163,7 @@ LsPlayer* LsPlayerSet::AllocatePlayer(lyra_id_t playerid)
     player = LmNEW(LsPlayer());
   }
   // login, initialize player object
-  if (player->Login(main_, playerid) < 0) {
+  if (player->Login(playerid) < 0) {
     // couldn't log in, put on free list and return 0
     player->Logout();
     free_.push_front(player);
@@ -169,7 +175,7 @@ LsPlayer* LsPlayerSet::AllocatePlayer(lyra_id_t playerid)
   if (imp_->size() > max_logins_) {
     max_logins_ = imp_->size();
   }
-  //  main_->Log()->Debug(_T("LsPlayerSet::AllocatePlayer: %u -> [%p]"), playerid, player);
+  //  LmLog::Instance()->Debug(_T("LsPlayerSet::AllocatePlayer: %u -> [%p]"), playerid, player);
   return player;
 }
 
@@ -187,11 +193,11 @@ void LsPlayerSet::RemovePlayer(LsPlayer* player)
     imp_->erase(i);
     free_.push_front(player);
     // remove player from level, just in case
-    main_->LevelState()->RemovePlayer(player->PlayerID(), player->RealtimeID());
+    LsLevelState::Instance()->RemovePlayer(player->PlayerID(), player->RealtimeID());
   }
   else {
     // not found in active list!
-    main_->Log()->Error(_T("%s: player [%p] returned, not found in active set"), method, player);
+    LmLog::Instance()->Error(_T("%s: player [%p] returned, not found in active set"), method, player);
   }
   // now, remove player from position list of all neighbors
   for (LsPlayerSetImp::iterator k = imp_->begin(); k != imp_->end(); ++k) {
@@ -199,7 +205,7 @@ void LsPlayerSet::RemovePlayer(LsPlayer* player)
     LsUpdateSet* ps = neighbor->UpdateSet();
     LsUpdateSet::iterator j = ps->find(player->PlayerID());
     if (j != ps->end()) {
-      //      main_->Log()->Debug(_T("%s: player %d removed from position set of player %d"), method, player->PlayerID(), neighbor->PlayerID());
+      //      LmLog::Instance()->Debug(_T("%s: player %d removed from position set of player %d"), method, player->PlayerID(), neighbor->PlayerID());
       LsLastUpdate* last_pos = (LsLastUpdate*)((*j).second);
       LmDELETE(last_pos);
       ps->erase(j);
@@ -219,8 +225,7 @@ void LsPlayerSet::Dump(FILE* f, int indent) const
   LmLocker mon(lock_); // lock object for method duration
   INDENT(indent, f);
  _ftprintf(f, _T("<LsPlayerSet[%p,%d]: main=[%p] active=%d/%d free=%d logins=%d (%d max)>\n"),
-	  this, sizeof(LsPlayerSet),
-	  main_, imp_->size(), max_players_, free_.size(), logins_, max_logins_);
+	  this, sizeof(LsPlayerSet), imp_->size(), max_players_, free_.size(), logins_, max_logins_);
   for (LsPlayerSetImp::const_iterator i = imp_->begin(); i != imp_->end(); ++i) {
     ((*i).second)->Dump(f, indent + 1);
   }
@@ -229,6 +234,14 @@ void LsPlayerSet::Dump(FILE* f, int indent) const
 bool LsPlayerSet::IsInLevel(lyra_id_t playerid) const
 {
     return (GetPlayer(playerid) != 0);
+}
+
+int LsPlayerSet::GetLevelID(lyra_id_t playerid) const
+{
+    LsPlayer* p = GetPlayer(playerid);
+    if (p)
+        return p->GetLevelID();
+    return (-1);
 }
 
 int LsPlayerSet::MaxPlayers() const

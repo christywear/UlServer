@@ -38,7 +38,7 @@ bool GsPlayer::ChangeGuildRank(int guild_num, int rank)
   bool retval = db_.Stats().CanSetGuildRank(guild_num, rank);
   if (retval) {
     db_.Stats().SetGuildRank(guild_num, rank);
-    main_->PlayerDBC()->SaveGuildRanks(db_.PlayerID(), db_.Stats());
+    LmPlayerDBC::Instance()->SaveGuildRanks(db_.PlayerID(), db_.Stats());
   }
 
   return retval;
@@ -265,7 +265,7 @@ void GsPlayer::remove_art(int art_id, GMsg_ChangeStat& changemsg)
 	changemsg.InitChange(i, GMsg_ChangeStat::SET_SKILL, art_id, 0);
 	changemsg.SetNumChanges(i + 1);
 	// remove in the database; SavePlayer won't do this properly
-	main_->PlayerDBC()->DeleteArt(db_.PlayerID(), art_id);
+	LmPlayerDBC::Instance()->DeleteArt(db_.PlayerID(), art_id);
 }
 
 ////
@@ -315,8 +315,8 @@ int GsPlayer::Demote(int guild_num, int& tokens_used, GMsg_ChangeStat& changemsg
 	remove_art(Arts::SUMMON_PRIME, changemsg); // summon_prime
   }
 
-//  main_->PlayerDBC()->SavePlayer(db_, false);
-  main_->PlayerDBC()->SavePlayer(db_, true);
+//  LmPlayerDBC::Instance()->SavePlayer(db_, false);
+  LmPlayerDBC::Instance()->SavePlayer(db_, true);
 
 
   return new_rank;
@@ -395,11 +395,11 @@ int GsPlayer::SphereTokens(lyra_id_t target_id) const
     // check item type; ascension tokens only have a single function
     if (LyraItem::StateFunction(item.StateField(0)) == LyraItem::SUPPORT_TRAIN_FUNCTION) {
       lyra_item_train_support_t support;
-      //      main_->Log()->Debug(_T("%s: found spheretoken!"), method);
+      //      LmLog::Instance()->Debug(_T("%s: found spheretoken!"), method);
       memcpy(&support, item.StateField(0), sizeof(support));
       if ((support.art_id == 255) && // 255 = Sphere
 	  (support.target_id() == target_id)) {
-	//	main_->Log()->Debug(_T("%s: correct kind of spheretoken!"), method);
+	//	LmLog::Instance()->Debug(_T("%s: correct kind of spheretoken!"), method);
 	//if (support.art_level < min_support_sphere)
 	  //min_support_sphere = support.art_level;
 	creators.push_back(support.creator_id());
@@ -413,7 +413,7 @@ int GsPlayer::SphereTokens(lyra_id_t target_id) const
   creators.unique();
 
   have_tokens = creators.size();
-  //  main_->Log()->Debug(_T("%s: after unique sort have %d spheretokens; min sphere = %d!"), method, have_tokens, min_support_sphere);
+  //  LmLog::Instance()->Debug(_T("%s: after unique sort have %d spheretokens; min sphere = %d!"), method, have_tokens, min_support_sphere);
 
   // now figure out what sphere they qualify for
   // sphere tokens are no longer required to be from a certain level character

@@ -6,7 +6,11 @@
 
 #ifndef INCLUDED_LyraDefs
 #define INCLUDED_LyraDefs
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN  // Exclude rarely-used stuff from Windows headers
+#endif
 
+#include <windows.h>
 ////
 //// Compiler/Language Workarounds
 ////
@@ -149,6 +153,61 @@ struct Lyra {
   };
 };
 
+// Thread ID Constants 
+enum {
+    THREAD_LEVELSERVER = -1,
+    THREAD_GAMESERVER = -1,
+    THREAD_SIGNAL = -2,
+    THREAD_NETINPUT = -3,
+    THREAD_NETOUTPUT = -4,
+    THREAD_ROOMSERVER = -5,
+    THREAD_FORWARD = -5,
+    THREAD_POSITION = -6
+};
+
+// Alarm/Timer Delays 
+enum {
+    ALARM_DELAY = 1,
+    ALARM_HEARTBEAT = 600,
+    ALARM_COMPUTEGROUPS = 2,
+    ALARM_CHECKIDLE = 29,
+    ALARM_REAPITEMS = 19,
+    ALARM_FREEBUFS = 599,
+    ALARM_GENERATEITEMS = 17,
+    ALARM_SAVESTATE_FILE = 60,
+    ALARM_SAVESTATE_DB = 300,
+    ALARM_READCODEX = 300,
+    ALARM_PING = 61,
+    POS_UPDATE_INTERVAL = 250
+};
+
+// Gameplay Constants
+enum {
+    SPEECH_DIST2 = (1300 * 1300), // distance speech can travel, squared
+    SPARE_MBUFS = 128            // spare message buffers in pool
+};
+
+enum {
+
+    MAX_CONNECTIONS = 1000,   // maximum number of network connections supported (<FD_SETSIZE)
+    //MAX_CONNECTIONS = 51,   // maximum number of network connections supported (<FD_SETSIZE)
+                             // (computed roughly as MAX_PLAYERS + (total level servers) + some extra)
+    MAX_PLAYERS = 160,       // absolute maximum number of players using server
+    EXTRA_PLAYERS = 10,      // extra admin players allowed
+    //MAX_LOGINS = 100,		 // total # of logins accepted before closing (GAMED_POINTER only)
+//	CLOSING_THRESHHOLD = 200, // don't close until we've handled >= this many logins (ROUND_ROBIN only)
+
+MAX_MOVE = (300 * 300),   // max distance squared a player can move between updates received (max
+// movement is roughly 100-150),
+// timer parameters
+ALARM_CHECKTHREADS = 29,     // delay: check idle message threads
+ALARM_WAITPID = 33,          // delay: wait() on any children (Oracle creates zombies... sheesh)
+//ALARM_SAVEPLAYER = 10,       // delay: save player information (notify player threads)
+ALARM_SAVEPLAYER = 60,       // delay: save player information (notify player threads)
+ALARM_BAIL = (3600 * 1),     // delay: exit, unless players are logged in (check every hour)
+
+MIN_UPTIME = (3600 * 12)     // minimum amount of server uptime before we will exit (12 hours)
+};
 
 const int BOG_PRICE = (int)1;
 const int AGO_PRICE = (int)2;
@@ -240,7 +299,6 @@ typedef unsigned int realmid_t;  // backwards compatibility
 typedef int pid_t;
 #define UL_SERVER_REGISTRY_KEY "Software\\Lyra\\Server"
 #define SERVER_SHUTDOWN_STRING "SHUTDOWN UNDERLIGHT SERVERS"
-#include <pthread.h>
 #include "Windows.h"
 #endif
 #endif
@@ -249,5 +307,21 @@ typedef int pid_t;
 ////
 //// Inline Functions
 ////
+// At the bottom of LyraDefs.h
+class GsConfig {
+public:
+    // Using inline static allows you to define it right here in the header!
+    // (Requires C++17)
+    inline static bool s_sigterm = false;
+    inline static unsigned long s_hostIP = 0;
+    inline static int s_serverPort = 0;
+    inline static int s_levelID = 0;
 
+    static bool SigTerm() { return s_sigterm; }
+    static void SetSigTerm(bool value) { s_sigterm = value; }
+
+    static unsigned long HostIP() { return s_hostIP; }
+    static int ServerPort() { return s_serverPort; }
+    static void Init(unsigned long ip, int port) { s_hostIP = ip; s_serverPort = port; }
+};
 #endif /* INCLUDED_LyraDefs */

@@ -16,7 +16,7 @@
 
 // class forward declarations
 
-class LsMain;
+
 class LmSrvMesgBuf;
 class LmConnection;
 class LmThread;
@@ -27,18 +27,19 @@ class LsInputDispatch : public LmDispatch {
 
 public:
 
-  LsInputDispatch(LsMain* lsmain);
+  LsInputDispatch();
   ~LsInputDispatch();
-
+  //public accessor
+  static LsInputDispatch* Instance() { return s_instance; }
   void Dump(FILE* f, int indent = 0) const;
-
+  LmThread* ComputeTarget(LmSrvMesgBuf* mbuf, LmConnection* conn);
 protected:
 
-  LmThread* ComputeTarget(LmSrvMesgBuf* mbuf, LmConnection* conn);
+  
 
 private:
-
-  LsMain* main_;
+    //private accessor
+    static LsInputDispatch* s_instance;
 
   // target threads
   enum {

@@ -27,7 +27,7 @@ static lyra_id_t realtime_ids_[Lyra::MAX_LEVELPEOPLE];
 
 #include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
 DECLARE_TheFileName;
-
+LsLevelState* LsLevelState::s_instance = nullptr;
 ////
 // Constructor
 ////
@@ -36,8 +36,9 @@ LsLevelState::LsLevelState(LsMain* lsmain)
   : main_(lsmain),
     serials_(lsmain)
 {
+    s_instance = this;
   DECLARE_TheLineNum;
-  dbc_ = main_->LevelDBC();
+  dbc_ = LmLevelDBC::Instance();
 }
 
 
@@ -53,7 +54,7 @@ void LsLevelState::Init(void)
 
   int i=0;
   for (i = 0; i < num_rooms_; ++i) {
-    rooms_[i].Init(main_, &(dbc_->Room(i)));
+    rooms_[i].Init(&(dbc_->Room(i)));
   }
 
   // initialize all real-time ids as unused
@@ -72,6 +73,8 @@ LsLevelState::~LsLevelState()
   DECLARE_TheLineNum;
   LmDELETEARRAY(rooms_);
   num_rooms_ = 0;
+  if (s_instance == this)
+      s_instance == nullptr;
 }
 
 // support for loading and saving level data to/from the disk has been removed; 
@@ -93,7 +96,7 @@ int LsLevelState::LoadFromDisk()
   // open state database
   LmDatabase db;
   TCHAR statefile[FILENAME_MAX];
-  main_->GlobalDB()->GetLevelState(statefile, dbc_->LevelID());
+  LmGlobalDB::Instance()->GetLevelState(statefile, dbc_->LevelID());
   if (db.Open(_T(""), statefile, GDBM_READER) == 0) {
     // load serial numbers
     serials_.LoadFromDisk(db);
@@ -102,7 +105,7 @@ int LsLevelState::LoadFromDisk()
       rooms_[i].LoadFromDisk(db);
     }
   } else {
-    main_->Log()->Error(_T("Could not load level state from disk"));
+    LmLog::Instance()->Error(_T("Could not load level state from disk"));
 	return -1;
   }
    
@@ -123,7 +126,7 @@ int LsLevelState::SaveToDisk()
   // open state database
   LmDatabase db;
   TCHAR statefile[FILENAME_MAX];
-  main_->GlobalDB()->GetLevelState(statefile, dbc_->LevelID());
+  LmGlobalDB::Instance()->GetLevelState(statefile, dbc_->LevelID());
   if (db.Open(_T(""), statefile, GDBM_NEWDB) == 0) {
     // save serial numbers
     serials_.SaveToDisk(db);
@@ -132,7 +135,7 @@ int LsLevelState::SaveToDisk()
       rooms_[i].SaveToDisk(db);
     }
   } else {
-    main_->Log()->Error(_T("Could not save level state from disk"));
+    LmLog::Instance()->Error(_T("Could not save level state from disk"));
 	return -1;
   }
   db.Close();
@@ -151,13 +154,13 @@ int LsLevelState::LoadFromDB()
   DEFMETHOD(LsLevelState, LoadFromDB);
   LmLocker mon(lock_); // lock object for method duration
   if (serials_.LoadFromDB() < 0) {
-    main_->Log()->Warning(_T("%s: could not load serial numbers"), method);
+    LmLog::Instance()->Warning(_T("%s: could not load serial numbers"), method);
     return -1;
   }
   // load rooms
   for (int i = 0; i < num_rooms_; ++i) {
     if (rooms_[i].LoadFromDB() < 0) {
-      main_->Log()->Error(_T("%s: could not load state for room %u"), method, rooms_[i].DB()->RoomID());
+      LmLog::Instance()->Error(_T("%s: could not load state for room %u"), method, rooms_[i].DB()->RoomID());
       return -1;
     }
   }
@@ -174,13 +177,13 @@ int LsLevelState::SaveToDB()
   DEFMETHOD(LsLevelState, SaveToDB);
   LmLocker mon(lock_); // lock object for method duration
   if (serials_.SaveToDB() < 0) {
-    main_->Log()->Error(_T("%s: could not save free serial numbers"), method);
+    LmLog::Instance()->Error(_T("%s: could not save free serial numbers"), method);
     return -1;
   }
   // save rooms
   for (int j = 0; j < num_rooms_; ++j) {
     if (rooms_[j].SaveToDB() < 0) {
-      main_->Log()->Error(_T("%s: could not save state for room %u"), method, rooms_[j].DB()->RoomID());
+      LmLog::Instance()->Error(_T("%s: could not save state for room %u"), method, rooms_[j].DB()->RoomID());
       return -1;
     }
   }
@@ -278,7 +281,7 @@ void LsLevelState::Dump(FILE* f, int indent) const
   LmLocker mon(lock_); // lock object for method duration
   INDENT(indent, f);
  _ftprintf(f, _T("<LsLevelState[%p,%d]: main=[%p] db=[%p] numrooms=%d>\n"),
-	  this, sizeof(LsLevelState), main_, dbc_, num_rooms_);
+	  this, sizeof(LsLevelState), dbc_, num_rooms_);
   serials_.Dump(f, indent + 1);
   for (int j = 0; j < num_rooms_; ++j) {
     rooms_[j].Dump(f, indent + 1);

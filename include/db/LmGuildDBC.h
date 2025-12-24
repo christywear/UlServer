@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 #include "..\core\LyraDefs.h"
-#include "mysql.h"
+#include <third_party/MariaDB Connector C 64-bit/include/mysql.h>
 #include "..\core\PThMutex.h"
 #include "..\protocol\GMsg\GMsg_All.h"
 #include "..\core\SharedConstants.h"
@@ -42,6 +42,9 @@ public:
 
   LmGuildDBC(const TCHAR *dbuser, const TCHAR *dbpassword, const TCHAR* dbserver, int dbport);
   ~LmGuildDBC();
+
+  // The static getter that replaces the gsMain->PlayerDBC() call
+  static LmGuildDBC* Instance() { return s_instance; }
 
   int Connect();
   void Disconnect();
@@ -92,7 +95,8 @@ protected:
   LmLog* Log() const;
 
 private: 
-
+ 
+    static LmGuildDBC* s_instance; //pointer to this class.
   // mysql object
   MYSQL m_mysql;
 
@@ -104,7 +108,7 @@ private:
   void disconnect();
 
   bool connected_;
-  PThMutex lock_;
+  mutable PThMutex lock_;
   long last_sql_code_;
   LmLog* log_;
 

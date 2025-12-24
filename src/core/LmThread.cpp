@@ -237,3 +237,37 @@ void LmThread::Dump(FILE* f, int indent) const
   PTh::Dump(f, indent + 1);
 #endif
 }
+
+////
+// Accessors and Mutators
+////
+
+bool LmThread::Done() const
+{
+    return done_;
+}
+
+void LmThread::SetDone(bool val)
+{
+    done_ = val;
+}
+
+bool LmThread::Busy() const
+{
+    return busy_;
+}
+
+LmMesgBufPool* LmThread::BufferPool() const
+{
+    return bp_;
+}
+
+LmLog* LmThread::Log() const
+{
+    return log_;
+}
+
+void LmThread::SetDefaultHandler(MsgHandler handler)
+{
+    default_handler_ = handler;
+}

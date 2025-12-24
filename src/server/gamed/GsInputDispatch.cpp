@@ -28,15 +28,19 @@
 #include "../../../include/Protocol/GMsg/GMsg_Ping.h"
 #include "../../../include/Game/LmLogFile.h"
 #include "../../../include/Protocol/LyraMessage.h"
+#include <protocol/LmMesgBufPool.h>
+
+//init accessor
+GsInputDispatch* GsInputDispatch::s_instance = nullptr;
 
 ////
 // Constructor
 ////
 
-GsInputDispatch::GsInputDispatch(GsMain* gsmain)
-  : LmDispatch(gsmain->BufferPool()),
-    main_(gsmain)
+GsInputDispatch::GsInputDispatch()
+  : LmDispatch(LmMesgBufPool::Instance())
 {
+    s_instance = this;
   initialize_table();
 }
 
@@ -46,7 +50,8 @@ GsInputDispatch::GsInputDispatch(GsMain* gsmain)
 
 GsInputDispatch::~GsInputDispatch()
 {
-  // empty
+    if (s_instance == this)
+        s_instance == nullptr;
 }
 
 ////
@@ -57,11 +62,11 @@ LmThread* GsInputDispatch::ComputeTarget(LmSrvMesgBuf* mbuf, LmConnection* conn)
 {
   DEFMETHOD(GsInputDispatch, ComputeTarget);
   int m_type = mbuf->Header().MessageType();
-  //main_->Log()->Debug(_T("%s: mbuf=%p conn=%p; mtype=%d msize=%d"), method, mbuf, conn, m_type, mbuf->Header().MessageSize());
+  //LmLog::Instance()->Debug(_T("%s: mbuf=%p conn=%p; mtype=%d msize=%d"), method, mbuf, conn, m_type, mbuf->Header().MessageSize());
   // check if message type is in dispatch table
   int target = GetTarget(m_type);
   if (target == 0) {
-    main_->Log()->Warning(_T("%s: message type %d not found in table"), method, m_type);
+    LmLog::Instance()->Warning(_T("%s: message type %d not found in table"), method, m_type);
     return 0;  // not found, no thread to handle message
   }
   // if message is a ping message, target depends on ping type
@@ -79,8 +84,8 @@ LmThread* GsInputDispatch::ComputeTarget(LmSrvMesgBuf* mbuf, LmConnection* conn)
   // case on dispatch target
   switch (target) {
   case DT_GAME: {  // game thread
-    thread = main_->ThreadPool()->GetThread(GsMain::THREAD_GAMESERVER);
-    //main_->Log()->Debug(_T("%s: dispatching to game thread (%p)"), method, thread);
+    thread = LmThreadPool::Instance()->GetThread(THREAD_GAMESERVER);
+    //LmLog::Instance()->Debug(_T("%s: dispatching to game thread (%p)"), method, thread);
   }
   break;
   case DT_PLAYER: {  // player thread, from client
@@ -94,18 +99,18 @@ LmThread* GsInputDispatch::ComputeTarget(LmSrvMesgBuf* mbuf, LmConnection* conn)
 		msg.Read(*mbuf, sizeof(lyra_id_t));
 		player_id = msg.ID();
     }
-    thread = main_->ThreadPool()->GetThread(player_id);
-    //main_->Log()->Debug(_T("%s: dispatching message; connection/player id=%u, thread=%p, mtype=%d"), method, conn->ID(), thread, m_type);
+    thread = LmThreadPool::Instance()->GetThread(player_id);
+    //LmLog::Instance()->Debug(_T("%s: dispatching message; connection/player id=%u, thread=%p, mtype=%d"), method, conn->ID(), thread, m_type);
   }
   break;
   case DT_FORWARD: { // forward to player thread, from server
-    thread = main_->ThreadPool()->GetThread(GsMain::THREAD_FORWARD);
-    //main_->Log()->Debug(_T("%s: dispatching to forward thread (%p)"), method, thread);
+    thread = LmThreadPool::Instance()->GetThread(THREAD_FORWARD);
+    //LmLog::Instance()->Debug(_T("%s: dispatching to forward thread (%p)"), method, thread);
   }
   break;
   case DT_POSITION: { // position thread, from client
-    thread = main_->ThreadPool()->GetThread(GsMain::THREAD_POSITION);
-    //main_->Log()->Debug(_T("%s: dispatching to position thread (%p)"), method, thread);
+    thread = LmThreadPool::Instance()->GetThread(THREAD_POSITION);
+    //LmLog::Instance()->Debug(_T("%s: dispatching to position thread (%p)"), method, thread);
 	}
   break;
 					
@@ -123,7 +128,7 @@ LmThread* GsInputDispatch::ComputeTarget(LmSrvMesgBuf* mbuf, LmConnection* conn)
 void GsInputDispatch::Dump(FILE* f, int indent) const
 {
   INDENT(indent, f);
- _ftprintf(f, _T("<GsInputDispatch[%p,%d]: main=[%p]>\n"), this, sizeof(GsInputDispatch), main_);
+ _ftprintf(f, _T("<GsInputDispatch[%p,%d]: main=[%p]>\n"), this, sizeof(GsInputDispatch));
   // base class
   LmDispatch::Dump(f, indent + 1);
 }

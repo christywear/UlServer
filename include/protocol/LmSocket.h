@@ -42,6 +42,8 @@ public:
 
   LmSocket();
   ~LmSocket();
+  //public accessor
+  static LmSocket* Instance() { return s_instance; }
 
 #ifdef WIN32
   void Init(SOCKET fd, const LmSockType& socktype);
@@ -94,6 +96,8 @@ public:
   bool HasShutdown() const;
 
 private:
+    //private accessor
+    static LmSocket* s_instance;
 
   // not implemented
   LmSocket(const LmSocket&);

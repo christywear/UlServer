@@ -16,7 +16,7 @@
 
 // class forward declarations
 
-class GsMain;
+
 class LmSrvMesgBuf;
 class LmConnection;
 class LmThread;
@@ -27,9 +27,10 @@ class GsInputDispatch : public LmDispatch {
 
 public:
 
-  GsInputDispatch(GsMain* gsmain);
+  GsInputDispatch();
   ~GsInputDispatch();
-
+  //public accessor
+  static GsInputDispatch* Instance() { return s_instance; }
   void Dump(FILE* f, int indent = 0) const;
 
 protected:
@@ -37,8 +38,8 @@ protected:
   LmThread* ComputeTarget(LmSrvMesgBuf* mbuf, LmConnection* conn);
 
 private:
-
-  GsMain* main_;
+    //private accessor
+    static GsInputDispatch* s_instance;
 
   // targets
   enum {

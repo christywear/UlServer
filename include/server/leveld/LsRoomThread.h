@@ -23,7 +23,7 @@
 
 class LmLevelDBC;
 class LmParty;
-class LsMain;
+
 class LsLevelState;
 class LsRoomState;
 class LsPlayer;
@@ -38,7 +38,7 @@ class LsRoomThread : public LmThread {
 
 public:
 
-  LsRoomThread(LsMain* lsmain);
+  LsRoomThread();
   ~LsRoomThread();
 
   void Dump(FILE* f, int indent = 0) const;
@@ -155,7 +155,6 @@ private:
   void close_log();
   void register_handlers();
 
-  LsMain* main_;    // pointer to level server main object
 
   // LmLogFile logf_;  // room thread log
 

@@ -32,15 +32,15 @@
 #include "../../../include/Server/Gamed/GsOutputDispatch.h"
 
 #include "../../../include/core/LmNew.h" //takes care of declare_thefilename macro
+#include <protocol/LmMesgBufPool.h>
 DECLARE_TheFileName;
 
 ////
 // Constructor
 ////
 
-GsNetworkOutput::GsNetworkOutput(GsMain* gsmain)
-  : LmNetworkOutput(gsmain->ConnectionSet(), gsmain->BufferPool(), gsmain->Log() /* &logf_ */ ),
-    main_(gsmain)
+GsNetworkOutput::GsNetworkOutput()
+  : LmNetworkOutput(LmConnectionSet::Instance(), LmMesgBufPool::Instance(), LmLog::Instance() /* &logf_ */ )
 {
   DECLARE_TheLineNum;
   open_log();
@@ -65,7 +65,7 @@ void GsNetworkOutput::Dump(FILE* f, int indent) const
 {
   DECLARE_TheLineNum;
   INDENT(indent, f);
- _ftprintf(f, _T("<GsNetworkOutput[%p,%d]: main=[%p]>\n"), this, sizeof(GsNetworkOutput), main_);
+ _ftprintf(f, _T("<GsNetworkOutput[%p,%d]: main=[%p]>\n"), this, sizeof(GsNetworkOutput));
   LmNetworkOutput::Dump(f, indent + 1);
 }
 
@@ -76,7 +76,7 @@ void GsNetworkOutput::Dump(FILE* f, int indent) const
 void GsNetworkOutput::open_log()
 {
   // logf_.Init("gs", "out", main_->ServerPort());
-  // logf_.Open(main_->GlobalDB()->LogDir());
+  // logf_.Open(LmGlobalDB::Instance()->LogDir());
 }
 
 ////
@@ -159,7 +159,7 @@ void GsNetworkOutput::handle_SMsg_GS_Action_Ping()
   DECLARE_TheLineNum;
   // get connection list
   LmConnectionList conn_list;
-  main_->ConnectionSet()->GetConnectionList(conn_list);
+  LmConnectionSet::Instance()->GetConnectionList(conn_list);
   // send message to any level server connections
   SMsg_Ping msg;
   msg.InitPing(time(NULL));
@@ -170,7 +170,7 @@ void GsNetworkOutput::handle_SMsg_GS_Action_Ping()
       continue;
     }
     if (conn->Type() == LmConnection::CT_LSRV) {
-      main_->OutputDispatch()->SendMessage(&msg, conn);
+      GsOutputDispatch::Instance()->SendMessage(&msg, conn);
     }
   }
 }

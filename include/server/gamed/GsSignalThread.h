@@ -20,7 +20,6 @@
 
 // class forward declarations
 
-class GsMain;
 class LmSrvMesgBuf;
 class LmMesg;
 class LmConnection;
@@ -37,7 +36,7 @@ public:
 
 public:
 
-  GsSignalThread(GsMain* gsmain);
+  GsSignalThread();
   ~GsSignalThread();
 
   void Dump(FILE* f, int indent = 0) const;
@@ -63,7 +62,7 @@ private:
   void register_message_handlers();
   void register_signal_handlers();
 
-  GsMain* main_;
+  
 
   //  timeval timer_;
 

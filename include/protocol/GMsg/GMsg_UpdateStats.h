@@ -14,8 +14,8 @@
 #include <stdio.h>
 
 #include "GMsg.h"
-#include "LmStats.h"
-#include "..\Game\LmArts.h"
+#include <game/lmstats.h>
+#include <game/LmArts.h>
 
 // forward references
 
