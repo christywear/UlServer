@@ -1,3 +1,4 @@
+my curernt .gitignore
 # Compiled Object files
 *.slo
 *.lo
@@ -42,7 +43,7 @@ build/util
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-Underlig.*
+/Underlig.*
 /x64/
 bld/
 [Bb]in/
@@ -223,3 +224,4 @@ FakesAssemblies/
 
 *VC.db
 *VC.opendb
+

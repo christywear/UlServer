@@ -133,6 +133,21 @@
     <Filter Include="Header Files\Protocol_Networking\net">
       <UniqueIdentifier>{8a0d94f4-e0ec-4636-b041-3987fc7895d5}</UniqueIdentifier>
     </Filter>
+<<<<<<< Updated upstream
+=======
+    <Filter Include="Header Files\Server\Unified_Server">
+      <UniqueIdentifier>{e778a9c5-d7ef-4438-9b6f-ed13eecc75b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server\Unified_Server">
+      <UniqueIdentifier>{ab33df76-41d5-46bd-a3fc-da754c77d96b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Logic">
+      <UniqueIdentifier>{4c4ddba9-31a8-4b91-9d38-35e1c85d749a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Logic">
+      <UniqueIdentifier>{b7c8cacf-9349-4058-a30f-f11b75c90bb4}</UniqueIdentifier>
+    </Filter>
+>>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\core\LmAssert.h">
@@ -951,6 +966,30 @@
     <ClInclude Include="include\game\CommandRouter.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+<<<<<<< Updated upstream
+=======
+    <ClInclude Include="include\platform\Platform.h">
+      <Filter>Header Files\Server\Unified_Server</Filter>
+    </ClInclude>
+    <ClInclude Include="include\platform\win\win_stubs\pthread.h">
+      <Filter>Header Files\Platform\Windows\win_stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\platform\win\win_stubs\uninstd.h">
+      <Filter>Header Files\Platform\Windows\win_stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\platform\win\win_stubs\unix.h">
+      <Filter>Header Files\Platform\Windows\win_stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\game\Logic\AuthLogic.h">
+      <Filter>Header Files\Game\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protocol\net\PacketManager.h">
+      <Filter>Header Files\Protocol_Networking\net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protocol\net\NetworkInterface.h">
+      <Filter>Header Files\Protocol_Networking\net</Filter>
+    </ClInclude>
+>>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\LmAssert.cpp">
@@ -1745,6 +1784,18 @@
     <ClCompile Include="src\protocol\net\PacketAssembler.cpp">
       <Filter>Source Files\Protocol_Networking\net</Filter>
     </ClCompile>
+<<<<<<< Updated upstream
+=======
+    <ClCompile Include="src\server\Unified_Server\main.cpp">
+      <Filter>Source Files\Server\Unified_Server</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Logic\AuthLogic.cpp">
+      <Filter>Source Files\Game\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\net\PacketManager.cpp">
+      <Filter>Source Files\Protocol_Networking\net</Filter>
+    </ClCompile>
+>>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />
@@ -1758,6 +1809,9 @@
       <Filter>Resource Files\FTP_Addin</Filter>
     </None>
     <None Include="packages.config" />
+    <None Include="Network.cd">
+      <Filter>Header Files\Protocol_Networking\net</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="src\platform\win\ftp_addin\FTPAddIn.odl">

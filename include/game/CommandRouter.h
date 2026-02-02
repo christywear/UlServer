@@ -1,34 +1,46 @@
 ﻿#pragma once
 
+/*
+USAGE:
+CommandRouter router;
+router.registerHandler(VerbId::CAST_ART, [](PlayerId from, BinaryReader& r, CommandContext& ctx) {
+    // ... logic ...
+});
+*/
+
 #include <unordered_map>
 #include <functional>
-#include <cstdint>
 #include <protocol/net/NetTypes.h>
-#include <protocol/net/BinaryReader.h>
 #include <Game/Verbs.h>
+#include <protocol/net/BinaryReader.h>
 #include <Game/CommandContext.h>
 
 class CommandRouter {
 public:
-    // This is the "Blueprint" for a handler function
-    using Handler = std::function<void(PlayerId, BinaryReader&, CommandContext&)>;
+    using Handler = std::function<void(PlayerId from, BinaryReader& reader, CommandContext& ctx)>;
 
-    // 1. Register: Map a Verb (like MOVE) to a Lambda/Function
     void registerHandler(VerbId verb, Handler handler) {
-        handlers_[static_cast<uint16_t>(verb)] = std::move(handler);
+        handlers_[verb] = std::move(handler);
     }
 
-    // 2. Dispatch: Find the right code and EXECUTE IT! ⚡
-    void dispatch(PlayerId from, VerbId verb, Buffer& payload, CommandContext& ctx) {
-        auto it = handlers_.find(static_cast<uint16_t>(verb));
-        if (it != handlers_.end()) {
-            // We create the reader RIGHT HERE so the handler can just start reading
-            BinaryReader reader(payload.data(), payload.size());
-            it->second(from, reader, ctx);
+    // Called by PacketManager after reassembly
+    void dispatch(PlayerId from, VerbId verb, const Buffer& payload)
+    {
+        auto it = handlers_.find(verb);
+        if (it == handlers_.end()) {
+            return; // Unknown verb
         }
+
+        // 1. Setup the Reader
+        BinaryReader reader(payload);
+
+        // 2. Setup the Context (No GameNet needed!)
+        CommandContext ctx(from);
+
+        // 3. Run Logic
+        it->second(from, reader, ctx);
     }
 
 private:
-    // A simple map: VerbID -> Code to run
-    std::unordered_map<uint16_t, Handler> handlers_;
+    std::unordered_map<VerbId, Handler> handlers_;
 };

@@ -1,63 +1,99 @@
-// LmLog.h  -*- C++ -*-
-// $Id: LmLog.h,v 1.19 1998-02-12 15:33:26-08 jason Exp $
-// Copyright 1996-1997 Lyra LLC, All rights reserved.
-//
-// Lyra Log class -- abstract base class
+#ifndef LMLOG_H
+#define LMLOG_H
 
-#ifndef INCLUDED_LmLog
-#define INCLUDED_LmLog
+#include <vector>
+#include <utility>
+#include <string>
+#include <tchar.h>
+#include <core/lyradefs.h>
 
-#include <stdarg.h>
+// STOP! Do not include RMsg headers here. It causes circular dependency hell.
+// We don't need to know what RMsg is if we are just ignoring it.
 
-#include "..\Core\LyraDefs.h"
-
-// the class
+// --------------------------------------------------------------------
+//  ARGUMENT SANITIZERS
+// --------------------------------------------------------------------
+template <typename T> auto LogArg(T&& t) { return std::forward<T>(t); }
+inline const char* LogArg(const std::string& s) { return s.c_str(); }
+inline const wchar_t* LogArg(const std::wstring& s) { return s.c_str(); }
 
 class LmLog {
-
 public:
+    LmLog();
+    virtual ~LmLog();
+    static LmLog* Instance() { return s_instance; }
 
-  LmLog();
-  virtual ~LmLog();
+    // --- MODERN INTERFACE (Keep these) ---
+    template <typename... Args>
+    void Log(const std::string& fmt, Args&&... args) {
+        if (LogOpened()) WriteLogA("LOG ", fmt.c_str(), LogArg(std::forward<Args>(args))...);
+    }
+    template <typename... Args>
+    void Warning(const std::string& fmt, Args&&... args) {
+        if (LogOpened()) WriteLogA("WARN ", fmt.c_str(), LogArg(std::forward<Args>(args))...);
+    }
+    template <typename... Args>
+    void Debug(const std::string& fmt, Args&&... args) {
+        if (LogOpened()) WriteLogA("DEBUG ", fmt.c_str(), LogArg(std::forward<Args>(args))...);
+    }
+    template <typename... Args>
+    void Error(const std::string& fmt, Args&&... args) {
+        if (LogOpened()) WriteLogA("ERR ", fmt.c_str(), LogArg(std::forward<Args>(args))...);
+    }
 
+<<<<<<< Updated upstream
   void SetLogLevel(int level);
   int LogLevel() const;
   bool LogOpened() const;
+=======
+    // --- LEGACY INTERFACE (Wide Chars) ---
+    template <typename... Args>
+    void Log(const wchar_t* fmt, Args&&... args) {
+        if (LogOpened()) WriteLogW(L"LOG ", fmt, LogArg(std::forward<Args>(args))...);
+    }
+    template <typename... Args>
+    void Warning(const wchar_t* fmt, Args&&... args) {
+        if (LogOpened()) WriteLogW(L"WARN ", fmt, LogArg(std::forward<Args>(args))...);
+    }
+    template <typename... Args>
+    void Debug(const wchar_t* fmt, Args&&... args) {
+        if (LogOpened()) WriteLogW(L"DEBUG ", fmt, LogArg(std::forward<Args>(args))...);
+    }
+    template <typename... Args>
+    void Error(const wchar_t* fmt, Args&&... args) {
+        if (LogOpened()) WriteLogW(L"ERR ", fmt, LogArg(std::forward<Args>(args))...);
+    }
+>>>>>>> Stashed changes
 
-  virtual void FlushLog();
+    // --- LEGACY REDIRECTS (Int Level) ---
+    template <typename... Args>
+    void Debug(int level, const wchar_t* fmt, Args&&... args) {
+        Debug(fmt, std::forward<Args>(args)...);
+    }
 
-  // printf-like output functions that check the loglevel
-  // virtual void Log(int level, const TCHAR* fmt, ...);
-  // virtual void Warning(int level, const TCHAR* fmt, ...);
-  // virtual void Debug(int level, const TCHAR* fmt, ...);
+    // ----------------------------------------------------------------
+    // THE BLACK HOLE: SECURITY
+    // ----------------------------------------------------------------
+    // This swallows ANY call to Security(...) regardless of arguments.
+    // It fixes the RMsg errors because we don't even check the types.
+    template <typename... Args>
+    void Security(Args&&... args) {
+        // Do nothing. Compiler optimizes this away to a NOP. stubby stub to continue debugging
+    }
 
-  // printf-like output functions that always produce log entries
-  virtual void Log(const TCHAR* fmt, ...);
-  virtual void Warning(const TCHAR* fmt, ...);
-  virtual void Debug(const TCHAR* fmt, ...);
-  virtual void Error(const TCHAR* fmt, ...);
+    // ----------------------------------------------------------------
 
-  virtual void Notice(const TCHAR* fmt, ...);
-  virtual void Info(const TCHAR* fmt, ...);
-  virtual void Critical(const TCHAR* fmt, ...);
-  virtual void Alert(const TCHAR* fmt, ...);
-  virtual void Emergency(const TCHAR* fmt, ...);
+    void WriteLog(const char* prefix, const char* fmt, ...);
+    virtual void AssertionFailed(const TCHAR* expr, const TCHAR* filename, int linenum);
 
-  // lyra-specific log needs
-  virtual void Security(int level, const TCHAR* fmt, ...);
-  virtual void Speech(const TCHAR* fmt, ...);
-
-  // print "assertion failed" message
-  virtual void AssertionFailed(const TCHAR* expr, const TCHAR* filename, int linenum);
-
-protected:
-
-  void SetLogOpened(bool opened);
-
-  // method that actually writes to the log; pure virtual
-  virtual void WriteLogEntry(const TCHAR* prefix, const TCHAR* fmt, va_list args) = 0;
+    void SetLogLevel(int level);
+    int  LogLevel() const;
+    void SetLogOpened(bool opened);
+    bool LogOpened() const;
+    void FlushLog();
 
 private:
+<<<<<<< Updated upstream
 
   // methods/operations not implemented
   LmLog(const LmLog&);
@@ -65,7 +101,14 @@ private:
 
   int log_level_;
   bool log_opened_;
+=======
+    void WriteLogA(const char* prefix, const char* fmt, ...);
+    void WriteLogW(const wchar_t* prefix, const wchar_t* fmt, ...);
+>>>>>>> Stashed changes
 
+    int  log_level_;
+    bool log_opened_;
+    static LmLog* s_instance;
 };
 
-#endif /* INCLUDED_LmLog */
+#endif

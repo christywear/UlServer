@@ -1,23 +1,28 @@
 #pragma once
-
-#include <memory>
 #include <protocol/net/ITransport.h>
-#include <protocol/net/NetTypes.h>
-
-class EnetTransport;
-class SteamTransport;
+#include <protocol/net/EnetTransport.h>
+#include <protocol/net/SteamTransport.h>
+#include <memory>
+#include <unordered_map>
 
 class AutoTransport : public ITransport {
 public:
-    enum class Mode { ENET, STEAM };
+    // Factory that creates the Composite Transport
+    static std::unique_ptr<ITransport> Create();
 
-    explicit AutoTransport(Mode mode);
+    AutoTransport();
+    ~AutoTransport();
 
-    bool send(PlayerId to, const Buffer& data) override;
+    // ITransport Interface
+    bool send(PlayerId to, const Buffer& data, SendMode mode) override;
     void poll() override;
 
 private:
-    Mode mode_;
-    std::unique_ptr<EnetTransport>  enet_;
+    // Sub-Transports
+    std::unique_ptr<EnetTransport> enet_;
     std::unique_ptr<SteamTransport> steam_;
+
+    // Routing Table: Which transport does Player X use?
+    enum class TransportType { ENet, Steam };
+    std::unordered_map<PlayerId, TransportType> routeTable_;
 };

@@ -1,6 +1,8 @@
 ﻿#pragma once
 
 #include <protocol/net/NetTypes.h>
+#include <core/LyraDefs.h>
+#include <Game/Logic/AuthLogic.h>
 
 // Forward declaration so we don't need the full header here! 🛡️
 class CommandRouter;

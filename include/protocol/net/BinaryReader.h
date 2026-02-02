@@ -1,45 +1,63 @@
 ﻿#pragma once
 
-#include <vector>
-#include <string>
 #include <cstdint>
 #include <cstring>
+#include <string>
+#include <type_traits>
 #include <stdexcept>
 
 class BinaryReader {
 public:
-    // We point to the existing data so we don't make unnecessary copies! 🏎️
     BinaryReader(const uint8_t* data, size_t size)
-        : data_(data), size_(size), cursor_(0) {
+        : data_(data), size_(size), pos_(0) {
     }
 
-    // Template magic to read primitive types (int, float, uint32, etc.)
+    BinaryReader(const std::vector<uint8_t>& buf)
+        : data_(buf.data()), size_(buf.size()), pos_(0) {
+    }
+
+    // Read POD type
     template<typename T>
     T read() {
-        if (cursor_ + sizeof(T) > size_) {
-            throw std::runtime_error("BinaryReader: Out of bounds read!");
-        }
-        T value;
-        std::memcpy(&value, data_ + cursor_, sizeof(T));
-        cursor_ += sizeof(T);
-        return value;
+        static_assert(std::is_trivially_copyable_v<T>,
+            "BinaryReader::read requires trivially copyable type");
+
+        ensure(sizeof(T));
+        T out;
+        std::memcpy(&out, data_ + pos_, sizeof(T));
+        pos_ += sizeof(T);
+        return out;
     }
 
-    // Specialized read for strings
+    // Read raw bytes (returns pointer into buffer)
+    const uint8_t* readBytes(size_t count) {
+        ensure(count);
+        const uint8_t* p = data_ + pos_;
+        pos_ += count;
+        return p;
+    }
+
+    // Read string (uint16 length + bytes)
     std::string readString() {
-        uint16_t length = read<uint16_t>(); // Read length prefix
-        if (cursor_ + length > size_) {
-            throw std::runtime_error("BinaryReader: String length exceeds buffer!");
-        }
-        std::string str(reinterpret_cast<const char*>(data_ + cursor_), length);
-        cursor_ += length;
-        return str;
+        uint16_t len = read<uint16_t>();
+        ensure(len);
+        std::string s(reinterpret_cast<const char*>(data_ + pos_), len);
+        pos_ += len;
+        return s;
     }
 
-    size_t remaining() const { return size_ - cursor_; }
+    size_t remaining() const {
+        return size_ - pos_;
+    }
 
 private:
+    void ensure(size_t needed) const {
+        if (pos_ + needed > size_) {
+            throw std::runtime_error("BinaryReader: buffer underrun");
+        }
+    }
+
     const uint8_t* data_;
     size_t size_;
-    size_t cursor_;
+    size_t pos_;
 };

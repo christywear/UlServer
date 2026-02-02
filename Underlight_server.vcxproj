@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props')" />
   <ItemGroup Label="ProjectConfigurations">
@@ -30,26 +30,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -203,6 +203,7 @@
     <ClInclude Include="include\game\LmRoomItemList.h" />
     <ClInclude Include="include\game\LmStats.h" />
     <ClInclude Include="include\game\LmXPTable.h" />
+    <ClInclude Include="include\game\Logic\AuthLogic.h" />
     <ClInclude Include="include\game\ServerHandlers.h" />
     <ClInclude Include="include\game\Verbs.h" />
     <ClInclude Include="include\platform\Platform.h" />
@@ -299,8 +300,10 @@
     <ClInclude Include="include\protocol\net\GameNet.h" />
     <ClInclude Include="include\protocol\net\ITransport.h" />
     <ClInclude Include="include\protocol\net\NetTypes.h" />
+    <ClInclude Include="include\protocol\net\NetworkInterface.h" />
     <ClInclude Include="include\protocol\net\PacketAssembler.h" />
     <ClInclude Include="include\protocol\net\PacketEnvelope.h" />
+    <ClInclude Include="include\protocol\net\PacketManager.h" />
     <ClInclude Include="include\protocol\net\SteamTransport.h" />
     <ClInclude Include="include\protocol\RMsg\RmRemotePlayer.h" />
     <ClInclude Include="include\protocol\RMsg\RMsg.h" />
@@ -463,6 +466,7 @@
     <ClCompile Include="src\game\LmPosition.cpp" />
     <ClCompile Include="src\game\LmRoomItem.cpp" />
     <ClCompile Include="src\game\LmStats.cpp" />
+    <ClCompile Include="src\game\Logic\AuthLogic.cpp" />
     <ClCompile Include="src\game\ServerHandlers.cpp" />
     <ClCompile Include="src\protocol\GMsg\GMsg_AgentLogin.cpp" />
     <ClCompile Include="src\protocol\GMsg\GMsg_ChangeAvatar.cpp" />
@@ -544,6 +548,7 @@
     <ClCompile Include="src\protocol\net\EnetTransport.cpp" />
     <ClCompile Include="src\protocol\net\GameNet.cpp" />
     <ClCompile Include="src\protocol\net\PacketAssembler.cpp" />
+    <ClCompile Include="src\protocol\net\PacketManager.cpp" />
     <ClCompile Include="src\protocol\net\SteamTransport.cpp" />
     <ClCompile Include="src\protocol\RMsg\RmRemotePlayer.cpp" />
     <ClCompile Include="src\protocol\RMsg\RMsg_ChangeAvatar.cpp" />
@@ -682,6 +687,7 @@
   <ItemGroup>
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
+    <None Include="Network.cd" />
     <None Include="LICENSE" />
     <None Include="packages.config" />
     <None Include="README.md" />

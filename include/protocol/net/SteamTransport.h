@@ -1,32 +1,37 @@
 ﻿#pragma once
 
-#include "ITransport.h"
-#include <memory>
-#include <cstdint>
-#include <map>
+#include <protocol/net/ITransport.h>
 
-// Forward declarations to keep it clean!
-struct ISteamNetworkingSockets;
-struct SteamNetConnectionStatusChangedCallback_t;
-typedef uint32_t HSteamListenSocket;
-typedef uint32_t HSteamNetConnection;
-typedef uint32_t HSteamNetPollGroup;
+#include <steam/steam_api.h>                 // CCallbackManual
+#include <steam/isteamnetworkingsockets.h>   // ISteamNetworkingSockets
+
+#include <unordered_map>
+#include "NetTypes.h"
+#include <steam/steamnetworkingtypes.h>
+#include <steam/steam_api_common.h>
 
 class SteamTransport : public ITransport {
 public:
     SteamTransport();
     ~SteamTransport() override;
 
-    bool send(PlayerId to, const Buffer& data) override;
+    bool send(PlayerId to, const Buffer& data, SendMode mode) override;
     void poll() override;
 
 private:
-    // This is the static callback Steam needs
-    static void OnNetConnectionStatusChanged(SteamNetConnectionStatusChangedCallback_t* pInfo);
+    HSteamListenSocket listenSocket_ = k_HSteamListenSocket_Invalid;
+    HSteamNetPollGroup pollGroup_ = k_HSteamNetPollGroup_Invalid;
 
-    ISteamNetworkingSockets* interface_ = nullptr;
-    HSteamListenSocket listen_socket_ = 0;
-    HSteamNetPollGroup poll_group_ = 0; // The "Big Ear" for all messages! 👂
+    // Server-side: map PlayerId → connection handle
+    std::unordered_map<PlayerId, HSteamNetConnection> connections_;
 
-    std::map<PlayerId, HSteamNetConnection> connections_;
+    // Used on server to generate stable PlayerIds
+    PlayerId nextId_ = 1;
+
+    // ---- callback hook ----
+    void OnConnectionStatusChanged(SteamNetConnectionStatusChangedCallback_t* info);
+
+    // NOTE: many SDKs do NOT have a ctor that takes (this, &Fn). Use Register().
+    CCallbackManual<SteamTransport, SteamNetConnectionStatusChangedCallback_t>
+        m_CallbackConnectionStatusChanged;
 };

@@ -12,14 +12,14 @@
 
 #ifdef WIN32
 #define STRICT
-#include "../../../include/Core/unix.h"
+
 #include <winsock2.h>
 #else /* !WIN32 */
 #include <sys/types.h>
 #include <netinet/in.h> //??
 #endif /* WIN32 */
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+
 
 #include "../../../include/Protocol/GMsg/GMsg_AgentLogin.h"
 #include "../../../include/Core/LyraDefs.h"

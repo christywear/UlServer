@@ -11,9 +11,9 @@
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../include/platform/Platform.h" //temp fix for old style legacy defines
+#include "core/LyraDefs.h"
 #include "../../include/core/LmAssert.h"
-#include "../../include/Game/LmLog.h"
+#include "../../include/Game/LmLogNull.h"
 
 ////
 // Failed: log "assertion failed" message to LmLog object

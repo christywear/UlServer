@@ -1,53 +1,72 @@
-﻿#include <protocol/net/EnetTransport.h>
-#include <enet/enet.h> // The real guts!
+#include <protocol/net/EnetTransport.h>
 #include <iostream>
+#include <cstdarg>
+#include <cstdint>
+#include <protocol/net/ITransport.h>
 #include <protocol/net/NetTypes.h>
+#include <enet/enet.h>
+#include <enet/types.h>
 
-EnetTransport::EnetTransport() {
+// Helper: ID <-> Peer Pointer 
+static PlayerId PeerToId(ENetPeer* peer) {
+    return static_cast<PlayerId>(reinterpret_cast<std::uintptr_t>(peer));
+}
+
+static ENetPeer* IdToPeer(PlayerId id) {
+    return reinterpret_cast<ENetPeer*>(static_cast<std::uintptr_t>(id));
+}
+
+EnetTransport::EnetTransport(uint16_t port, size_t maxPeers) {
     if (enet_initialize() != 0) {
-        std::cerr << "❌ ENet: Failed to initialize!" << std::endl;
+        std::cerr << "ENet: Failed to initialize\n";
         return;
     }
 
-    ENetAddress address;
+    ENetAddress address{};
     address.host = ENET_HOST_ANY;
-    address.port = 12345; // Underlight Classic Port!
+    address.port = port;
 
-    // Create a server host: 32 max players, 2 channels, no bandwidth limits
-    server_ = enet_host_create(&address, 32, 2, 0, 0);
+    // Create Host (Server)
+    host_ = enet_host_create(&address, maxPeers, 2, 0, 0);
 
-    if (server_ == nullptr) {
-        std::cerr << "❌ ENet: Failed to create host!" << std::endl;
+    if (!host_) {
+        std::cerr << "ENet: Failed to create host on port " << port << "\n";
+        return;
     }
-    else {
-        std::cout << "🚀 ENet Transport active on port " << address.port << "!" << std::endl;
-    }
+    std::cout << "ENet: Listening on port " << port << "\n";
 }
 
 EnetTransport::~EnetTransport() {
-    if (server_) {
-        enet_host_destroy(server_);
+    if (host_) {
+        enet_host_destroy(host_);
+        host_ = nullptr;
     }
     enet_deinitialize();
 }
 
-bool EnetTransport::send(PlayerId to, const Buffer& data) {
-    auto it = peers_.find(to);
-    if (it == peers_.end()) return false;
+bool EnetTransport::send(PlayerId to, const Buffer& data, SendMode mode) {
+    if (!host_) return false;
 
-    // Create a RELIABLE packet. ENet handles fragmentation/retries for us!
-    ENetPacket* packet = enet_packet_create(data.data(), data.size(), ENET_PACKET_FLAG_RELIABLE);
+    ENetPeer* peer = IdToPeer(to);
+    if (!peer) return false;
 
-    // Send on channel 0
-    return enet_peer_send(it->second, 0, packet) == 0;
+    enet_uint32 flags = 0;
+    if (mode == SendMode::Reliable) {
+        flags = ENET_PACKET_FLAG_RELIABLE;
+    }
+
+    ENetPacket* packet = enet_packet_create(data.data(), data.size(), flags);
+    enet_peer_send(peer, 0, packet);
+    return true;
 }
 
 void EnetTransport::poll() {
-    if (!server_) return;
+    if (!host_) return;
 
     ENetEvent event;
-    while (enet_host_service(server_, &event, 0) > 0) {
+    while (enet_host_service(host_, &event, 0) > 0) {
         switch (event.type) {
+<<<<<<< Updated upstream
         case ENET_EVENT_TYPE_CONNECT:
             // Give them a temporary ID or wait for login
             // For now, let's just store them!
@@ -61,10 +80,26 @@ void EnetTransport::poll() {
                 // Map event.peer to your PlayerId system
                 PlayerId pid = reinterpret_cast<uintptr_t>(event.peer);
                 onData_(pid, event.packet->data, event.packet->dataLength);
+=======
+        case ENET_EVENT_TYPE_CONNECT: {
+            PlayerId id = PeerToId(event.peer);
+            std::cout << "ENet: Connect " << id << "\n";
+            // No peers_ map needed since we use pointer casting
+            break;
+        }
+        case ENET_EVENT_TYPE_DISCONNECT: {
+            PlayerId id = PeerToId(event.peer);
+            std::cout << "ENet: Disconnect " << id << "\n";
+            break;
+        }
+        case ENET_EVENT_TYPE_RECEIVE: {
+            PlayerId from = PeerToId(event.peer);
+            if (onData_) {
+                onData_(from, event.packet->data, event.packet->dataLength);
+>>>>>>> Stashed changes
             }
-
-            // 🧹 CRITICAL CLEANUP!
             enet_packet_destroy(event.packet);
+<<<<<<< Updated upstream
             break; // 🛑 STOP the fall-through!
 
         case ENET_EVENT_TYPE_DISCONNECT:
@@ -74,6 +109,11 @@ void EnetTransport::poll() {
 
         default:
             break;
+=======
+            break;
+        }
+        default: break;
+>>>>>>> Stashed changes
         }
     }
 }

@@ -1,13 +1,27 @@
 ﻿#pragma once
+#include <protocol/net/NetTypes.h>
+#include <protocol/net/NetworkInterface.h>
+#include <Game/Verbs.h> // <--- REQUIRED so we know what VerbId is
 
-// Don't include GameNet.h here! Just forward declare. 🛡️
-class GameNet;
-class World; // You'll probably want this later too!
+class CommandContext {
+public:
+    explicit CommandContext(PlayerId from) : sender_(from) {}
+    PlayerId Sender() const { return sender_; }
 
-struct CommandContext {
-    GameNet& net;
-    // World& world; // Example of other tools
+    // --- NETWORK SEND HELPERS ---
 
-    // We MUST provide a constructor because of the reference!
-    CommandContext(GameNet& netPtr) : net(netPtr) {}
+    template<typename... Args>
+    void Reply(VerbId verb, Args... args) {
+        // FIX: static_cast<int>(verb) is REQUIRED for enum classes
+        NetworkInterface::Send(sender_, static_cast<int>(verb), args...);
+    }
+
+    template<typename... Args>
+    void SendTo(PlayerId to, VerbId verb, Args... args) {
+        // FIX: static_cast<int>(verb)
+        NetworkInterface::Send(to, static_cast<int>(verb), args...);
+    }
+
+private:
+    PlayerId sender_;
 };

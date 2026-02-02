@@ -33,6 +33,7 @@ public:
 
 #ifdef WIN32 // Win32 new handler must have a specific prototype
 int __cdecl TheNewHandler(size_t size);
+void TheNewHandler();
 #endif
 
 // if USE_LMNEW defined, use our own global new/delete

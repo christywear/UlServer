@@ -29,6 +29,7 @@ public:
   virtual ~LmLogFile();
 
   void Init(const TCHAR* prefix, const TCHAR* suffix = _T(""), int instance = 0, pid_t pid = 0);
+  void Speech(const TCHAR* fmt, ...);
   int Open(const TCHAR* directory);
   void UseStream(FILE* stream);
   void Close(bool verbose = true);

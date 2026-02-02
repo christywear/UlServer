@@ -75,7 +75,8 @@ public:
   int LoadPlayer(lyra_id_t player_id, LmPlayerDB& player_record, int pmare_type = 0);
   int GetPlayerID(const TCHAR* playername, TCHAR* outputname = 0);
   int GetPlayerName(lyra_id_t playerid, TCHAR* playername);
-  int CheckPassword(lyra_id_t player_id, const MD5Hash_t* phash, const TCHAR* challenge);
+  int CheckPassword(lyra_id_t player_id, const MD5Hash_t* phash, const TCHAR* challenge); //old
+  lyra_id_t VerifyUser(const std::string& username, const std::string& password); //new
   int GetLocation(lyra_id_t player_id, lyra_id_t& level_id, lyra_id_t& room_id, int& acct_type, bool isGM);
   int GetLoginStatus(lyra_id_t player_id);
   int CanLogin(lyra_id_t player_id, int* suspended_days, bool* first_login, int pmare_type);

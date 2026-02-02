@@ -1,29 +1,31 @@
 #pragma once
 
-#include <protocol/net/ITransport.h>
-#include <memory>
-#include <map>
-
-// Forward declarations to keep our "Sanity Shield" strong!
-struct _ENetHost;
-struct _ENetPeer;
-typedef struct _ENetHost ENetHost;
-typedef struct _ENetPeer ENetPeer;
+#include <protocol/net/ITransport.h> // Inherit types from here!
+#include <enet/enet.h>
+#include <unordered_map>
 
 class EnetTransport : public ITransport {
 public:
-    EnetTransport();
+    // Standard setup
+    explicit EnetTransport(uint16_t port = 12345, size_t maxPeers = 32);
     ~EnetTransport() override;
 
-    // The high-level send we've been dreaming of!
-    bool send(PlayerId to, const Buffer& data) override;
+    // --- ITransport Implementation ---
 
-    // The heartbeat of the network - call this every frame!
+    // Matches base class signature exactly
+    bool send(PlayerId to, const Buffer& data, SendMode mode) override;
+
+    // Matches base class signature exactly
     void poll() override;
 
 private:
-    ENetHost* server_ = nullptr;
+    ENetHost* host_ = nullptr;
 
-    // Maps our PlayerId to the real ENet peer handle
-    std::map<PlayerId, ENetPeer*> peers_;
+    // Map internal ENet pointers to your PlayerIds
+    std::unordered_map<PlayerId, ENetPeer*> peers_;
+
+    // Reverse map for quick lookups during poll
+    // (Or you can store PlayerId in peer->data)
+
+    PlayerId nextId_ = 1;
 };

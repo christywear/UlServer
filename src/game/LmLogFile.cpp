@@ -21,7 +21,7 @@
 #include "../../include/Core/LyraDefs.h"
 #include "../../include/Game/LmLogFile.h"
 #include "../../include/Core/LmLocker.h"
-
+#include <tchar.h> // <--- REQUIRED: Defines _tfopen_s, _ftprintf, etc.
 #include "../../include/Core/PTh.h"
 #include <ctime>
 
@@ -244,4 +244,37 @@ void LmLogFile::flush_log()
   if (fp_) {
     fflush(fp_);
   }
+}
+
+void LmLogFile::Speech(const TCHAR* fmt, ...)
+{
+    // 1. Thread Safety
+    lock_.Lock();
+
+    // 2. Open File (Append Mode)
+    // _tfopen automatically maps to fopen (ANSI) or _wfopen (Unicode)
+    FILE* speechFile = _tfopen(_T("logs/speech.log"), _T("a+"));
+
+    if (speechFile) {
+        // 3. Timestamp
+        time_t now = time(NULL);
+        struct tm* t = localtime(&now);
+
+        if (t) {
+            _ftprintf(speechFile, _T("[%02d:%02d:%02d] "),
+                t->tm_hour, t->tm_min, t->tm_sec);
+        }
+
+        // 4. Write the Message
+        va_list args;
+        va_start(args, fmt);
+        _vftprintf(speechFile, fmt, args); // vftprintf handles the TCHAR formatting
+        va_end(args);
+
+        // 5. Newline & Cleanup
+        _ftprintf(speechFile, _T("\n"));
+        fclose(speechFile);
+    }
+
+    lock_.Unlock();
 }

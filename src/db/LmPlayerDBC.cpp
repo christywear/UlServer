@@ -1,4 +1,4 @@
-// LmPlayerDBC.pc  -*- C++ -*-
+﻿// LmPlayerDBC.pc  -*- C++ -*-
 // $Id: LmPlayerDBC.pc,v 1.26 1998-04-17 16:37:42-07 jason Exp $
 // Copyright 1996-1997 Lyra LLC, All rights reserved.
 //
@@ -1851,7 +1851,7 @@ int LmPlayerDBC::FindHouseMembers(GMsg_LocateAvatarAck& locate_msg, lyra_id_t gu
 
 
 ////
-// CheckPassword
+// CheckPassword old
 ////
 
 int LmPlayerDBC::CheckPassword(lyra_id_t player_id, const MD5Hash_t* phash, const TCHAR* challenge)
@@ -1935,6 +1935,58 @@ int LmPlayerDBC::CheckPassword(lyra_id_t player_id, const MD5Hash_t* phash, cons
 	}
 
 }
+
+// new verify pass
+
+lyra_id_t LmPlayerDBC::VerifyUser(const std::string& username, const std::string& password)
+{
+    LmLocker mon(lock_); // 🔒 Thread safety
+
+    // 1. Build Query using std::string (Safe & Auto-sizing)
+    // We reserve space to prevent small reallocations, but it handles the memory for us.
+    std::string query = "SELECT player_id, password FROM player WHERE name = '";
+    query += username;
+    query += "' LIMIT 1";
+
+    // 2. Execute
+    // .c_str() extracts the raw pointer just for the C-API call
+    if (mysql_query(&m_mysql, query.c_str())) {
+        // .c_str() allows us to log generic strings easily too
+        LOG_Error("VerifyUser: SQL Error for %s: %s", username.c_str(), mysql_error(&m_mysql));
+        return 0;
+    }
+
+    MYSQL_RES* res = mysql_store_result(&m_mysql);
+    if (!res) return 0;
+
+    lyra_id_t pid = 0;
+
+    // 3. Process Result
+    if (mysql_num_rows(res) > 0) {
+        MYSQL_ROW row = mysql_fetch_row(res);
+        if (row) {
+            lyra_id_t dbID = atoi(row[0]);
+
+            // CONVERT: MySQL gives us char*, we immediately wrap it in std::string
+            // This copies the data safely so we don't care about the row pointer anymore.
+            std::string dbPass = (row[1] ? row[1] : "");
+
+            // 🔐 SECURE CHECK: 
+            // Standard '==' is case-SENSITIVE.
+            // "Password" will NOT match "password". This is exactly what we want.
+            if (dbPass == password) {
+                pid = dbID;
+            }
+            else {
+                LOG_Debug("VerifyUser: Password mismatch for %s", username);
+            }
+        }
+    }
+
+    mysql_free_result(res);
+    return pid;
+}
+
 
 ////
 // SaveGuildRanks

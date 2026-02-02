@@ -1,38 +1,46 @@
 #pragma once
-#include <protocol/net/NetTypes.h>
-#include <type_traits>
-#include <string>
 
-// class obj for writing packets to buffer for networking
+#include <vector>
+#include <string>
+#include <type_traits>
+#include <cstdint>
+
+using Buffer = std::vector<uint8_t>;
+
 class BinaryWriter {
 public:
-    // declaring writer function
-    explicit BinaryWriter(Buffer& b) : buf(b) {}
+    explicit BinaryWriter(Buffer& out)
+        : buffer_(out) {
+    }
 
+    // Write trivially-copyable POD types
     template<typename T>
-    // writing templated type data
-    void write(const T& v) {
-        // confirming type safety!
-        static_assert(std::is_trivially_copyable_v<T>, "Type must be trivially copyable for binary transfer!");
+    void write(const T& value) {
+        static_assert(std::is_trivially_copyable_v<T>,
+            "BinaryWriter::write requires trivially copyable type");
 
-        // declaring byte type for data
-        const uint8_t* p = reinterpret_cast<const uint8_t*>(&v);
-
-        // put data into buffer
-        buf.insert(buf.end(), p, p + sizeof(T));
+        const uint8_t* p = reinterpret_cast<const uint8_t*>(&value);
+        buffer_.insert(buffer_.end(), p, p + sizeof(T));
     }
 
-    // HIGH-ENERGY ADDITION: Write a string with a length prefix!
-    void writeString(const std::string& str) {
-        // Underlight style: 16-bit length prefix followed by raw chars
-        uint16_t length = static_cast<uint16_t>(str.size());
-        write<uint16_t>(length);
-
-        const uint8_t* p = reinterpret_cast<const uint8_t*>(str.data());
-        buf.insert(buf.end(), p, p + length);
+    // Write raw bytes
+    void writeBytes(const void* data, size_t size) {
+        const uint8_t* p = reinterpret_cast<const uint8_t*>(data);
+        buffer_.insert(buffer_.end(), p, p + size);
     }
+
+    // Write string (uint16 length + bytes)
+    void writeString(const std::string& s) {
+        uint16_t len = static_cast<uint16_t>(s.size());
+        write(len);
+        writeBytes(s.data(), len);
+    }
+
+    // Inside BinaryWriter class public:
+    const uint8_t* data() const { return buffer_.data(); }
+
+    size_t size() const { return buffer_.size(); }
 
 private:
-    // declaring buffer
-    Buffer& buf;
+    Buffer& buffer_;
 };
