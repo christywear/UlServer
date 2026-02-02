@@ -43,7 +43,7 @@ build/util
 [Rr]elease/
 [Rr]eleases/
 Underlig.*
-x64/
+/x64/
 bld/
 [Bb]in/
 [Oo]bj/
