@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AutoTransport">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="AutoTransport::Backend" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>include\protocol\net\AutoTransport.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>include\protocol\net\AutoTransport.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BinaryReader">
+    <Position X="6.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAQMAAAAAAAAAAACAAAABAAAAAAAAAAAFEEAAAAAA=</HashCode>
+      <FileName>include\protocol\net\BinaryReader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BinaryWriter">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAMBAAAAAAAAAAAAAAQAAAgAAAAA=</HashCode>
+      <FileName>include\protocol\net\BinaryWriter.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnetTransport">
+    <Position X="4.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAACAIQAAAAACAEIAAAABEAAIAIAgAAYAAAAA=</HashCode>
+      <FileName>include\protocol\net\EnetTransport.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameNet">
+    <Position X="15" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAACAACgAEQAAAAABCAAICAAAAAAIAgAAAAABAE=</HashCode>
+      <FileName>include\protocol\net\GameNet.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ITransport">
+    <Position X="2.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAACAAAAAAAAAACAAAAgAAAAAAgA=</HashCode>
+      <FileName>include\protocol\net\ITransport.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PacketAssembler">
+    <Position X="8.25" Y="3.5" Width="1.75" />
+    <NestedTypes>
+      <Struct Name="PacketAssembler::InFlight" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>include\protocol\net\PacketAssembler.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AABgAAAEAAAACAAAAAAAAAAAAAAABQAAAAAAAAAAAAI=</HashCode>
+      <FileName>include\protocol\net\PacketAssembler.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SteamTransport">
+    <Position X="0.75" Y="2" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACQAAAAiAAAAAAgAAAAAAAIAgAAAAAQAQ=</HashCode>
+      <FileName>include\protocol\net\SteamTransport.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommandContext">
+    <Position X="17.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAACQAAAAAAAEAAAAAAAABAAIBAAAAEAAAA=</HashCode>
+      <FileName>include\game\CommandContext.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommandRouter">
+    <Position X="20" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAIAAA=</HashCode>
+      <FileName>include\game\CommandRouter.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="BufferView">
+    <Position X="13.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>include\protocol\net\EnetTransport.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="NetEvent">
+    <Position X="12" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAIAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>include\protocol\net\EnetTransport.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="OutgoingPacket">
+    <Position X="10.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAABCAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>include\protocol\net\EnetTransport.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PacketEnvelope">
+    <Position X="6.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAEAAAQAAAAAAAAAAAAAAAAAAAAAAACAAFw=</HashCode>
+      <FileName>include\protocol\net\PacketEnvelope.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="PlayerId" Collapsed="true">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>include\protocol\net\EnetTransport.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Enum Name="SendMode">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>include\protocol\net\EnetTransport.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="VerbId">
+    <Position X="1" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAQ=</HashCode>
+      <FileName>include\game\Verbs.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

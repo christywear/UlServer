@@ -10,18 +10,16 @@ server/[a-z]+d/*exec
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
 
 # Compiled Static libraries
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
 *.out
 *.app
-
+*.exe
 *.depend
 *.swp
 
@@ -44,6 +42,7 @@ build/util
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
+Underlig.*
 x64/
 bld/
 [Bb]in/
@@ -111,7 +110,8 @@ ipch/
 *.psess
 *.vsp
 *.vspx
-
+*.vsidx
+.vs*
 # TFS 2012 Local Workspace
 $tf/
 
